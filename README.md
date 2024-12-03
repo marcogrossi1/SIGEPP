@@ -1,4 +1,4 @@
-# trabalho-AW_SIGEPP
+# SIGEPP
 
 ## Sistema de Gestão de Estágios e Projetos de Pesquisa no Cefet-MG.
 
