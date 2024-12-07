@@ -44,5 +44,4 @@ Display em mural das vagas disponíveis.
   <li> Notificação aos publicadores sobre os alunos candidatos. </li>
 </ul>
 
-
 -Ideias para o projeto: https://docs.google.com/document/d/1s77LcS-McB3q_FI8TbiT_1UNK1AUYB5x9HMokfCDv3M/edit?usp=sharing

@@ -108,3 +108,13 @@ Exemplos:
 - <code>git commit -m ":books: docs: Atualização do README"</code>
 - <code>git commit -m ":construction: trabalhando na classe de interpretador"</code>
 - <code>git commit -m ":sparkles: feat: interpretador terminado"</code>
+
+## Inicialização do projeto
+
+<ol>
+  <li>Acesse o [Spring Initalizer](https://start.spring.io/);</li>
+  <li>Selecione: <b>Maven</b>; <b>Java</b>; Spring Boot <b>3.4.0</b>; Packaging: <b>Jar</b>; Java: <b>17</b>
+  <li>Adicione as seguintes dependências: <b>Spring Web</b>, <b>JDBC API</b>, <b>MySQL Driver</b>, <b>Spring Data JPA</b>, <b>Docker Compose Support</b>, <b>Testcontainers</b>.</li>
+  <li>Clique <b>Generate</b>.</li>
+  <li>Descompacte a pasta gerada e comece a usar!</li>
+</ol>
