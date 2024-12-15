@@ -44,9 +44,4 @@ Display em mural das vagas disponíveis.
   <li> Notificação aos publicadores sobre os alunos candidatos. </li>
 </ul>
 
-### Fazer:
-<ul>
-<li>Ideias para o projeto: https://docs.google.com/document/d/1s77LcS-McB3q_FI8TbiT_1UNK1AUYB5x9HMokfCDv3M/edit?usp=sharing
-<li>Divisão do trabalho: https://docs.google.com/document/d/1Q7x4Y4iVdkxFgex-BArw0rT8PV3RoGEq0V3ayjGcbN4/edit?usp=sharing
-<ul/>
-
+<a href='https://docs.google.com/document/d/1xCoDW48UiXtLIsDejZGStW cI0dAOWUndnhS8i16o4Mw/edit?tab=t.0'> Divisão do projeto </a>

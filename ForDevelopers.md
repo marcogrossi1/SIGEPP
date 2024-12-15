@@ -108,3 +108,29 @@ Exemplos:
 - <code>git commit -m ":books: docs: Atualização do README"</code>
 - <code>git commit -m ":construction: trabalhando na classe de interpretador"</code>
 - <code>git commit -m ":sparkles: feat: interpretador terminado"</code>
+
+## Como comittar
+
+Inicialmente, crie uma branch pessoal, que vai conter o seu desenvolvimento em cada sprint. Esse projeto conta com 2 branches 'oficiais': a <code>main</code>, onde estará o produto final, as versões já testadas e mais atualizadas do nosso sistema; e a <code>dev</code>, que será sempre a primeira branch que receberá os commits. NUNCA DÊ COMMIT DIRETAMENTE NA <code>main</code>!
+
+Assim que acabar de concluir a implementação que devia (sua branch pessoal), após os testes, abra um 'Pull Request' (PR) para a branch <code>dev</code>. Outro desenvolvedor vai avaliar suas implementações e, se corretas, aceitará seu PR. Após um sprint, se o sistema estiver funcional, o grupo pode decidir por atualizar os dados da branch <code>main</code>.
+
+Desse modo, ficamos com os seguintes passos:
+
+<ol>
+  <li>Crie uma branch pessoal</li>
+  <li>Faça suas implementações</li>
+  <li>Faça commit para a sua branch pessoal</li>
+  <li>Teste</li>
+  <li>Abra um Pull Request para a branch <code>dev</code></li>
+  <li>Aguarde revisão de outro desenvolvedor</li>
+  <li>Pronto! Sua implementação foi aprovada e está na branch <code>dev</code></li>
+</ol>
+
+## Nomenclatura dos casos de uso
+
+O projeto está dividido em dois times: o time A, que vai lidar, principalmente, com a gestão de ofertas de Extensão e Pesquisa; e o time B, que vai lidar com a gestão de ofertas de Estágio.
+
+Desse modo, os casos de uso foram nomeados conforme o time. Ou seja, o Caso de Uso número x do time A deverá ser nomeado como <b>CDU xA</b> e o Caso de Uso y do time B deverá ser nomeado como <b>CDU yB</b>.
+
+Os casos de uso com numeração de 1 a 5 serão implementados no primeiro sprint, enquanto aqueles com numeração de 6 a 10 serão implementados no segundo sprint.
