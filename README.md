@@ -44,4 +44,4 @@ Display em mural das vagas disponíveis.
   <li> Notificação aos publicadores sobre os alunos candidatos. </li>
 </ul>
 
-<a href='https://docs.google.com/document/d/1xCoDW48UiXtLIsDejZGStW cI0dAOWUndnhS8i16o4Mw/edit?tab=t.0'> Divisão do projeto </a>
+<a href='https://docs.google.com/document/d/1xCoDW48UiXtLIsDejZGStWcI0dAOWUndnhS8i16o4Mw/edit?usp=sharing'> Divisão do projeto </a>
