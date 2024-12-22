@@ -9,13 +9,13 @@ public class Projeto {
 	
 	@Id
 	@GeneratedValue
-	int id;
-	String nome;
-	String responsavel;
-	String descricao;
-	int carga_horaria;
-	int vagas;
-	String requisito;
+	private int id;
+	private String nome;
+	private String responsavel;
+	private String descricao;
+	private int carga_horaria;
+	private int vagas;
+	private String requisito;
 	
 	
 	public int getId() {

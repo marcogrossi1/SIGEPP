@@ -5,18 +5,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
-public class Aluno {
-	
+public class Empresa {
+
 	@Id
 	@GeneratedValue
-	private int id;	
-	private String cfp;
+	private int id;
 	private String nome;
-	private String curso;
-	private String campus;
+	private String cnpj;
+	private String area;
 	private String email;
 	private String senha;
-	private String periodo;
 	
 	
 	public int getId() {
@@ -26,13 +24,6 @@ public class Aluno {
 		this.id = id;
 	}
 	
-	public String getCfp() {
-		return cfp;
-	}
-	public void setCfp(String cfp) {
-		this.cfp = cfp;
-	}
-	
 	public String getNome() {
 		return nome;
 	}
@@ -40,18 +31,18 @@ public class Aluno {
 		this.nome = nome;
 	}
 	
-	public String getCurso() {
-		return curso;
+	public String getCnpj() {
+		return cnpj;
 	}
-	public void setCurso(String curso) {
-		this.curso = curso;
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 	
-	public String getCampus() {
-		return campus;
+	public String getArea() {
+		return area;
 	}
-	public void setCampus(String campus) {
-		this.campus = campus;
+	public void setArea(String area) {
+		this.area = area;
 	}
 	
 	public String getEmail() {
@@ -68,10 +59,5 @@ public class Aluno {
 		this.senha = senha;
 	}
 	
-	public String getPeriodo() {
-		return periodo;
-	}
-	public void setPeriodo(String periodo) {
-		this.periodo = periodo;
-	}
+	
 }

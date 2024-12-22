@@ -9,12 +9,12 @@ public class Estagio {
 	
 	@Id
 	@GeneratedValue
-	int id;
-	String empresa;
-	String descricao;
-	int carga_horaria;
-	int vagas;
-	String requisito;
+	private int id;
+	private String empresa;
+	private String descricao;
+	private int carga_horaria;
+	private int vagas;
+	private String requisito;
 	
 	
 	public int getId() {
