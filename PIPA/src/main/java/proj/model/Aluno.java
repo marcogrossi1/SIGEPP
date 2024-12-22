@@ -1,77 +1,106 @@
 package proj.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import java.util.ArrayList;
 
-@Entity
 public class Aluno {
-	
-	@Id
-	@GeneratedValue
-	private int id;	
-	private String cfp;
+
+	private long id;
+	private String cpf;
 	private String nome;
 	private String curso;
 	private String campus;
 	private String email;
 	private String senha;
 	private String periodo;
-	
-	
-	public int getId() {
+	private ArrayList<Estagio> listaEstagio = new ArrayList<Estagio>();
+	private ArrayList<Projeto> listaProjeto = new ArrayList<Projeto>();
+
+
+
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+
+	public void setId(long id) {
 		this.id = id;
 	}
-	
-	public String getCfp() {
-		return cfp;
+
+	@Override
+	public String toString() {
+		return "Aluno [id=" + id + ", cpf=" + cpf + ", nome=" + nome + ", curso=" + curso + ", campus=" + campus
+				+ ", email=" + email + ", senha=" + senha + ", periodo=" + periodo + ", listaEstagio=" + listaEstagio
+				+ ", listaProjeto=" + listaProjeto + "]";
 	}
-	public void setCfp(String cfp) {
-		this.cfp = cfp;
+
+	public String getCpf() {
+		return cpf;
 	}
-	
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public String getCurso() {
 		return curso;
 	}
+
 	public void setCurso(String curso) {
 		this.curso = curso;
 	}
-	
+
 	public String getCampus() {
 		return campus;
 	}
+
 	public void setCampus(String campus) {
 		this.campus = campus;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public String getSenha() {
 		return senha;
 	}
+
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
 	public String getPeriodo() {
 		return periodo;
 	}
+
 	public void setPeriodo(String periodo) {
 		this.periodo = periodo;
+	}
+
+	public ArrayList<Estagio> getListaEstagio() {
+		return listaEstagio;
+	}
+
+	public void setListaEstagio(ArrayList<Estagio> listaEstagio) {
+		this.listaEstagio = listaEstagio;
+	}
+
+	public ArrayList<Projeto> getListaProjeto() {
+		return listaProjeto;
+	}
+
+	public void setListaProjeto(ArrayList<Projeto> listaProjeto) {
+		this.listaProjeto = listaProjeto;
 	}
 }

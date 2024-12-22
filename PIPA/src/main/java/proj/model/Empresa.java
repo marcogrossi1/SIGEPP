@@ -1,14 +1,7 @@
 package proj.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
-@Entity
 public class Empresa {
 
-	@Id
-	@GeneratedValue
 	private int id;
 	private String nome;
 	private String cnpj;

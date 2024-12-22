@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +9,13 @@
 </head>
 <body>
     <header>
-        <a href="index.html"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
         <h1 id="titulo-plataforma" >PIPA | Portal</h1>
     </header>
 
     <nav>
-        <a href="link" class="icone" id="icone-portal">
+		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+        <a href="http://localhost:8080/perfil" class="icone" id="icone-portal">
             <img src="img/icone-perfil.png">
             <label>Perfil</label>
         </a>
@@ -48,14 +50,12 @@
 
     <section id="section-meus-trabalhos">
         <p>Estágios:</p>
-        <ul>
-            <li>Estágio 1</li>
-            <li>Estágio 2</li>
+        <ul th:each="estagio : ${estagios}">
+            <li th:text="${estagio.empresa}"></li>
         </ul>
 		<p>Projetos:</p>
-		<ul>
-		     <li>Projeto 1</li>
-		     <li>Projeto 2</li>
+		<ul th:each="projeto : ${projetos}">
+		     <li th:text="${projeto.nome}"></li>
 		</ul>
     </section>
 

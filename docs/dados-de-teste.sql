@@ -1,20 +1,20 @@
 INSERT INTO aluno (id, cpf, nome, curso, campus, email, senha, periodo) 
-VALUES (1,"00000000001","Thiago Figueiredo","Eletrônica","Nova Gameleira","thiago@gmail.com","123","serie 1");
+VALUES (1,"00000000001","Thiago Figueiredo","Eletrônica","Nova Gameleira","thiago@gmail.com",sha2('123', 512),"serie 1");
 
 INSERT INTO aluno (id, cpf, nome, curso, campus, email, senha, periodo) 
-VALUES (2,"00000000002","Caio Figueiredo","Informática","Nova Gameleira","caio@gmail.com","123","serie 2");
+VALUES (2,"00000000002","Caio Figueiredo","Informática","Nova Gameleira","caio@gmail.com",sha2('123', 512),"serie 2");
 
 INSERT INTO aluno (id, cpf, nome, curso, campus, email, senha, periodo) 
-VALUES (3,"00000000003","Matheus Silva","Mecânica","Nova Suiça","matheus@gmail.com","123","serie 3");
+VALUES (3,"00000000003","Matheus Silva","Mecânica","Nova Suiça","matheus@gmail.com",sha2('123', 512),"serie 3");
 
 INSERT INTO aluno (id, cpf, nome, curso, campus, email, senha, periodo) 
-VALUES (4,"00000000004","Gabriel Tavares","Informática","Nova Gameleira","gabriel@gmail.com","123","serie 2");
+VALUES (4,"00000000004","Gabriel Tavares","Informática","Nova Gameleira","gabriel@gmail.com",sha2('123', 512),"serie 2");
 
 INSERT INTO aluno (id, cpf, nome, curso, campus, email, senha, periodo) 
-VALUES (5,"00000000005","Marco Grossi","Edificações","Nova Gameleira","marco@gmail.com","123","serie 2");
+VALUES (5,"00000000005","Marco Grossi","Edificações","Nova Gameleira","marco@gmail.com",sha2('123', 512),"serie 2");
 
 INSERT INTO aluno (id, cpf, nome, curso, campus, email, senha, periodo) 
-VALUES (6,"00000000006","Nicolas Chagas","Eletrônica","Araxá","nicolas@gmail.com","123","serie 2");
+VALUES (6,"00000000006","Nicolas Chagas","Eletrônica","Araxá","nicolas@gmail.com",sha2('123', 512),"serie 2");
 
 
 INSERT INTO estagio (id, empresa, descricao, carga_horaria, vagas, requisito) 

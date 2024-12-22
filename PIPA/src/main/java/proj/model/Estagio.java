@@ -1,29 +1,27 @@
 package proj.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
-@Entity
 public class Estagio {
-	
-	@Id
-	@GeneratedValue
-	private int id;
+
+	private long id;
 	private String empresa;
 	private String descricao;
-	private int carga_horaria;
+	private int cargaHoraria;
 	private int vagas;
 	private String requisito;
 	
 	
-	public int getId() {
+
+	@Override
+	public String toString() {
+		return "Estagio [id=" + id + ", empresa=" + empresa + ", descricao=" + descricao + ", cargaHoraria="
+				+ cargaHoraria + ", vagas=" + vagas + ", requisito=" + requisito + "]";
+	}
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
-	
 	public String getEmpresa() {
 		return empresa;
 	}
@@ -38,13 +36,12 @@ public class Estagio {
 		this.descricao = descricao;
 	}
 	
-	public int getCarga_horaria() {
-		return carga_horaria;
+	public int getCargaHoraria() {
+		return cargaHoraria;
 	}
-	public void setCarga_horaria(int carga_horaria) {
-		this.carga_horaria = carga_horaria;
+	public void setCargaHoraria(int cargaHoraria) {
+		this.cargaHoraria = cargaHoraria;
 	}
-	
 	public int getVagas() {
 		return vagas;
 	}
