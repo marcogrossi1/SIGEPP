@@ -9,10 +9,10 @@
         
     <modules>
         <module>pipa-common</module>
-        <module>pipa-dto</module>
-        <module>pipa-dao-sql</module>
-        <module>pipa-service</module>
         <module>pipa-view-web</module>
+        <module>pipa-dto</module>
+        <module>pipa-service</module>
+        <module>pipa-dao-sql</module>
     </modules>
     
     <properties>
