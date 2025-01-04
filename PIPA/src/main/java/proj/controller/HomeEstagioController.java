@@ -32,6 +32,7 @@ public class HomeEstagioController {
                         Aluno a = AlunoDao.getByCfp(conn, principal.getName());
 			ArrayList<Estagio> estagioList = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
                         ArrayList<Estagio> estagioDispList = EstagioDao.list(conn);
+                        deslistarEstagioJaInscrito(estagioList, estagioDispList);
                         model.addAttribute("estagioDispList", estagioDispList);
 			model.addAttribute("estagioList", estagioList);
 		}
@@ -44,4 +45,17 @@ public class HomeEstagioController {
         public String mostraPaginaDeErro() {
 		return "erro";
 	}
+        private void deslistarEstagioJaInscrito(ArrayList<Estagio> el, ArrayList<Estagio> edl){
+            for(int i = 0; i < edl.size(); i++)
+                for(int j = 0; j <el.size(); j++)
+                    if(estagioIsEqual(edl.get(i), el.get(j)))
+                        edl.remove(i);
+                        
+                    
+        }
+        private boolean estagioIsEqual(Estagio e1, Estagio e2){
+            if(e1.getId() == e2.getId())
+                return true;
+            return false;
+        }
 }

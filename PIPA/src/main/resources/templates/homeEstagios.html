@@ -22,13 +22,13 @@
                 </a>
                 
                 <hr></hr>
-                <!--<h2>Estágios disponíveis:</h2>
-                <a class="estagio-section" th:each="estagio : ${estagioDisponivelList}" href="localhost:8080/detalhes-estagio?n=${estagio.id}">
+                <h2>Estágios disponíveis:</h2>
+                <a class="estagio-section" th:each="estagio : ${estagioDispList}" th:href="@{http://localhost:8080/detalhes-estagio(n=${estagio.id})}">
                     <section>
                         <h3 th:text="${estagio.empresa}"></h3>
                         <p th:text="${estagio.requisito}"></p>
                     </section>
-                </a>-->
+                </a>
         </main> 
     
 </body>
