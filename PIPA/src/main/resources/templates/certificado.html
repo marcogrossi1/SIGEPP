@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Emitir Certificados</title>
+</head>
+<body>
+    <header>
+        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav>
+		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+        <a href="http://localhost:8080/perfil" class="icone" id="icone-portal">
+            <img src="img/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+    </nav>    
+    
+
+    <main>
+        <h2 id="subtitulo-portal">Emitir certificados</h2>
+        <table>
+			<thead>
+				<tr>Trabalho</tr>
+				<tr>Descrição</tr>
+				<tr>Carga Horária</tr>
+			</thead>
+			<tbody>
+				<tr th:each="projetos : ${projetos}">
+					<td th:text="${projetos.nome}"></td>
+					<td th:text="${projetos.descricao}"></td>
+					<td th:text="${projetos.cargaHoraria}"></td>
+					<td>					
+						<a href="http://localhost:8080/emite">
+					    <button id="botao-certificado" type="submit">
+					        Emitir Certificado
+					    </button>
+					</td>
+				</tr>
+				<tr th:each="estagios : ${estagios}">
+					<td th:text="${estagios.empresa}"></td>
+					<td th:text="${estagios.descricao}"></td>
+					<td th:text="${estagios.cargaHoraria}"></td>
+				</tr>
+			</tbody>
+        </table>
+    </main>
+
+    <script src="js/portal.js"></script>
+
+</body>
+</html>
