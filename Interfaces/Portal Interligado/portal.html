@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../interface padrao/style.css">
+    <title>Portal</title>
+</head>
+<body>
+    <header>
+        <a href="index.html"><img id="logo" src="imgs/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav>
+        <a href="link" class="icone" id="icone-portal">
+            <img src="imgs/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+    </nav>    
+    
+
+    <main>
+        <h2 id="subtitulo-portal">Navegue pelo site</h2>
+        <br>
+        <div id="notificacoes-portal">
+            <button id="voltar-notificacao">&lt;</button>
+            <p id="not-um">notificação 1</p>
+            <p id="not-dois">notificação 2</p>
+            <p id="not-tres">notificação 3</p>
+            <button id="avancar-notificacao">&gt;</button>
+            <img src="imgs/not-um-select.png" class="select-not-img" id="not-um-select">
+            <img src="imgs/not-dois-select.png" class="select-not-img" id="not-dois-select">
+            <img src="imgs/not-tres-select.png" class="select-not-img" id="not-tres-select">
+        </div>
+        <br>
+        <button class="botoes-portal" id="botao-projeto" type="submit">
+            <img src="imgs/botao-projetos-de-pesquisa.png" class="imgs-botoes-portal">
+        </button>
+        <button class="botoes-portal" id="botao-estagio" type="submit">
+            <img src="imgs/botao-estagios.png" class="imgs-botoes-portal">
+        </button>
+    </main>
+
+    <section id="section-meus-trabalhos">
+        <p>Em andamento:</p>
+        <ul>
+            <li>Projeto 1</li>
+            <li>Projeto 2</li>
+            <li>Estágio 1</li>
+        </ul>
+    </section>
+
+    <script src="portal.js"></script>
+
+</body>
+</html>
