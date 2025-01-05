@@ -41,8 +41,7 @@ public class EmiteCertificadosController {
     private ServletContext servletContext;
     
     @GetMapping
-	public String emiteCertificado(Model model, Principal principal) 
-    throws Exception {
+	public String emiteCertificado(Model model, Principal principal) throws Exception {
 
         try(Connection conn = ds.getConnection()) {
 	    	Aluno a = AlunoDao.getByCfp(conn, principal.getName());
@@ -53,54 +52,46 @@ public class EmiteCertificadosController {
 		    model.addAttribute("projetos", projetos);
 		    model.addAttribute("estagios", estagios);
 
-        }
-        
-        catch(Exception e) {
-            e.printStackTrace();
-            return "certificado";
-        }
-            
             try{
                 Document document = new Document();
-                String outputFilePath = servletContext.getRealPath("/static/pdf/Certificado.pdf");
+
+                String outputFilePath = "PIPA/src/main/resources/static/pdf/CertificadoPadrao.pdf";
                 PdfWriter.getInstance(document, new FileOutputStream(outputFilePath));
+
                 document.open();
 
                 Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
 
-                String nomeAluno = "João";
-                String cursoAluno = "Informática";
+                String nomeAluno = a.getNome();
+                String cursoAluno = a.getCurso();
 
                 Paragraph p = new Paragraph("Certificado", font);
                 document.add(p);
+                
                 p = new Paragraph(
-                    "Certificamos que o aluno " + 
-                            nomeAluno + 
-                            " do curso Técnico em " + 
-                            cursoAluno + 
-                            " concluiu o projeto. ", 
+                    "Certificamos que o aluno " + nomeAluno + " do curso Técnico em " + cursoAluno + " concluiu o projeto. ", 
                     font);
-
                 document.add(p);
 
-                Image img = Image.getInstance(servletContext.getRealPath("/static/img/logo.png"));
-                img.scalePercent(10);
-                img.setAbsolutePosition(100f, 100f);
+                //Image img = Image.getInstance(servletContext.getRealPath("/static/img/logo.png"));
+                //img.scalePercent(10);
+                //img.setAbsolutePosition(100f, 100f);
 
-                document.add(img);
+                //document.add(img);
 
                 document.close();
             
-            return "portal";
-        } 
-        
+                return "emites";
+            } 
+            
+            catch (Exception e) {
+                e.printStackTrace();
+                return "certificado";
+            }
+        }
+
         catch (Exception e) {
-            e.printStackTrace();
-            return "emites";
+            return "erro";
         } 	
     }	
-	
-    public String mostraPaginaDeErro() {
-		return "erro";
-	}
 }

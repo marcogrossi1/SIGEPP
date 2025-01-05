@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Ver Certificado</title>
 </head>
+
 <body>
     <header>
         <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
@@ -19,21 +20,19 @@
             <img src="img/icone-perfil.png">
             <label>Perfil</label>
         </a>
-    </nav>    
-    
+    </nav>     
 
     <main>
         <h2 id="subtitulo-portal">Ver Certificado emitido</h2>
-
-        <embed
-	        src="/resources/static/pdf/CertificadoPadrao.pdf"
-	        type="application/pdf"
-	        width="100px"
-	        height="500px"
-        />     
+    
+    <!-- Embed the PDF file using an absolute local path -->
+        <a href="pdf/CertificadoPadrao.pdf" target="_blank">
+        <button id="botao-certificado" type="submit">
+            Fazer download do certificado.
+        </button>
+        
     </main>
 
     <script src="js/portal.js"></script>
-
 </body>
 </html>
