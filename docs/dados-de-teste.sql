@@ -42,7 +42,7 @@ INSERT INTO aluno_has_estagio (aluno_id, estagio_id)
 VALUES (1,1);
 
 INSERT INTO aluno_has_estagio (aluno_id, estagio_id) 
-VALUES (2,1);
+VALUES (3,3);
 
 INSERT INTO aluno_has_estagio (aluno_id, estagio_id) 
 VALUES (2,2);

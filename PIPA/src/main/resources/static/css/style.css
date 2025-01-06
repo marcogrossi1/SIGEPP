@@ -213,3 +213,15 @@ button {
     height: 500px;
     border: 1px solid #ccc;
 }
+.estagio-section{
+    text-decoration: none;
+    color: black;
+}
+.estagio-section section{
+    background-color: #EEEEEE;
+    margin: 20px;
+}
+.estagio-section h3, .estagio-section p{
+    margin: 5px;
+    border: 5px;
+}
