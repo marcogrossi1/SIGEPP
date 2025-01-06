@@ -3,21 +3,27 @@ package proj.dao;
 import proj.model.Candidatura;
 import proj.model.Aluno;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class CandidaturaDao {
 
-    private final Connection connection;
+    private final DataSource dataSource;
 
-    public CandidaturaDao(Connection connection) {
-        this.connection = connection;
+    @Autowired
+    public CandidaturaDao(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public void salvar(Candidatura candidatura) throws SQLException {
         String sql = "INSERT INTO candidatura (candidato_id, oportunidade_id, mensagem, data_aplicacao) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, candidatura.getCandidato().getId());
             stmt.setLong(2, candidatura.getIDoportunidade());
             stmt.setString(3, candidatura.getMensagem());
@@ -29,7 +35,8 @@ public class CandidaturaDao {
     public List<Candidatura> listarPorProjeto(Long oportunidadeId) throws SQLException {
         String sql = "SELECT * FROM candidatura WHERE oportunidade_id = ?";
         List<Candidatura> candidaturas = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, oportunidadeId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
