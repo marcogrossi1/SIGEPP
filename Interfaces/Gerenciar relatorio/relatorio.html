@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Relatório de Estágio</title>
+    <style>
+    
+        body, html {
+            margin: 0;
+        }
+        h1{
+        color: #ffffff;
+        font-family:  Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            background-color: #f4f2ee;
+        }
+
+        header {
+            width: 100vw;
+            height: 10vh;
+
+            display: flex;
+            flex-wrap: wrap;
+            align-content: center;
+
+            background-color: #003869;
+        }
+
+        nav {
+            width: 100vw;
+            height: 7vh;
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 0 10vw;
+        }
+
+        main {
+            margin-top: 5vh;
+            width: 64vw;
+            min-height: calc(100vh - 28vh);
+            padding: 3vh;
+
+            border-radius: 1%;
+            background-color: #ffffff;
+
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Elementos */
+        main > :first-child {
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            margin: 1vh 0 1vh 0;
+
+            min-width: 15vw;
+            height: 5vh;
+
+            border: 1px solid #c4c0bf;
+            border-radius: 5%;
+            background-color: #fefafa;
+            font-size: 1em;
+            padding: 0.5em;
+        }
+
+        button {
+            min-width: 15vw;
+            height: 5vh;
+
+            border: 1px solid #c4c0bf;
+            border-radius: 5%;
+            background-color: #2e6890;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        .download-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .download-link a {
+            color: #2e6890;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .download-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="titulo-plataforma">Gestão de Relatório de Estágio</h1>
+    </header>
+    <main>
+        <h1>Enviar Relatório de Estágio</h1>
+        <p>Utilize o formulário abaixo para enviar o relatório de estágio ao seu orientador para aprovação. Caso precise, você pode baixar o modelo de relatório para preenchimento.</p>
+
+        <div class="form-group">
+            <form action="/enviar-relatorio" method="post" enctype="multipart/form-data">
+                <label for="relatorio">Selecione o arquivo do relatório:</label>
+                <input type="file" id="relatorio" name="relatorio" required>
+                <button type="submit">Enviar Relatório</button>
+            </form>
+        </div>
+
+        <div class="download-link">
+            <p>Precisa do modelo? <a href="/modelo-relatorio.doc" download>Baixe aqui o modelo de relatório de estágio</a>.</p>
+        </div>
+    </main>
+</body>
+</html>
