@@ -2,63 +2,35 @@ package proj.model;
 
 public class Professor {
 
-	private int id;
+	private long id;
 	private String nome;
-	private String departamento;
-	private String campus;
-	private String cpf;
-	private String email;
-	private String senha;
+	private long usuario_id;
 	
 	
-	public int getId() {
+	
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
-	
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public String getDepartamento() {
-		return departamento;
+	public long getUsuario_id() {
+		return usuario_id;
 	}
-	public void setDepartamento(String departamento) {
-		this.departamento = departamento;
+	public void setUsuario_id(long usuario_id) {
+		this.usuario_id = usuario_id;
 	}
-	
-	public String getCampus() {
-		return campus;
-	}
-	public void setCampus(String campus) {
-		this.campus = campus;
+	@Override
+	public String toString() {
+		return "Professor [id=" + id + ", nome=" + nome + ", usuario_id=" + usuario_id + "]";
 	}
 	
-	public String getCpf() {
-		return cpf;
-	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
 	
 	
 }
