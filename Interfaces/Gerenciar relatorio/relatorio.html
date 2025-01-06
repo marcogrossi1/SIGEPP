@@ -5,58 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão de Relatório de Estágio</title>
     <style>
-    
         body, html {
             margin: 0;
         }
         h1{
-        color: #ffffff;
-        font-family:  Arial, Helvetica, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
+            color:#ffffff;
         }
 
         body {
+            overflow: hidden;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-
             background-color: #f4f2ee;
         }
 
         header {
             width: 100vw;
             height: 10vh;
-
             display: flex;
             flex-wrap: wrap;
             align-content: center;
-
             background-color: #003869;
         }
 
         nav {
             width: 100vw;
-            height: 7vh;
+            height: 5vh;
+            padding: 0 1vw 0 0;
             display: flex;
             flex-direction: row;
-            justify-content: start;
+            justify-content: end;
             align-items: center;
             background-color: #ffffff;
-            padding: 0 10vw;
+            border: 0.00001vh solid #c5c5c5;
         }
 
         main {
             margin-top: 5vh;
             width: 64vw;
-            min-height: calc(100vh - 28vh);
+            min-height: calc(100vh - 26vh);
             padding: 3vh;
-
-            border-radius: 1%;
+            border-radius: 1% 1% 0 0;
             background-color: #ffffff;
-
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
             font-family: Arial, Helvetica, sans-serif;
         }
 
-        /* Elementos */
         main > :first-child {
             margin-top: 0;
         }
@@ -72,27 +68,22 @@
         }
 
         input {
-            margin: 1vh 0 1vh 0;
-
-            min-width: 15vw;
-            height: 5vh;
-
+            margin: 1vh 0;
+            min-width: 10vw;
+            height: 2cap;
             border: 1px solid #c4c0bf;
             border-radius: 5%;
             background-color: #fefafa;
-            font-size: 1em;
-            padding: 0.5em;
         }
+        
 
         button {
-            min-width: 15vw;
-            height: 5vh;
-
+            min-width: 10vw;
+            height: 3vh;
             border: 1px solid #c4c0bf;
             border-radius: 5%;
             background-color: #2e6890;
             color: white;
-            font-size: 1em;
             cursor: pointer;
         }
 
@@ -121,7 +112,7 @@
         <h1 id="titulo-plataforma">Gestão de Relatório de Estágio</h1>
     </header>
     <main>
-        <h1>Enviar Relatório de Estágio</h1>
+        <h2>Enviar Relatório de Estágio</h2>
         <p>Utilize o formulário abaixo para enviar o relatório de estágio ao seu orientador para aprovação. Caso precise, você pode baixar o modelo de relatório para preenchimento.</p>
 
         <div class="form-group">
