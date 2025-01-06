@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Ver Certificado</title>
+</head>
+
+<body>
+    <header>
+        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav>
+		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+        <a href="http://localhost:8080/perfil" class="icone" id="icone-portal">
+            <img src="img/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+    </nav>     
+
+    <main>
+        <h2 id="subtitulo-portal">Ver Certificado emitido</h2>
+    
+    <!-- Embed the PDF file using an absolute local path -->
+        <a href="pdf/CertificadoPadrao.pdf" target="_blank">
+        <button id="botao-certificado" type="submit">
+            Fazer download do certificado.
+        </button>
+        
+    </main>
+
+    <script src="js/portal.js"></script>
+</body>
+</html>
