@@ -45,6 +45,7 @@ CREATE TABLE Estagio (
   carga_horaria INT NULL,
   vagas INT NULL,
   requisito VARCHAR(255) NULL,
+  salario VARCHAR(255) NULL,
   PRIMARY KEY (id),
   INDEX empresa_INDEX (empresa ASC) )
 ENGINE = InnoDB default character set = utf8;
