@@ -9,7 +9,7 @@ interessados através de uma plataforma específica para esta área.
   <li>Clone o repositório para sua máquia</li>
   <li>Fazer o download do WampServer</li>
   <li>Dentro do PhpMyAdmin, execute o comando SQL pipa_DDL.sql e depois o código contido em dados-de-teste.sql</li>
-  ![]([https://github.com/marcogrossi1/[reponame]/blob/[branch]/image.jpg?raw=true](https://github.com/marcogrossi1/SIGEPP/blob/Marco/docs/Capture.png?raw=true))
+  ![](https://github.com/marcogrossi1/SIGEPP/blob/Marco/docs/Capture.PNG?raw=true)
   <li>Na sua IDE preferida, instale os plugins (extensões) para Spring</li>
   <li>Certifique-se que o WampServer está ativado</li>
   <li>Agora, basta dar 'RUN' no arquivo PipaApplication.java e seu projeto estará funcionando!</li>
