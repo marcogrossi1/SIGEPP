@@ -10,7 +10,7 @@
     <body>
         <header>
             <a href="http://localhost:8080"><img id="logo" src="imagens/logo.png"></a> <!--Clique na logo para retornar Ã  pÃ¡gina inicial-->
-            <h1 id="titulo-plataforma" >PIPA | Aluno</h1>
+            <h1 id="titulo-plataforma" >PIPA | Portal</h1>
         </header>
 
         <nav>
@@ -30,39 +30,34 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Trabalho</th>
+                        <th>Id</th>
+                        <th>Tipo de trabalho</th>
+                        <th>Nome/Empresa</th>
                         <th>Descrição</th>
                         <th>Carga Horária</th>
-                        <th>Ações</th>
+                        <th>Emitir Certificado</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Exemplo de dados para "projetos" -->
-                    <tr>
-                        <td>Projeto A</td>
-                        <td>Desenvolvimento de sistema web</td>
-                        <td>120 horas</td>
-                        <td>
-                            <a href="http://localhost:8080/emite">
-                                <button id="botao-certificado" type="submit">
-                                    Emitir Certificado
-                                </button>
-                            </a>
-                        </td>
+                    <tr th:each="projetos : ${projetos}">
+                        <td th:text="${projetos.id}"></td>
+                        <td th:text="'Pesquisa e Extensão'"></td>
+                        <td th:text="${projetos.nome}"></td>
+                        <td th:text="${projetos.descricao}"></td>
+                        <td th:text="${projetos.cargaHoraria}"></td>
+                        <td><a th:href="'http://localhost:8080/emite?id=' + ${projetos.id} + '&tipo=' + 'projeto'">
+                                <button id="botao-certificado">Emitir Certificado</button>
+                            </a></td>
                     </tr>
-
-                    <!-- Exemplo de dados para "estágios" -->
-                    <tr>
-                        <td>Estágio B</td>
-                        <td>Trabalho de estágio em marketing</td>
-                        <td>80 horas</td>
-                        <td>
-                            <a href="http://localhost:8080/emite">
-                                <button id="botao-certificado" type="submit">
-                                    Emitir Certificado
-                                </button>
-                            </a>
-                        </td>
+                    <tr th:each="estagios : ${estagios}">
+                        <td th:text="${estagios.id}"></td>
+                        <td th:text="'Estágio'"></td>
+                        <td th:text="${estagios.empresa}"></td>
+                        <td th:text="${estagios.descricao}"></td>
+                        <td th:text="${estagios.cargaHoraria}"></td>
+                        <td><a th:href="'http://localhost:8080/emite?id=' + ${estagios.id} + '&tipo=' + 'estagio'">
+                                <button id="botao-certificado">Emitir Certificado</button>
+                            </a></td>
                     </tr>
                 </tbody>
             </table>
