@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import proj.dao.AlunoDao;
+import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.NotFoundException;
 import proj.dao.ProjetoDao;
 import proj.model.Aluno;
+import proj.model.Empresa;
 import proj.model.Estagio;
 import proj.model.Projeto;
 
@@ -40,7 +42,6 @@ public class PortalController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
-			
 		}
 		catch(Exception e) {
 			e.printStackTrace();

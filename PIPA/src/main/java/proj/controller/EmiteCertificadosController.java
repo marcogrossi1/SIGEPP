@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proj.controller;
 
 import java.security.Principal;
@@ -29,7 +25,6 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.Image;
-import jakarta.servlet.ServletContext;
 import java.io.FileOutputStream;
 
 @Controller
@@ -38,9 +33,6 @@ public class EmiteCertificadosController {
     @Autowired
 	private HDataSource ds;
     
-    @Autowired
-    private ServletContext servletContext;
-
     @RequestMapping("/emite")
 	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo,Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
