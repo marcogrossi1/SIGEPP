@@ -1,42 +1,84 @@
 package proj.controller;
 
 import proj.model.Candidatura;
+import proj.model.Aluno;
+import proj.model.Projeto;
+import proj.dao.AlunoDao;
 import proj.dao.CandidaturaDao;
+import proj.dao.ProjetoDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.security.Principal;
 
-@RestController
-@RequestMapping("/api/candidaturas")
+@Controller
+@RequestMapping("/projeto")
 public class CandidaturaController {
 
     @Autowired
     private CandidaturaDao candidaturaDao;
 
+    @Autowired
+    private DataSource dataSource;
+
     /**
-     * Endpoint para enviar uma nova candidatura
+     * Exibe o formulário de candidatura com o ID do projeto passado como parâmetro.
      */
-    @PostMapping
-    public void enviarCandidatura(@RequestBody Candidatura candidatura) {
-        candidatura.setDataAplicacao(LocalDateTime.now());
-        try {
-            candidaturaDao.salvar(candidatura);
+    @GetMapping("/{id}/aplicacao")
+    public String exibirFormularioCandidatura(
+            @PathVariable Long id, Model model,
+            Principal principal) {
+
+        try (Connection conn = dataSource.getConnection()) {
+            Projeto projeto = ProjetoDao.get(conn, id);
+
+            // Obtém o aluno logado pelo nome de usuário (cpf, por exemplo)
+            Aluno alunoLogado = AlunoDao.getByCfp(conn, principal.getName());
+
+            model.addAttribute("aluno", alunoLogado);
+            model.addAttribute("projeto", projeto);
+
+            return "aplicacao";
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao salvar candidatura.", e);
+            e.printStackTrace();
+            model.addAttribute("erro", "Erro ao carregar o projeto.");
+            return "error";
         }
     }
 
     /**
-     * Endpoint para listar candidaturas por projeto
+     * Recebe os dados do formulário e cria uma candidatura.
      */
-    @GetMapping("/projeto/{oportunidadeId}")
-    public List<Candidatura> listarCandidaturasPorProjeto(@PathVariable Long oportunidadeId) {
-        try {
-            return candidaturaDao.listarPorProjeto(oportunidadeId);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao listar candidaturas.", e);
+    @PostMapping("/aplicacao")
+    public String enviarCandidatura(
+            @RequestParam("mensagem") String mensagem,
+            @RequestParam("IDoportunidade") Long oportunidadeId,
+            Model model, Principal principal) {
+
+        if (principal != null) {
+            try (Connection conn = dataSource.getConnection()) {
+                Aluno alunoLogado = AlunoDao.getByCfp(conn, principal.getName());
+
+                Candidatura candidatura = new Candidatura();
+                candidatura.setCandidato(alunoLogado);
+                candidatura.setIDoportunidade(oportunidadeId);
+                candidatura.setMensagem(mensagem);
+                candidatura.setDataAplicacao(java.time.LocalDateTime.now());
+
+                candidaturaDao.salvar(candidatura);
+                model.addAttribute("sucesso", "Candidatura enviada com sucesso!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                model.addAttribute("erro", "Erro ao salvar candidatura.");
+            }
+        } else {
+            model.addAttribute("erro", "Usuário não autenticado.");
         }
+
+        return "aplicacao";
     }
 }
