@@ -4,7 +4,7 @@ body, html {
 }
 
 body {
-	overflow: hidden;
+    overflow: hidden;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -25,23 +25,27 @@ header {
 
 nav {
     width: 100vw;
-    height: 7vh;
+    height: 5vh;
+    padding: 0 1vw 0 0;
+
     display: flex;
     flex-direction: row;
-    justify-content: start; /*Parei aqui, tenho que ajustar a posição dos icones pra ficarem juntinhos no começo mas espaçados.*/
+    justify-content: end;
     align-items: center;
+
     background-color: #ffffff;
-    padding: 0 10vw;
+    border-bottom: 0.00001vh solid #c5c5c5;
 }
 
 main {
     margin-top: 5vh;
     width: 64vw;
-    min-height: calc(100vh - 28vh); /* nav + header + navMargin */
-    padding: 3vh;                   /*     + mainPadding = 18vh */
+    min-height: calc(100vh - 26vh); /* nav + header + navMargin */
+    padding: 3vh;                   /*     + mainPadding = 26vh */
 
-    border-radius: 1%;
+    border-radius: 1% 1% 0 0;
     background-color: #ffffff;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -51,24 +55,26 @@ main > :first-child {
     margin-top: 0;
 }
 
-.icone {
-    height: 6vh;
+.icone {        /*os botões de navegação*/
+    height: 4vh;
+    margin: 0 1vw 0 1vw;
 
     display: grid;
-    grid-template-rows: 4vh 2vh;
+    grid-template-rows: 3vh auto;
 
     color: black;
     text-decoration: none;
 }
 
 .icone img {
-    height: 4vh;
+    height: 3vh;
     grid-row: 1;
     justify-self: center;
 }
 
 .icone label {
     justify-self: center;
+    font-size: 0.75em;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -181,10 +187,10 @@ button {
 }
 
 #section-meus-trabalhos {
-    margin-top: 5vh; 
+    margin-top: 5vh;
     margin-left: 100px;
-    padding: 3vh;  
-    
+    padding: 3vh;
+
     max-height: calc(100vh - 40vh);
 
     border-radius: 1%;
@@ -200,12 +206,12 @@ button {
 }
 
 #nome-no-portal {
-	font-family: Arial, Helvetica, sans-serif;
-	max-height: 100%;
-	max-width: 100%;
-	overflow: hidden;
-	width: 1000px;
-	margin-left: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    max-height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    width: 1000px;
+    margin-left: 100px;
 }
 
 #pdfView {
