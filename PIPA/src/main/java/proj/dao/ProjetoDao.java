@@ -16,7 +16,7 @@ public class ProjetoDao extends AbstractDaoBase
     private final static String insertsql = "INSERT INTO Projeto (nome, responsavel, descricao, carga_horaria, vagas, requisito) VALUES( ?, ?, ?, ?, ?, ?) ";
     private final static String updatesql = "UPDATE Projeto SET nome = ?, responsavel = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ? WHERE id = ? ";
     private final static String deletesql = "DELETE FROM Projeto WHERE id = ?";
-    private final static String getByNome = "SELECT * FROM Projeto WHERE nome = ?";
+    private final static String getByNomeSql = "SELECT * FROM Projeto WHERE nome = ?";
 
     static Projeto set(ResultSet rs)
         throws SQLException
@@ -55,7 +55,7 @@ public class ProjetoDao extends AbstractDaoBase
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = conn.prepareStatement(getsql);
+            ps = conn.prepareStatement(getByNomeSql);
             ps.setString(1, nome);
             rs = ps.executeQuery();
             if (!rs.next()) {throw new NotFoundException("Object not found [" + nome + "]");}

@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import proj.dao.AlunoDao;
 import proj.dao.HDataSource;
-import proj.dao.ProjetoDao;
-import proj.dao.EstagioDao;
 import proj.dao.EmpresaDao;
 import proj.model.Aluno;
 import proj.model.Estagio;
