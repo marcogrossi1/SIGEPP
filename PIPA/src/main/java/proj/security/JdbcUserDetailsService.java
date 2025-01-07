@@ -26,7 +26,6 @@ public class JdbcUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) 
 	throws UsernameNotFoundException 
 	{
-		System.out.println("LOGIN TENTANDO: " +username);
 		
         try (Connection conn = ds.getConnection()) {
         	
