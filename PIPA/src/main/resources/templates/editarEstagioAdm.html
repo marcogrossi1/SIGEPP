@@ -7,6 +7,41 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/icon.png">
     <title>Perfil</title>
+
+    <style>
+        /* Basic styles for the custom alert */
+        .custom-alert {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 1000;
+            width: 300px;
+            text-align: center;
+        }
+
+        .custom-alert-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .custom-alert button {
+            margin: 10px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -24,7 +59,7 @@
     
 
     <main>
-        <h2 id="subtitulo-portal" th:text="${empresa.nome}"></h2>
+        <h2 id="subtitulo-portal" th:text="${estagio.empresa}"></h2>
         <section id="descricao-empresa">
             
         </section>
@@ -37,17 +72,17 @@
                     <th>Requisitos</th>
                     <th>Carga Horária</th>
                     <th>Salário</th>
-                    <th>Ver mais</th>
+                    <th>Editar</th>
                 </thead>
                 <tbody>
-                    <tr th:each="vagas : ${estagiosEmpresa}">
+                    <tr th:each="vagas : ${estagio}">
                         <td th:text="${vagas.vagas}"></td>
                         <td th:text="${vagas.descricao}"></td>
                         <td th:text="${vagas.requisito}"></td>
                         <td th:text="${vagas.cargaHoraria}"></td>
                         <td th:text="${vagas.salario}"></td>
-                        <td><a th:href="'http://localhost:8080/detalhes-estagio?n=' + ${vagas.id}">
-                            <button id="botao-certificado">Ver mais</button>
+                        <td><a th:href="'http://localhost:8080/deletar-estagio' + ${vagas.id}">
+                            <button id="botao-certificado">Deletar estágio</button>
                         </a></td>
                     </tr>
                 </tbody>
@@ -56,6 +91,11 @@
     </main>
 
     <script src="js/portal.js"></script>
-
+    <script>
+        let botaoDeletarEstagioEl = document.querySelector("#botao-certificado");
+        botaoDeletarEstagioEl.addEventListener("click", function() {
+            alert("Tem certeza que deseja deletar o estágio?");
+        });
+    </script>
 </body>
 </html>
