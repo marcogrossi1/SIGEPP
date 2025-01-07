@@ -15,7 +15,7 @@
     </header>
 
     <nav>
-		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+	<p id="nome-no-portal" th:text="${aluno.nome}"></p>
         <a href="http://localhost:8080/perfil" class="icone" id="icone-portal">
             <img src="img/icone-perfil.png">
             <label>Perfil</label>
@@ -25,6 +25,11 @@
 
     <main>
         <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
+        <h2 th:text="${projeto.responsavel}"></h2>
+        <p th:text="${projeto.descrição}"></p>
+        <p th:text="${projeto.carga_horaria}"></p>
+        <p th:text="${projeto.vagas}"></p>
+        <p th:text="${projeto.requisito}"></p>
     </main>
 
     <script src="js/portal.js"></script>
