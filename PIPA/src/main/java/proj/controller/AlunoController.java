@@ -29,8 +29,10 @@ public class AlunoController {
 	public String mostraPortal(Model model, Principal principal)
 	throws Exception{
 		
-		try(Connection conn = ds.getConnection())
-		{
+		//try(
+			Connection conn = ds.getConnection();
+		//	)
+		//{
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			if (u.getRole().equals("Aluno") == false)
 			{
@@ -44,12 +46,11 @@ public class AlunoController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
-			
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return mostraPaginaDeErro(model , "Erro interno na aplicação!.");
-		}
+		//}
+		//catch(Exception e) {
+		//	e.printStackTrace();
+		//	return mostraPaginaDeErro(model , "Erro interno na aplicação!.");
+		//}
 
 		return "aluno/home";
 	}	

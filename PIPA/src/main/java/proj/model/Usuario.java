@@ -7,7 +7,6 @@ public class Usuario {
 	private String senha;
 	private String role;
 	
-	
 	public long getId() {
 		return id;
 	}
@@ -36,7 +35,4 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", role=" + role + "]";
 	}
-
-	
-	
 }

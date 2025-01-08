@@ -9,8 +9,6 @@ public class Estagio {
 	private int vagas;
 	private String requisito;
 	private String salario;
-	
-	
 
 	@Override
 	public String toString() {
@@ -62,6 +60,4 @@ public class Estagio {
 	public void setSalario(String salario) {
 		this.salario = salario;
 	}
-	
-	
 }
