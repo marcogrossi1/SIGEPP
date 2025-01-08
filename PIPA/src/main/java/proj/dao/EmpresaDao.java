@@ -12,7 +12,6 @@ import proj.model.Empresa;
 public class EmpresaDao extends AbstractDaoBase {
 
 	private final static String listEmpresaEstagiosSql = "SELECT p.* from empresa_has_estagio ap, estagio p where ap.estagio_id = p.id and ap.empresa_id = ? ";
-
 	private final static String getsql = "SELECT * FROM Empresa  WHERE id = ?";
 	private final static String getByCnpjSql = "SELECT * FROM Empresa  WHERE cnpj = ?";
 	private final static String getByEmailSql = "SELECT * FROM Empresa  WHERE email = ?";
@@ -31,7 +30,6 @@ public class EmpresaDao extends AbstractDaoBase {
 		vo.setEndereco(rs.getString("endereco"));
 		vo.setWebsite(rs.getString("website"));
 		vo.setEmail(rs.getString("email"));
-		vo.setSenha(rs.getString("senha"));
 		vo.setArea(rs.getString("area"));
         vo.setTelefone(rs.getString("telefone"));
 		return vo;
@@ -201,7 +199,7 @@ public class EmpresaDao extends AbstractDaoBase {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-            //cnpj, nome, endereco, website, area, telefone, email, senha
+            //cnpj, nome, endereco, website, area, telefone, email
 			ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
 			ps.setString(1, vo.getCnpj());
 			ps.setString(2, vo.getNome());
@@ -210,7 +208,6 @@ public class EmpresaDao extends AbstractDaoBase {
 			ps.setString(5, vo.getArea());
 			ps.setString(6, vo.getTelefone());
 			ps.setString(7, vo.getEmail());
-            ps.setString(8, vo.getSenha());
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
 			if (rs.next()) {
@@ -243,7 +240,6 @@ public class EmpresaDao extends AbstractDaoBase {
 			ps.setString(5, vo.getArea());
 			ps.setString(6, vo.getTelefone());
 			ps.setString(7, vo.getEmail());
-            ps.setString(8, vo.getSenha());
 			ps.setLong(8, vo.getId());
 			int count = ps.executeUpdate();
 			if (count == 0) {

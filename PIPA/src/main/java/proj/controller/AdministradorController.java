@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import proj.dao.AlunoDao;
 import proj.dao.HDataSource;
-import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Projeto;
-import proj.model.Empresa;
 
 @Controller
 public class AdministradorController {
@@ -28,7 +26,7 @@ public class AdministradorController {
     @RequestMapping("/editar-estagio")
 	public String editarEstagio(@RequestParam("n") Long estagioId, Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
-	        Aluno a = AlunoDao.getByCfp(conn, principal.getName());
+	        Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 		    ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 		    ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 
@@ -50,7 +48,7 @@ public class AdministradorController {
     @RequestMapping("/deletar-estagio")
     public String deletarEstagio(@RequestParam("n") Long estagioId, Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
-            Aluno a = AlunoDao.getByCfp(conn, principal.getName());
+            Aluno a = AlunoDao.getByCpf(conn, principal.getName());
             ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
             ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 

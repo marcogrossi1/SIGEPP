@@ -15,7 +15,9 @@ import proj.dao.HDataSource;
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Projeto;
+import proj.model.Usuario;
 import proj.dao.ProjetoDao;
+import proj.dao.UsuarioDao;
 import proj.dao.EstagioDao;
 
 import com.itextpdf.text.BaseColor;
@@ -36,7 +38,12 @@ public class EmiteCertificadosController {
     @RequestMapping("/emite")
 	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo,Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
-	    	Aluno a = AlunoDao.getByCfp(conn, principal.getName());
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+			if (u.getRole().equals("Aluno") == false) {
+				return mostraPaginaDeErro(model , "Usuário não é um Aluno!.");
+			}
+
+	    	Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 		    ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 		    ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
             Projeto projetoRealizado = ProjetoDao.get(conn, projetoId);
@@ -98,12 +105,12 @@ public class EmiteCertificadosController {
 
                 document.close();
             
-                return "emites";
+                return "aluno/emites";
             } 
             
             catch (Exception e) {
                 e.printStackTrace();
-                return "certificado";
+                return "aluno/certificado";
             }
         }
 
@@ -111,4 +118,9 @@ public class EmiteCertificadosController {
             return "erro";
         } 	
     }	
+
+    public String mostraPaginaDeErro(Model model, String message) {
+        model.addAttribute("message",message);
+        return "erro";
+    }
 }

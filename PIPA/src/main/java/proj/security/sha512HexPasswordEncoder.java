@@ -14,6 +14,7 @@ public class sha512HexPasswordEncoder implements PasswordEncoder{
 	@Override
 	public boolean matches(CharSequence rawPassword, String encodedPassword) 
 	{
+		System.out.println("VERIFICANDO SENHA: " + rawPassword);
 		String raw = DigestUtils.sha512Hex(rawPassword.toString());
 		return encodedPassword.equals(raw);
 	}

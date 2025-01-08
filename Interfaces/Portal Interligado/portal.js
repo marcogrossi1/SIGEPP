@@ -59,3 +59,4 @@ botaoVoltarNotificacaoEl.addEventListener('click', function () {
         notificacaoTresEl.style.display = 'none';
         notificacaoTresImagemEl.style.display = 'none';
     }
+})

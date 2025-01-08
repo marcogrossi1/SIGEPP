@@ -10,7 +10,7 @@ CREATE TABLE Usuario (
   UNIQUE INDEX nome_UNIQUE (nome ASC) )
 ENGINE = InnoDB default character set = utf8;
 
-  
+
 -- -----------------------------------------------------
 -- Table Aluno
 -- -----------------------------------------------------
@@ -45,7 +45,6 @@ CREATE TABLE Estagio (
   carga_horaria INT NULL,
   vagas INT NULL,
   requisito VARCHAR(255) NULL,
-  salario VARCHAR(255) NULL,
   PRIMARY KEY (id),
   INDEX empresa_INDEX (empresa ASC) )
 ENGINE = InnoDB default character set = utf8;
@@ -127,54 +126,12 @@ ENGINE = InnoDB default character set = utf8;
 -- -----------------------------------------------------
 CREATE TABLE Empresa (
   id BIGINT NOT NULL  AUTO_INCREMENT,
-  cnpj VARCHAR(20) NOT NULL,
   nome VARCHAR(255) NOT NULL,
-  endereco VARCHAR(255) NOT NULL,
-  website VARCHAR(255) NOT NULL,
-  area VARCHAR(255) NOT NULL,
-  telefone VARCHAR(20) NOT NULL,
-  email VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NULL,
   PRIMARY KEY (id),
-  INDEX fk_Empresa_Usuario1_idx (Usuario_id ASC),
-  UNIQUE INDEX cnpj_UNIQUE (cnpj ASC),
-  UNIQUE INDEX email_UNIQUE (email ASC),
-  INDEX nome_INDEX (nome ASC),
+  INDEX fk_Empresa_Usuario1_idx (Usuario_id ASC) ,
   CONSTRAINT fk_Empresa_Usuario1
     FOREIGN KEY (Usuario_id)
-    REFERENCES Usuario (id)	
+    REFERENCES Usuario (id)
     )
 ENGINE = InnoDB default character set = utf8;
-
-
--- -----------------------------------------------------
--- Table Empresa_has_Estagio
--- -----------------------------------------------------
-CREATE TABLE Empresa_has_Estagio (
-  empresa_id BIGINT NOT NULL,
-  estagio_id BIGINT NOT NULL,
-  
-  PRIMARY KEY (empresa_id, estagio_id),
-  INDEX fk_Empresa_has_Estagio_Estagio1_idx (estagio_id ASC),
-  INDEX fk_Empresa_has_Estagio_Empresa1_idx (empresa_id ASC),
-  CONSTRAINT fk_Empresa_has_Estagio_Empresa1
-    FOREIGN KEY (empresa_id)
-    REFERENCES Empresa (id),
-  CONSTRAINT fk_Empresa_has_Estagio_Estagio1
-    FOREIGN KEY (estagio_id)
-    REFERENCES Estagio (id))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table candidatura
--- -----------------------------------------------------
-CREATE TABLE candidatura (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    candidato_id BIGINT NOT NULL,
-    oportunidade_id BIGINT NOT NULL,
-    mensagem TEXT NOT NULL,
-    data_aplicacao TIMESTAMP NOT NULL,
-    FOREIGN KEY (candidato_id) REFERENCES aluno(id),
-    FOREIGN KEY (oportunidade_id) REFERENCES projeto(id)
-);
