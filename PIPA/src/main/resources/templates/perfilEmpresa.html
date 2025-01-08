@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/icon.png">
+    <title>Perfil</title>
+</head>
+<body>
+    <header>
+        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav>
+		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+        <a href="http://localhost:8080/perfil" class="icone" id="icone-portal">
+            <img src="img/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+    </nav>    
+    
+
+    <main>
+        <h2 id="subtitulo-portal" th:text="${empresa.nome}"></h2>
+        <table class="table">
+            <thead>
+                <th>Vagas Disponíveis</th>
+                <th>Descrição</th>
+                <th>Requisitos</th>
+                <th>Carga Horária</th>
+                <th>Salário</th>
+                <th>Ver mais</th>
+            </thead>
+            <tbody>
+                <tr th:each="vagas : ${estagiosEmpresa}">
+                    <td th:text="${vagas.vagas}"></td>
+                    <td th:text="${vagas.descricao}"></td>
+                    <td th:text="${vagas.requisito}"></td>
+                    <td th:text="${vagas.cargaHoraria}"></td>
+                    <td th:text="${vagas.salario}"></td>
+                    <td><a th:href="'http://localhost:8080/detalhes-estagio?n=' + ${vagas.id}">
+                        <button id="botao-certificado">Ver mais</button>
+                    </a></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <script src="js/portal.js"></script>
+
+</body>
+</html>
