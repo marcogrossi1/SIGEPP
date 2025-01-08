@@ -10,10 +10,11 @@
 <body>
 	<header>
 	        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-	        <h1 id="titulo-plataforma" >PIPA | Estágios</h1>
+	        <h1 id="titulo-plataforma" >PIPA | Home</h1>
 	</header>
 	
 	<main>
+<<<<<<< HEAD:PIPA/src/main/resources/templates/homeEstagios.html
 		<h2>Seus estágios</h2>
                 <a class="estagio-section" th:each="estagio : ${estagioList}" th:href="@{http://localhost:8080/detalhes-estagio(n=${estagio.id})}">
                     <section>
@@ -31,6 +32,10 @@
                     </section>
                 </a>
         </main> 
+=======
+		<h2>Página professor</h2>
+	</main>
+>>>>>>> main:PIPA/src/main/resources/templates/professor/home.html
     
 </body>
 </html>

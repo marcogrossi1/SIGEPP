@@ -13,64 +13,59 @@ import org.springframework.web.bind.annotation.RequestParam;
 import proj.dao.AlunoDao;
 import proj.dao.HDataSource;
 import proj.dao.EmpresaDao;
+import proj.dao.EstagioDao;
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Projeto;
 import proj.model.Empresa;
 
 @Controller
-public class PerfilEmpresaController {
+public class AdministradorController {
 
     @Autowired
 	private HDataSource ds;
     
-    @RequestMapping("/empresa")
-	public String emiteCertificadoProjeto(@RequestParam("id") Long empresaId, Model model, Principal principal) throws Exception {
+    @RequestMapping("/editar-estagio")
+	public String editarEstagio(@RequestParam("n") Long estagioId, Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
-	    	Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+	        Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 		    ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 		    ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 
-            Empresa e = EmpresaDao.get(conn, empresaId);
-		    ArrayList<Estagio> estagiosEmpresa = EmpresaDao.listEstagiosByEmpresaId(conn, e.getId());
+            Estagio e = EstagioDao.get(conn, estagioId);
 
             model.addAttribute("aluno", a);
 		    model.addAttribute("estagios", estagios);
             model.addAttribute("projetos", projetos);
+            model.addAttribute("estagio", e);
 
-            model.addAttribute("empresa", e);   
-            model.addAttribute("estagiosEmpresa", estagiosEmpresa);
-
-            return "perfilEmpresa";
+            return "editarEstagioAdm";
         }
-        
+
         catch(Exception e) {
             return "erro";
         }
     }
 
-    @RequestMapping("/encontra-empresa")
-    public String encontraEmpresa(@RequestParam("nome") String empresaNome, Model model, Principal principal) throws Exception {
+    @RequestMapping("/deletar-estagio")
+    public String deletarEstagio(@RequestParam("n") Long estagioId, Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
             Aluno a = AlunoDao.getByCpf(conn, principal.getName());
             ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
             ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 
-            Empresa e = EmpresaDao.getByNome(conn, empresaNome);
-            ArrayList<Estagio> estagiosEmpresa = EmpresaDao.listEstagiosByEmpresaId(conn, e.getId());
+            Estagio e = EstagioDao.get(conn, estagioId);
 
             model.addAttribute("aluno", a);
             model.addAttribute("estagios", estagios);
             model.addAttribute("projetos", projetos);
+            model.addAttribute("estagio", e);
 
-            model.addAttribute("empresa", e);   
-            model.addAttribute("estagiosEmpresa", estagiosEmpresa);
-
-            return "perfilEmpresa";
+            return "deletarEstagioAdm";
         }
-        
+
         catch(Exception e) {
             return "erro";
         }
-    }    
+    }
 }
