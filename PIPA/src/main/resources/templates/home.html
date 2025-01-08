@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,17 +12,23 @@
         <h1 id="titulo-plataforma" >PIPA | Início</h1>
     </header>
 
-    <nav>
-
-    </nav>    
-    
-
     <main>
         <h2 id="subtitulo-portal">Entrar como:</h2>
-		<a href="http://localhost:8080/aluno">aluno</a>
-		<a href="http://localhost:8080/professor">professor</a>
-		<a href="http://localhost:8080/empresa">empresa</a>
+		<a href="http://localhost:8080/aluno">
+        <button class="botoes-inicio" id="botao-aluno" type="submit">
+            <img src="img/botao-aluno.png" class="imgs-botoes-portal">
+        </button>
+		</a>
+		<a href="http://localhost:8080/professor">
+        <button class="botoes-inicio" id="botao-professor" type="submit">
+            <img src="img/botao-professor.png" class="imgs-botoes-portal">
+        </button>
+		</a>
+		<a href="http://localhost:8080/empresa">
+		<button class="botoes-inicio" id="botao-empresa" type="submit">
+		     <img src="img/botao-empresa.png" class="imgs-botoes-portal">
+		</button>
+		</a>
     </main>
-
 </body>
 </html>

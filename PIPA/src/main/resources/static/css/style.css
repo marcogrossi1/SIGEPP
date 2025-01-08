@@ -111,7 +111,7 @@ button {
     cursor: pointer;
 }
 
-.botoes-portal {
+.botoes-portal, .botoes-inicio {
     background-color: red;
     all: unset;
     cursor: pointer;
@@ -120,7 +120,7 @@ button {
     width: 252px;
 }
 
-.botoes-portal:hover {
+.botoes-portal:hover, .botoes-inicio:hover {
     transform: scale(1.1);
 }
 
@@ -130,6 +130,10 @@ button {
 
 #botao-estagio {
     margin-left: 170px;
+}
+
+#botao-professor, #botao-empresa {
+	margin-left: 50px;
 }
 
 .imgs-botoes-portal {
