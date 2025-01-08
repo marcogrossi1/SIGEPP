@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="img/icon.png">
     <title>Portal</title>
 </head>
 <body>
@@ -22,6 +21,7 @@
         </a>
     </nav>    
     
+
     <main>
         <h2 id="subtitulo-portal">Navegue pelo site</h2>
         <br>
@@ -51,15 +51,11 @@
     <section id="section-meus-trabalhos">
         <p>Estágios:</p>
         <ul th:each="estagio : ${estagios}">
-            <li><a th:href="'http://localhost:8080/encontra-empresa?nome=' + ${estagio.empresa}">
-                <button type="submit" th:text="${estagio.empresa}"></button>
-            </a></li>
+            <li th:text="${estagio.empresa}"></li>
         </ul>
 		<p>Projetos:</p>
 		<ul th:each="projeto : ${projetos}">
-            <li><a th:href="'http://localhost:8080/encontra-projeto?nome=' + ${projeto.nome}">
-                <button type="submit" th:text="${projeto.nome}"></button>
-            </a></li>
+		     <li th:text="${projeto.nome}"></li>
 		</ul>
     </section>
 

@@ -24,7 +24,6 @@ public class EstagioDetailController {
     public String getDetalhes(Model model, Principal principal, @RequestParam("n") long id) throws Exception{
         try(Connection conn = ds.getConnection()){
             Estagio es = EstagioDao.get(conn, id);
-            model.addAttribute("estagio", es);
             model.addAttribute("empresa", es.getEmpresa());
             model.addAttribute("descricao", es.getDescricao());
             model.addAttribute("cargaHoraria", es.getCargaHoraria());

@@ -40,6 +40,7 @@ public class PortalController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();

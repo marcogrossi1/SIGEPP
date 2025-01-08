@@ -10,6 +10,7 @@ public class Projeto {
 	private int vagas;
 	private String requisito;
 
+
 	@Override
 	public String toString() {
 		return "Projeto [id=" + id + ", nome=" + nome + ", responsavel=" + responsavel + ", descricao=" + descricao
