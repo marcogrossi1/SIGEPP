@@ -10,6 +10,12 @@ public class ProfessorController {
 	
 	@GetMapping
 	public String mostraPerfilPessoal() {
-		return "professor/home";
+		try {
+			return "professor/home";
+		}
+
+		catch(Exception e) {
+			return "erro";
+		}
 	}
 }

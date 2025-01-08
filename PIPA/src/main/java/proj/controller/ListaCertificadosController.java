@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import proj.dao.AlunoDao;
 import proj.dao.HDataSource;
+import proj.dao.UsuarioDao;
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Projeto;
+import proj.model.Usuario;
 
 @Controller
 @RequestMapping("/certificados")
@@ -28,6 +30,11 @@ public class ListaCertificadosController {
 	throws Exception {
 		
 		try(Connection conn = ds.getConnection()) {
+			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+			if (u.getRole().equals("Aluno") == false) {
+				return mostraPaginaDeErro(model , "Usuário não é um Aluno!.");
+			}
+
 			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
@@ -38,13 +45,14 @@ public class ListaCertificadosController {
 		}
 
 		catch(Exception e) {
-			return mostraPaginaDeErro();
+			return "erro";
 		}
 		
-		return "certificado";
+		return "aluno/certificado";
 	}
         
-	public String mostraPaginaDeErro() {
+	public String mostraPaginaDeErro(Model model, String message) {
+		model.addAttribute("message",message);
 		return "erro";
 	}
 }

@@ -24,8 +24,8 @@ public class PerfilEmpresaController {
     @Autowired
 	private HDataSource ds;
     
-    @RequestMapping("/empresa")
-	public String emiteCertificadoProjeto(@RequestParam("id") Long empresaId, Model model, Principal principal) throws Exception {
+    @RequestMapping("/perfil-empresa")
+	public String mostraPerfilEmpresa(@RequestParam("id") Long empresaId, Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
 	    	Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 		    ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
@@ -49,9 +49,11 @@ public class PerfilEmpresaController {
         }
     }
 
-    @RequestMapping("/encontra-empresa")
+    @RequestMapping("encontra-empresa")
     public String encontraEmpresa(@RequestParam("nome") String empresaNome, Model model, Principal principal) throws Exception {
-        try(Connection conn = ds.getConnection()) {
+        //try(
+            Connection conn = ds.getConnection();
+            //) {
             Aluno a = AlunoDao.getByCpf(conn, principal.getName());
             ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
             ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
@@ -67,10 +69,10 @@ public class PerfilEmpresaController {
             model.addAttribute("estagiosEmpresa", estagiosEmpresa);
 
             return "perfilEmpresa";
-        }
-        
-        catch(Exception e) {
-            return "erro";
-        }
+        //}
+        //
+        //catch(Exception e) {
+        //    return "erro";
+        //}
     }    
 }
