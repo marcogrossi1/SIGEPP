@@ -11,7 +11,7 @@ public class Aluno{
 	private String campus;
 	private String email;
 	private String periodo;
-	private long   usuario_id;
+	private long usuario_id;
 	
 	private ArrayList<Estagio> listaEstagio = new ArrayList<Estagio>();
 	private ArrayList<Projeto> listaProjeto = new ArrayList<Projeto>();

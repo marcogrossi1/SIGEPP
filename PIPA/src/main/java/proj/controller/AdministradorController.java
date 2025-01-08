@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import proj.dao.AlunoDao;
 import proj.dao.HDataSource;
-import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Projeto;
-import proj.model.Empresa;
 
 @Controller
 public class AdministradorController {

@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import proj.dao.AbstractDaoBase;
-
 import proj.model.Estagio;
 
 public class EstagioDao extends AbstractDaoBase {
