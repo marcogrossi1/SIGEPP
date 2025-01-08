@@ -164,3 +164,17 @@ CREATE TABLE Empresa_has_Estagio (
     FOREIGN KEY (estagio_id)
     REFERENCES Estagio (id))
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table candidatura
+-- -----------------------------------------------------
+CREATE TABLE candidatura (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    candidato_id BIGINT NOT NULL,
+    oportunidade_id BIGINT NOT NULL,
+    mensagem TEXT NOT NULL,
+    data_aplicacao TIMESTAMP NOT NULL,
+    FOREIGN KEY (candidato_id) REFERENCES aluno(id),
+    FOREIGN KEY (oportunidade_id) REFERENCES projeto(id)
+);
