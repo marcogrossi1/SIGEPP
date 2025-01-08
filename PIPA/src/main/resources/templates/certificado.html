@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
+	<link rel="icon" href="img/icon.png">
     <title>Emitir Certificados</title>
 </head>
 <body>
@@ -24,28 +25,37 @@
 
     <main>
         <h2 id="subtitulo-portal">Emitir certificados</h2>
-        <table>
+        <table class="table">
 			<thead>
-				<tr>Trabalho</tr>
-				<tr>Descrição</tr>
-				<tr>Carga Horária</tr>
+				<tr>
+					<th>Id</th>
+					<th>Tipo de trabalho</th>
+					<th>Nome/Empresa</th>
+					<th>Descrição</th>
+					<th>Carga Horária</th>
+					<th>Emitir Certificado</th>
+				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="projetos : ${projetos}">
+					<td th:text="${projetos.id}"></td>
+					<td th:text="'Pesquisa e Extensão'"></td>
 					<td th:text="${projetos.nome}"></td>
 					<td th:text="${projetos.descricao}"></td>
 					<td th:text="${projetos.cargaHoraria}"></td>
-					<td>					
-						<a href="http://localhost:8080/emite">
-					    <button id="botao-certificado" type="submit">
-					        Emitir Certificado
-					    </button>
-					</td>
+					<td><a th:href="'http://localhost:8080/emite?id=' + ${projetos.id} + '&tipo=' + 'projeto'">
+						<button id="botao-certificado">Emitir Certificado</button>
+					</a></td>
 				</tr>
 				<tr th:each="estagios : ${estagios}">
+					<td th:text="${estagios.id}"></td>
+					<td th:text="'Estágio'"></td>
 					<td th:text="${estagios.empresa}"></td>
 					<td th:text="${estagios.descricao}"></td>
 					<td th:text="${estagios.cargaHoraria}"></td>
+					<td><a th:href="'http://localhost:8080/emite?id=' + ${estagios.id} + '&tipo=' + 'estagio'">
+						<button id="botao-certificado">Emitir Certificado</button>
+					</a></td>
 				</tr>
 			</tbody>
         </table>

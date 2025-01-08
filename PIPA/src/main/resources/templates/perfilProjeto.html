@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/icon.png">
-    <title>Ver Certificado</title>
+    <title>Perfil</title>
 </head>
-
 <body>
     <header>
         <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
@@ -21,19 +20,14 @@
             <img src="img/icone-perfil.png">
             <label>Perfil</label>
         </a>
-    </nav>     
+    </nav>    
+    
 
     <main>
-        <h2 id="subtitulo-portal">Ver Certificado emitido</h2>
-    
-    <!-- Embed the PDF file using an absolute local path -->
-        <a href="pdf/CertificadoPadrao.pdf" target="_blank">
-        <button id="botao-certificado" type="submit">
-            Fazer download do certificado.
-        </button>
-        
+        <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
     </main>
 
     <script src="js/portal.js"></script>
+
 </body>
 </html>

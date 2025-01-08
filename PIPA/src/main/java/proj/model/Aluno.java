@@ -15,8 +15,6 @@ public class Aluno {
 	private ArrayList<Estagio> listaEstagio = new ArrayList<Estagio>();
 	private ArrayList<Projeto> listaProjeto = new ArrayList<Projeto>();
 
-
-
 	public long getId() {
 		return id;
 	}
