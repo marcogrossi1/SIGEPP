@@ -54,11 +54,9 @@ public class Estagio {
 	public void setRequisito(String requisito) {
 		this.requisito = requisito;
 	}
-
 	public String getSalario() {
 		return salario;
 	}
-
 	public void setSalario(String salario) {
 		this.salario = salario;
 	}
