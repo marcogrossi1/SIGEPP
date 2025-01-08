@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import proj.model.Estagio;
 
@@ -125,6 +127,8 @@ public class EstagioDao extends AbstractDaoBase {
 			}
 		} catch (SQLException e) {
 			try {conn.rollback();} catch (Exception e1) {}
+                         Logger.getLogger(EstagioDao.class.getName()).log(Level.SEVERE, "SQL Error: " + e.getMessage(), e);
+
 			throw e;
 		} finally {
 			closeResource(ps, rs);

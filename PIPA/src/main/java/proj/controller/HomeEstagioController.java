@@ -37,12 +37,13 @@ public class HomeEstagioController {
 			model.addAttribute("estagioList", estagioList);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
-			return mostraPaginaDeErro();
+			
+			return mostraPaginaDeErro(model, e.toString());
 		}
 		return "homeEstagios";
 	}
-        public String mostraPaginaDeErro() {
+        public String mostraPaginaDeErro(Model model, String st){
+            model.addAttribute("err", st);
 		return "erro";
 	}
         private void deslistarEstagioJaInscrito(ArrayList<Estagio> el, ArrayList<Estagio> edl){
