@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/icon.png">
     <title>Portal</title>
 </head>
 <body>
@@ -15,13 +16,12 @@
 
     <nav>
 		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
-        <a href="http://localhost:8080/perfil" class="icone" id="icone-portal">
+        <a href="http://localhost:8080/aluno/perfil" class="icone" id="icone-portal">
             <img src="img/icone-perfil.png">
             <label>Perfil</label>
         </a>
     </nav>    
     
-
     <main>
         <h2 id="subtitulo-portal">Navegue pelo site</h2>
         <br>
@@ -36,12 +36,12 @@
             <img src="img/not-tres-select.png" class="select-not-img" id="not-tres-select">
         </div>
         <br>
-		<a href="http://localhost:8080/projetos">
+		<a href="http://localhost:8080/aluno/projetos">
         <button class="botoes-portal" id="botao-projeto" type="submit">
             <img src="img/botao-projetos-de-pesquisa.png" class="imgs-botoes-portal">
         </button>
 		</a>
-		<a href="http://localhost:8080/estagios">
+		<a href="http://localhost:8080/aluno/estagios">
         <button class="botoes-portal" id="botao-estagio" type="submit">
             <img src="img/botao-estagios.png" class="imgs-botoes-portal">
         </button>
@@ -51,11 +51,15 @@
     <section id="section-meus-trabalhos">
         <p>Estágios:</p>
         <ul th:each="estagio : ${estagios}">
-            <li th:text="${estagio.empresa}"></li>
+            <li><a th:href="'http://localhost:8080/encontra-empresa?nome=' + ${estagio.empresa}">
+                <button type="submit" th:text="${estagio.empresa}"></button>
+            </a></li>
         </ul>
 		<p>Projetos:</p>
 		<ul th:each="projeto : ${projetos}">
-		     <li th:text="${projeto.nome}"></li>
+            <li><a th:href="'http://localhost:8080/encontra-projeto?nome=' + ${projeto.nome}">
+                <button type="submit" th:text="${projeto.nome}"></button>
+            </a></li>
 		</ul>
     </section>
 

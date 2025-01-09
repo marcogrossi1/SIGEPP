@@ -1,240 +1,268 @@
 /* Contêiners */
 body, html {
-	margin: 0;
+    margin: 0;
 }
 
 body {
-	overflow: hidden;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	background-color: #f4f2ee;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #f4f2ee;
 }
 
 header {
-	width: 100vw;
-	height: 10vh;
-	display: flex;
-	flex-wrap: wrap;
-	align-content: center;
-	background-color: #003869;
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    background-color: #003869;
 }
 
 nav {
-	width: 100vw;
-	height: 7vh;
-	display: flex;
-	flex-direction: row;
-	justify-content: start;
-	/*Parei aqui, tenho que ajustar a posição dos icones pra ficarem juntinhos no começo mas espaçados.*/
-	align-items: center;
-	background-color: #ffffff;
-	padding: 0 10vw;
+    width: 100vw;
+    height: 7vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 0 10vw;
 }
 
 main {
-	margin-top: 5vh;
-	width: 64vw;
-	min-height: calc(100vh - 28vh); /* nav + header + navMargin */
-	padding: 3vh; /*     + mainPadding = 18vh */
-	border-radius: 1%;
-	background-color: #ffffff;
-	font-family: Arial, Helvetica, sans-serif;
+    margin-top: 5vh;
+    width: 64vw;
+    min-height: calc(100vh - 28vh); /* nav + header + navMargin */
+    padding: 3vh; /*     + mainPadding = 18vh */
+    border-radius: 1%;
+    background-color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Elementos */
 main>:first-child {
-	margin-top: 0;
+    margin-top: 0;
 }
 
 .icone {
-	height: 6vh;
-	display: grid;
-	grid-template-rows: 4vh 2vh;
-	color: black;
-	text-decoration: none;
+    height: 6vh;
+    display: grid;
+    grid-template-rows: 4vh 2vh;
+    color: black;
+    text-decoration: none;
 }
 
 .icone img {
-	height: 4vh;
-	grid-row: 1;
-	justify-self: center;
+    height: 4vh;
+    grid-row: 1;
+    justify-self: center;
 }
 
 .icone label {
-	justify-self: center;
-	font-family: Arial, Helvetica, sans-serif;
+    justify-self: center;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .icone:hover {
-	transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 #logo {
-	padding-left: 1vw;
-	height: 8vh;
-	padding-right: 5vw;
+    padding-left: 1vw;
+    height: 8vh;
+    padding-right: 5vw;
 }
 
 #titulo-plataforma {
-	margin: 1.15vh 0 0 0;
-	color: #ffffff;
-	font-size: 3em;
-	font-family: Arial, Helvetica, sans-serif;
+    margin: 1.15vh 0 0 0;
+    color: #ffffff;
+    font-size: 3em;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 input {
-	margin: 1vh 0 1vh 0;
-	min-width: 10vw;
-	height: 2vh;
-	border: 1px solid #c4c0bf;
-	border-radius: 5%;
-	background-color: #fefafa;
+    margin: 1vh 0 1vh 0;
+    min-width: 10vw;
+    height: 2vh;
+    border: 1px solid #c4c0bf;
+    border-radius: 5%;
+    background-color: #fefafa;
 }
 
 button {
-	min-width: 10vw;
-	height: 3vh;
-	border: 1px solid #c4c0bf;
-	border-radius: 5%;
-	background-color: #2e6890;
-	color: white;
-	cursor: pointer;
+    min-width: 10vw;
+    height: 3vh;
+    border: 1px solid #c4c0bf;
+    border-radius: 5%;
+    background-color: #2e6890;
+    color: white;
+    cursor: pointer;
 }
 
-.botoes-portal {
-	background-color: red;
-	all: unset;
-	cursor: pointer;
-	outline: revert;
-	height: 180px;
-	width: 252px;
+.botoes-portal, .botoes-inicio {
+    background-color: red;
+    all: unset;
+    cursor: pointer;
+    outline: revert;
+    height: 180px;
+    width: 252px;
 }
 
-.botoes-portal:hover {
-	transform: scale(1.1);
+.botoes-portal:hover, .botoes-inicio:hover {
+    transform: scale(1.1);
 }
 
 #botao-projeto {
-	margin-left: 100px;
+    margin-left: 100px;
 }
 
 #botao-estagio {
-	margin-left: 170px;
+    margin-left: 170px;
+}
+
+#botao-professor, #botao-empresa {
+    margin-left: 50px;
 }
 
 .imgs-botoes-portal {
-	height: 180px;
-	width: 252px;
-	padding: 0px;
+    height: 180px;
+    width: 252px;
+    padding: 0px;
 }
 
 #subtitulo-portal {
-	text-align: center;
+    text-align: center;
 }
 
 #icone-portal {
-	margin-left: 100px;
+    margin-left: 100px;
 }
 
 #notificacoes-portal {
-	background-color: #2e6890;
-	text-align: center;
+    background-color: #2e6890;
+    text-align: center;
 }
 
 #notificacoes-portal p {
-	color: white;
-	text-align: center;
+    color: white;
+    text-align: center;
 }
 
 #not-um {
-	display: inline;
+    display: inline;
 }
 
 #not-dois, #not-tres, #not-dois-select, #not-tres-select {
-	display: none;
+    display: none;
 }
 
 #avancar-notificacao, #voltar-notificacao {
-	font-size: 40px;
-	background-color: #2e6890;
-	border-color: #2e6890;
+    font-size: 40px;
+    background-color: #2e6890;
+    border-color: #2e6890;
 }
 
 #avancar-notificacao {
-	margin-left: 500px;
+    margin-left: 500px;
 }
 
 .select-not-img {
-	width: 4%;
-	height: 4%;
+    width: 4%;
+    height: 4%;
 }
 
 #section-meus-trabalhos {
-	margin-top: 5vh;
-	margin-left: 100px;
-	padding: 3vh;
-	max-height: calc(100vh - 40vh);
-	border-radius: 1%;
-	background-color: #2e6890;
-	color: white;
-	font-family: Arial, Helvetica, sans-serif;
+    margin-top: 5vh;
+    margin-left: 100px;
+    padding: 3vh;
+    max-height: calc(100vh - 40vh);
+    border-radius: 1%;
+    background-color: #2e6890;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #section-meus-trabalhos ul {
-	padding-left: 4px;
-	font-size: 75%;
+    padding-left: 4px;
+    font-size: 75%;
 }
 
 #nome-no-portal {
-	font-family: Arial, Helvetica, sans-serif;
-	max-height: 100%;
-	max-width: 100%;
-	overflow: hidden;
-	width: 1000px;
-	margin-left: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    max-height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    width: 1000px;
+    margin-left: 100px;
 }
 
 #pdfView {
-	width: 500px;
-	height: 500px;
-	border: 1px solid #ccc;
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ccc;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tr:hover {
+    background-color: #f1f1f1;
 }
 
 .estagio-section {
-	text-decoration: none;
-	color: black;
+    text-decoration: none;
+    color: black;
 }
 
 .estagio-section section {
-	background-color: #EEEEEE;
-	margin: 20px;
+    background-color: #EEEEEE;
+    margin: 20px;
 }
 
 .estagio-section h3, .estagio-section p {
-	margin: 5px;
-	border: 5px;
+    margin: 5px;
+    border: 5px;
 }
 
 .botao-aplicar {
-	display: inline-block;
-	padding: 15px 30px;
-	font-size: 1.2em;
-	font-weight: bold;
-	color: white;
-	text-align: center;
-	text-decoration: none;
-	background: linear-gradient(90deg, #2e6890, #003869);
-	border-radius: 10px;
-	border: none;
-	cursor: pointer;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	transition: all 0.3s ease-in-out;
-	cursor: pointer;
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background: linear-gradient(90deg, #2e6890, #003869);
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
 }
 
 .botao-aplicar:hover {
-	transform: scale(1.05);
-	background: linear-gradient(90deg, #003869, #2e6890);
-	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #003869, #2e6890);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }

@@ -4,11 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import proj.model.Projeto;
 
-public class ProjetoDao extends AbstractDaoBase
+public class ProjetoDao
 {
     private final static String getsql = "SELECT * FROM Projeto  WHERE id = ?";
     private final static String listsql = "SELECT * FROM Projeto";
@@ -16,6 +17,7 @@ public class ProjetoDao extends AbstractDaoBase
     private final static String insertsql = "INSERT INTO Projeto (nome, responsavel, descricao, carga_horaria, vagas, requisito) VALUES( ?, ?, ?, ?, ?, ?) ";
     private final static String updatesql = "UPDATE Projeto SET nome = ?, responsavel = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ? WHERE id = ? ";
     private final static String deletesql = "DELETE FROM Projeto WHERE id = ?";
+    private final static String getByNomeSql = "SELECT * FROM Projeto WHERE nome = ?";
 
     static Projeto set(ResultSet rs)
         throws SQLException
@@ -41,6 +43,23 @@ public class ProjetoDao extends AbstractDaoBase
             ps.setLong(1, id);
             rs = ps.executeQuery();
             if (!rs.next()) {throw new NotFoundException("Object not found [" + id + "]");}
+            Projeto b = set(rs);
+            return b;
+        }
+        catch (SQLException e){throw e;}
+        finally{closeResource(ps,rs); ps = null;rs = null; }
+    }
+
+    public static Projeto getByNome(Connection conn, String nome)
+    throws NotFoundException, SQLException 
+    {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = conn.prepareStatement(getByNomeSql);
+            ps.setString(1, nome);
+            rs = ps.executeQuery();
+            if (!rs.next()) {throw new NotFoundException("Object not found [" + nome + "]");}
             Projeto b = set(rs);
             return b;
         }
@@ -145,5 +164,50 @@ public class ProjetoDao extends AbstractDaoBase
         catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
         finally{closeResource(ps); ps = null; }
     }
+    protected static void rollbackConnection(Connection conn)
+    {
+        try
+        {
+            if (conn != null) conn.rollback();
+        }
+        catch (Exception e)
+        {
+            conn = null;
+        }
+    }
+    
+    protected static void closeResource(Statement ps, ResultSet rs)
+    {
+        try
+        {
+            if (rs != null) rs.close();
+        }
+        catch (Exception e)
+        {
+            rs = null;
+        }
 
+        try
+        {
+            if (ps != null) ps.close();
+        }
+        catch (Exception e)
+        {
+            ps = null;
+        }
+    }
+
+    protected static void closeResource(Statement ps)
+    {
+        try
+        {
+            if (ps != null) ps.close();
+        }
+        catch (Exception e)
+        {
+            ps = null;
+        }
+    }
+    
+    
 }

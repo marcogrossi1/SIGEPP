@@ -10,7 +10,7 @@ CREATE TABLE Usuario (
   UNIQUE INDEX nome_UNIQUE (nome ASC) )
 ENGINE = InnoDB default character set = utf8;
 
-
+  
 -- -----------------------------------------------------
 -- Table Aluno
 -- -----------------------------------------------------
