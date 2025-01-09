@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/style.css">
+<title>Conclusão da Candidatura</title>
+</head>
+<body>
+	<header>
+		<a href="/" th:href="@{/}"> <img id="logo" src="/img/logo.png"
+			alt="Logo">
+		</a>
+		<h1 id="titulo-plataforma">PIPA | Conclusão</h1>
+	</header>
+
+	<nav>
+		<p id="nome-no-portal" th:if="${aluno != null}"
+			th:text="${aluno.nome}"></p>
+		<p id="nome-no-portal" th:if="${aluno == null}">Usuário não
+			autenticado</p>
+		<a href="/perfil" th:href="@{/perfil}" class="icone"> <img
+			src="/img/icone-perfil.png" alt="Ícone de Perfil"> <label>Perfil</label>
+		</a>
+	</nav>
+
+<main>
+    <h2 id="subtitulo-portal" th:if="${projeto != null}" th:text="'Você já se candidatou ao projeto: ' + ${projeto.nome}"></h2>
+    <h2 id="subtitulo-portal" th:if="${erro}" th:text="${erro}"></h2>
+    <h2 id="subtitulo-portal" th:if="${sucesso}" th:text="${sucesso}"></h2>
+
+    <div th:if="${erro}" class="erro">
+        <p th:text="${erro}"></p>
+    </div>
+
+    <div th:if="${sucesso}" class="sucesso">
+        <p th:text="${sucesso}"></p>
+    </div>
+</main>
+
+</body>
+</html>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.util.List;
 import java.security.Principal;
 
 @Controller
@@ -45,6 +46,17 @@ public class CandidaturaController {
 	        if (alunoLogado == null) {
 	            model.addAttribute("erro", "Usuário não autenticado.");
 	            return "error";
+	        }
+
+	        // Verifica se o aluno já se candidatou a este projeto
+	        List<Candidatura> candidaturas = candidaturaDao.listarPorProjeto(id);
+	        for (Candidatura candidatura : candidaturas) {
+	        	if (candidatura.getCandidato().getId() == alunoLogado.getId()) {
+	                model.addAttribute("conclusao", "Você já se candidatou a este projeto.");
+	                model.addAttribute("projeto", projeto);
+	                model.addAttribute("aluno", alunoLogado);
+	                return "conclusao"; // Tela de conclusão
+	            }
 	        }
 
 	        // Adiciona os objetos ao modelo
@@ -80,6 +92,15 @@ public class CandidaturaController {
 	            return "error";
 	        }
 
+	        // Verifica se o aluno já se candidatou
+	        List<Candidatura> candidaturas = candidaturaDao.listarPorProjeto(oportunidadeId);
+	        for (Candidatura candidatura : candidaturas) {
+	        	if (candidatura.getCandidato().getId() == alunoLogado.getId()) {
+	                model.addAttribute("erro", "Você já se candidatou a este projeto.");
+	                return "error"; // Retorna erro se já se candidatou
+	            }
+	        }
+
 	        // Cria e salva a candidatura
 	        Candidatura candidatura = new Candidatura();
 	        candidatura.setCandidato(alunoLogado);
@@ -92,12 +113,12 @@ public class CandidaturaController {
 	        model.addAttribute("projeto", projeto);
 	        model.addAttribute("aluno", alunoLogado);
 
+	        return "conclusao"; // Página de conclusão
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        model.addAttribute("erro", "Erro ao salvar candidatura.");
+	        return "error";
 	    }
-
-	    return "aplicacao";
 	}
 
 }
