@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import proj.dao.AlunoDao;
 import proj.dao.HDataSource;
 import proj.dao.EmpresaDao;
+import proj.dao.UsuarioDao;
+
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Projeto;
+import proj.model.Usuario;
 import proj.model.Empresa;
 
 @Controller
@@ -27,6 +30,8 @@ public class PerfilEmpresaController {
     @RequestMapping("/perfil-empresa")
 	public String mostraPerfilEmpresa(@RequestParam("id") Long empresaId, Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+
 	        Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 		    ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 		    ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
@@ -39,26 +44,27 @@ public class PerfilEmpresaController {
             model.addAttribute("projetos", projetos);
             model.addAttribute("empresa", e);   
             model.addAttribute("estagiosEmpresa", estagiosEmpresa);
+            
+            if (u.getRole().equals("aluno")) {
+                return "perfilEmpresa";
+            }
+    
+            else if (u.getRole().equals("adm")) {
+                return "perfilEmpresaAdm";
+            }
+    
+            else if (u.getRole().equals("empresa")) {
+                return "perfilEmpresa";
+            }
+    
+            else {
+                return "login";
+            }
+
         }
 
         catch(Exception e) {
             return "erro";
-        }
-        
-        if (role.equals("aluno")) {
-            return "perfilEmpresa";
-        }
-
-        else if (role.equals("adm")) {
-            return "perfilEmpresaAdm";
-        }
-
-        else if (role.equals("empresa")) {
-            return "perfilEmpresa";
-        }
-
-        else {
-            return "login";
         }
     }
 

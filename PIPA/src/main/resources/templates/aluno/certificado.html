@@ -10,14 +10,14 @@
 </head>
 <body>
     <header>
-        <a href="http://localhost:8080"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <a href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
         <h1 id="titulo-plataforma" >PIPA | Portal</h1>
     </header>
 
     <nav>
 		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
-        <a href="http://localhost:8080/aluno/perfil" class="icone" id="icone-portal">
-            <img src="img/icone-perfil.png">
+        <a href="/aluno/perfil" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png">
             <label>Perfil</label>
         </a>
     </nav>    
@@ -43,7 +43,7 @@
 					<td th:text="${projetos.nome}"></td>
 					<td th:text="${projetos.descricao}"></td>
 					<td th:text="${projetos.cargaHoraria}"></td>
-					<td><a th:href="'http://localhost:8080/emite?id=' + ${projetos.id} + '&tipo=' + 'projeto'">
+					<td><a th:href="'/aluno/emite?id=' + ${projetos.id} + '&tipo=' + 'projeto'">
 						<button id="botao-certificado">Emitir Certificado</button>
 					</a></td>
 				</tr>
@@ -53,7 +53,7 @@
 					<td th:text="${estagios.empresa}"></td>
 					<td th:text="${estagios.descricao}"></td>
 					<td th:text="${estagios.cargaHoraria}"></td>
-					<td><a th:href="'http://localhost:8080/emite?id=' + ${estagios.id} + '&tipo=' + 'estagio'">
+					<td><a th:href="'/aluno/emite?id=' + ${estagios.id} + '&tipo=' + 'estagio'">
 						<button id="botao-certificado">Emitir Certificado</button>
 					</a></td>
 				</tr>

@@ -18,7 +18,7 @@
     <nav>
 		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
         <a href="/aluno/perfil" class="icone" id="icone-portal">
-            <img src="img/icone-perfil.png">
+            <img src="../img/icone-perfil.png">
             <label>Perfil</label>
         </a>
     </nav>     
@@ -27,7 +27,7 @@
         <h2 id="subtitulo-portal">Ver Certificado emitido</h2>
     
     <!-- Embed the PDF file using an absolute local path -->
-        <a href="pdf/CertificadoPadrao.pdf" target="_blank">
+        <a href="../pdf/CertificadoPadrao.pdf" target="_blank">
         <button id="botao-certificado" type="submit">
             Fazer download do certificado.
         </button>
