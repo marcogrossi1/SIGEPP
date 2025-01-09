@@ -30,11 +30,20 @@ VALUES
 (12,"10000000000005",sha2('123', 512),"Empresa"),
 (13,"10000000000006",sha2('123', 512),"Empresa"),
 (14,"10000000000007",sha2('123', 512),"Empresa");
-
+(15,"20000000000001",sha2('123', 512),"Administrador");
+(16,"20000000000002",sha2('123', 512),"Administrador");
 
 INSERT INTO professor (id, nome, Usuario_id) 
 VALUES 
 (1,"Cristiano",7);
+
+INSERT INTO administrador (id, cpf, nome, campus, email, Usuario_id)
+VALUES
+(1, "20000000000001", "Marco Mestre", "Nova Gameleira", "marco@gmail.com", 15);
+
+INSERT INTO administrador (id, cpf, nome, campus, email, Usuario_id)
+VALUES
+(2, "20000000000002", "Buzz Fraco", "Nova Gameleira", "buzz@gmail.com", 16);
 
 INSERT INTO empresa (id, cnpj, nome, endereco, website, area, telefone, email, Usuario_id) 
 VALUES 
