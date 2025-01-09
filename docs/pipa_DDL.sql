@@ -178,3 +178,4 @@ CREATE TABLE candidatura (
     FOREIGN KEY (candidato_id) REFERENCES aluno(id),
     FOREIGN KEY (oportunidade_id) REFERENCES projeto(id)
 );
+
