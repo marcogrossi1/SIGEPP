@@ -11,40 +11,38 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration 
 @EnableWebSecurity 
 public class SecurityConfig {
-	
-	@Bean
-	public SecurityFilterChain securityFilterChain1(HttpSecurity http) throws Exception 
-	{
-		http
-			.authorizeHttpRequests((requests) -> 
-				requests
-					.requestMatchers("/","/css/**","/img/**","/js/**")
-					.permitAll()
-					.requestMatchers("/aluno/**").hasRole("Aluno")
-					.requestMatchers("/professor/**").hasRole("Professor")
-					.requestMatchers("/empresa/**").hasRole("Empresa")
-					.anyRequest().authenticated()
-			)
-			.csrf(csrf -> csrf.disable()) 
-			.formLogin((form) -> 
-			    form
-					.loginPage("/login")
-					.permitAll()
-					//.defaultSuccessUrl("/successLogin", true) //"true" força o redirecionamento para a url indicada. Caso contrario, iria para a url protegida clicada pelo usuario.
-			)
-			.logout((logout) -> 
-				logout
-				    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				    .logoutSuccessUrl("/")
-					.permitAll()
-			);
-		return http.build();
-	}
+    
+    @Bean
+    public SecurityFilterChain securityFilterChain1(HttpSecurity http) throws Exception 
+    {
+        http
+            .authorizeHttpRequests((requests) -> 
+                requests
+                    .requestMatchers("/","/css/**","/img/**","/js/**")
+                    .permitAll()
+                    .requestMatchers("/aluno/**").hasRole("Aluno")
+                    .requestMatchers("/professor/**").hasRole("Professor")
+                    .requestMatchers("/empresa/**").hasRole("Empresa")
+                    .anyRequest().authenticated()
+            )
+            .csrf(csrf -> csrf.disable()) 
+            .formLogin((form) -> 
+                form
+                    .loginPage("/login")
+                    .permitAll()
+            )
+            .logout((logout) -> 
+                logout
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/")
+                    .permitAll()
+            );
+        return http.build();
+    }
 
-	
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new sha512HexPasswordEncoder();
-	}
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new sha512HexPasswordEncoder();
+    }
 }
+
