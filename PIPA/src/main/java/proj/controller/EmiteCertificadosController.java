@@ -44,7 +44,7 @@ public class EmiteCertificadosController {
 	public String emiteCertificado(Model model, Principal principal) throws Exception {
 
         try(Connection conn = ds.getConnection()) {
-	    	Aluno a = AlunoDao.getByCfp(conn, principal.getName());
+	    	Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 		    ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 		    ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
             

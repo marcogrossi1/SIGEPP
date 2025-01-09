@@ -2,7 +2,7 @@ package proj.model;
 
 import java.util.ArrayList;
 
-public class Aluno {
+public class Aluno{
 
 	private long id;
 	private String cpf;
@@ -10,8 +10,9 @@ public class Aluno {
 	private String curso;
 	private String campus;
 	private String email;
-	private String senha;
 	private String periodo;
+	private long   usuario_id;
+	
 	private ArrayList<Estagio> listaEstagio = new ArrayList<Estagio>();
 	private ArrayList<Projeto> listaProjeto = new ArrayList<Projeto>();
 
@@ -28,7 +29,7 @@ public class Aluno {
 	@Override
 	public String toString() {
 		return "Aluno [id=" + id + ", cpf=" + cpf + ", nome=" + nome + ", curso=" + curso + ", campus=" + campus
-				+ ", email=" + email + ", senha=" + senha + ", periodo=" + periodo + ", listaEstagio=" + listaEstagio
+				+ ", email=" + email + ", periodo=" + periodo + ", listaEstagio=" + listaEstagio
 				+ ", listaProjeto=" + listaProjeto + "]";
 	}
 
@@ -72,14 +73,6 @@ public class Aluno {
 		this.email = email;
 	}
 
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
 	public String getPeriodo() {
 		return periodo;
 	}
@@ -102,5 +95,14 @@ public class Aluno {
 
 	public void setListaProjeto(ArrayList<Projeto> listaProjeto) {
 		this.listaProjeto = listaProjeto;
+	}
+	
+	
+	public long getUsuario_id() {
+		return usuario_id;
+	}
+
+	public void setUsuario_id(long usuario_id) {
+		this.usuario_id = usuario_id;
 	}
 }
