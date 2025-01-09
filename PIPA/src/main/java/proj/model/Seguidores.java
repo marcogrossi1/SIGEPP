@@ -5,19 +5,19 @@ import java.util.List;
 public class Seguidores {
     
     private int numeroSeguidores;
-    private List<Aluno> seguidores;
+    private List<Usuario> seguidores;
     
-    public Seguidores(int n, List<Aluno> s){
+    public Seguidores(List<Usuario> s){
         
-        numeroSeguidores = n;
         seguidores = s;
+        numeroSeguidores = s.size();
     }
 
     public int getNumeroSeguidores() {
         return numeroSeguidores;
     }
 
-    public List<Aluno> getSeguidores() {
+    public List<Usuario> getSeguidores() {
         return seguidores;
     }
 
@@ -25,12 +25,12 @@ public class Seguidores {
         this.numeroSeguidores = numeroSeguidores;
     }
 
-    public void setSeguidores(List<Aluno> seguidores) {
+    public void setSeguidores(List<Usuario> seguidores) {
         this.seguidores = seguidores;
     }
     
     //adiciona um novo seguidor a lista
-    public void appendSeguidor(Aluno a){
+    public void appendSeguidor(Usuario a){
         this.seguidores.add(a);
     }
 }
