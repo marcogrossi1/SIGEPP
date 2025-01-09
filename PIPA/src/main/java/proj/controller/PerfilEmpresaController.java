@@ -27,7 +27,7 @@ public class PerfilEmpresaController {
     @RequestMapping("/perfil-empresa")
 	public String mostraPerfilEmpresa(@RequestParam("id") Long empresaId, Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
-	    	Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+	        Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 		    ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 		    ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 
@@ -37,15 +37,28 @@ public class PerfilEmpresaController {
             model.addAttribute("aluno", a);
 		    model.addAttribute("estagios", estagios);
             model.addAttribute("projetos", projetos);
-
             model.addAttribute("empresa", e);   
             model.addAttribute("estagiosEmpresa", estagiosEmpresa);
-
-            return "perfilEmpresa";
         }
-        
+
         catch(Exception e) {
             return "erro";
+        }
+        
+        if (role.equals("aluno")) {
+            return "perfilEmpresa";
+        }
+
+        else if (role.equals("adm")) {
+            return "perfilEmpresaAdm";
+        }
+
+        else if (role.equals("empresa")) {
+            return "perfilEmpresa";
+        }
+
+        else {
+            return "login";
         }
     }
 
