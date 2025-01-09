@@ -3,7 +3,6 @@ package proj.dao;
 import proj.model.Candidatura;
 import proj.model.Aluno;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -16,7 +15,6 @@ public class CandidaturaDao {
 
     private final DataSource dataSource;
 
-    @Autowired
     public CandidaturaDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }

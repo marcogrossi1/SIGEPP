@@ -40,7 +40,7 @@ public class CandidaturaController {
 	        }
 
 	        // Obtém o aluno logado pelo CPF ou outro identificador
-	        Aluno alunoLogado = AlunoDao.getByCfp(conn, principal.getName());
+	        Aluno alunoLogado = AlunoDao.getByCpf(conn, principal.getName());
 
 	        if (alunoLogado == null) {
 	            model.addAttribute("erro", "Usuário não autenticado.");
@@ -66,7 +66,7 @@ public class CandidaturaController {
 	        Model model, Principal principal) {
 
 	    try (Connection conn = dataSource.getConnection()) {
-	        Aluno alunoLogado = AlunoDao.getByCfp(conn, principal.getName());
+	        Aluno alunoLogado = AlunoDao.getByCpf(conn, principal.getName());
 
 	        if (alunoLogado == null) {
 	            model.addAttribute("erro", "Usuário não autenticado.");
