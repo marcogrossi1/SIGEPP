@@ -5,12 +5,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/estagios")
-public class EstagioController {
+@RequestMapping("/professor")
+public class ProfessorController {
 	
-
 	@GetMapping
-	public String mostraHomeEstagios() {
-		return "homeEstagios";
+	public String mostraPerfilPessoal() {
+		try {
+			return "professor/home";
+		}
+
+		catch(Exception e) {
+			return "erro";
+		}
 	}
 }

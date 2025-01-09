@@ -111,7 +111,7 @@ button {
     cursor: pointer;
 }
 
-.botoes-portal {
+.botoes-portal, .botoes-inicio {
     background-color: red;
     all: unset;
     cursor: pointer;
@@ -120,7 +120,7 @@ button {
     width: 252px;
 }
 
-.botoes-portal:hover {
+.botoes-portal:hover, .botoes-inicio:hover {
     transform: scale(1.1);
 }
 
@@ -130,6 +130,10 @@ button {
 
 #botao-estagio {
     margin-left: 170px;
+}
+
+#botao-professor, #botao-empresa {
+	margin-left: 50px;
 }
 
 .imgs-botoes-portal {
@@ -208,5 +212,46 @@ button {
 	margin-left: 100px;
 }
 
+#pdfView {
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ccc;
+}
 
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
 
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+.estagio-section{
+    text-decoration: none;
+    color: black;
+}
+.estagio-section section{
+    background-color: #EEEEEE;
+    margin: 20px;
+}
+.estagio-section h3, .estagio-section p{
+    margin: 5px;
+    border: 5px;
+}
