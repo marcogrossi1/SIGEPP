@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+	<link rel="icon" href="../img/icon.png">
+    <title>Lista de Estagios</title>
+</head>
+<body>
+    <header>
+        <a href="/administrador"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav>
+		<p id="nome-no-portal" th:text="${administrador.nome}"></p>
+        <a href="/administrador/perfil" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+    </nav>    
+    
+
+    <main>
+        <h2 id="subtitulo-portal">Lista de Estagios</h2>
+        <table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Empresa</th>
+					<th>Descrição</th>
+                    <th>Requisitos</th>
+					<th>Carga Horária</th>
+                    <th>Salário</th>
+                    <th>Editar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="estagios : ${estagios}">
+					<td th:text="${estagios.id}"></td>
+					<td th:text="${estagios.empresa}"></td>
+					<td th:text="${estagios.descricao}"></td>
+                    <td th:text="${estagios.requisito}"></td>
+					<td th:text="${estagios.cargaHoraria}"></td>
+                    <td th:text="${estagios.salario}"></td>
+                    <td><a th:href="'/administrador/editar-estagio?n=' + ${estagios.id}">
+                        <button id="botao-certificado">Editar estagio</button>
+                    </a></td>
+				</tr>				
+			</tbody>
+        </table>
+    </main>
+
+    <script src="../js/portal.js"></script>
+
+</body>
+</html>

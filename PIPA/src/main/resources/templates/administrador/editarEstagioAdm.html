@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="img/icon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../img/icon.png">
     <title>Perfil</title>
 
     <style>
@@ -45,14 +45,14 @@
 </head>
 <body>
     <header>
-        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <a href="/administrador"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
         <h1 id="titulo-plataforma" >PIPA | Portal</h1>
     </header>
 
     <nav>
-		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
-        <a href="http://localhost:8080/perfil" class="icone" id="icone-portal">
-            <img src="img/icone-perfil.png">
+		<p id="nome-no-portal" th:text="${administrador.nome}"></p>
+        <a href="/administrador/perfil" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png">
             <label>Perfil</label>
         </a>
     </nav>    
@@ -81,7 +81,7 @@
                         <td th:text="${vagas.requisito}"></td>
                         <td th:text="${vagas.cargaHoraria}"></td>
                         <td th:text="${vagas.salario}"></td>
-                        <td><a th:href="'http://localhost:8080/deletar-estagio' + ${vagas.id}">
+                        <td><a th:href="'/administrador/deletar-estagio?n=' + ${vagas.id}">
                             <button id="botao-certificado">Deletar estágio</button>
                         </a></td>
                     </tr>
@@ -90,7 +90,7 @@
         </section>
     </main>
 
-    <script src="js/portal.js"></script>
+    <script src="../js/portal.js"></script>
     <script>
         let botaoDeletarEstagioEl = document.querySelector("#botao-certificado");
         botaoDeletarEstagioEl.addEventListener("click", function() {

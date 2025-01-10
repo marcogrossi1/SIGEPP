@@ -15,6 +15,8 @@ public class EstagioDao extends AbstractDaoBase {
 	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario) VALUES( ?, ?, ?, ?, ?, ?) ";
 	private final static String updatesql = "UPDATE Estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? ";
 	private final static String deletesql = "DELETE FROM Estagio WHERE id = ?";
+	private final static String deleteAluno_has_estagioSql = "DELETE FROM aluno_has_estagio WHERE estagio_id = ?";
+	private final static String deleteEmpresa_has_estagioSql = "DELETE FROM empresa_has_estagio WHERE estagio_id = ?";
 
 	static Estagio set(ResultSet rs) throws SQLException {
 		Estagio vo = new Estagio();
@@ -169,6 +171,8 @@ public class EstagioDao extends AbstractDaoBase {
 		PreparedStatement ps = null;
 		try {
 			ps = conn.prepareStatement(deletesql);
+			ps = conn.prepareStatement(deleteAluno_has_estagioSql);
+			ps = conn.prepareStatement(deleteEmpresa_has_estagioSql);
 			ps.setLong(1, id);
 			int count = ps.executeUpdate();
 			if (count == 0) {

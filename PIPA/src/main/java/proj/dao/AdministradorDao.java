@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import proj.model.Aluno;
+import proj.model.Estagio;
+import proj.model.Projeto;
 import proj.model.Administrador;
 
 public class AdministradorDao {
@@ -28,6 +30,9 @@ public class AdministradorDao {
     private final static String updateForEmailSql = "UPDATE administrador SET email = ?  WHERE id = ? ";
     private final static String updateForUsuario_idSql = "UPDATE administrador SET usuario_id = ?  WHERE id = ? ";
     private final static String deletesql = "DELETE FROM administrador WHERE id = ?";
+
+    private final static String listProjetosSql = "SELECT * FROM projeto";
+	private final static String listEstagiosSql = "SELECT * FROM estagio";
 
     private static void closeResource(Statement ps) {
         try{if (ps != null) ps.close();}catch (Exception e){ps = null;}
@@ -315,4 +320,57 @@ public class AdministradorDao {
         catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
         finally{closeResource(ps); ps = null; }
     }
+
+    public static ArrayList<Projeto> listProjetos(Connection conn) 
+	throws SQLException 
+	{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(listProjetosSql);
+			rs = ps.executeQuery();
+			if (!rs.next()) {
+				return new ArrayList<Projeto>();
+			}
+			ArrayList<Projeto> list = new ArrayList<Projeto>();
+			do {
+				Projeto b = ProjetoDao.set(rs);
+				list.add(b);
+			} while (rs.next());
+			return list;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			closeResource(ps, rs);
+			ps = null;
+			rs = null;
+		}
+	}
+	
+	
+	public static ArrayList<Estagio> listEstagios(Connection conn) 
+	throws SQLException 
+	{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(listEstagiosSql);
+			rs = ps.executeQuery();
+			if (!rs.next()) {
+				return new ArrayList<Estagio>();
+			}
+			ArrayList<Estagio> list = new ArrayList<Estagio>();
+			do {
+				Estagio b = EstagioDao.set(rs);
+				list.add(b);
+			} while (rs.next());
+			return list;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			closeResource(ps, rs);
+			ps = null;
+			rs = null;
+		}
+	}
 }
