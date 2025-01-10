@@ -29,7 +29,7 @@ public class HomeEstagioController {
 		
 		try(Connection conn = ds.getConnection())
 		{
-                        Aluno a = AlunoDao.getByCfp(conn, principal.getName());
+                        Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 			ArrayList<Estagio> estagioList = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
                         ArrayList<Estagio> estagioDispList = EstagioDao.list(conn);
                         deslistarEstagioJaInscrito(estagioList, estagioDispList);
@@ -37,13 +37,12 @@ public class HomeEstagioController {
 			model.addAttribute("estagioList", estagioList);
 		}
 		catch(Exception e) {
-			
-			return mostraPaginaDeErro(model, e.toString());
+			e.printStackTrace();
+			return mostraPaginaDeErro();
 		}
-		return "homeEstagios";
+		return "aluno/estagios";
 	}
-        public String mostraPaginaDeErro(Model model, String st){
-            model.addAttribute("err", st);
+        public String mostraPaginaDeErro() {
 		return "erro";
 	}
         private void deslistarEstagioJaInscrito(ArrayList<Estagio> el, ArrayList<Estagio> edl){
