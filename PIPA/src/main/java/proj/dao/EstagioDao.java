@@ -4,16 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import proj.model.Estagio;
 
 public class EstagioDao extends AbstractDaoBase {
-	private final static String getsql = "SELECT * FROM Estagio WHERE id = ?";
+	private final static String getsql = "SELECT * FROM Estagio  WHERE id = ?";
 	private final static String listsql = "SELECT * FROM Estagio";
 	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE nome like %?% ";
-	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario) VALUES( ?, ?, ?, ?, ?, ?) ";
-	private final static String updatesql = "UPDATE Estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? ";
+	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito) VALUES( ?, ?, ?, ?, ?) ";
+	private final static String updatesql = "UPDATE Estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ? WHERE id = ? ";
 	private final static String deletesql = "DELETE FROM Estagio WHERE id = ?";
 
 	static Estagio set(ResultSet rs) throws SQLException {
@@ -24,7 +26,6 @@ public class EstagioDao extends AbstractDaoBase {
 		vo.setCargaHoraria(rs.getInt("carga_horaria"));
 		vo.setVagas(rs.getInt("vagas"));
 		vo.setRequisito(rs.getString("requisito"));
-		vo.setSalario(rs.getString("salario"));
 		return vo;
 	}
 
@@ -115,7 +116,6 @@ public class EstagioDao extends AbstractDaoBase {
 			ps.setInt(3, vo.getCargaHoraria());
 			ps.setInt(4, vo.getVagas());
 			ps.setString(5, vo.getRequisito());
-			ps.setString(6, vo.getSalario());
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
 			if (rs.next()) {
@@ -127,6 +127,8 @@ public class EstagioDao extends AbstractDaoBase {
 			}
 		} catch (SQLException e) {
 			try {conn.rollback();} catch (Exception e1) {}
+                         Logger.getLogger(EstagioDao.class.getName()).log(Level.SEVERE, "SQL Error: " + e.getMessage(), e);
+
 			throw e;
 		} finally {
 			closeResource(ps, rs);
@@ -147,7 +149,6 @@ public class EstagioDao extends AbstractDaoBase {
 			ps.setInt(4, vo.getVagas());
 			ps.setString(5, vo.getRequisito());
 			ps.setLong(6, vo.getId());
-			ps.setString(7, vo.getSalario());
 			int count = ps.executeUpdate();
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + vo.getId() + "] .");
@@ -183,48 +184,4 @@ public class EstagioDao extends AbstractDaoBase {
 		}
 	}
 
-	   protected static void rollbackConnection(Connection conn)
-	    {
-	        try
-	        {
-	            if (conn != null) conn.rollback();
-	        }
-	        catch (Exception e)
-	        {
-	            conn = null;
-	        }
-	    }
-	    
-	    protected static void closeResource(Statement ps, ResultSet rs)
-	    {
-	        try
-	        {
-	            if (rs != null) rs.close();
-	        }
-	        catch (Exception e)
-	        {
-	            rs = null;
-	        }
-
-	        try
-	        {
-	            if (ps != null) ps.close();
-	        }
-	        catch (Exception e)
-	        {
-	            ps = null;
-	        }
-	    }
-
-	    protected static void closeResource(Statement ps)
-	    {
-	        try
-	        {
-	            if (ps != null) ps.close();
-	        }
-	        catch (Exception e)
-	        {
-	            ps = null;
-	        }
-	    }
 }

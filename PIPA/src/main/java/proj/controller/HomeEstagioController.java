@@ -29,7 +29,7 @@ public class HomeEstagioController {
 		
 		try(Connection conn = ds.getConnection())
 		{
-                        Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+                        Aluno a = AlunoDao.getByCfp(conn, principal.getName());
 			ArrayList<Estagio> estagioList = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
                         ArrayList<Estagio> estagioDispList = EstagioDao.list(conn);
                         deslistarEstagioJaInscrito(estagioList, estagioDispList);
