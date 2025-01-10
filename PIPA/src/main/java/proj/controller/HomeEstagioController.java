@@ -13,9 +13,11 @@ import org.springframework.ui.Model;
 import proj.dao.AlunoDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
+import proj.dao.UsuarioDao;
 
 import proj.model.Aluno;
 import proj.model.Estagio;
+import proj.model.Usuario;
 
 @Controller
 @RequestMapping("/estagios")
@@ -27,22 +29,25 @@ public class HomeEstagioController {
 	public String mostraEstagios(Model model, Principal principal)
 	throws Exception{
 		
-		try(Connection conn = ds.getConnection())
-		{
-                        Aluno a = AlunoDao.getByCpf(conn, principal.getName());
-			ArrayList<Estagio> estagioList = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
-                        ArrayList<Estagio> estagioDispList = EstagioDao.list(conn);
-                        deslistarEstagioJaInscrito(estagioList, estagioDispList);
-                        model.addAttribute("estagioDispList", estagioDispList);
-			model.addAttribute("estagioList", estagioList);
+		Connection conn = ds.getConnection();
+		Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+		if (u.getRole().equals("Aluno") == false){
+			return mostraPaginaDeErro(model , "Usuário não é um Aluno!.");
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return mostraPaginaDeErro();
-		}
+                
+                Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+                ArrayList<Estagio> estagioList = AlunoDao.listEstagiosByAlunoId(conn, a.getId());                        
+                ArrayList<Estagio> estagioDispList = EstagioDao.list(conn);
+                                               
+                deslistarEstagioJaInscrito(estagioList, estagioDispList);
+                model.addAttribute("estagioDispList", estagioDispList);
+                model.addAttribute("estagioList", estagioList);
+		
+					
 		return "aluno/estagios";
 	}
-        public String mostraPaginaDeErro() {
+       public String mostraPaginaDeErro(Model model, String message) {
+		model.addAttribute("message",message);
 		return "erro";
 	}
         private void deslistarEstagioJaInscrito(ArrayList<Estagio> el, ArrayList<Estagio> edl){
