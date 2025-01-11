@@ -28,19 +28,24 @@ public class DocumentoController {
             Model model
     ) {
         try {
-       
+            if (file.isEmpty()) {
+                model.addAttribute("mensagem", "Nenhum arquivo foi enviado!");
+                return "aluno/upload";
+            }
+
             Documento documento = new Documento();
             DocumentoId documentoId = new DocumentoId(idAluno, idProjeto);
             documento.setId(documentoId);
             documento.setNomeArquivo(file.getOriginalFilename());
             documento.setConteudo(file.getBytes());
-
             documentoRepository.save(documento);
 
             model.addAttribute("mensagem", "Upload realizado com sucesso!");
+
         } catch (IOException e) {
             model.addAttribute("mensagem", "Erro ao realizar upload: " + e.getMessage());
+            e.printStackTrace();
         }
-        return "upload";
+        return "aluno/upload";
     }
 }

@@ -78,7 +78,18 @@ public class AlunoController {
 	}
 	
 	@GetMapping("/upload")
-	public String mostraUploadDocumentos() {
-		return "aluno/upload";
+	public String mostraUploadDocumentos(Model model, Principal principal) throws Exception {
+	    Connection conn = ds.getConnection();
+	    Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+
+	    if (!u.getRole().equals("Aluno")) {
+	        return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
+	    }
+
+	    Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+	    model.addAttribute("alunoId", a.getId());
+	    model.addAttribute("alunoNome", a.getNome());
+
+	    return "aluno/upload";
 	}
 }

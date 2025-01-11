@@ -6,7 +6,6 @@ import java.util.Objects;
 
 @Embeddable
  public class DocumentoId implements Serializable {
-
     private Long idAluno;
     private Long idProjeto;
 
@@ -41,7 +40,6 @@ import java.util.Objects;
         return Objects.equals(idAluno, that.idAluno) &&
                Objects.equals(idProjeto, that.idProjeto);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(idAluno, idProjeto);
