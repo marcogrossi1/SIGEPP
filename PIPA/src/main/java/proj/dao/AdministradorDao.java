@@ -12,6 +12,7 @@ import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Projeto;
 import proj.model.Administrador;
+import proj.model.Empresa;
 
 public class AdministradorDao {
 
@@ -30,6 +31,7 @@ public class AdministradorDao {
     private final static String updateForEmailSql = "UPDATE administrador SET email = ?  WHERE id = ? ";
     private final static String updateForUsuario_idSql = "UPDATE administrador SET usuario_id = ?  WHERE id = ? ";
     private final static String deletesql = "DELETE FROM administrador WHERE id = ?";
+    private final static String listEmpresasSql = "SELECT * FROM empresa";
 
     private final static String listProjetosSql = "SELECT * FROM projeto";
 	private final static String listEstagiosSql = "SELECT * FROM estagio";
@@ -362,6 +364,32 @@ public class AdministradorDao {
 			ArrayList<Estagio> list = new ArrayList<Estagio>();
 			do {
 				Estagio b = EstagioDao.set(rs);
+				list.add(b);
+			} while (rs.next());
+			return list;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			closeResource(ps, rs);
+			ps = null;
+			rs = null;
+		}
+	}
+
+    public static ArrayList<Empresa> listEmpresas(Connection conn) 
+	throws SQLException 
+	{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(listEmpresasSql);
+			rs = ps.executeQuery();
+			if (!rs.next()) {
+				return new ArrayList<Empresa>();
+			}
+			ArrayList<Empresa> list = new ArrayList<Empresa>();
+			do {
+				Empresa b = EmpresaDao.set(rs);
 				list.add(b);
 			} while (rs.next());
 			return list;

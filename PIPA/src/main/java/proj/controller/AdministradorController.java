@@ -21,6 +21,7 @@ import proj.model.Estagio;
 import proj.model.Projeto;
 import proj.model.Usuario;
 import proj.model.Administrador;
+import proj.model.Empresa;
 
 @Controller
 @RequestMapping("/administrador")
@@ -77,8 +78,7 @@ public class AdministradorController {
 
     @GetMapping("/editar-projeto")
 	public String editarProjeto(@RequestParam("n") Long projetoId, Model model, Principal principal) throws Exception {
-        //try(
-            Connection conn = ds.getConnection();//) {
+        try(Connection conn = ds.getConnection()) {
 	        
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
             Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
@@ -90,11 +90,11 @@ public class AdministradorController {
             model.addAttribute("projeto", e);
 
             return "administrador/editarProjetoAdm";
-        //}
-//  
-        //catch(Exception e) {
-        //    return "erro";
-        //}
+        }
+  
+        catch(Exception e) {
+            return "erro";
+        }
     }
 
     @RequestMapping("/deletar-estagio")
@@ -105,13 +105,14 @@ public class AdministradorController {
             Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
 
             Estagio e = EstagioDao.get(conn, estagioId);
-            EstagioDao.delete(conn, e.getId());
+
+            EstagioDao.delete(conn, 20);
 
             model.addAttribute("usuario", u);
             model.addAttribute("administrador", a);
             model.addAttribute("estagio", e);
 
-            return "administrador/home";
+            return "/administrador/estagios";
         //}
 //
         //catch(Exception e) {
@@ -147,8 +148,25 @@ public class AdministradorController {
 	}
 
     @GetMapping("/perfil")
-    public String mostraPerfilPessoal() {
-        return "administrador/perfil";
+    public String mostraPerfilPessoal(Model model, Principal principal) throws Exception {
+        try(Connection conn = ds.getConnection()) {
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+            Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
+            
+            ArrayList<Projeto> projetos = AdministradorDao.listProjetos(conn);
+            ArrayList<Estagio> estagios = AdministradorDao.listEstagios(conn);
+            
+            model.addAttribute("usuario", u);
+            model.addAttribute("administrador", a);
+            model.addAttribute("projetos", projetos);
+            model.addAttribute("estagios", estagios);
+
+            return "administrador/perfil";
+        }
+
+        catch(Exception e) {
+            return "erro";
+        }
     }
     
     @RequestMapping("/estagios")
@@ -166,6 +184,26 @@ public class AdministradorController {
             model.addAttribute("estagios", estagios);
 
             return "administrador/estagios";
+        }
+
+        catch(Exception e) {
+            return "erro";
+        }
+    }
+
+    @RequestMapping("/listar-empresas")
+    public String listaEmpresas(Model model, Principal principal) throws Exception {
+        try(Connection conn = ds.getConnection()) {
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+            Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
+
+            ArrayList<Empresa> empresas = AdministradorDao.listEmpresas(conn);
+
+            model.addAttribute("usuario", u);
+            model.addAttribute("administrador", a);
+            model.addAttribute("listaEmpresas", empresas);
+
+            return "administrador/empresas";
         }
 
         catch(Exception e) {

@@ -13,9 +13,10 @@ import org.springframework.ui.Model;
 import proj.dao.AlunoDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
-
+import proj.dao.UsuarioDao;
 import proj.model.Aluno;
 import proj.model.Estagio;
+import proj.model.Usuario;
 
 @Controller
 @RequestMapping("/estagios")
@@ -29,6 +30,9 @@ public class HomeEstagioController {
 		
 		try(Connection conn = ds.getConnection())
 		{
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+        	model.addAttribute("usuario", u);
+            
                         Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 			ArrayList<Estagio> estagioList = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
                         ArrayList<Estagio> estagioDispList = EstagioDao.list(conn);

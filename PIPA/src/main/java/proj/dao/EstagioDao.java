@@ -13,10 +13,8 @@ public class EstagioDao extends AbstractDaoBase {
 	private final static String listsql = "SELECT * FROM Estagio";
 	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE nome like %?% ";
 	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario) VALUES( ?, ?, ?, ?, ?, ?) ";
-	private final static String updatesql = "UPDATE Estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? ";
-	private final static String deletesql = "DELETE FROM Estagio WHERE id = ?";
-	private final static String deleteAluno_has_estagioSql = "DELETE FROM aluno_has_estagio WHERE estagio_id = ?";
-	private final static String deleteEmpresa_has_estagioSql = "DELETE FROM empresa_has_estagio WHERE estagio_id = ?";
+	private final static String updatesql = "UPDATE estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? ";
+	private final static String deletesql = "DELETE FROM estagio WHERE id = ?";
 
 	static Estagio set(ResultSet rs) throws SQLException {
 		Estagio vo = new Estagio();
@@ -111,7 +109,7 @@ public class EstagioDao extends AbstractDaoBase {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement(insertsql);
 			ps.setString(1, vo.getEmpresa());
 			ps.setString(2, vo.getDescricao());
 			ps.setInt(3, vo.getCargaHoraria());
@@ -137,19 +135,20 @@ public class EstagioDao extends AbstractDaoBase {
 		}
 	}
 
-	public static void update(Connection conn, Estagio vo) 
+	public static void update(Connection conn, long id, Estagio vo) 
 	throws NotFoundException, SQLException 
 	{
 		PreparedStatement ps = null;
 		try {
+			//empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? 
 			ps = conn.prepareStatement(updatesql);
 			ps.setString(1, vo.getEmpresa());
 			ps.setString(2, vo.getDescricao());
 			ps.setInt(3, vo.getCargaHoraria());
 			ps.setInt(4, vo.getVagas());
 			ps.setString(5, vo.getRequisito());
-			ps.setLong(6, vo.getId());
-			ps.setString(7, vo.getSalario());
+			ps.setString(6, vo.getSalario());
+			ps.setLong(7, vo.getId());
 			int count = ps.executeUpdate();
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + vo.getId() + "] .");
@@ -171,8 +170,6 @@ public class EstagioDao extends AbstractDaoBase {
 		PreparedStatement ps = null;
 		try {
 			ps = conn.prepareStatement(deletesql);
-			ps = conn.prepareStatement(deleteAluno_has_estagioSql);
-			ps = conn.prepareStatement(deleteEmpresa_has_estagioSql);
 			ps.setLong(1, id);
 			int count = ps.executeUpdate();
 			if (count == 0) {

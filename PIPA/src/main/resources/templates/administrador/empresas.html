@@ -33,32 +33,27 @@
             <label>Perfil</label>
         </a>
     </nav>       
-    
 
     <main>
-        <h2 id="subtitulo-portal">Lista de Estagios</h2>
+        <h2 id="subtitulo-portal">Lista de Empresas</h2>
         <table class="table">
 			<thead>
 				<tr>
 					<th>Id</th>
-					<th>Empresa</th>
-					<th>Descrição</th>
-                    <th>Requisitos</th>
-					<th>Carga Horária</th>
-                    <th>Salário</th>
-                    <th>Editar</th>
+					<th>Nome</th>
+					<th>Área</th>
+					<th>Website</th>
+                    <th>Ver mais</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="estagios : ${estagios}">
-					<td th:text="${estagios.id}"></td>
-					<td th:text="${estagios.empresa}"></td>
-					<td th:text="${estagios.descricao}"></td>
-                    <td th:text="${estagios.requisito}"></td>
-					<td th:text="${estagios.cargaHoraria}"></td>
-                    <td th:text="${estagios.salario}"></td>
-                    <td><a th:href="'/administrador/editar-estagio?n=' + ${estagios.id}">
-                        <button id="botao-certificado">Editar estagio</button>
+				<tr th:each="empresas : ${listaEmpresas}">
+					<td th:text="${empresas.id}"></td>
+					<td th:text="${empresas.nome}"></td>
+					<td th:text="${empresas.area}"></td>
+					<td th:text="${empresas.website}"></td>
+                    <td><a th:href="'/perfil-empresa?id=' + ${empresas.id}">
+                        <button id="botao-certificado">Ver mais</button>
                     </a></td>
 				</tr>				
 			</tbody>
