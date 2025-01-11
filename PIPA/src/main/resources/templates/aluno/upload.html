@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Upload de Documento</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="botao-voltar">← Voltar</a>
+        <h1>Gerenciamento de Candidatos</h1>
+        <img src="logo.png" alt="CEFET-MG" class="logo">
+    </header>
+    
+    <div class="container">
+     <h1>Enviar Documento</h1>
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <label for="file">Escolha o documento:</label>
+        <input type="file" id="file" name="file" required>
+        <button type="submit">Enviar</button>
+    </form>
+    <p th:if="${mensagem}" th:text="${mensagem}"></p>
+    </div>
+    </div>
+</body>
+</html>
