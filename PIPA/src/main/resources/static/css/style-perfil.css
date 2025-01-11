@@ -1,0 +1,169 @@
+#perfil {
+	overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+	height: 100%;
+    justify-content: center;
+
+    background-color: #f4f2ee;
+}
+
+#botao-edicao {
+	display: block;
+	background-color: white;
+    background-image: url('../img/edicao.png');
+    background-size: cover;
+	background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+	left: 1025px;
+	top: 250px;
+}
+
+#icone-config {
+	left: 1070px;
+	top: 250px;
+}
+	
+
+.botoes-perfil {
+    all: unset;
+    cursor: pointer;
+    outline: revert;
+    height: 35px;
+    width: 35px;
+	position: absolute;
+}
+
+.botoes-perfil:hover {
+    transform: scale(1.2);
+}
+
+#banner {
+	height: 150px;
+	min-width: 66vw;
+	border-bottom: 2px rgb(219, 219, 219) solid;
+}
+
+#seccao-principal {
+	margin-top: 5vh;
+	margin-bottom: 5vh;
+    min-width: 66vw;
+    min-height: 90vh;                
+	
+	border: 2px rgb(219, 219, 219)  solid;
+    background-color: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.seccao {
+	margin-bottom: 5vh;
+    background-color: #ffffff;
+    border: 2px rgb(219, 219, 219)  solid;
+	min-width: 66vw;
+	min-height: calc(100vh - 28vh);
+}
+
+#foto-perfil {
+	margin: 0%;
+	padding: 0%;
+	height: 170px;
+	width: 170px;
+	position: relative;
+	left: 30px;
+	top: -85px;
+}
+
+#form-descricao {
+	position: absolute;
+	top: 375px;
+	left: 280px;
+	border: none;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#nome-descricao {
+	position: absolute;
+	top: -50px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 26px;
+	padding-bottom: 20px;
+	font-weight: bold;
+}
+
+#dados-descricao {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	padding-bottom: 20px;
+	font-weight: bold;
+}
+
+#campo-descricao {
+	position: absolute;
+	top: 55px;
+	border: none;
+	background: none;
+	resize: none;
+	
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	text-align: justify;
+	line-height: 1.5;
+	
+	min-height: 150px;
+	min-width: calc(66vw - 116px);
+}
+
+#botao-add-seccao {
+	color: white;
+	white-space: nowrap;
+	background-color: #003869;
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+    display: none;
+	word-spacing: 4px;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: justify;
+    
+    width: 120px;
+    height: 15px;
+	padding: 5px;
+    bottom: -15px;
+	
+	position: absolute;
+	left: 975px;
+	transform-origin: center;
+	cursor: pointer;
+}
+
+#botao-concluir-edicao {
+	color: white;
+	white-space: nowrap;
+	background-color: rgb(128, 128, 128);
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+    display: none;
+	word-spacing: 4px;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: justify;
+    
+    width: 159px;
+    height: 25px;
+	padding: 5px;
+    bottom: 20px;
+    left: 50%;
+	transform: translateX(-50%) scale(1);
+	transform-origin: center;
+	
+    cursor: pointer;
+}
+
+#botao-concluir-edicao:hover {
+	transform: translateX(-50%) scale(1.1);
+}
