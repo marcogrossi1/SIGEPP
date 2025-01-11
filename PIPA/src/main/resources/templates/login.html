@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Por favor, faça o Login</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Login</title>
   </head>
   <body>
     <div class="content">
       <form class="login-form" method="post" action="/login">
-        <h2>Por favor, faça o Login</h2>
+        <h2>Login</h2>
 
         <p>
-          <label for="username" class="screenreader">Username</label>
+          <label for="username" class="screenreader">Nome</label>
           <input type="text" id="username" name="username" placeholder="Username" required autofocus>
         </p>
         <p>
-          <label for="password" class="screenreader">Password</label>
+          <label for="password" class="screenreader">Senha</label>
           <input type="password" id="password" name="password" placeholder="Password" required>
         </p>
 
-        <button type="submit" class="primary">Sign in</button>
+        <button type="submit" class="primary">Entrar</button>
+        <p> não tem uma conta? <a href="http://localhost:8080/cadastroAluno">Criar </a>  </p>
+
       </form>
     </div>
   </body>
