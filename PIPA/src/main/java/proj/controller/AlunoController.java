@@ -76,4 +76,9 @@ public class AlunoController {
 	public String mostraPerfilPessoal() {
 		return "aluno/perfil";
 	}
+	
+	@GetMapping("/upload")
+	public String mostraUploadDocumentos() {
+		return "aluno/upload";
+	}
 }
