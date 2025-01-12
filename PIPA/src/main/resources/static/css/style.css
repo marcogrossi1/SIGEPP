@@ -39,6 +39,8 @@ main {
     border-radius: 1%;
     background-color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
 /* Elementos */
@@ -91,7 +93,7 @@ input {
     background-color: #fefafa;
 }
 
-button {
+button, input[type='submit'] {
     min-width: 10vw;
     height: 3vh;
     border: 1px solid #c4c0bf;
@@ -266,3 +268,38 @@ button {
     background: linear-gradient(90deg, #003869, #2e6890);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+textarea, input {
+  padding: 10px;
+  width: 95%;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+#estagio-inputs{
+    justify-content: center;
+}
+#estagio-inputs input[type='submit']{
+    display: block;
+    text-align: center;
+    padding: 0;
+    height: 4vh;
+    max-width: 50%;
+}
+#criar-button{
+    width: 3vh;
+}
+#apagar-button button{
+    background-color: red;
+}
+
