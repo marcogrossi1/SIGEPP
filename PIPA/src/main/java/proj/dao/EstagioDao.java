@@ -11,10 +11,10 @@ import proj.model.Estagio;
 public class EstagioDao extends AbstractDaoBase {
 	private final static String getsql = "SELECT * FROM Estagio WHERE id = ?";
 	private final static String listsql = "SELECT * FROM Estagio";
-	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE nome like %?% ";
+	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE empresa like %?% ";
 	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario) VALUES( ?, ?, ?, ?, ?, ?) ";
-	private final static String updatesql = "UPDATE Estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? ";
-	private final static String deletesql = "DELETE FROM Estagio WHERE id = ?";
+	private final static String updatesql = "UPDATE estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? ";
+	private final static String deletesql = "DELETE FROM estagio WHERE id = ?";
 
 	static Estagio set(ResultSet rs) throws SQLException {
 		Estagio vo = new Estagio();
@@ -108,8 +108,9 @@ public class EstagioDao extends AbstractDaoBase {
 	throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+                long id;
 		try {
-			ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement(insertsql);
 			ps.setString(1, vo.getEmpresa());
 			ps.setString(2, vo.getDescricao());
 			ps.setInt(3, vo.getCargaHoraria());
@@ -119,13 +120,29 @@ public class EstagioDao extends AbstractDaoBase {
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
 			if (rs.next()) {
-				long id = rs.getLong(1);
+				id = rs.getLong(1);
 				vo.setId(id);
 			} else {
-				throw new SQLException(
+				System.out.println("SqlEx 1");
+                                throw new SQLException(
 						"Nao foi possivel recuperar a CHAVE gerada na criacao do registro no banco de dados");
-			}
-		} catch (SQLException e) {
+                                
+                        }
+                        ps = conn.prepareStatement("SELECT id FROM empresa WHERE nome LIKE ?", PreparedStatement.RETURN_GENERATED_KEYS);
+                        ps.setString(1, '%'+vo.getEmpresa()+'%');
+                        rs = ps.executeQuery();
+                        long empresaId;
+                        if (rs.next()) 
+                            empresaId = rs.getLong("id");
+                        else 
+                            throw new SQLException("Empresa com o nome '" + vo.getEmpresa() + "' nao encontrada.");
+                        System.out.printf("empresaId == %d estagioId == %d", empresaId, id);
+                        ps = conn.prepareStatement("INSERT INTO `empresa_has_estagio`(`empresa_id`, `estagio_id`) VALUES (?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+                        ps.setLong(1, empresaId);
+                        ps.setLong(2, id);
+                        ps.executeUpdate();
+                        System.out.println("exiting...");
+                } catch (SQLException e) {
 			try {conn.rollback();} catch (Exception e1) {}
 			throw e;
 		} finally {
@@ -140,15 +157,17 @@ public class EstagioDao extends AbstractDaoBase {
 	{
 		PreparedStatement ps = null;
 		try {
+			//empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? 
 			ps = conn.prepareStatement(updatesql);
 			ps.setString(1, vo.getEmpresa());
 			ps.setString(2, vo.getDescricao());
 			ps.setInt(3, vo.getCargaHoraria());
 			ps.setInt(4, vo.getVagas());
 			ps.setString(5, vo.getRequisito());
-			ps.setLong(6, vo.getId());
-			ps.setString(7, vo.getSalario());
+			ps.setString(6, vo.getSalario());
+			ps.setLong(7, vo.getId());
 			int count = ps.executeUpdate();
+                        System.out.printf("Count == %d", count);
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + vo.getId() + "] .");
 			}
@@ -170,7 +189,8 @@ public class EstagioDao extends AbstractDaoBase {
 		try {
 			ps = conn.prepareStatement(deletesql);
 			ps.setLong(1, id);
-			int count = ps.executeUpdate();
+			int count = ps.executeUpdate();	
+			conn.commit();
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + id + "] .");
 			}

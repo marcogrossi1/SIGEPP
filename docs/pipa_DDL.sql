@@ -9,7 +9,6 @@ CREATE TABLE Usuario (
   PRIMARY KEY (id),
   UNIQUE INDEX nome_UNIQUE (nome ASC) )
 ENGINE = InnoDB default character set = utf8;
-
   
 -- -----------------------------------------------------
 -- Table Aluno
@@ -34,6 +33,25 @@ CREATE TABLE Aluno (
     )
 ENGINE = InnoDB default character set = utf8;
 
+-- -----------------------------------------------------
+-- Table Administrador
+-- -----------------------------------------------------
+CREATE TABLE Administrador (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  cpf VARCHAR(20) NOT NULL,
+  nome VARCHAR(255) NOT NULL,
+  campus VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  Usuario_id BIGINT NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE INDEX cpf_UNIQUE (cpf ASC),
+  UNIQUE INDEX email_UNIQUE (email ASC),
+  INDEX fk_Administrador_Usuario_idx (usuario_id ASC),
+  CONSTRAINT fk_Administrador_Usuario
+    FOREIGN KEY (usuario_id)
+    REFERENCES Usuario (id)
+)
+ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 -- -----------------------------------------------------
 -- Table Estagio
@@ -178,3 +196,4 @@ CREATE TABLE candidatura (
     FOREIGN KEY (candidato_id) REFERENCES aluno(id),
     FOREIGN KEY (oportunidade_id) REFERENCES projeto(id)
 );
+

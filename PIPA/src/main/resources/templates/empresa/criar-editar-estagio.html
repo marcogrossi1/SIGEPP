@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Estagio</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header>
+            <a href="http://localhost:8080"><img id="logo" th:src="@{/img/logo.png}"></a> <!--Clique na logo para retornar à página inicial-->
+            <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+        </header>
+        <main>
+            <form id="estagio-inputs" th:action="@{#}" th:object="${estagio}" method="post">
+                <input type="hidden" th:field="*{empresa}">
+                <input type="hidden" th:field="*{id}">
+                <label for="carga-horaria">Carga horária:</label>
+                <input type="text" name="carga-horaria" th:field="*{cargaHoraria}" required>
+                <label for="vagas">Vagas:</label>
+                <input type="number" name="vagas" th:field="*{vagas}" required>
+                <label for="vagas">Salário:</label>
+                <input type="number" name="salario" th:field="*{salario}" required>
+                <label for="requisito">Requisito:</label>
+                <input type="text" name="requisito" th:field="*{requisito}" required>
+                <label for="descricao">Descrição:</label>
+                <textarea name="descricao" th:field="*{descricao}" required rows="5" columns="400"></textarea>   
+                <input type="submit" th:value="${estagio.id != 0} ? 'Atualizar' : 'Criar'">
+            </form>
+        </main>
+    </body>
+</html>
