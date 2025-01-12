@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import proj.model.Estagio;
 
@@ -13,7 +14,7 @@ public class EstagioDao extends AbstractDaoBase {
 	private final static String listsql = "SELECT * FROM Estagio";
 	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE empresa like %?% ";
 	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario) VALUES( ?, ?, ?, ?, ?, ?) ";
-	private final static String updatesql = "UPDATE estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? ";
+	private final static String updatesql = "UPDATE estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ? WHERE id = ? ";
 	private final static String deletesql = "DELETE FROM estagio WHERE id = ?";
 
 	static Estagio set(ResultSet rs) throws SQLException {
@@ -110,7 +111,7 @@ public class EstagioDao extends AbstractDaoBase {
 		ResultSet rs = null;
                 long id;
 		try {
-			ps = conn.prepareStatement(insertsql);
+			ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
 			ps.setString(1, vo.getEmpresa());
 			ps.setString(2, vo.getDescricao());
 			ps.setInt(3, vo.getCargaHoraria());
@@ -187,9 +188,14 @@ public class EstagioDao extends AbstractDaoBase {
 	{
 		PreparedStatement ps = null;
 		try {
+                        ps = conn.prepareStatement("DELETE FROM empresa_has_estagio WHERE estagio_id = ?");
+                        ps.setLong(1, id);
+			int count = ps.executeUpdate();
+			if (count == 0)
+                            throw new NotFoundException("Object not found [" + id + "] .");
 			ps = conn.prepareStatement(deletesql);
 			ps.setLong(1, id);
-			int count = ps.executeUpdate();	
+			count = ps.executeUpdate();	
 			conn.commit();
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + id + "] .");
