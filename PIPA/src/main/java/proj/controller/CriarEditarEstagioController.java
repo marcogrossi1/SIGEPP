@@ -14,7 +14,7 @@ import proj.dao.HDataSource;
 import proj.model.Estagio;
 
 @Controller
-@RequestMapping("/estagio")
+@RequestMapping("empresa/estagio")
 //@RequestMapping("/editar-estagio")
 public class CriarEditarEstagioController {
 

@@ -15,8 +15,7 @@
 	
 	<main>
 		<h2>Seus estágios</h2>
-                <p th:if="${estagioList == null}">Estagios is null</p>
-                <a class="estagio-section" th:each="estagio : ${estagioList}" th:href="@{http://localhost:8080/detalhes-estagio(n=${estagio.id})}">
+                <a class="estagio-section" th:each="estagio : ${estagioList}" th:href="@{http://localhost:8080/aluno/detalhes-estagio(n=${estagio.id})}">
                     <section>
                         <h3 th:text="${estagio.empresa}"></h3>
                         <p th:text="${estagio.requisito}"></p>
@@ -25,7 +24,7 @@
                 
                 <hr>
                 <h2>Estágios disponíveis:</h2>
-                <a class="estagio-section" th:each="estagio : ${estagioDispList}" th:href="@{http://localhost:8080/detalhes-estagio(n=${estagio.id})}">
+                <a class="estagio-section" th:each="estagio : ${estagioDispList}" th:href="@{http://localhost:8080/aluno/detalhes-estagio(n=${estagio.id})}">
                     <section>
                         <h3 th:text="${estagio.empresa}"></h3>
                         <p th:text="${estagio.requisito}"></p>
