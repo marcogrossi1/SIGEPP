@@ -1,11 +1,19 @@
 package proj.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Seguidores {
     
     private int numeroSeguidores;
     private List<Usuario> seguidores;
+
+    //cria uma instância vazia
+    public  Seguidores(){
+        
+        seguidores = new ArrayList<>();
+        numeroSeguidores = 0;
+    }
     
     public Seguidores(List<Usuario> s){
         
@@ -32,5 +40,7 @@ public class Seguidores {
     //adiciona um novo seguidor a lista
     public void appendSeguidor(Usuario a){
         this.seguidores.add(a);
+
+        setNumeroSeguidores(getNumeroSeguidores() + 1);
     }
 }
