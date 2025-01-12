@@ -111,13 +111,46 @@ public class AlunoController {
     }
 	
 	@GetMapping("/projetos")
-	public String mostraHomeProjetos() {
-		return "aluno/projetos";
+	public String mostraHomeProjetos(Model model, Principal principal)
+	throws Exception {
+		try(Connection conn = ds.getConnection()) {
+			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+        	model.addAttribute("usuario", u);
+
+			if (u.getRole().equals("Aluno") == false)
+			{
+				return mostraPaginaDeErro(model , "Usuário não é um Aluno!.");
+			}
+			
+			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
+			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
+			
+			model.addAttribute("aluno", a);
+			model.addAttribute("projetos", projetos);
+			model.addAttribute("estagios", estagios);
+
+			return "aluno/projetos";
+		}
+
+		catch(Exception e) {
+			return "erro";
+		}
 	}
 	
 	@GetMapping("/perfil")
-	public String mostraPerfilPessoal() {
-		return "aluno/perfil";
+	public String mostraPerfilPessoal(Model model, Principal principal)
+	throws Exception {
+		try(Connection conn = ds.getConnection()) {
+			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+        	model.addAttribute("usuario", u);
+
+			return "aluno/perfil";
+		}
+
+		catch(Exception e) {
+			return "erro";
+		}
 	}
 
 	@GetMapping("/certificados")			
@@ -125,6 +158,7 @@ public class AlunoController {
 	throws Exception {
 		try(Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+			model.addAttribute("usuario", u);
 			
 			if (u.getRole().equals("Aluno") == false) {
 				return mostraPaginaDeErro(model , "Usuário não é um Aluno!.");
@@ -149,6 +183,8 @@ public class AlunoController {
 	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo,Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+        	model.addAttribute("usuario", u);
+			
 			if (u.getRole().equals("Aluno") == false) {
 				return mostraPaginaDeErro(model , "Usuário não é um Aluno!.");
 			}
@@ -228,4 +264,17 @@ public class AlunoController {
             return "erro";
         } 	
     }	
+
+	private void deslistarEstagioJaInscrito(ArrayList<Estagio> el, ArrayList<Estagio> edl){
+		for(int i = 0; i < edl.size(); i++)
+			for(int j = 0; j <el.size(); j++)
+				if(estagioIsEqual(edl.get(i), el.get(j)))
+					edl.remove(i);
+	}
+
+	private boolean estagioIsEqual(Estagio e1, Estagio e2){
+		if(e1.getId() == e2.getId())
+			return true;
+		return false;
+	}
 }

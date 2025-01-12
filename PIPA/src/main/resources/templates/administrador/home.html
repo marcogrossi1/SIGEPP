@@ -10,17 +10,46 @@
 <body>
 	<header>
 	    <a href="/administrador"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->	        <h1 id="titulo-plataforma" >PIPA | Home</h1>
-	</header>
-	<nav>
-		<p id="nome-no-portal" th:text="${administrador.nome}"></p>
-        <a href="/administrador/perfil" class="icone" id="icone-portal">
+    </header>
+
+    <nav>
+        <p id="nome-no-portal" th:text="${administrador.nome}"></p>
+        <a href="perfil" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
         </a>
     </nav>    
+
 	<main>
-		<h2>Página Administrador</h2>
+		<h2 id="subtitulo-portal">Navegue pelo site</h2>
+        <br>
+        <div id="notificacoes-portal">
+            <button id="voltar-notificacao">&lt;</button>
+            <p id="not-um">notificação 1</p>
+            <p id="not-dois">notificação 2</p>
+            <p id="not-tres">notificação 3</p>
+            <button id="avancar-notificacao">&gt;</button>
+            <img src="../img/not-um-select.png" class="select-not-img" id="not-um-select">
+            <img src="../img/not-dois-select.png" class="select-not-img" id="not-dois-select">
+            <img src="../img/not-tres-select.png" class="select-not-img" id="not-tres-select">
+        </div>
+        <br>
+		<a href="/administrador/projetos">
+        <button class="botoes-portal" id="botao-projeto" type="submit">
+            <img src="../img/botao-projetos-de-pesquisa.png" class="imgs-botoes-portal">
+        </button>
+		</a>
+		<a href="/administrador/estagios">
+        <button class="botoes-portal" id="botao-estagio" type="submit">
+            <img src="../img/botao-estagios.png" class="imgs-botoes-portal">
+        </button>
+		</a>
+        <a href="/administrador/listar-empresas">
+            <button class="botoes-portal" id="botao-projeto" type="submit">
+            <img src="../img/botao-empresa.png" class="imgs-botoes-portal">
+            </button>
+        </a>
 	</main>
-    
+    <script src="../js/portal.js"></script>
 </body>
 </html>

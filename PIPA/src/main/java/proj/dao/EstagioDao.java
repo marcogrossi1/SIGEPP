@@ -11,10 +11,10 @@ import proj.model.Estagio;
 public class EstagioDao extends AbstractDaoBase {
 	private final static String getsql = "SELECT * FROM Estagio WHERE id = ?";
 	private final static String listsql = "SELECT * FROM Estagio";
-	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE empresa like %?%";
-	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario) VALUES( ?, ?, ?, ?, ?, ?)";
-	private final static String updatesql = "UPDATE Estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ? WHERE id = ? ";
-	private final static String deletesql = "DELETE FROM Estagio WHERE id = ?";
+	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE empresa like %?% ";
+	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario) VALUES( ?, ?, ?, ?, ?, ?) ";
+	private final static String updatesql = "UPDATE estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? ";
+	private final static String deletesql = "DELETE FROM estagio WHERE id = ?";
 
 	static Estagio set(ResultSet rs) throws SQLException {
 		Estagio vo = new Estagio();
@@ -110,7 +110,7 @@ public class EstagioDao extends AbstractDaoBase {
 		ResultSet rs = null;
                 long id;
 		try {
-			ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement(insertsql);
 			ps.setString(1, vo.getEmpresa());
 			ps.setString(2, vo.getDescricao());
 			ps.setInt(3, vo.getCargaHoraria());
@@ -157,15 +157,15 @@ public class EstagioDao extends AbstractDaoBase {
 	{
 		PreparedStatement ps = null;
 		try {
+			//empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? 
 			ps = conn.prepareStatement(updatesql);
 			ps.setString(1, vo.getEmpresa());
 			ps.setString(2, vo.getDescricao());
 			ps.setInt(3, vo.getCargaHoraria());
 			ps.setInt(4, vo.getVagas());
 			ps.setString(5, vo.getRequisito());
-                        ps.setString(6, vo.getSalario());
+			ps.setString(6, vo.getSalario());
 			ps.setLong(7, vo.getId());
-			
 			int count = ps.executeUpdate();
                         System.out.printf("Count == %d", count);
 			if (count == 0) {
@@ -194,11 +194,11 @@ public class EstagioDao extends AbstractDaoBase {
                             throw new NotFoundException("Object not found [" + id + "] .");
 			ps = conn.prepareStatement(deletesql);
 			ps.setLong(1, id);
-			count = ps.executeUpdate();
-			if (count == 0)
-                            throw new NotFoundException("Object not found [" + id + "] .");
-			
-                } catch (SQLException e) {
+			conn.commit();
+			if (count == 0) {
+				throw new NotFoundException("Object not found [" + id + "] .");
+			}
+		} catch (SQLException e) {
 			try {conn.rollback();} catch (Exception e1) {}
 			throw e;
 		} finally {

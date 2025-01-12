@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="icon" href="../img/icon.png">
-    <title>Perfil</title>
+	<link rel="icon" href="../img/icon.png">
+    <title>Lista de Estagios</title>
 </head>
 <body>
     <header>
@@ -32,46 +32,40 @@
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
         </a>
-    </nav>    
+    </nav>       
+    
 
     <main>
-        <h2 id="subtitulo-portal" th:text="${estagio.empresa}"></h2>
-        <section id="descricao-empresa">
-            
-        </section>
-
-        <section id="tabela-vagas-disponiveis">
-            <table class="table">
-                <thead>
-                    <th>Vagas Disponíveis</th>
-                    <th>Descrição</th>
+        <h2 id="subtitulo-portal">Lista de Estagios</h2>
+        <table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Empresa</th>
+					<th>Descrição</th>
                     <th>Requisitos</th>
-                    <th>Carga Horária</th>
+					<th>Carga Horária</th>
                     <th>Salário</th>
                     <th>Editar</th>
-                </thead>
-                <tbody>
-                    <tr th:each="vagas : ${estagio}">
-                        <td th:text="${vagas.vagas}"></td>
-                        <td th:text="${vagas.descricao}"></td>
-                        <td th:text="${vagas.requisito}"></td>
-                        <td th:text="${vagas.cargaHoraria}"></td>
-                        <td th:text="${vagas.salario}"></td>
-                        <td><a th:href="'/administrador/deletar-estagio?n=' + ${vagas.id}">
-                            <button id="botao-certificado">Deletar estágio</button>
-                        </a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="estagios : ${estagios}">
+					<td th:text="${estagios.id}"></td>
+					<td th:text="${estagios.empresa}"></td>
+					<td th:text="${estagios.descricao}"></td>
+                    <td th:text="${estagios.requisito}"></td>
+					<td th:text="${estagios.cargaHoraria}"></td>
+                    <td th:text="${estagios.salario}"></td>
+                    <td><a th:href="'/administrador/editar-estagio?n=' + ${estagios.id}">
+                        <button id="botao-certificado">Editar estagio</button>
+                    </a></td>
+				</tr>				
+			</tbody>
+        </table>
     </main>
 
     <script src="../js/portal.js"></script>
-    <script>
-        let botaoDeletarEstagioEl = document.querySelector("#botao-certificado");
-        botaoDeletarEstagioEl.addEventListener("click", function() {
-            alert("Tem certeza que deseja deletar o estágio?");
-        });
-    </script>
+
 </body>
 </html>
