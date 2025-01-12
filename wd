@@ -1,0 +1,239 @@
+[33mcommit 55fee8b961a9c6551110b2299b9339f7457bdeaf[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: e877c73 bbd5813
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Wed Jan 8 21:21:29 2025 -0300
+
+    Merge pull request #30 from marcogrossi1/Caio
+    
+    Caio
+
+[33mcommit bbd58138004bac53d4d3fce03cefc27d9328fe3a[m[33m ([m[1;31morigin/Caio[m[33m)[m
+Author: CaioSilveiraFigueiredo <caiosilveirafig@gmail.com>
+Date:   Wed Jan 8 21:20:18 2025 -0300
+
+    ✨ adição da classe EmpresaController
+
+[33mcommit e93b18be9c1cbcf24a964b3a2af8ca26db56c4c7[m
+Merge: 01dd75f e877c73
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Wed Jan 8 15:02:58 2025 -0300
+
+    Merge pull request #29 from marcogrossi1/main
+    
+    Passando main -> Caio
+
+[33mcommit e877c73b4dcb1aedeaac5ec04f7d5fcb9481211d[m
+Merge: 8756569 efc5beb
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Wed Jan 8 15:00:54 2025 -0300
+
+    Merge pull request #28 from marcogrossi1/dev
+    
+    Dev
+
+[33mcommit efc5bebebc3e419d4c9f89b8e0add55ebbb815f2[m
+Merge: bd51219 01dd75f
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Wed Jan 8 14:55:14 2025 -0300
+
+    Merge pull request #27 from marcogrossi1/Caio
+    
+    Caio
+
+[33mcommit 01dd75f0aee7839eed906af90fb134eea6ebc868[m
+Merge: 659896a bd51219
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Wed Jan 8 14:55:03 2025 -0300
+
+    Merge branch 'dev' into Caio
+
+[33mcommit bd51219b916b217962ab80c8d1693696c5042669[m
+Merge: 83c2886 8756569
+Author: Marco Antônio Araújo Grossi <125319242+marcogrossi1@users.noreply.github.com>
+Date:   Wed Jan 8 14:46:51 2025 -0300
+
+    Merge pull request #26 from marcogrossi1/main
+    
+    From main do dev
+
+[33mcommit 8756569ff5a4a3cfd7ec9239e14333b9517fd489[m
+Author: marcogrossi1 <marcoaraujo.grossi@gmail.com>
+Date:   Wed Jan 8 14:44:02 2025 -0300
+
+    🐛 Corrigindo bugs e atualizando a main
+
+[33mcommit 659896ae2b509d723308ba1c32e4b2f641860fb4[m
+Author: CaioSilveiraFigueiredo <caiosilveirafig@gmail.com>
+Date:   Wed Jan 8 14:41:23 2025 -0300
+
+    🐛 correção dos direcionamentos do setor de alunos
+
+[33mcommit 4591ed20d9ba37c042695dd3615dd0f3df870523[m
+Author: CaioSilveiraFigueiredo <caiosilveirafig@gmail.com>
+Date:   Wed Jan 8 14:35:05 2025 -0300
+
+    🔥 Deletando arquivos desnecessários
+
+[33mcommit c0b4f6fab2b9d0e36c1020bc0bbc4889b373f256[m
+Author: CaioSilveiraFigueiredo <caiosilveirafig@gmail.com>
+Date:   Wed Jan 8 14:32:55 2025 -0300
+
+    💄 estilização tela de início
+
+[33mcommit fcde9b5106766a1c2c85cd0036e61ca14c0901e4[m
+Author: marcogrossi1 <marcoaraujo.grossi@gmail.com>
+Date:   Wed Jan 8 13:56:23 2025 -0300
+
+    🐛 Corrigindo pequenos bugs
+
+[33mcommit 270974daa20cb04840fa7c5bb6fab2b49c0efea7[m
+Merge: ff55fa8 83c2886
+Author: Marco Antônio Araújo Grossi <125319242+marcogrossi1@users.noreply.github.com>
+Date:   Wed Jan 8 10:46:03 2025 -0300
+
+    Merge pull request #22 from marcogrossi1/dev
+    
+    From dev to main
+
+[33mcommit 83c28869226d3e84422ab971514822e9e21e946e[m
+Merge: a90b254 e099608
+Author: marcogrossi1 <marcoaraujo.grossi@gmail.com>
+Date:   Wed Jan 8 10:45:07 2025 -0300
+
+    Merge branch 'dev' of https://github.com/marcogrossi1/SIGEPP into dev
+
+[33mcommit a90b254248cc4cc43712b0bf75b9be49ff95814f[m
+Merge: 420fe2b ff55fa8
+Author: marcogrossi1 <marcoaraujo.grossi@gmail.com>
+Date:   Wed Jan 8 10:44:58 2025 -0300
+
+    Merge branch 'main' into dev
+
+[33mcommit e0996087a5e7284af2250a3ef3389fef09e5037e[m
+Author: Kauã Magalhães Antunes Campos <125323214+KauaCampos@users.noreply.github.com>
+Date:   Wed Jan 8 03:31:46 2025 -0300
+
+    🗃️ Passando tabela candidatura para dev
+
+[33mcommit ff55fa8321f8e08bf0b6ffdc7fc9e30bd62ffab1[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 22:00:00 2025 -0300
+
+    🔥 Delete PIPA-novo directory
+
+[33mcommit 3c5deade7186b31f6fea67d1535c2f0ab8479162[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 21:51:21 2025 -0300
+
+    Add files via upload
+
+[33mcommit 185028b52cca197b2963a803b702ea8d28486277[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 21:46:23 2025 -0300
+
+    🚧 Create novo diretorio para pipa
+
+[33mcommit 0d38fe472d838b628a08c92b6b36b0825be6b8c3[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 18:02:29 2025 -0300
+
+    🔖 Update dados-de-teste.sql
+
+[33mcommit 4956654056ab301c7fcbb5691ecee19eec6822b1[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 17:54:53 2025 -0300
+
+    🔖 Update pipa_DDL.sql
+
+[33mcommit 62543f72a0b5a0b068b34acf7113daabab657bc1[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 17:52:51 2025 -0300
+
+    🔥 limpando a branch main
+
+[33mcommit f7a471e1dfde3f6a37cf1998f9c306b3e4205f38[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 17:50:06 2025 -0300
+
+    🔥 limpando a branch main
+
+[33mcommit 420fe2b6aeb1cecd0284f67c0c0a11b572803447[m
+Author: marcogrossi1 <marcoaraujo.grossi@gmail.com>
+Date:   Tue Jan 7 12:04:41 2025 -0300
+
+    ♻️ Editando para merge from dev to main
+
+[33mcommit d4318b82a99af770213baab1c8129de043689dff[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 11:20:40 2025 -0300
+
+    🔥 Apagando projeto desnecessário
+
+[33mcommit b177c40a5115db0a8798e58353e6e28d3b19e3ea[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 11:20:01 2025 -0300
+
+    🔥 Apagando projeto desnecessário
+
+[33mcommit aa2cd5353859c001d325540d78f46f21e0e86f76[m
+Merge: 29725de 3a2a4af
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 11:18:53 2025 -0300
+
+    Merge pull request #21 from marcogrossi1/Caio
+    
+    Caio
+
+[33mcommit 3a2a4af35c66e3fde8ed12da2e7c8be0764fc1ac[m
+Author: CaioSilveiraFigueiredo <caiosilveirafig@gmail.com>
+Date:   Tue Jan 7 11:16:31 2025 -0300
+
+    ✨ levando o projeto para a main
+
+[33mcommit 3b089e26dcd844645ada859de5e16d13e4fe7730[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 10:11:35 2025 -0300
+
+    🔖 Update pipa_DDL.sql
+
+[33mcommit 0737a14292f1a9ec4eba4bb9eb8a915c65a63881[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 10:10:45 2025 -0300
+
+    🔖 Update dados-de-teste.sql
+
+[33mcommit de3069d06b3c3204945d3e6a82122d6dd1f5ebfd[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 7 09:51:38 2025 -0300
+
+    🔖 Update pipa_DDL.sql
+
+[33mcommit 3921c430afc0f98bb3177a617b7cfb4ec08d1a58[m
+Author: Marco Antônio Araújo Grossi <125319242+marcogrossi1@users.noreply.github.com>
+Date:   Tue Jan 7 09:22:59 2025 -0300
+
+    Update README.md
+
+[33mcommit 093c36fd6926699fbe8599eb726e76298a1c02a8[m
+Merge: d3d1f31 e1f0688
+Author: Marco Antônio Araújo Grossi <125319242+marcogrossi1@users.noreply.github.com>
+Date:   Tue Jan 7 09:11:42 2025 -0300
+
+    Merge pull request #19 from marcogrossi1/Marco
+    
+    From Marco to Dev
+
+[33mcommit e1f068817a89341b946e8a48e2fabfaf044265c1[m
+Author: marcogrossi1 <marcoaraujo.grossi@gmail.com>
+Date:   Tue Jan 7 09:09:38 2025 -0300
+
+    📚 Adicionando "Como rodar o projeto" ao README.md"
+
+[33mcommit aed7dd34862a21dc6f121d41a41727c7b5f59e5a[m
+Author: marcogrossi1 <marcoaraujo.grossi@gmail.com>
+Date:   Mon Jan 6 22:27:41 2025 -0300
+
+    🐛 Corrigindo pequenos problemas.
+
+[33mcommit 7baba318a07b00c9f48d9c154ae3c81aaa324834[m
+Author: marcogrossi1 <marc
