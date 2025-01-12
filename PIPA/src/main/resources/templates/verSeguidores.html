@@ -7,6 +7,27 @@
     <title>Seguidores</title>
 </head>
     <body>
+        <style>
+            .follower {
+                display: flex;
+                align-items: center;
+                background-color: #fff;
+                padding: 10px;
+                width: 300px;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .follower img {
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            .follower span {
+                font-size: 1rem;
+                color: #333;
+            }
+        </style>
         
         <header>
 	        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
@@ -15,34 +36,10 @@
         
          <main>
         <h2>Lista de seguidores</h2>
-        <div class="followers-list">
+        <div class="followers-list" th:each="Seguidor : ${Seguidores.seguidores}">
             <div class="follower">
                 <img src="https://via.placeholder.com/40" alt="Renato Costela">
-                <span>Renato Costela</span>
-            </div>
-            <div class="follower">
-                <img src="https://via.placeholder.com/40" alt="Professor Mafofo">
-                <span>Professor Mafofo</span>
-            </div>
-            <div class="follower">
-                <img src="https://via.placeholder.com/40" alt="Professor Mafofo">
-                <span>Professor Mafofo</span>
-            </div>
-            <div class="follower">
-                <img src="https://via.placeholder.com/40" alt="Professor Mafofo">
-                <span>Professor Mafofo</span>
-            </div>
-            <div class="follower">
-                <img src="https://via.placeholder.com/40" alt="Professor Mafofo">
-                <span>Professor Mafofo</span>
-            </div>
-            <div class="follower">
-                <img src="https://via.placeholder.com/40" alt="Professor Mafofo">
-                <span>Professor Mafofo</span>
-            </div>
-            <div class="follower">
-                <img src="https://via.placeholder.com/40" alt="Professor Mafofo">
-                <span>Professor Mafofo</span>
+                <span th:text="${Seguidor.nome}"></span>
             </div>
         </div>
     </main>
