@@ -32,6 +32,7 @@ public class AdministradorDao {
     private final static String updateForUsuario_idSql = "UPDATE administrador SET usuario_id = ?  WHERE id = ? ";
     private final static String deletesql = "DELETE FROM administrador WHERE id = ?";
     private final static String listEmpresasSql = "SELECT * FROM empresa";
+    private final static String listAlunosSql = "SELECT * FROM aluno";
 
     private final static String listProjetosSql = "SELECT * FROM projeto";
 	private final static String listEstagiosSql = "SELECT * FROM estagio";
@@ -390,6 +391,32 @@ public class AdministradorDao {
 			ArrayList<Empresa> list = new ArrayList<Empresa>();
 			do {
 				Empresa b = EmpresaDao.set(rs);
+				list.add(b);
+			} while (rs.next());
+			return list;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			closeResource(ps, rs);
+			ps = null;
+			rs = null;
+		}
+	}
+
+    public static ArrayList<Aluno> listAlunos(Connection conn) 
+	throws SQLException 
+	{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(listAlunosSql);
+			rs = ps.executeQuery();
+			if (!rs.next()) {
+				return new ArrayList<Aluno>();
+			}
+			ArrayList<Aluno> list = new ArrayList<Aluno>();
+			do {
+				Aluno b = AlunoDao.set(rs);
 				list.add(b);
 			} while (rs.next());
 			return list;

@@ -171,7 +171,7 @@ public class EstagioDao extends AbstractDaoBase {
 		try {
 			ps = conn.prepareStatement(deletesql);
 			ps.setLong(1, id);
-			int count = ps.executeUpdate();
+			int count = ps.executeUpdate();	
 			conn.commit();
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + id + "] .");

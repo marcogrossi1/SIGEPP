@@ -22,6 +22,7 @@ import proj.model.Projeto;
 import proj.model.Usuario;
 import proj.model.Administrador;
 import proj.model.Empresa;
+import proj.model.Aluno;
 
 @Controller
 @RequestMapping("/administrador")
@@ -203,6 +204,26 @@ public class AdministradorController {
             model.addAttribute("listaEmpresas", empresas);
 
             return "administrador/empresas";
+        }
+
+        catch(Exception e) {
+            return "erro";
+        }
+    }
+
+    @RequestMapping("/listar-alunos")
+    public String listaAlunos(Model model, Principal principal) throws Exception {
+        try(Connection conn = ds.getConnection()) {
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+            Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
+
+            ArrayList<Aluno> alunos = AdministradorDao.listAlunos(conn);
+
+            model.addAttribute("usuario", u);
+            model.addAttribute("administrador", a);
+            model.addAttribute("listaAlunos", alunos);
+
+            return "administrador/alunos";
         }
 
         catch(Exception e) {
