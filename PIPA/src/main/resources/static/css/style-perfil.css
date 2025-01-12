@@ -132,6 +132,7 @@
     position: absolute;
     left: 934px;
     transform-origin: center;
+    cursor: pointer;
 }
 
 #botao-concluir-edicao {
