@@ -187,13 +187,9 @@ public class EstagioDao extends AbstractDaoBase {
 	{
 		PreparedStatement ps = null;
 		try {
-                        ps = conn.prepareStatement("DELETE FROM empresa_has_estagio WHERE estagio_id = ?");
-                        ps.setLong(1, id);
-			int count = ps.executeUpdate();
-			if (count == 0)
-                            throw new NotFoundException("Object not found [" + id + "] .");
 			ps = conn.prepareStatement(deletesql);
 			ps.setLong(1, id);
+			int count = ps.executeUpdate();	
 			conn.commit();
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + id + "] .");
