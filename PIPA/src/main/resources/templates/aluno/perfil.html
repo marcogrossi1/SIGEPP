@@ -15,9 +15,20 @@
 	</header>
 	
 	<main id="seccao-principal">
-		<div>
-			<img id="banner" src="../img/banner.png">
-		</div>
+		<form enctype="multipart/form-data" id="form-banner">
+		    <input type="file" id="input-banner" style="display: none;" accept="image/*" disabled>
+		    <img id="banner" src="../img/banner.png" alt="Banner">
+		</form>
+
+		<form enctype="multipart/form-data" id="form-foto-perfil" disabled>
+		    <input type="file" id="input-foto-perfil" style="display: none;" accept="image/*" disabled>
+		    <img id="foto-perfil" src="../img/foto-perfil-padrao.png" alt="Foto de Perfil">
+		</form>
+		
+		
+		
+		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
+		<button type="submit" class="botoes-perfil" id="botao-edicao"></button>
 		
 		<form id="form-descricao">
 			<p id="nome-descricao">Gabriel Tavares</p>
@@ -25,21 +36,16 @@
 	        <textarea id="campo-descricao" disabled name="descricao" rows="4" cols="50" maxlength="522" placeholder="SEM DESCRIÇÃO"></textarea><br><br>
 		</form>
 		
-		
 		<button type="button" class="botoes-perfil" id="botao-add-seccao">ADICIONAR SEÇÃO</button>
-		
 		<button type="button" class="botoes-perfil" id="botao-concluir-edicao">SALVAR ALTERAÇÕES</button>
 		
-		<img id="foto-perfil" src="../img/foto-perfil-padrao.png">
-		<a href="http://localhost:8080/aluno/configuracoesPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
-		<button type="submit" class="botoes-perfil" id="botao-edicao"></button>
 	</main>
 	
 	<div id="container-seccoes"> <!--Secções criadas dentro do container-->
 		
 	</div>
-	
 	 
     <script src="../js/perfil.js"></script>
+	<script src="../js/configAlterada.js"></script>
 </body>
 </html>

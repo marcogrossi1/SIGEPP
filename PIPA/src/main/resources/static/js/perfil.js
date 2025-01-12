@@ -42,3 +42,41 @@ adicionarSeccao.addEventListener('click', function() {
 	
 	containerSeccoes.appendChild(seccao);
 });
+
+//Banner e foto de perfil
+
+let inputBanner = document.getElementById('input-banner');
+let banner = document.getElementById('banner');
+
+let inputFotoPerfil = document.getElementById('input-foto-perfil');
+let fotoPerfil = document.getElementById('foto-perfil');
+
+banner.addEventListener('click', function() {
+    inputBanner.click();
+});
+
+fotoPerfil.addEventListener('click', function() {
+    inputFotoPerfil.click();
+});
+
+inputBanner.addEventListener('change', function(e) {
+    let file = e.target.files[0];
+    if (file) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('banner').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+inputFotoPerfil.addEventListener('change', function(event) {
+    let file = event.target.files[0];
+    if (file) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('foto-perfil').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});

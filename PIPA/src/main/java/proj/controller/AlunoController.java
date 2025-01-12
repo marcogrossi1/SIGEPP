@@ -77,8 +77,23 @@ public class AlunoController {
 		return "aluno/perfil";
 	}
 	
-	@GetMapping("/configuracoesPerfil")
-	public String mostrarConfiguracoesPerfil() {
-		return "aluno/configuracoesPerfil";
+	@GetMapping("/contaConfigPerfil")
+	public String mostrarConfiguracoesPerfilConta() {
+		return "aluno/contaConfigPerfil";
+	}
+	
+	@GetMapping("/notificacaoConfigPerfil")
+	public String mostrarConfiguracoesPerfilNotificacao() {
+		return "aluno/notificacaoConfigPerfil";
+	}
+	
+	@GetMapping("/privacidadeConfigPerfil")
+	public String mostrarConfiguracoesPerfilPrivacidade() {
+		return "aluno/privacidadeConfigPerfil";
+	}
+	
+	@GetMapping("/preferenciasConfigPerfil")
+	public String mostrarConfiguracoesPerfilPreferencias() {
+		return "aluno/preferenciasConfigPerfil";
 	}
 }
