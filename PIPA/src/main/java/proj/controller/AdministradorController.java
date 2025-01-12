@@ -99,25 +99,24 @@ public class AdministradorController {
 
     @RequestMapping("/deletar-estagio")
     public String deletarEstagio(@RequestParam("n") Long estagioId, Model model, Principal principal) throws Exception {
-        //try(
-            Connection conn = ds.getConnection();//) {
+        try(Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
             Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
 
             Estagio e = EstagioDao.get(conn, estagioId);
 
-            EstagioDao.delete(conn, 20);
+            EstagioDao.delete(conn, e.getId());
 
             model.addAttribute("usuario", u);
             model.addAttribute("administrador", a);
             model.addAttribute("estagio", e);
 
             return "/administrador/estagios";
-        //}
-//
-        //catch(Exception e) {
-        //    return "erro";
-        //}
+        }
+
+        catch(Exception e) {
+            return mostraPaginaDeErro(model, "Este estágio já pertence à uma empresa e, portanto, não pode mais ser deletado.");
+        }
     }
 
     @RequestMapping("/projetos")
