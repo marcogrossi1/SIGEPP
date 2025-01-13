@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/icon.png">
+    <title>Perfil</title>
+</head>
+<body>
+    <header>
+        <div th:switch="${usuario.role}">
+            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Professor'" href="/professor"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav>
+        <div th:switch="${usuario.role}">
+            <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Professor'"><span th:text="${professor.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+        <div th:switch="${usuario.role}">
+            <a th:case="Administrador" href="administrador/perfil" class="icone" id="icone-portal">
+                <img src="img/icone-perfil.png">
+                <label>Perfil</label>
+            </a>
+            <a th:case="Aluno" href="aluno/perfil" class="icone" id="icone-portal">
+                <img src="img/icone-perfil.png">
+                <label>Perfil</label>
+            </a>
+            <a th:case="Professor" href="professor/perfil" class="icone" id="icone-portal">
+                <img src="img/icone-perfil.png">
+                <label>Perfil</label>
+            </a>
+            <a th:case="Empresa" href="empresa/perfil" class="icone" id="icone-portal">
+                <img src="img/icone-perfil.png">
+                <label>Perfil</label>
+            </a>
+        </div>
+    </nav>    
+    
+
+    <main>
+        <h2 id="subtitulo-portal" th:text="${empresa.nome}"></h2>
+        <section id="descricao-empresa">
+            <h3>Visão geral</h3>
+            <p>
+                A <b><span th:text="${empresa.nome}"></span></b> é uma empresa que trabalha na área de 
+                <b><span th:text="${empresa.area}"></span></b>.
+            </p>
+        </section>
+        
+        <section id="contato-empresa">
+            <h3>Contato</h3>
+            <table class="table">
+                <tr>
+                    <td>📞 <span th:text="${empresa.telefone}"></span></td>
+                    <td>📧<span th:text="${empresa.email}"></span></td>
+                </tr>
+                <tr>
+                    <td>🌐<span th:text="${empresa.website}"></span></td>
+                    <td>📍<span th:text="${empresa.endereco}"></span></td>
+                </tr>
+            </table>
+        </section>
+
+        <section id="tabela-vagas-disponiveis">
+            <table class="table">
+                <thead>
+                    <th>Vagas Disponíveis</th>
+                    <th>Descrição</th>
+                    <th>Requisitos</th>
+                    <th>Carga Horária</th>
+                    <th>Salário</th>
+                    <div th:switch="${usuario.role}">
+                        <th th:case="'Administrador'">Editar</th>
+                        <th th:case="*">Ver mais</th> 
+                    </div>
+                </thead>
+                <tbody>
+                    <tr th:each="vagas : ${estagiosEmpresa}">
+                        <td th:text="${vagas.vagas}"></td>
+                        <td th:text="${vagas.descricao}"></td>
+                        <td th:text="${vagas.requisito}"></td>
+                        <td th:text="${vagas.cargaHoraria}"></td>
+                        <td th:text="${vagas.salario}"></td>
+                        <div th:switch="${usuario.role}">
+                            <td th:case="'Administrador'">
+                                <a th:href="'/administrador/editar-estagio?n=' + ${vagas.id}">
+                                    <button id="botao-certificado">Editar</button>
+                                </a>
+                            </td>
+                            <td th:case="*">
+                                <a th:href="'/detalhes-estagio?n=' + ${vagas.id}">
+                                    <button id="botao-certificado">Ver mais</button>
+                                </a>
+                            </td> 
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="js/portal.js"></script>
+
+</body>
+</html>
