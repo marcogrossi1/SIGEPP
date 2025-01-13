@@ -66,8 +66,8 @@ main {
     border-radius: 10px;
     background-size: cover;
     background-position: center;
-    position: fixed;
-    display: none;
+    position: absolute;
+    display: block;
     word-spacing: 4px;
     font-size: 14px;
     font-weight: bold;
@@ -75,8 +75,8 @@ main {
     width: 159px;
     height: 25px;
     padding: 5px;
-    bottom: 20px;
-    left: 60%;
+    bottom: 30px;
+    left: 82%;
     transform: translateX(-50%) scale(1);
     transform-origin: center;
     cursor: pointer;
@@ -119,11 +119,15 @@ main {
     width: 100%;
     margin: 1vh 0;
     background-color: #fefafa;
-	border: rgb(128, 128, 128) 2px solid;
+	border: rgb(192, 192, 192) 2px solid;
 }
 
 .conta-config input {
     display: block;
     margin-bottom: 10px;
     width: 100%;
+}
+
+#form-conta-config {
+    margin-top: -30px;
 }

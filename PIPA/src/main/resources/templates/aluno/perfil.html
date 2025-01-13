@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
+<html class="perfil-html" lang="en"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="../css/style-perfil.css">
     <title>Perfil</title>
 </head>
-<body id="perfil">
+<body>
 	<header>
 	        <a href="http://localhost:8080/aluno"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
 	        <h1 id="titulo-plataforma" >PIPA | Meu Perfil</h1>
@@ -20,12 +20,10 @@
 		    <img id="banner" src="../img/banner.png" alt="Banner">
 		</form>
 
-		<form enctype="multipart/form-data" id="form-foto-perfil" disabled>
+		<form enctype="multipart/form-data" id="form-foto-perfil">
 		    <input type="file" id="input-foto-perfil" style="display: none;" accept="image/*" disabled>
 		    <img id="foto-perfil" src="../img/foto-perfil-padrao.png" alt="Foto de Perfil">
 		</form>
-		
-		
 		
 		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
 		<button type="submit" class="botoes-perfil" id="botao-edicao"></button>
@@ -33,7 +31,7 @@
 		<form id="form-descricao">
 			<p id="nome-descricao">Gabriel Tavares</p>
 			<p id="dados-descricao">Estudante do Curso Técnico de Informática - 2º Ano</p>
-	        <textarea id="campo-descricao" disabled name="descricao" rows="4" cols="50" maxlength="522" placeholder="SEM DESCRIÇÃO"></textarea><br><br>
+	        <textarea id="campo-descricao" disabled name="descricao" rows="4" cols="50" maxlength="510" placeholder="SEM DESCRIÇÃO"></textarea><br><br>
 		</form>
 		
 		<button type="button" class="botoes-perfil" id="botao-add-seccao">ADICIONAR SEÇÃO</button>
@@ -45,7 +43,6 @@
 		
 	</div>
 	 
-    <script src="../js/perfil.js"></script>
-	<script src="../js/configAlterada.js"></script>
+    <script src="../js/config.js"></script>
 </body>
 </html>

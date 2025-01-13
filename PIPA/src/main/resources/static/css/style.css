@@ -1,11 +1,11 @@
 /* Contêiners */
-body, html {
+body, html:not(.perfil-html, .config-html) {
     margin: 0;
     height: 100%;
     overflow: auto;
 }
 
-body:not(#perfil) {
+body {
     overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
@@ -33,7 +33,7 @@ nav {
     padding: 0 10vw;
 }
 
-main:not(#seccao-principal) {
+main:not(#seccao-principal, #form-banner, #form-foto-perfil) {
     margin-top: 5vh;
     width: 64vw;
     min-height: calc(100vh - 28vh); /* nav + header + navMargin */
@@ -46,7 +46,7 @@ main:not(#seccao-principal) {
 }
 
 /* Elementos */
-main>:first-child {
+main:not(#seccao-principal)>:first-child {
     margin-top: 0;
 }
 
@@ -86,7 +86,7 @@ main>:first-child {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-input:not(#descricao, .conta-config) {
+input:not(.inputLogo, #descricao, .titulo-seccao, .conta-config, #input-banner, #input-foto-perfil) {
     margin: 1vh 0 1vh 0;
     min-width: 10vw;
     height: 2vh;
@@ -95,7 +95,8 @@ input:not(#descricao, .conta-config) {
     background-color: #fefafa;
 }
 
-button, input[type='submit'] {
+button:not(#botao-concluir-edicao):not(.seccao-botao-apagar-topico):not(#botao-concluir-config):not(#botao-apagar-conta):not(#adicionar-texto-livre, #adicionar-projetos-concluidos, #adicionar-competencias, #adicionar-licencas-certificados):not(#botao-edicao):not(#botao-add-seccao):not(.seccao-botao-apagar):not(.seccao-botao-editar):not(.seccao-botao-criar-topico), 
+input:not(.inputLogo, #descricao, .conta-config, #input-banner, #input-foto-perfil, .titulo-seccao)[type='submit'] {
     min-width: 10vw;
     height: 3vh;
     border: 1px solid #c4c0bf;
@@ -104,6 +105,8 @@ button, input[type='submit'] {
     color: white;
     cursor: pointer;
 }
+
+
 
 .botoes-portal, .botoes-inicio {
     background-color: red;
@@ -270,37 +273,42 @@ button, input[type='submit'] {
     background: linear-gradient(90deg, #003869, #2e6890);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
-#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
-  font-size: 1rem;
-  letter-spacing: 1px;
+
+#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input {
+    font-size: 1rem;
+    letter-spacing: 1px;
 }
 
-textarea, input {
-  padding: 10px;
-  width: 95%;
-  line-height: 1.5;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  box-shadow: 1px 1px 1px #999;
+textarea:not(#campo-descricao, .caixa-texto-topico, .caixa-texto-topico2 ), input:not(#descricao, .titulo-seccao, .conta-config, #input-banner, #input-foto-perfil) {
+    padding: 10px;
+    width: 95%;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
 }
 
 label {
-  display: block;
-  margin-bottom: 10px;
+    display: block;
+    margin-bottom: 10px;
 }
-#estagio-inputs{
+
+#estagio-inputs {
     justify-content: center;
 }
-#estagio-inputs input[type='submit']{
+
+#estagio-inputs input:not(.inputLogo, #descricao, .conta-config, #input-banner, #input-foto-perfil)[type='submit'] {
     display: block;
     text-align: center;
     padding: 0;
     height: 4vh;
     max-width: 50%;
 }
-#criar-button{
+
+#criar-button {
     width: 3vh;
 }
-#apagar-button button{
+
+#apagar-button button {
     background-color: red;
 }
