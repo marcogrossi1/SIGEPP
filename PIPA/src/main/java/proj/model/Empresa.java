@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Empresa {
 
 	private long id;
+	private long usuario_id;
 	private String nome;
 	private String cnpj;
 	private String area;
@@ -21,40 +22,23 @@ public class Empresa {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public String getCnpj() {
-		return cnpj;
+	public long getUsuario_id() {
+		return usuario_id;
 	}
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+	public void setUsuario_id(long usuario_id) {
+		this.usuario_id = usuario_id;
 	}
-	
-	public String getArea() {
-		return area;
-	}
-	public void setArea(String area) {
-		this.area = area;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
+	@Override
+	public String toString() {
+		return "Empresa [id=" + id + ", nome=" + nome + ", usuario_id=" + usuario_id + 
+                        "endereco="+ endereco + "website=" + website + "telefone=" + telefone + 
+                        "CNPJ=" + cnpj + "area=" + area +"email=" + email +"]";
 	}
 	
 	public String getEndereco() {
@@ -87,5 +71,35 @@ public class Empresa {
 
 	public void setListaEstagios(ArrayList<Estagio> listaEstagios) {
 		this.listaEstagios = listaEstagios;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getArea() {
+		return area;
+	}
+	
+	public void setArea(String area) {
+		this.area = area;
+	}
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 }

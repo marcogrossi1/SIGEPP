@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import proj.dao.AlunoDao;
 import proj.dao.HDataSource;
 import proj.dao.ProjetoDao;
+import proj.dao.UsuarioDao;
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Projeto;
+import proj.model.Usuario;
 
 @Controller
 public class PerfilProjetoController {
@@ -27,7 +29,11 @@ public class PerfilProjetoController {
     public String encontraEmpresa(@RequestParam("nome") String projeto, Model model, Principal principal) throws Exception {
         //try(
             Connection conn = ds.getConnection();//) {
-            Aluno a = AlunoDao.getByCfp(conn, principal.getName());
+            
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+        	model.addAttribute("usuario", u);
+
+            Aluno a = AlunoDao.getByCpf(conn, principal.getName());
             ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
             ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 
