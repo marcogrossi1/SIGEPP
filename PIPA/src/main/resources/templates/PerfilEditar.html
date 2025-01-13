@@ -1,43 +1,134 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="icon" href="../img/icon.png">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="icon" href="../static/img/icon.png">
+	
     <title>Editar Perfil</title>
-</head>
+	<style>
+	        body {
+	            font-family: Arial, sans-serif;
+	            margin: 0; /* Remove margens externas para que o header e o conteúdo ocupem a tela inteira */
+	            padding: 0;
+	            display: flex;
+	            flex-direction: column;
+	            min-height: 100vh; /* Garante que a página sempre ocupe a altura total da janela */
+	        }
+
+	        header {
+	            width: 100vw; /* Ocupa toda a largura da janela */
+	            height: 10vh; /* Define a altura do header como 20% da altura da janela */
+	            display: flex;
+	            align-items: center;
+	            justify-content: flex-start; /* Alinha os itens à esquerda */
+	            background-color: #003869; /* Cor de fundo do header */
+	            padding: 0 1vw; /* Adiciona espaçamento lateral */
+	            box-sizing: border-box; /* Inclui padding no cálculo do tamanho do elemento */
+	        }
+
+	        #logo {
+	            height: 50px; /* Ajusta o tamanho do logo proporcionalmente ao header */
+	            margin-right: 50px; /* Espaçamento à direita do logo */
+	        }
+
+	        #titulo-plataforma {
+	            color: white;
+	            font-size: 2rem; /* Tamanho da fonte do título */
+	            margin: 0;
+	        }
+
+	        h1 {
+	            text-align: center;
+	            margin: 20px 0;
+	        }
+
+	        form {
+	            max-width: 600px;
+	            margin: auto;
+	            padding: 20px;
+	            border: 1px solid #ccc;
+	            border-radius: 8px;
+				width: 100%;
+				box-sizing: border-box;
+				background-color: white;
+	        }
+
+	        label {
+	            display: block;
+	            margin-top: 10px;
+	        }
+
+	        input[type="text"],
+	        input[type="email"] {
+	            width: 100%;
+	            padding: 8px;
+	            margin-top: 5px;
+	            border: 1px solid #ccc;
+	            border-radius: 4px;
+				box-sizing: border-box;
+	        }
+
+	        button {
+	            margin-top: 20px;
+	            padding: 10px 15px;
+	            background-color: #007BFF;
+	            color: white;
+	            border: none;
+	            border-radius: 4px;
+	            cursor: pointer;
+	        }
+
+	        button:hover {
+	            background-color: #0056b3;
+	        }
+			#titulo-plataforma {
+			    margin: 1.15vh 0 0 0;
+			    color: #ffffff;
+			    font-size: 3em;
+			    font-family: Arial, Helvetica, sans-serif;
+			}
+
+	    </style>
+	</head>
 <body>
 	<header>
-	    <a th:href="@{/empresa/home}"><img id="logo" src="../img/logo.png"></a>
-	    <h1 id="titulo-plataforma">PIPA | Portal</h1>
+	        <a href="/empresa"><img src="/src/main/resources/static/img/icon.png"></a> 
+	        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
 	</header>
+		
+    <h1>Editar Perfil da Empresa</h1>
+	<form action="/empresa/perfil-editar" method="post">
+	    <label for="nome">Nome:</label>
+	    <input type="text" id="nome" name="nome" value="${empresa.nome}" />
 
-    <div class="container">
-        <h2>Editar Perfil da Empresa</h2>
-        <form th:action="@{/perfil-editar}" th:object="${empresa}" method="post">
-            <div>
-                <label for="endereco">Endereço:</label>
-                <input type="text" th:field="*{endereco}" id="endereco"/>
-            </div>
-            <div>
-                <label for="website">Website:</label>
-                <input type="text" th:field="*{website}" id="website"/>
-            </div>
-            <div>
-                <label for="area">Área:</label>
-                <input type="text" th:field="*{area}" id="area"/>
-            </div>
-            <div>
-                <label for="telefone">Telefone:</label>
-                <input type="text" th:field="*{telefone}" id="telefone"/>
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" th:field="*{email}" id="email"/>
-            </div>
-            <button type="submit">Salvar</button>
-        </form>
-    </div>
+	    <label for="cnpj">CNPJ:</label>
+	    <input type="text" id="cnpj" name="cnpj" value="${empresa.cnpj}" minlength="14" maxlength="14" pattern="\d{14}" />
+
+	    <label for="endereco">Endereço:</label>
+	    <input type="text" id="endereco" name="endereco" value="${empresa.endereco}" />
+
+	    <label for="website">Website:</label>
+	    <input type="text" id="website" name="website" value="${empresa.website}" />
+
+	    <label for="area">Área:</label>
+	    <input type="text" id="area" name="area" value="${empresa.area}" />
+
+	    <label for="telefone">Telefone:</label>
+	    <input type="text" id="telefone" name="telefone" value="${empresa.telefone}" />
+
+	    <label for="email">Email:</label>
+	    <input type="email" id="email" name="email" value="${empresa.email}" />
+
+	    <button type="submit">Salvar</button>
+	</form>
+	<script>
+	  document.querySelectorAll('input').forEach(input => {
+	    if (input.value.includes('${')) {
+	      input.value = '';
+	    }
+	  });
+	</script>
 </body>
 </html>

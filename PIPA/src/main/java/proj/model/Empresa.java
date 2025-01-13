@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @Table(name = "empresa")
 public class Empresa {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;  
     private long usuario_id;
@@ -24,8 +24,11 @@ public class Empresa {
     private String website;
     private String telefone;
     
-    
     private ArrayList<Estagio> listaEstagios = new ArrayList<Estagio>();
+
+    // Construtor padrão
+    public Empresa() {
+    }
 
     public long getId() {
         return id;
@@ -49,13 +52,6 @@ public class Empresa {
 
     public void setUsuario_id(long usuario_id) {
         this.usuario_id = usuario_id;
-    }
-
-    @Override
-    public String toString() {
-        return "Empresa [id=" + id + ", nome=" + nome + ", usuario_id=" + usuario_id + 
-                ", endereco=" + endereco + ", website=" + website + ", telefone=" + telefone + 
-                ", CNPJ=" + cnpj + ", area=" + area + ", email=" + email + "]";
     }
 
     public String getEndereco() {
@@ -120,5 +116,12 @@ public class Empresa {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    public String toString() {
+        return "Empresa [id=" + id + ", nome=" + nome + ", usuario_id=" + usuario_id + 
+                ", endereco=" + endereco + ", website=" + website + ", telefone=" + telefone + 
+                ", CNPJ=" + cnpj + ", area=" + area + ", email=" + email + "]";
     }
 }
