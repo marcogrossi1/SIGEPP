@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/css/style.css">
-<title>Aplicação para Candidatura</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Aplicação para Candidatura</title>
 </head>
 <body>
-	<header>
-		<a href="/" th:href="@{/}"> <img id="logo" src="/img/logo.png"
-			alt="Logo">
-		</a>
-		<h1 id="titulo-plataforma">PIPA | Aplicação</h1>
-	</header>
+<header>
+    <a href="/" th:href="@{/}"><img id="logo" src="/img/logo.png" alt="Logo"></a>
+    <h1 id="titulo-plataforma">PIPA | Aplicação</h1>
+</header>
 
-	<nav>
-		<p id="nome-no-portal" th:if="${aluno != null}"
-			th:text="${aluno.nome}"></p>
-		<p id="nome-no-portal" th:if="${aluno == null}">Usuário não
-			autenticado</p>
-		<a href="/perfil" th:href="@{/perfil}" class="icone"> <img
-			src="/img/icone-perfil.png" alt="Ícone de Perfil"> <label>Perfil</label>
-		</a>
-	</nav>
+<nav>
+    <p id="nome-no-portal" th:if="${aluno != null}" th:text="'Bem-vindo, ' + ${aluno.nome}"></p>
+    <p id="nome-no-portal" th:if="${aluno == null}">Usuário não autenticado</p>
+    <a href="/perfil" th:href="@{/perfil}" class="icone">
+        <img src="/img/icone-perfil.png" alt="Ícone de Perfil">
+        <label>Perfil</label>
+    </a>
+</nav>
 
-<main>
+<main id="pagina-candidatura">
     <h2 id="subtitulo-portal" th:if="${projeto != null}" th:text="'Aplicação para o projeto: ' + ${projeto.nome}"></h2>
     <h2 id="subtitulo-portal" th:if="${projeto == null}">Projeto não encontrado</h2>
 
@@ -32,12 +29,22 @@
         <p th:text="${erro}"></p>
     </div>
 
-    <form th:action="@{/projeto/aplicacao}" method="post" th:if="${projeto != null}">
+    <section id="detalhes-candidatura" th:if="${projeto != null}">
+        <h3>Detalhes do Projeto</h3>
+        <div id="projeto-detalhes">
+            <p><strong>Descrição:</strong> <span th:text="${projeto.descricao}"></span></p>
+            <p><strong>Carga Horária:</strong> <span th:text="${projeto.cargaHoraria}"></span> horas</p>
+            <p><strong>Vagas Disponíveis:</strong> <span th:text="${projeto.vagas}"></span></p>
+            <p><strong>Requisitos:</strong> <span th:text="${projeto.requisito}"></span></p>
+            <p><strong>Responsável:</strong> <span th:text="${projeto.responsavel}"></span></p>
+        </div>
+    </section>
+
+    <form id="form-candidatura" th:action="@{/projeto/aplicacao}" method="post" th:if="${projeto != null}">
         <input type="hidden" name="IDoportunidade" th:value="${projeto.id}">
         <label for="mensagem">Detalhes da Candidatura:</label>
         <textarea id="mensagem" name="mensagem" rows="5" cols="50"
                   placeholder="Escreva aqui os detalhes sobre sua candidatura..." required></textarea>
-        <br><br>
         <button type="submit" id="botao-aplicar">Aplicar</button>
     </form>
 
@@ -45,8 +52,5 @@
         <p th:text="${sucesso}"></p>
     </div>
 </main>
-
-
-
 </body>
 </html>
