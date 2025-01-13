@@ -135,3 +135,88 @@ CREATE TABLE Empresa (
     REFERENCES Usuario (id)
     )
 ENGINE = InnoDB default character set = utf8;
+
+-- -----------------------------------------------------
+-- Table Perfil
+-- -----------------------------------------------------
+
+CREATE TABLE Perfil (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  banner VARCHAR(255) NULL, -- Caminho para o banner
+  foto_perfil VARCHAR(255) NULL, -- Caminho para a foto de perfil
+  descricao TEXT NULL, -- Descrição do usuário
+  Usuario_id BIGINT NOT NULL, -- Chave estrangeira para o usuário
+  PRIMARY KEY (id),
+  CONSTRAINT fk_Perfil_Usuario
+    FOREIGN KEY (Usuario_id)
+    REFERENCES Usuario (id)
+)
+ENGINE = InnoDB default character set = utf8;
+
+-- -----------------------------------------------------
+-- Table Secao
+-- -----------------------------------------------------
+
+CREATE TABLE Secao (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  tipo VARCHAR(45) NOT NULL, -- Tipo de seção (Texto Livre, Competências, Projetos, etc.)
+  titulo VARCHAR(255) NULL, -- Título da seção (caso aplicável)
+  Usuario_id BIGINT NOT NULL, -- Chave estrangeira para o usuário
+  PRIMARY KEY (id),
+  CONSTRAINT fk_Secao_Usuario
+    FOREIGN KEY (Usuario_id)
+    REFERENCES Usuario (id)
+)
+ENGINE = InnoDB default character set = utf8;
+
+
+-- -----------------------------------------------------
+-- Table Secao
+-- -----------------------------------------------------
+
+CREATE TABLE Topico (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  texto TEXT NULL, -- Texto inserido no tópico
+  imagem VARCHAR(255) NULL, -- Caminho da imagem associada ao tópico (se houver)
+  Secao_id BIGINT NOT NULL, -- Chave estrangeira para a seção
+  PRIMARY KEY (id),
+  CONSTRAINT fk_Topico_Secao
+    FOREIGN KEY (Secao_id)
+    REFERENCES Secao (id)
+)
+ENGINE = InnoDB default character set = utf8;
+
+-- -----------------------------------------------------
+-- Table Alteracao
+-- -----------------------------------------------------
+
+CREATE TABLE Alteracao (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  tipo VARCHAR(45) NOT NULL, -- Tipo de alteração (ex: "Descrição", "Banner", etc.)
+  descricao VARCHAR(500) NULL, -- Descrição ou detalhes da alteração
+  data TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Data da alteração
+  Usuario_id BIGINT NOT NULL, -- Chave estrangeira para o usuário
+  PRIMARY KEY (id),
+  CONSTRAINT fk_Alteracao_Usuario
+    FOREIGN KEY (Usuario_id)
+    REFERENCES Usuario (id)
+)
+ENGINE = InnoDB default character set = utf8;
+
+-- -----------------------------------------------------
+-- Table Secao Topico
+-- -----------------------------------------------------
+
+CREATE TABLE Secao_Topico (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  Secao_id BIGINT NOT NULL, -- Chave estrangeira para a seção
+  Topico_id BIGINT NOT NULL, -- Chave estrangeira para o tópico
+  PRIMARY KEY (id),
+  CONSTRAINT fk_Secao_Topico_Secao
+    FOREIGN KEY (Secao_id)
+    REFERENCES Secao (id),
+  CONSTRAINT fk_Secao_Topico_Topico
+    FOREIGN KEY (Topico_id)
+    REFERENCES Topico (id)
+)
+ENGINE = InnoDB default character set = utf8;

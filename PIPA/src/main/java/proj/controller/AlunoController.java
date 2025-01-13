@@ -22,7 +22,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import proj.dao.AlunoDao;
 import proj.dao.EstagioDao;
-import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.ProjetoDao;
 import proj.dao.UsuarioDao;

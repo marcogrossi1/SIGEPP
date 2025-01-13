@@ -66,8 +66,27 @@ concluirEdicao.addEventListener('click', function() {
     alert('Alterações salvas com sucesso!');
     this.style.display = 'none';
     habilitacaoEdicao.style.display = 'block';
-    submeterFormulariosPerfil();
-    esconderEditaveis();
+    
+    // Enviar dados para o backend
+    let formData = new FormData();
+    formData.append('descricao', campoDescricao.value);
+    formData.append('banner', inputBanner.files[0]);
+    formData.append('fotoPerfil', inputFotoPerfil.files[0]);
+
+    // Enviar via AJAX
+    fetch('/api/atualizarPerfil', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Dados enviados com sucesso:', data);
+        submeterFormulariosPerfil();
+        esconderEditaveis();
+    })
+    .catch(error => {
+        console.error('Erro ao enviar dados:', error);
+    });
 });
 
 adicionarSeccao.addEventListener('click', function() {
