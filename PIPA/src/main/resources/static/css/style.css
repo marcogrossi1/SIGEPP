@@ -119,7 +119,13 @@ button, input[type='submit'] {
     width: 252px;
 }
 
-.botoes-portal:hover, .botoes-inicio:hover {
+.link-logout {
+	margin-left: 400px;
+	text-decoration: none;
+	color: black;
+}
+
+.botoes-portal:hover, .botoes-inicio:hover, #icone-portal:hover {
     transform: scale(1.1);
 }
 
