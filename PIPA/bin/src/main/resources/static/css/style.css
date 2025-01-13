@@ -1,25 +1,24 @@
 /* Contêiners */
-body, html {
+body, html:not(.perfil-html, .config-html) {
     margin: 0;
+    height: 100%;
+    overflow: auto;
 }
 
 body {
-	overflow: hidden;
+    overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
     background-color: #f4f2ee;
 }
 
 header {
     width: 100vw;
     height: 10vh;
-
     display: flex;
     flex-wrap: wrap;
     align-content: center;
-
     background-color: #003869;
 }
 
@@ -28,35 +27,33 @@ nav {
     height: 7vh;
     display: flex;
     flex-direction: row;
-    justify-content: start; /*Parei aqui, tenho que ajustar a posição dos icones pra ficarem juntinhos no começo mas espaçados.*/
+    justify-content: start;
     align-items: center;
     background-color: #ffffff;
     padding: 0 10vw;
 }
 
-main {
+main:not(#seccao-principal, #form-banner, #form-foto-perfil) {
     margin-top: 5vh;
     width: 64vw;
     min-height: calc(100vh - 28vh); /* nav + header + navMargin */
-    padding: 3vh;                   /*     + mainPadding = 18vh */
-
+    padding: 3vh; /*     + mainPadding = 18vh */
     border-radius: 1%;
     background-color: #ffffff;
-
     font-family: Arial, Helvetica, sans-serif;
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
 /* Elementos */
-main > :first-child {
+main:not(#seccao-principal)>:first-child {
     margin-top: 0;
 }
 
 .icone {
     height: 6vh;
-
     display: grid;
     grid-template-rows: 4vh 2vh;
-
     color: black;
     text-decoration: none;
 }
@@ -89,21 +86,19 @@ main > :first-child {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-input {
+input:not(.inputLogo, #descricao, .titulo-seccao, .conta-config, #input-banner, #input-foto-perfil) {
     margin: 1vh 0 1vh 0;
-
     min-width: 10vw;
     height: 2vh;
-
     border: 1px solid #c4c0bf;
     border-radius: 5%;
     background-color: #fefafa;
 }
 
-button {
+button:not(#botao-concluir-edicao):not(.seccao-botao-apagar-topico):not(#botao-concluir-config):not(#botao-apagar-conta):not(#adicionar-texto-livre, #adicionar-projetos-concluidos, #adicionar-competencias, #adicionar-licencas-certificados):not(#botao-edicao):not(#botao-add-seccao):not(.seccao-botao-apagar):not(.seccao-botao-editar):not(.seccao-botao-criar-topico), 
+input:not(.inputLogo, #descricao, .conta-config, #input-banner, #input-foto-perfil, .titulo-seccao)[type='submit'] {
     min-width: 10vw;
     height: 3vh;
-
     border: 1px solid #c4c0bf;
     border-radius: 5%;
     background-color: #2e6890;
@@ -111,7 +106,9 @@ button {
     cursor: pointer;
 }
 
-.botoes-portal {
+
+
+.botoes-portal, .botoes-inicio {
     background-color: red;
     all: unset;
     cursor: pointer;
@@ -120,7 +117,7 @@ button {
     width: 252px;
 }
 
-.botoes-portal:hover {
+.botoes-portal:hover, .botoes-inicio:hover {
     transform: scale(1.1);
 }
 
@@ -130,6 +127,10 @@ button {
 
 #botao-estagio {
     margin-left: 170px;
+}
+
+#botao-professor, #botao-empresa {
+    margin-left: 50px;
 }
 
 .imgs-botoes-portal {
@@ -152,7 +153,7 @@ button {
 }
 
 #notificacoes-portal p {
-    color:white;
+    color: white;
     text-align: center;
 }
 
@@ -160,7 +161,7 @@ button {
     display: inline;
 }
 
-#not-dois, #not-tres,  #not-dois-select, #not-tres-select{
+#not-dois, #not-tres, #not-dois-select, #not-tres-select {
     display: none;
 }
 
@@ -168,7 +169,6 @@ button {
     font-size: 40px;
     background-color: #2e6890;
     border-color: #2e6890;
-
 }
 
 #avancar-notificacao {
@@ -181,16 +181,13 @@ button {
 }
 
 #section-meus-trabalhos {
-    margin-top: 5vh; 
+    margin-top: 5vh;
     margin-left: 100px;
-    padding: 3vh;  
-    
+    padding: 3vh;
     max-height: calc(100vh - 40vh);
-
     border-radius: 1%;
     background-color: #2e6890;
     color: white;
-
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -200,13 +197,118 @@ button {
 }
 
 #nome-no-portal {
-	font-family: Arial, Helvetica, sans-serif;
-	max-height: 100%;
-	max-width: 100%;
-	overflow: hidden;
-	width: 1000px;
-	margin-left: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    max-height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    width: 1000px;
+    margin-left: 100px;
 }
 
+#pdfView {
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ccc;
+}
 
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
 
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.estagio-section {
+    text-decoration: none;
+    color: black;
+}
+
+.estagio-section section {
+    background-color: #EEEEEE;
+    margin: 20px;
+}
+
+.estagio-section h3, .estagio-section p {
+    margin: 5px;
+    border: 5px;
+}
+
+.botao-aplicar {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background: linear-gradient(90deg, #2e6890, #003869);
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.botao-aplicar:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #003869, #2e6890);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input {
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+textarea:not(#campo-descricao, .caixa-texto-topico, .caixa-texto-topico2 ), input:not(#descricao, .titulo-seccao, .conta-config, #input-banner, #input-foto-perfil) {
+    padding: 10px;
+    width: 95%;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#estagio-inputs {
+    justify-content: center;
+}
+
+#estagio-inputs input:not(.inputLogo, #descricao, .conta-config, #input-banner, #input-foto-perfil)[type='submit'] {
+    display: block;
+    text-align: center;
+    padding: 0;
+    height: 4vh;
+    max-width: 50%;
+}
+
+#criar-button {
+    width: 3vh;
+}
+
+#apagar-button button {
+    background-color: red;
+}
