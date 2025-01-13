@@ -298,7 +298,20 @@ button, input[type='submit'] {
 #botao-aplicar:hover {
     background-color: #0056b3;
 }
+.estagio-section {
+    text-decoration: none;
+    color: black;
+}
 
+.estagio-section section {
+    background-color: #EEEEEE;
+    margin: 20px;
+}
+
+.estagio-section h3, .estagio-section p {
+    margin: 5px;
+    border: 5px;
+}
 #estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
   font-size: 1rem;
   letter-spacing: 1px;
