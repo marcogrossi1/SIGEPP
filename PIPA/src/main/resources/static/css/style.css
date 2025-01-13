@@ -378,3 +378,7 @@ label {
     margin: 5px;
     border: 5px;
 }
+
+#body-candidatura{
+	overflow-y: auto;
+}
