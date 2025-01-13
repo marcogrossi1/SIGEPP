@@ -25,6 +25,17 @@ let contadorCompetencias = 0;
 let contadorLicencasCertificados = 0;
 
 // Perfil
+let usuarioLogadoId = [[${usuarioLogadoId}]]; // ID do usuário logado (passado do backend)
+let usuarioPerfilId = [[${usuarioPerfilId}]]; // ID do perfil sendo visualizado (passado do backend)
+
+// Corrigir comparação:
+if (usuarioLogadoId === usuarioPerfilId) {
+    habilitacaoEdicao.style.display = 'block'; // Exibe o botão de edição para o dono do perfil
+} else {
+    habilitacaoEdicao.style.display = 'none'; // Esconde o botão de edição para outros usuários
+}
+
+
 function submeterFormulariosPerfil() {
     formularioDescricao.submit();
     formularioBanner.submit();
@@ -66,8 +77,27 @@ concluirEdicao.addEventListener('click', function() {
     alert('Alterações salvas com sucesso!');
     this.style.display = 'none';
     habilitacaoEdicao.style.display = 'block';
-    submeterFormulariosPerfil();
-    esconderEditaveis();
+    
+    // Enviar dados para o backend
+    let formData = new FormData();
+    formData.append('descricao', campoDescricao.value);
+    formData.append('banner', inputBanner.files[0]);
+    formData.append('fotoPerfil', inputFotoPerfil.files[0]);
+
+    // Enviar via AJAX
+    fetch('/api/atualizarPerfil', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Dados enviados com sucesso:', data);
+        submeterFormulariosPerfil();
+        esconderEditaveis();
+    })
+    .catch(error => {
+        console.error('Erro ao enviar dados:', error);
+    });
 });
 
 adicionarSeccao.addEventListener('click', function() {
