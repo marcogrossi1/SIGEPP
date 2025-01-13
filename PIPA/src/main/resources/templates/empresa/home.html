@@ -3,18 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="css/style.css">
-	<link rel="icon" href="img/icon.png">
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="icon" href="../img/icon.png">
     <title>Estágios - Home</title>
+    <style>
+        #miniHead{
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+        }
+        #miniHead a{
+            width: 3vh;
+        }
+    </style>
 </head>
 <body>
-	<header>
-	        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-	        <h1 id="titulo-plataforma" >PIPA | Home</h1>
-	</header>
+
+    <header>
+        <a href="/empresa"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav>
+	<p id="nome-no-portal" th:text="${empresa.nome}"></p>
+        <a href="/empresa/perfil" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+    </nav>
 	
 	<main>
-		<h2>Página empresa</h2>
+                <h2>Seus estágios</h2>
+                
+                <a class="estagio-section" th:each="estagio : ${estagioList}" th:href="@{http://localhost:8080/empresa/detalhes-estagio(n=${estagio.id})}">
+                    <section>
+                        <h3 th:text="${estagio.empresa}"></h3>
+                        <p th:text="${estagio.requisito}"></p>
+                    </section>
+                </a>
+                <a id="criar-button" th:href="@{http://localhost:8080/empresa/criar}">
+                    <button>+</button>
+                </a>
 	</main>
     
 </body>
