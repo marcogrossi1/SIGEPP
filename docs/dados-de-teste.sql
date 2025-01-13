@@ -56,16 +56,16 @@ VALUES
 (5,"00000000005","Marco Grossi","Edificações","Nova Gameleira","marco@gmail.com","serie 2", 5),
 (6,"00000000006","Nicolas Chagas","Eletrônica","Araxá","nicolas@gmail.com","serie 2", 6);
 
-INSERT INTO estagio (id, empresa, descricao, carga_horaria, vagas, requisito, salario) 
+INSERT INTO estagio (id, empresa, descricao, carga_horaria, vagas, requisito, salario, documentos) 
 VALUES 
-(1,"Cemig","Vagas Setor Manutenção",80,3,"Cursando Eletrotécnica, serie 3", "1550"),
-(2,"Copasa","Vagas Setor de TI",80,2,"Cursando Informática, serie 3", "1650"),
-(3,"Santa Clara","Vagas Setor de Engenharia",80,10,"Cursando Engenharia Mecânica, periodo 3", "1700"),
-(4,"Vivo","Vagas Setor de Telemarketing",80,5,"Ensino Fundamental Completo", "2000"),
-(5,"Petrobras","Vagas Setor de Pesquisa",80,5,"Cursando Engenharia Química, serie 3", "1400"),
-(6,"Vale","Vagas Setor de Logística",80,4,"Cursando Engenharia de Produção, serie 3", "A combinar"),
-(7,"Embraer","Vagas Setor de Aeronáutica",80,6,"Cursando Engenharia Aeronáutica, serie 3", "1600"),
-(8,"Embraer","Vagas Setor de Desenvolvimento",80,5,"Cursando Engenharia Aeronáutica, serie 4", "1550");
+(1,"Cemig","Vagas Setor Manutenção",80,3,"Cursando Eletrotécnica, serie 3", "1550", "RG"),
+(2,"Copasa","Vagas Setor de TI",80,2,"Cursando Informática, serie 3", "1650", "RG,Certificado de conclusão do Ensino Médio"),
+(3,"Santa Clara","Vagas Setor de Engenharia",80,10,"Cursando Engenharia Mecânica, periodo 3", "1700", NULL),
+(4,"Vivo","Vagas Setor de Telemarketing",80,5,"Ensino Fundamental Completo", "2000", NULL),
+(5,"Petrobras","Vagas Setor de Pesquisa",80,5,"Cursando Engenharia Química, serie 3", "1400", "RG,Certificado de conclusão do Ensino Fundamental"),
+(6,"Vale","Vagas Setor de Logística",80,4,"Cursando Engenharia de Produção, serie 3", "A combinar", "RG,Certificado de conclusão do Ensino Médio,Certificado de conclusão do Ensino Fundamental"),
+(7,"Embraer","Vagas Setor de Aeronáutica",80,6,"Cursando Engenharia Aeronáutica, serie 3", "1600", NULL),
+(8,"Embraer","Vagas Setor de Desenvolvimento",80,5,"Cursando Engenharia Aeronáutica, serie 4", "1550", NULL);
 
 
 INSERT INTO projeto (id, nome, responsavel, descricao, carga_horaria, vagas, requisito) 

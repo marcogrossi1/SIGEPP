@@ -302,4 +302,11 @@ label {
 #apagar-button button{
     background-color: red;
 }
-
+#redirect-empresa-perfil{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+#redirect-empresa-perfil:hover{
+    text-decoration: underline;
+}
