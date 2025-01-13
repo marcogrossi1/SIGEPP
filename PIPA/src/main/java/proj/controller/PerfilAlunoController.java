@@ -1,5 +1,6 @@
 package proj.controller;
 
+import java.io.FileOutputStream;
 import java.security.Principal;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -7,45 +8,115 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import proj.dao.AlunoDao;
-import proj.dao.HDataSource;
-import proj.model.Aluno;
-import proj.model.Estagio;
-import proj.model.Projeto;
-import proj.model.Usuario;
-import proj.dao.ProjetoDao;
-import proj.dao.UsuarioDao;
-import proj.dao.EstagioDao;
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.Image;
-import java.io.FileOutputStream;
+
+import proj.dao.AdministradorDao;
+import proj.dao.AlunoDao;
+import proj.dao.EstagioDao;
+import proj.dao.HDataSource;
+import proj.dao.ProjetoDao;
+import proj.dao.UsuarioDao;
+import proj.dao.EmpresaDao;
+
+import proj.model.Usuario;
+import proj.model.Administrador;
+import proj.model.Aluno;
+import proj.model.Empresa;
+import proj.model.Estagio;
+import proj.model.Projeto;
 
 @Controller
-public class EmiteCertificadosController {
+@RequestMapping("/perfil-aluno")
+public class PerfilAlunoController {
+	
+	@Autowired
+    private HDataSource ds;
 
-    @Autowired
-	private HDataSource ds;
+	@GetMapping
+	public String mostraPerfilAluno(@RequestParam("id") Long alunoId, Model model, Principal principal) 
+	throws Exception {
+		try(Connection conn = ds.getConnection()) {
+			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+        	model.addAttribute("usuario", u);
+
+			Aluno a = AlunoDao.get(conn, alunoId);
+
+			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
+			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
+			
+			model.addAttribute("aluno", a);
+			model.addAttribute("projetos", projetos);
+			model.addAttribute("estagios", estagios);
+
+			if (u.getRole().equals("Aluno")) {
+                return "perfilAluno";
+            }
     
-    @RequestMapping("/emite")
-	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo,Model model, Principal principal) throws Exception {
+            else if (u.getRole().equals("Administrador")) {
+                Administrador adm = AdministradorDao.getByCpf(conn, principal.getName());
+                ArrayList<Empresa> empresas = AdministradorDao.listEmpresas(conn);
+
+                model.addAttribute("administrador", adm);
+                model.addAttribute("listaEmpresas", empresas);
+
+                return "perfilAluno";
+            }
+    
+            else if (u.getRole().equals("Empresa")) {
+                return "perfilAluno";
+            }
+
+			else {
+				return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
+			}
+		}
+		
+		catch(Exception e) {
+			return "erro";
+		}
+	}
+
+	@GetMapping("/emite")
+	public String emiteCertificado(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, @RequestParam("aluno") Long alunoId,Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-			if (u.getRole().equals("Aluno") == false) {
-				return mostraPaginaDeErro(model , "Usuário não é um Aluno!.");
+        	model.addAttribute("usuario", u);
+
+			if (u.getRole().equals("Aluno")) {
+            }
+    
+            else if (u.getRole().equals("Administrador")) {
+                Administrador adm = AdministradorDao.getByCpf(conn, principal.getName());
+                ArrayList<Empresa> empresas = AdministradorDao.listEmpresas(conn);
+
+                model.addAttribute("administrador", adm);
+                model.addAttribute("listaEmpresas", empresas);
+            }
+    
+            else if (u.getRole().equals("Empresa")) {
+				Empresa e = EmpresaDao.getByNome(conn, principal.getName());
+				model.addAttribute("empresa", e);
 			}
 
-	    	Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+			else {
+				return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
+			}
+
+	    	Aluno a = AlunoDao.get(conn, alunoId);
+
 		    ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 		    ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
+
             Projeto projetoRealizado = ProjetoDao.get(conn, projetoId);
             Estagio estagioRealizado = EstagioDao.get(conn, projetoId);
             
@@ -110,7 +181,7 @@ public class EmiteCertificadosController {
             
             catch (Exception e) {
                 e.printStackTrace();
-                return "aluno/certificado";
+                return mostraPaginaDeErro(model, "Erro ao emitir certificado.");
             }
         }
 
@@ -119,8 +190,8 @@ public class EmiteCertificadosController {
         } 	
     }	
 
-    public String mostraPaginaDeErro(Model model, String message) {
-        model.addAttribute("message",message);
-        return "erro";
-    }
+	public String mostraPaginaDeErro(Model model, String message) {
+		model.addAttribute("message",message);
+		return "erro";
+	}
 }

@@ -1,10 +1,12 @@
 /* Contêiners */
 body, html {
     margin: 0;
+    height: 100%;
+    overflow: auto;
 }
 
 body {
-    overflow: hidden;
+    overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -39,6 +41,8 @@ main {
     border-radius: 1%;
     background-color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
 /* Elementos */
@@ -91,7 +95,7 @@ input {
     background-color: #fefafa;
 }
 
-button {
+button, input[type='submit'] {
     min-width: 10vw;
     height: 3vh;
     border: 1px solid #c4c0bf;
@@ -230,39 +234,117 @@ button {
     background-color: #f1f1f1;
 }
 
-.estagio-section {
-    text-decoration: none;
-    color: black;
+/* Atualização para Candidatura */
+#pagina-candidatura {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
 }
 
-.estagio-section section {
-    background-color: #EEEEEE;
-    margin: 20px;
-}
-
-.estagio-section h3, .estagio-section p {
-    margin: 5px;
-    border: 5px;
-}
-
-.botao-aplicar {
-    display: inline-block;
-    padding: 15px 30px;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    background: linear-gradient(90deg, #2e6890, #003869);
+#detalhes-candidatura {
+    margin-top: 15px;
+    width: 80%;
+    max-width: 900px;
+    background: white;
+    padding: 20px;
     border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.botao-aplicar:hover {
-    transform: scale(1.05);
-    background: linear-gradient(90deg, #003869, #2e6890);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+#projeto-detalhes {
+    background-color: #336699;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
 }
+
+#projeto-detalhes p {
+    margin: 10px 0;
+}
+
+#form-candidatura {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+    gap: 15px;
+    padding: 0 15px; 
+}
+
+#mensagem {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    resize: vertical;
+}
+
+#botao-aplicar {
+    background-color: #002855;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; 
+    max-width: 250px;  
+    align-items: center;
+}
+
+#botao-aplicar:hover {
+    background-color: #0056b3;
+}
+
+#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+textarea, input {
+  padding: 10px;
+  width: 95%;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+#estagio-inputs{
+    justify-content: center;
+}
+#estagio-inputs input[type='submit']{
+    display: block;
+    text-align: center;
+    padding: 0;
+    height: 4vh;
+    max-width: 50%;
+}
+#criar-button{
+    width: 3vh;
+}
+#apagar-button button{
+    background-color: red;
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow: visible;
+    }
+    #form-candidatura {
+        width: 100%;
+        padding: 10px;
+    }
+    #botao-aplicar {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+

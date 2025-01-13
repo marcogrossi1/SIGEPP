@@ -36,7 +36,9 @@ public class Empresa {
 	}
 	@Override
 	public String toString() {
-		return "Empresa [id=" + id + ", nome=" + nome + ", usuario_id=" + usuario_id + "]";
+		return "Empresa [id=" + id + ", nome=" + nome + ", usuario_id=" + usuario_id + 
+                        "endereco="+ endereco + "website=" + website + "telefone=" + telefone + 
+                        "CNPJ=" + cnpj + "area=" + area +"email=" + email +"]";
 	}
 	
 	public String getEndereco() {
