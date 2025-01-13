@@ -17,6 +17,7 @@ public class DocumentoController {
 
     @GetMapping("/upload")
     public String formularioUpload() {
+
         return "/upload";
     }
     
@@ -39,6 +40,7 @@ public class DocumentoController {
             documento.setNomeArquivo(file.getOriginalFilename());
             documento.setConteudo(file.getBytes());
             documentoRepository.save(documento);
+
             model.addAttribute("mensagem", "Upload realizado com sucesso!");
 
         } catch (IOException e) {

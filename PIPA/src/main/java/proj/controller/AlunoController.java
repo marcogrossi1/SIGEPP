@@ -294,5 +294,5 @@ public class AlunoController {
 	        model.addAttribute("estagioId", estagioId);
 	        return "aluno/upload";
 	    }
-	}	
+}
 }
