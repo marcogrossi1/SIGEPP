@@ -2,16 +2,47 @@ package proj.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@Configuration //nao eh necessario pq a anotacao @EnableWebSecurity deriva de @Configuration
-@EnableWebSecurity //permite que nossa configuracao substitua as configurações default de seguranca dos Starters do Spring Security - https://stackoverflow.com/questions/44671457/what-is-the-use-of-enablewebsecurity-in-spring
+@Configuration 
+@EnableWebSecurity 
 public class SecurityConfig {
+    
+    @Bean
+    public SecurityFilterChain securityFilterChain1(HttpSecurity http) throws Exception 
+    {
+        http
+            .authorizeHttpRequests((requests) -> 
+                requests
+                    .requestMatchers("/","/css/**","/img/**","/js/**")
+                    .permitAll()
+                    .requestMatchers("/aluno/**").hasRole("Aluno")
+                    .requestMatchers("/professor/**").hasRole("Professor")
+                    .requestMatchers("/empresa/**").hasRole("Empresa")
+                    .anyRequest().authenticated()
+            )
+            .csrf(csrf -> csrf.disable()) 
+            .formLogin((form) -> 
+                form
+                    .loginPage("/login")
+                    .permitAll()
+            )
+            .logout((logout) -> 
+                logout
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/")
+                    .permitAll()
+            );
+        return http.build();
+    }
 
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new sha512HexPasswordEncoder();
-	}
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new sha512HexPasswordEncoder();
+    }
 }
+
