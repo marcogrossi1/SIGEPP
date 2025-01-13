@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import proj.model.Empresa;
 
 import java.sql.Connection;
@@ -17,11 +19,13 @@ public class EmpresaEditarController {
     private Connection connection;
 
     @GetMapping("/empresa/perfil-editar")
-    public String exibirPerfil(Model model) {
+    public String exibirPerfil(@RequestParam("id") Long id, HttpSession session, Model model) {
+        session.setAttribute("empresaId", id);  // Armazene o ID na sessão
+
         try {
             String query = "SELECT * FROM Empresa WHERE id = ?";
             var stmt = connection.prepareStatement(query);
-            stmt.setLong(1, 1); // Substitua pelo ID da empresa
+            stmt.setLong(1, id);
             var rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -35,7 +39,6 @@ public class EmpresaEditarController {
                 empresa.setTelefone(rs.getString("telefone"));
                 empresa.setEmail(rs.getString("email"));
 
-                // Adicione o objeto empresa ao modelo
                 model.addAttribute("empresa", empresa);
             }
         } catch (Exception e) {
@@ -46,10 +49,12 @@ public class EmpresaEditarController {
     }
 
 
+
     @PostMapping("/empresa/perfil-editar")
-    public String editarPerfil(String nome, String cnpj, String endereco, String website, String area, String telefone, String email) {
+    public String editarPerfil(HttpSession session, String nome, String cnpj, String endereco, String website, String area, String telefone, String email) {
+        Long empresaId = (Long) session.getAttribute("empresaId");  // Obtém o ID da empresa da sessão
+
         try {
-            // Atualiza os dados no banco
             String query = "UPDATE Empresa SET nome = ?, cnpj = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ? WHERE id = ?";
             var stmt = connection.prepareStatement(query);
             stmt.setString(1, nome);
@@ -59,7 +64,7 @@ public class EmpresaEditarController {
             stmt.setString(5, area);
             stmt.setString(6, telefone);
             stmt.setString(7, email);
-            stmt.setLong(8, 1); // Substitua pelo ID da empresa
+            stmt.setLong(8, empresaId);  // Use o ID da empresa armazenado na sessão
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,4 +72,5 @@ public class EmpresaEditarController {
 
         return "PerfilEditar";
     }
+
 }
