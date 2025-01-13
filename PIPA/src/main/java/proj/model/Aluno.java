@@ -1,106 +1,120 @@
 package proj.model;
 
-import java.util.ArrayList;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-public class Aluno{
+@Entity
+public class Aluno {
 
-	private long id;
-	private String cpf;
-	private String nome;
-	private String curso;
-	private String campus;
-	private String email;
-	private String periodo;
-	private long usuario_id;
-	
-	private ArrayList<Estagio> listaEstagio = new ArrayList<Estagio>();
-	private ArrayList<Projeto> listaProjeto = new ArrayList<Projeto>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public long getId() {
-		return id;
-	}
+    private String cpf;
+    private String nome;
+    private String curso;
+    private String campus;
+    private String email;
+    private String periodo;
+    private String descricao;
+    private String fotoPerfil;  // Foto de perfil
+    private String banner;      // Banner
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "Usuario_id")
+    private Usuario usuario;
 
-	@Override
-	public String toString() {
-		return "Aluno [id=" + id + ", cpf=" + cpf + ", nome=" + nome + ", curso=" + curso + ", campus=" + campus
-				+ ", email=" + email + ", periodo=" + periodo + ", listaEstagio=" + listaEstagio
-				+ ", listaProjeto=" + listaProjeto + "]";
-	}
+    // Getters e setters
 
-	public String getCpf() {
-		return cpf;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public String getCpf() {
+        return cpf;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
-	public String getCurso() {
-		return curso;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setCurso(String curso) {
-		this.curso = curso;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public String getCampus() {
-		return campus;
-	}
+    public String getCurso() {
+        return curso;
+    }
 
-	public void setCampus(String campus) {
-		this.campus = campus;
-	}
+    public void setCurso(String curso) {
+        this.curso = curso;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getCampus() {
+        return campus;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setCampus(String campus) {
+        this.campus = campus;
+    }
 
-	public String getPeriodo() {
-		return periodo;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setPeriodo(String periodo) {
-		this.periodo = periodo;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public ArrayList<Estagio> getListaEstagio() {
-		return listaEstagio;
-	}
+    public String getPeriodo() {
+        return periodo;
+    }
 
-	public void setListaEstagio(ArrayList<Estagio> listaEstagio) {
-		this.listaEstagio = listaEstagio;
-	}
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
 
-	public ArrayList<Projeto> getListaProjeto() {
-		return listaProjeto;
-	}
+    public String getDescricao() {
+        return descricao;
+    }
 
-	public void setListaProjeto(ArrayList<Projeto> listaProjeto) {
-		this.listaProjeto = listaProjeto;
-	}
-	
-	
-	public long getUsuario_id() {
-		return usuario_id;
-	}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-	public void setUsuario_id(long usuario_id) {
-		this.usuario_id = usuario_id;
-	}
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }
