@@ -21,7 +21,9 @@
             <p th:text="'Salário: R$' + ${estagio.salario}"></p>
             <hr>
             <p th:text="${descricao}"></p>
-            
+             <a th:href="@{/aluno/upload(estagioId=${estagio.id})}">
+    		<button type = " submit" href = "aluno/upload">Enviar Documentos</button>
+        	</a>
         </section>
         
     </main>
