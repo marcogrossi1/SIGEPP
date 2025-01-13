@@ -1,5 +1,10 @@
+package proj.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import proj.dao.TopicoDao;
+import proj.model.Topico;
 
 import java.util.List;
 
@@ -8,7 +13,7 @@ import java.util.List;
 public class TopicoController {
 
     @Autowired
-    private TopicoRepository topicoRepository;
+    private TopicoDao topicoRepository;
 
     // Consultar tópicos de uma seção
     @GetMapping("/{secaoId}")

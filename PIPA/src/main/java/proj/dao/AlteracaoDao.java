@@ -1,8 +1,10 @@
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+package proj.dao;
 
-@Repository
-public interface AlteracaoRepository extends JpaRepository<Alteracao, Long> {
-    // Consultar alterações por ID do usuário
+import org.springframework.data.jpa.repository.JpaRepository;
+import proj.model.Alteracao;
+
+import java.util.List;
+
+public interface AlteracaoDao extends JpaRepository<Alteracao, Long> {
     List<Alteracao> findByUsuarioId(Long usuarioId);
 }

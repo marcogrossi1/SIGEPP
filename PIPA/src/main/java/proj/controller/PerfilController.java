@@ -1,79 +1,74 @@
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import java.io.IOException;
-import java.util.List;
 
+import com.itextpdf.text.List;
+
+import jakarta.transaction.Transactional;
+import proj.dao.SecaoDao;
+import proj.dao.UsuarioDao;
+import proj.model.Secao;
+import proj.model.Usuario;
 
 @Controller
 public class PerfilController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository; // Para persistir os dados do usuário
+    private UsuarioDao usuarioRepository; // Repositório de usuário
     @Autowired
-    private SecaoRepository secaoRepository; // Para persistir as seções
+    private SecaoDao secaoRepository; // Repositório de seção
 
-    @GetMapping("/perfil")
-    public String exibirPerfil(Model model, @AuthenticationPrincipal Usuario usuario) {
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("secoes", usuario.getSecoes()); // Exibir as seções relacionadas
-        return "perfil"; // Nome do arquivo HTML (perfil.html)
-    }
-
+    // Atualiza o perfil do usuário
+    @Transactional
     @PostMapping("/perfil/atualizar")
     public String atualizarPerfil(@RequestParam String descricao, 
                                   @RequestParam(required = false) MultipartFile fotoPerfil, 
                                   @RequestParam(required = false) MultipartFile banner,
-                                  @RequestParam(required = false) List<String> seccaoIds, // IDs das seções criadas
+                                  @RequestParam(required = false) List<Long> secaoIds, 
                                   @AuthenticationPrincipal Usuario usuario) {
-        // Atualizar os dados do usuário
+
+        // Atualiza os dados do usuário
         usuario.setDescricao(descricao);
+        if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
+            usuario.setFotoPerfil(fotoPerfil.getBytes());
+        }
+        if (banner != null && !banner.isEmpty()) {
+            usuario.setBanner(banner.getBytes());
+        }
 
-        try {
-            if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
-                usuario.setFotoPerfil(fotoPerfil.getBytes()); // Lidar com imagem
-            }
-            if (banner != null && !banner.isEmpty()) {
-                usuario.setBanner(banner.getBytes()); // Lidar com imagem
-            }
+        // Salva o usuário utilizando o método manual
+        usuarioRepository.save(usuario);  // Método do UsuarioDao
 
-            // Atualizar as seções conforme o id passado
-            if (seccaoIds != null) {
-                for (String id : seccaoIds) {
-                    Secao secao = secaoRepository.findById(Long.parseLong(id)).orElse(null);
-                    if (secao != null) {
-                        // Modificar a seção (associar ao usuário)
-                        secao.setUsuario(usuario);
-                        secaoRepository.save(secao); // Atualizar seção no banco
-                    }
+        // Atualiza as seções associadas ao usuário
+        if (secaoIds != null) {
+            for (Long secaoId : secaoIds) {
+                Secao secao = secaoRepository.findById(secaoId); // Método do SecaoDao
+                if (secao != null) {
+                    secao.setUsuario(usuario);  // Associa a seção ao usuário
+                    secaoRepository.save(secao);  // Método do SecaoDao
+                } else {
+                    throw new RuntimeException("Seção não encontrada para o ID: " + secaoId);
                 }
             }
-
-            usuarioRepository.save(usuario); // Persistir os dados do usuário no banco
-        } catch (IOException e) {
-            // Tratar erros de upload de arquivos
-            e.printStackTrace();
         }
-        
-        return "redirect:/perfil"; // Redirecionar de volta para a página de perfil
+
+        return "redirect:/perfil"; // Redireciona para o perfil após a atualização
     }
 
+    // Adiciona uma nova seção ao perfil do usuário
     @PostMapping("/perfil/adicionar-seccao")
     @ResponseBody
-    public String adicionarSeccao(@RequestParam String tipoSeccao, 
+    public String adicionarSecao(@RequestParam String tipoSecao, 
                                   @AuthenticationPrincipal Usuario usuario) {
-        // Lógica para adicionar uma nova seção
+        // Cria uma nova seção
         Secao novaSecao = new Secao();
-        novaSecao.setTipoSeccao(tipoSeccao);
-        novaSecao.setUsuario(usuario);
-        secaoRepository.save(novaSecao); // Salvar a seção no banco
+        novaSecao.setTipoSecao(tipoSecao);
+        novaSecao.setUsuario(usuario); // Associa a nova seção ao usuário
+        secaoRepository.save(novaSecao); // Método do SecaoDao
 
         return "Seção adicionada com sucesso!";
     }

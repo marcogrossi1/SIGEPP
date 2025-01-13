@@ -1,5 +1,10 @@
+package proj.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import proj.dao.AlteracaoDao;
+import proj.model.Alteracao;
 
 import java.util.List;
 
@@ -8,7 +13,7 @@ import java.util.List;
 public class AlteracaoController {
 
     @Autowired
-    private AlteracaoRepository alteracaoRepository;
+    private AlteracaoDao alteracaoRepository;
 
     // Consultar histórico de alterações de um usuário
     @GetMapping("/{usuarioId}")

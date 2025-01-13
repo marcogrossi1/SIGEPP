@@ -25,6 +25,17 @@ let contadorCompetencias = 0;
 let contadorLicencasCertificados = 0;
 
 // Perfil
+let usuarioLogadoId = [[${usuarioLogadoId}]]; // ID do usuário logado (passado do backend)
+let usuarioPerfilId = [[${usuarioPerfilId}]]; // ID do perfil sendo visualizado (passado do backend)
+
+// Corrigir comparação:
+if (usuarioLogadoId === usuarioPerfilId) {
+    habilitacaoEdicao.style.display = 'block'; // Exibe o botão de edição para o dono do perfil
+} else {
+    habilitacaoEdicao.style.display = 'none'; // Esconde o botão de edição para outros usuários
+}
+
+
 function submeterFormulariosPerfil() {
     formularioDescricao.submit();
     formularioBanner.submit();
