@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="img/icon.png">
-    <title>Perfil</title>
+	<link rel="stylesheet" href="../css/style.css">
+    <title>Administrador - Perfil</title>
 </head>
 <body>
-    <header>
+	<header>
         <div th:switch="${usuario.role}">
-            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <a th:case="'Professor'" href="/professor"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Professor'" href="/professor"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
             <p id="nome-no-portal" th:case="'*'"></p>
         </div>
         <h1 id="titulo-plataforma" >PIPA | Portal</h1>
@@ -29,17 +27,14 @@
             <p id="nome-no-portal" th:case="'*'"></p>
         </div>
         <a href="perfil" class="icone" id="icone-portal">
-            <img src="img/icone-perfil.png">
+            <img src="../img/icone-perfil.png">
             <label>Perfil</label>
         </a>
     </nav>    
+	
+	<main>
+		<h2>Perfil</h2>
+	</main>
     
-
-    <main>
-        <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
-    </main>
-
-    <script src="js/portal.js"></script>
-
 </body>
 </html>
