@@ -198,3 +198,18 @@ CREATE TABLE candidatura (
     FOREIGN KEY (oportunidade_id) REFERENCES projeto(id)
 );
 
+-- -----------------------------------------------------
+-- Table Professor_has_Projeto
+-- -----------------------------------------------------
+CREATE TABLE
+  Professor_has_Projeto (
+    professor_id BIGINT NOT NULL,
+    projeto_id BIGINT NOT NULL,
+    PRIMARY KEY (professor_id, projeto_id),
+    INDEX fk_Professor_has_Projeto_Projeto1_idx (projeto_id ASC),
+    INDEX fk_Professor_has_Projeto_Prodessor1_idx (professor_id ASC),
+    CONSTRAINT fk_Professor_has_Projeto_Professor FOREIGN KEY (professor_id) REFERENCES Professor (id),
+    CONSTRAINT fk_Professor_has_Projeto_Projeto1 FOREIGN KEY (projeto_id) REFERENCES Projeto (id)
+  ) ENGINE = InnoDB default character
+set
+  = utf8;

@@ -74,8 +74,10 @@ VALUES
 
 INSERT INTO projeto (id, nome, responsavel, descricao, carga_horaria, vagas, requisito) 
 VALUES 
-(1, "Pipa", "Cristiano Amaral Maffort", "Trabalho em sistema de coordenação de oportunidades acadêmicas.", 80, 10, "Informática serie 2"),
-(2, "Ficando Rico", "Lucia Próspera", "Projeto em matemática financeira.", 50, 2, "Ser aluno do Cefet.");
+(1,"Pipa","Cristiano Amaral Maffort", "Trabalho em sistema de coordenação de oportunidades acadêmicas.",80,10,"Informática serie 2"),
+(2,"Ficando Rico","Lucia Próspera","Projeto em matemática financeira.",50,2,"Ser aluno do Cefet."),	
+(3, "Plataforma de Ensino Online", "Cristiano Amaral Maffort", "Desenvolvimento de uma plataforma para ensino a distância, focada em acessibilidade e interatividade para alunos de diversos níveis.", 120, 15, "Conhecimento básico em tecnologias web."),
+(4, "Sistema de Monitoramento de Desempenho Acadêmico", "Cristiano Amaral Maffort", "Criação de um sistema de monitoramento para acompanhar o desempenho dos alunos, com relatórios detalhados e alertas para professores.", 100, 12, "Noções de bancos de dados e programação orientada a objetos.");
 
 INSERT INTO aluno_has_estagio (aluno_id, estagio_id) 
 VALUES 
@@ -98,3 +100,9 @@ VALUES
 (3, 5),
 (4, 6),
 (4, 7);
+
+INSERT INTO professor_has_projeto (professor_id, projeto_id) 
+VALUES 
+(1,1),
+(1,3),
+(1,4);

@@ -25,13 +25,14 @@ header {
 
 nav {
     width: 100vw;
-    height: 7vh;
+    height: 5vh;
+    padding: 0 1vw 0 0;
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: end;
     align-items: center;
     background-color: #ffffff;
-    padding: 0 10vw;
+    border-bottom: 0.00001vh solid #c5c5c5;
 }
 
 main {
@@ -53,6 +54,13 @@ main {
 /* Elementos */
 main>:first-child {
     margin-top: 0;
+}
+
+nav> :first-child {
+    position: absolute;
+    top: 8.5vh;
+    left: 1vw;
+    font-size: 1.5em;
 }
 
 .icone {
@@ -257,53 +265,52 @@ button, input[type='submit'] {
     background-color: #f1f1f1;
 }
 
+/* Atualização para Candidatura */
 #pagina-candidatura {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px; 
-    width: 100%;
+    padding: 15px;
 }
 
 #detalhes-candidatura {
-    width: 90%; 
-    max-width: 750px; 
+    margin-top: 15px;
+    width: 80%;
+    max-width: 900px;
     background: white;
-    padding: 10px; 
-    border-radius: 8px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #projeto-detalhes {
     background-color: #336699;
     color: white;
-    padding: 10px; 
-    border-radius: 8px;
+    padding: 15px;
+    border-radius: 10px;
 }
 
 #projeto-detalhes p {
-    margin: 5px 0; 
-    font-size: 0.9rem; 
+    margin: 10px 0;
 }
 
 #form-candidatura {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 15px; 
+    margin-top: 20px;
     width: 100%;
-    max-width: 500px; 
-    gap: 10px; 
-    padding: 0 10px; 
+    max-width: 600px;
+    gap: 15px;
+    padding: 0 15px; 
 }
 
 #mensagem {
     width: 100%;
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 8px; 
+    padding: 10px;
     resize: vertical;
-    font-size: 0.9rem; 
 }
 
 #botao-aplicar {
@@ -322,24 +329,6 @@ button, input[type='submit'] {
 #botao-aplicar:hover {
     background-color: #0056b3;
 }
-
-@media (max-width: 768px) {
-    #pagina-candidatura {
-        padding: 5px; /* Reduzi o padding geral */
-    }
-    #detalhes-candidatura {
-        width: 95%;
-        padding: 10px; /* Reduzi o padding interno */
-    }
-    #form-candidatura {
-        padding: 5px; /* Reduzi o padding lateral */
-    }
-    #botao-aplicar {
-        width: 100%;
-        max-width: 100%; /* Ajustei para ocupar todo o espaço disponível */
-    }
-}
-
 
 #estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
   font-size: 1rem;
@@ -375,14 +364,7 @@ label {
 #apagar-button button{
     background-color: red;
 }
-#redirect-empresa-perfil{
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-}
-#redirect-empresa-perfil:hover{
-    text-decoration: underline;
-}
+
 @media (max-width: 768px) {
     body {
         overflow: visible;
@@ -411,48 +393,8 @@ label {
     border: 5px;
 }
 
-.opcoes {
-    width: 30vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-.botao-editar {                     
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-}
-
-.botao-editar:hover {
-    background-color: #45a049;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.botao-excluir {                     
-    background-color: #ff5555;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-}
-
-.botao-excluir:hover {
-    background-color: #c24c4c;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+#body-candidatura{
+	overflow-y: auto;
 }
 
 .projeto {
@@ -482,3 +424,71 @@ label {
     margin-bottom: 10px;
 }
 
+/*para o professor gerenciar os projetos dele*/
+.opcoes {
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.botao-editar {      
+    height: 2vh;               
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.botao-editar:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.botao-excluir {     
+    height: 4vh;                 
+    background-color: #ff5555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.botao-excluir:hover {
+    background-color: #c24c4c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.botao-aplicar {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background: linear-gradient(90deg, #2e6890, #003869);
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.botao-aplicar:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #003869, #2e6890);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}

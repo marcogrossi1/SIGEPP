@@ -10,25 +10,13 @@
 </head>
 <body>
     <header>
-        <div th:switch="${usuario.role}">
-            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <a th:case="'Professor'" href="/professor"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <p id="nome-no-portal" th:case="'*'"></p>
-        </div>
+        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
         <h1 id="titulo-plataforma" >PIPA | Portal</h1>
     </header>
 
     <nav>
-        <div th:switch="${usuario.role}">
-            <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
-            <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
-            <p id="nome-no-portal" th:case="'Professor'"><span th:text="${professor.nome}"></span></p>
-            <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
-            <p id="nome-no-portal" th:case="'*'"></p>
-        </div>
-        <a href="perfil" class="icone" id="icone-portal">
+		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+        <a href="http://localhost:8080/perfil" class="icone" id="icone-portal">
             <img src="img/icone-perfil.png">
             <label>Perfil</label>
         </a>
@@ -36,7 +24,14 @@
     
 
     <main>
-        <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
+        <section class="projeto">
+            <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
+            <p><strong>Responsável:</strong> <span th:text="${projeto.responsavel}"></span></p>
+            <p><strong>Descrição:</strong> <span th:text="${projeto.descricao}"></span></p>
+            <p><strong>Vagas:</strong> <span th:text="${projeto.vagas}"></span></p>
+            <p><strong>Carga Horária:</strong> <span th:text="${projeto.cargaHoraria}"></span></p>
+            <p><strong>Requisitos:</strong> <span th:text="${projeto.requisito}"></span></p>
+        </section>
     </main>
 
     <script src="js/portal.js"></script>
