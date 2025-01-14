@@ -25,17 +25,6 @@ let contadorCompetencias = 0;
 let contadorLicencasCertificados = 0;
 
 // Perfil
-let usuarioLogadoId = [[${usuarioLogadoId}]]; // ID do usuário logado (passado do backend)
-let usuarioPerfilId = [[${usuarioPerfilId}]]; // ID do perfil sendo visualizado (passado do backend)
-
-// Corrigir comparação:
-if (usuarioLogadoId === usuarioPerfilId) {
-    habilitacaoEdicao.style.display = 'block'; // Exibe o botão de edição para o dono do perfil
-} else {
-    habilitacaoEdicao.style.display = 'none'; // Esconde o botão de edição para outros usuários
-}
-
-
 function submeterFormulariosPerfil() {
     formularioDescricao.submit();
     formularioBanner.submit();
@@ -49,14 +38,78 @@ function mostrarEditaveis() {
     inputFotoPerfil.disabled = false;
     inputBanner.disabled = false;
     adicionarSeccao.style.display = 'block';
+
+    let botaoApagar = document.querySelectorAll('.seccao-botao-apagar');
+    let botaoCriarTopico = document.querySelectorAll('.seccao-botao-criar-topico');
+    let botaoApagarTopico = document.querySelectorAll('.seccao-botao-apagar-topico');
+    let tituloEditavel = document.querySelectorAll('.titulo-seccao');
+    let caixasTexto1 = document.querySelectorAll('.caixa-texto-topico');
+    let caixasTexto2 = document.querySelectorAll('.caixa-texto-topico2');
+
+    for (let i = 0; i < botaoApagar.length; i++) {
+        botaoApagar[i].style.display = 'block';
+    }
+
+    for (let i = 0; i < botaoCriarTopico.length; i++) {
+        botaoCriarTopico[i].style.display = 'block';
+    }
+
+    for (let i = 0; i < botaoApagarTopico.length; i++) {
+        botaoApagarTopico[i].style.display = 'block';
+    }
+
+    for (let i = 0; i < tituloEditavel.length; i++) {
+        tituloEditavel[i].disabled = false;
+    }
+
+    for (let i = 0; i < caixasTexto1.length; i++) {
+        caixasTexto1[i].disabled = false;
+    }
+
+    for (let i = 0; i < caixasTexto2.length; i++) {
+        caixasTexto2[i].disabled = false;
+    }
 }
+
 
 function esconderEditaveis() {
     campoDescricao.disabled = true;
     inputFotoPerfil.disabled = true;
     inputBanner.disabled = true;
     adicionarSeccao.style.display = 'none';
+
+    let botaoApagar = document.querySelectorAll('.seccao-botao-apagar');
+    let botaoCriarTopico = document.querySelectorAll('.seccao-botao-criar-topico');
+    let botaoApagarTopico = document.querySelectorAll('.seccao-botao-apagar-topico');
+    let tituloEditavel = document.querySelectorAll('.titulo-seccao');
+    let caixasTexto1 = document.querySelectorAll('.caixa-texto-topico');
+    let caixasTexto2 = document.querySelectorAll('.caixa-texto-topico2');
+
+    for (let i = 0; i < botaoApagar.length; i++) {
+        botaoApagar[i].style.display = 'none';
+    }
+
+    for (let i = 0; i < botaoCriarTopico.length; i++) {
+        botaoCriarTopico[i].style.display = 'none';
+    }
+
+    for (let i = 0; i < botaoApagarTopico.length; i++) {
+        botaoApagarTopico[i].style.display = 'none';
+    }
+
+    for (let i = 0; i < tituloEditavel.length; i++) {
+        tituloEditavel[i].disabled = true;
+    }
+
+    for (let i = 0; i < caixasTexto1.length; i++) {
+        caixasTexto1[i].disabled = true;
+    }
+
+    for (let i = 0; i < caixasTexto2.length; i++) {
+        caixasTexto2[i].disabled = true;
+    }
 }
+
 
 banner.addEventListener('click', function() {
     inputBanner.click();
@@ -73,35 +126,15 @@ habilitacaoEdicao.addEventListener('click', function() {
 });
 
 concluirEdicao.addEventListener('click', function() {
-    configAlterada = true;
-    alert('Alterações salvas com sucesso!');
+    configAlterada = false;
+    //alert('Alterações salvas com sucesso!');
     this.style.display = 'none';
     habilitacaoEdicao.style.display = 'block';
-    
-    // Enviar dados para o backend
-    let formData = new FormData();
-    formData.append('descricao', campoDescricao.value);
-    formData.append('banner', inputBanner.files[0]);
-    formData.append('fotoPerfil', inputFotoPerfil.files[0]);
-
-    // Enviar via AJAX
-    fetch('/api/atualizarPerfil', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Dados enviados com sucesso:', data);
-        submeterFormulariosPerfil();
-        esconderEditaveis();
-    })
-    .catch(error => {
-        console.error('Erro ao enviar dados:', error);
-    });
+    //submeterFormulariosPerfil();
+    esconderEditaveis();
 });
 
 adicionarSeccao.addEventListener('click', function() {
-    configAlterada = true;
     let catalogoSeccao = document.createElement('div');
     catalogoSeccao.id = 'catalogo-seccao';
     catalogoSeccao.innerHTML = `
@@ -154,6 +187,7 @@ adicionarSeccao.addEventListener('click', function() {
 });
 
 function adicionarSecao(tipo) {
+	configAlterada = true;
     let seccao = document.createElement('section');
     seccao.className = 'seccao';
     let limitador = 0;
@@ -297,7 +331,12 @@ inputBanner.addEventListener('change', function(e) {
     if (file) {
         let reader = new FileReader();
         reader.onload = function(e) {
-            document.getElementById('banner').src = e.target.result;
+			//TEMPORÁRIO PRA APRESENTAÇÃO//////////////////
+			let result = e.target.result;
+            document.getElementById('banner').src = result;
+            localStorage.setItem('bannerImage', result);
+			/////////////////////////////////////////////////
+            //document.getElementById('banner').src = e.target.result; código pra manter!!!
             configAlterada = true;
         };
         reader.readAsDataURL(file);
@@ -309,9 +348,36 @@ inputFotoPerfil.addEventListener('change', function(e) {
     if (file) {
         let reader = new FileReader();
         reader.onload = function(e) {
-            fotoPerfil.src = e.target.result;
+			//TEMPORÁRIO PRA APRESENTAÇÃO//////////////////
+			let result = e.target.result;
+			fotoPerfil.src = result;
+			localStorage.setItem('profileImage', result);
+			/////////////////////////////////////////////////
+            //fotoPerfil.src = e.target.result; código pra manter!!!
             configAlterada = true;
         };
         reader.readAsDataURL(file);
+    }
+});
+
+
+//TEMPORÁRIO PRA APRESENTAÇÃO///////////////////////////////
+window.addEventListener('load', function() {
+    let storedBanner = localStorage.getItem('bannerImage');
+    if (storedBanner) {
+        document.getElementById('banner').src = storedBanner;
+    }
+
+    let storedProfileImage = localStorage.getItem('profileImage');
+    if (storedProfileImage) {
+        fotoPerfil.src = storedProfileImage;
+    }
+});
+////////////////////////////////////////////////////////////////////
+
+window.addEventListener('beforeunload', function (event) {
+    if (configAlterada) {
+        event.preventDefault();
+        event.returnValue = 'Você tem alterações não salvas. Tem certeza de que deseja sair?';
     }
 });

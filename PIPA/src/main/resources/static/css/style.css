@@ -1,5 +1,5 @@
 /* Contêiners */
-body, html:not(.perfil-html, .config-html) {
+body, html {
     margin: 0;
     height: 100%;
     overflow: auto;
@@ -33,7 +33,7 @@ nav {
     padding: 0 10vw;
 }
 
-main:not(#seccao-principal, #form-banner, #form-foto-perfil) {
+main {
     margin-top: 5vh;
     width: 64vw;
     min-height: calc(100vh - 28vh); /* nav + header + navMargin */
@@ -46,7 +46,7 @@ main:not(#seccao-principal, #form-banner, #form-foto-perfil) {
 }
 
 /* Elementos */
-main:not(#seccao-principal)>:first-child {
+main>:first-child {
     margin-top: 0;
 }
 
@@ -86,7 +86,7 @@ main:not(#seccao-principal)>:first-child {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-input:not(.inputLogo, #descricao, .titulo-seccao, .conta-config, #input-banner, #input-foto-perfil) {
+input {
     margin: 1vh 0 1vh 0;
     min-width: 10vw;
     height: 2vh;
@@ -95,8 +95,8 @@ input:not(.inputLogo, #descricao, .titulo-seccao, .conta-config, #input-banner, 
     background-color: #fefafa;
 }
 
-button:not(#botao-concluir-edicao):not(.seccao-botao-apagar-topico):not(#botao-concluir-config):not(#botao-apagar-conta):not(#adicionar-texto-livre, #adicionar-projetos-concluidos, #adicionar-competencias, #adicionar-licencas-certificados):not(#botao-edicao):not(#botao-add-seccao):not(.seccao-botao-apagar):not(.seccao-botao-editar):not(.seccao-botao-criar-topico), 
-input:not(.inputLogo, #descricao, .conta-config, #input-banner, #input-foto-perfil, .titulo-seccao)[type='submit'] {
+button, 
+input[type='submit'] {
     min-width: 10vw;
     height: 3vh;
     border: 1px solid #c4c0bf;
@@ -279,7 +279,7 @@ input:not(.inputLogo, #descricao, .conta-config, #input-banner, #input-foto-perf
     letter-spacing: 1px;
 }
 
-textarea:not(#campo-descricao, .caixa-texto-topico, .caixa-texto-topico2 ), input:not(#descricao, .titulo-seccao, .conta-config, #input-banner, #input-foto-perfil) {
+textarea {
     padding: 10px;
     width: 95%;
     line-height: 1.5;
@@ -297,7 +297,7 @@ label {
     justify-content: center;
 }
 
-#estagio-inputs input:not(.inputLogo, #descricao, .conta-config, #input-banner, #input-foto-perfil)[type='submit'] {
+#estagio-inputs input[type='submit'] {
     display: block;
     text-align: center;
     padding: 0;
