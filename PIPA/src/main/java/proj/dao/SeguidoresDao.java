@@ -24,8 +24,8 @@ public class SeguidoresDao extends AbstractDaoBase{
     
     public static Seguidores listSeguidores(Connection conn, long id) throws SQLException{
         
-        PreparedStatement ps;
-        ResultSet rs;
+        PreparedStatement ps = null;
+        ResultSet rs =null;
         //usuarios usados para criar a classe Seguidores
         ArrayList<Usuario> usuarios = new ArrayList<>();
         Usuario u;// usado para criar a lista de usuarios
@@ -34,44 +34,58 @@ public class SeguidoresDao extends AbstractDaoBase{
             ps = conn.prepareStatement(getSeguidoresByIdSql);
             ps.setLong(1, id);
             rs = ps.executeQuery();
+
+            if (!rs.next()) return new Seguidores();//retorna wrapper vazio
             
-            while (rs.next()) {
+            do {
                 long u_id = rs.getLong("seguidor_id");
             
                 u = UsuarioDao.get(conn, u_id);
             
                 usuarios.add(u);
-            }
+
+            } while (rs.next());
         }
-        catch(SQLException e){
-            throw e;
-        }
+        //"""Gracefully""" shutdown
+        catch (SQLException e) { throw e;}
+        finally{
+            closeResource(ps,rs); 
+            ps = null;rs = null; }
         
         return new Seguidores(usuarios);
     }
 
     public static Seguidores listSeguidos(Connection conn, long id) throws SQLException{
         
-        PreparedStatement ps;
-        ResultSet rs;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         //usuarios usados para criar a classe Seguidores
         ArrayList<Usuario> usuarios = new ArrayList<>();
         Usuario u;// usado para criar a lista de usuarios
         
+        try {
+            ps = conn.prepareStatement(getSeguidosIdSql);
+            ps.setLong(1, id);
+            rs = ps.executeQuery();
+
+            if (!rs.next()) return new Seguidores();
+            
+            do {
+                long u_id = rs.getLong("seguindo_id");
+            
+                u = UsuarioDao.get(conn, u_id);
+            
+                usuarios.add(u);    
+                
+            } while (rs.next());
         
-        ps = conn.prepareStatement(getSeguidosIdSql);
-        ps.setLong(1, id);
-        rs = ps.executeQuery();
-        
-        while (rs.next()) {
-            long u_id = rs.getLong("seguindo_id");
-        
-            u = UsuarioDao.get(conn, u_id);
-        
-            usuarios.add(u);
+            return new Seguidores(usuarios);
+
         }
-        
-        return new Seguidores(usuarios);
+        catch (SQLException e) { throw e;}
+        finally{
+            closeResource(ps,rs); 
+            ps = null;rs = null; }
     }
 
     private static Seguidores getSeguido(Connection conn, long seguidor_id, long seguindo_id)
@@ -101,15 +115,28 @@ public class SeguidoresDao extends AbstractDaoBase{
     public static boolean isFollowing(Connection conn, long seguidor_id, long seguindo_id)
     throws SQLException{
         
-        PreparedStatement ps;
-        ResultSet rs;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
        
-        ps = conn.prepareStatement(getRelationById);
-        ps.setLong(1, seguidor_id);
-        ps.setLong(2, seguindo_id);
-        rs = ps.executeQuery();
-        
-        return rs.next();
+        try{
+            ps = conn.prepareStatement(getRelationById);
+            ps.setLong(1, seguidor_id);
+            ps.setLong(2, seguindo_id);
+            rs = ps.executeQuery();
+            
+            return rs.next();
+
+        }
+        catch (SQLException e){
+            throw new NotFoundException("Object not found [" + seguidor_id + " or "+ seguindo_id + "] .");
+
+        }
+
+        finally{
+            closeResource(ps,rs);
+             ps = null;rs = null; 
+
+        }        
     }
     
     //insere uma nova relação (retorna o usuario seguido)
