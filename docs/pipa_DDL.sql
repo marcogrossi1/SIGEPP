@@ -64,9 +64,14 @@ CREATE TABLE Estagio (
   vagas INT NULL,
   requisito VARCHAR(255) NULL,
   salario VARCHAR(255) NULL,
+<<<<<<< HEAD
   documentos VARCHAR(500) NULL,
   PRIMARY KEY (id),
   INDEX empresa_INDEX (empresa ASC))
+=======
+  PRIMARY KEY (id),
+  INDEX empresa_INDEX (empresa ASC) )
+>>>>>>> Asafe
 ENGINE = InnoDB default character set = utf8;
 
 

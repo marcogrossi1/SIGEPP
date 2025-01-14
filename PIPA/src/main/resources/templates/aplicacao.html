@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/css/style.css">
+<<<<<<< HEAD
 <link rel="icon" href="../img/icon.png">
 <title>Aplicação para Candidatura</title>
 </head>
@@ -11,12 +12,25 @@
 	<header>
 		<a href="/" th:href="@{/}"><img id="logo" src="/img/logo.png"
 			alt="Logo"></a>
+=======
+<title>Aplicação para Candidatura</title>
+</head>
+<body>
+	<header>
+		<a href="/" th:href="@{/}"> <img id="logo" src="/img/logo.png"
+			alt="Logo">
+		</a>
+>>>>>>> Asafe
 		<h1 id="titulo-plataforma">PIPA | Aplicação</h1>
 	</header>
 
 	<nav>
 		<p id="nome-no-portal" th:if="${aluno != null}"
+<<<<<<< HEAD
 			th:text="'Bem-vindo, ' + ${aluno.nome}"></p>
+=======
+			th:text="${aluno.nome}"></p>
+>>>>>>> Asafe
 		<p id="nome-no-portal" th:if="${aluno == null}">Usuário não
 			autenticado</p>
 		<a href="/perfil" th:href="@{/perfil}" class="icone"> <img
@@ -24,6 +38,7 @@
 		</a>
 	</nav>
 
+<<<<<<< HEAD
 	<main id="pagina-candidatura">
 		<h2 id="subtitulo-portal" th:if="${projeto != null}"
 			th:text="'Aplicação para o projeto: ' + ${projeto.nome}"></h2>
@@ -72,5 +87,31 @@
 			<p th:text="${sucesso}"></p>
 		</div>
 	</main>
+=======
+<main>
+    <h2 id="subtitulo-portal" th:if="${projeto != null}" th:text="'Aplicação para o projeto: ' + ${projeto.nome}"></h2>
+    <h2 id="subtitulo-portal" th:if="${projeto == null}">Projeto não encontrado</h2>
+
+    <div th:if="${erro}" class="erro">
+        <p th:text="${erro}"></p>
+    </div>
+
+    <form th:action="@{/projeto/aplicacao}" method="post" th:if="${projeto != null}">
+        <input type="hidden" name="IDoportunidade" th:value="${projeto.id}">
+        <label for="mensagem">Detalhes da Candidatura:</label>
+        <textarea id="mensagem" name="mensagem" rows="5" cols="50"
+                  placeholder="Escreva aqui os detalhes sobre sua candidatura..." required></textarea>
+        <br><br>
+        <button type="submit" id="botao-aplicar">Aplicar</button>
+    </form>
+
+    <div th:if="${sucesso}" class="sucesso">
+        <p th:text="${sucesso}"></p>
+    </div>
+</main>
+
+
+
+>>>>>>> Asafe
 </body>
 </html>

@@ -5,17 +5,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+<<<<<<< HEAD
 
+=======
+>>>>>>> Asafe
 import java.util.ArrayList;
 import proj.model.Estagio;
 
 public class EstagioDao extends AbstractDaoBase {
 	private final static String getsql = "SELECT * FROM Estagio WHERE id = ?";
 	private final static String listsql = "SELECT * FROM Estagio";
+<<<<<<< HEAD
 	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE empresa like %?%";
 	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario, documentos) VALUES( ?, ?, ?, ?, ?, ?, ?)";
 	private final static String updatesql = "UPDATE Estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, documentos = ? WHERE id = ? ";
 	private final static String deletesql = "DELETE FROM Estagio WHERE id = ?";
+=======
+	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE empresa like %?% ";
+	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario) VALUES( ?, ?, ?, ?, ?, ?) ";
+	private final static String updatesql = "UPDATE estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? ";
+	private final static String deletesql = "DELETE FROM estagio WHERE id = ?";
+>>>>>>> Asafe
 
 
 	static Estagio set(ResultSet rs) throws SQLException {
@@ -27,7 +37,10 @@ public class EstagioDao extends AbstractDaoBase {
 		vo.setVagas(rs.getInt("vagas"));
 		vo.setRequisito(rs.getString("requisito"));
 		vo.setSalario(rs.getString("salario"));
+<<<<<<< HEAD
                 vo.setDocumentos(rs.getString("documentos"));
+=======
+>>>>>>> Asafe
 		return vo;
 	}
 
@@ -113,14 +126,17 @@ public class EstagioDao extends AbstractDaoBase {
 		ResultSet rs = null;
                 long id;
 		try {
-			ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement(insertsql);
 			ps.setString(1, vo.getEmpresa());
 			ps.setString(2, vo.getDescricao());
 			ps.setInt(3, vo.getCargaHoraria());
 			ps.setInt(4, vo.getVagas());
 			ps.setString(5, vo.getRequisito());
 			ps.setString(6, vo.getSalario());
+<<<<<<< HEAD
                         ps.setString(7, vo.getDocumentos());
+=======
+>>>>>>> Asafe
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
 			if (rs.next()) {
@@ -168,11 +184,16 @@ public class EstagioDao extends AbstractDaoBase {
 			ps.setInt(3, vo.getCargaHoraria());
 			ps.setInt(4, vo.getVagas());
 			ps.setString(5, vo.getRequisito());
+<<<<<<< HEAD
                         ps.setString(6, vo.getSalario());
                         ps.setString(7, vo.getDocumentos());
 			ps.setLong(8, vo.getId());
 			
 
+=======
+			ps.setString(6, vo.getSalario());
+			ps.setLong(7, vo.getId());
+>>>>>>> Asafe
 			int count = ps.executeUpdate();
                         System.out.printf("Count == %d", count);
 			if (count == 0) {
@@ -201,7 +222,11 @@ public class EstagioDao extends AbstractDaoBase {
                             throw new NotFoundException("Object not found [" + id + "] .");
 			ps = conn.prepareStatement(deletesql);
 			ps.setLong(1, id);
+<<<<<<< HEAD
 			count = ps.executeUpdate();	
+=======
+			int count = ps.executeUpdate();	
+>>>>>>> Asafe
 			conn.commit();
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + id + "] .");
