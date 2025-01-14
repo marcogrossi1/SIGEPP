@@ -492,3 +492,11 @@ label {
     background: linear-gradient(90deg, #003869, #2e6890);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+#redirect-empresa-perfil{
+    text-decoration: none;
+    color: black;
+}
+#redirect-empresa-perfil:hover{
+    text-decoration: underline;
+    color: purple;
+}

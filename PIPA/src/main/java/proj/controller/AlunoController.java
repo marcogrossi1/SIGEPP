@@ -95,8 +95,12 @@ public class AlunoController {
 			model.addAttribute("requisito", es.getRequisito());
 			model.addAttribute("salario", es.getSalario());
 			String docArr[] = null;
-			if (es.getDocumentos() != null) docArr = es.getDocumentos().split(",");
-			model.addAttribute("documentos", docArr);
+			if (es.getDocumentos() != null){ 
+                            docArr = es.getDocumentos().split(",");
+                            if(docArr.length == 1 && docArr[0].equals("")) docArr = null;
+                        }
+                        model.addAttribute("documentos", docArr);
+                        
 			return "aluno/detalhesEstagio";
 		} catch (Exception e) {
 			return mostraPaginaDeErro(model, e.getMessage());

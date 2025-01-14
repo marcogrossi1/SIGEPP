@@ -55,7 +55,10 @@ public class EmpresaController {
                 model.addAttribute("vagas", es.getVagas());
                 model.addAttribute("requisito", es.getRequisito());
                 String docArr[] = null;
-                if(es.getDocumentos() != null) docArr = es.getDocumentos().split(",");
+                if(es.getDocumentos() != null){
+                    docArr = es.getDocumentos().split(",");
+                    if(docArr.length == 1 && docArr[0].trim().equals("")) docArr = null;
+                }
                 model.addAttribute("documentos", docArr);
                 model.addAttribute("salario", es.getSalario());
             return "empresa/detalhesEstagio";
