@@ -21,7 +21,7 @@ public class EmpresaEditarController {
 
     @GetMapping("/empresa/perfil-editar")
     public String exibirPerfil(@RequestParam("id") Long id, HttpSession session, Model model) {
-        session.setAttribute("empresaId", id);  // Armazene o ID na sessão
+        session.setAttribute("empresaId", id);  
 
         try {
             String query = "SELECT * FROM Empresa WHERE id = ?";
