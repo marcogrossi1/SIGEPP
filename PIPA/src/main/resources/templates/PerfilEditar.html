@@ -5,37 +5,37 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../static/css/style.css">
 	<link rel="icon" href="../static/img/icon.png">
-	
     <title>Editar Perfil</title>
 	<style>
 	        body {
 	            font-family: Arial, sans-serif;
-	            margin: 0; /* Remove margens externas para que o header e o conteúdo ocupem a tela inteira */
+	            margin: 0;
 	            padding: 0;
 	            display: flex;
 	            flex-direction: column;
-	            min-height: 100vh; /* Garante que a página sempre ocupe a altura total da janela */
+	            min-height: 100vh;
+	            position: relative;
 	        }
 
 	        header {
-	            width: 100vw; /* Ocupa toda a largura da janela */
-	            height: 10vh; /* Define a altura do header como 20% da altura da janela */
+	            width: 100vw;
+	            height: 10vh;
 	            display: flex;
 	            align-items: center;
-	            justify-content: flex-start; /* Alinha os itens à esquerda */
-	            background-color: #003869; /* Cor de fundo do header */
-	            padding: 0 1vw; /* Adiciona espaçamento lateral */
-	            box-sizing: border-box; /* Inclui padding no cálculo do tamanho do elemento */
+	            justify-content: flex-start;
+	            background-color: #003869;
+	            padding: 0 1vw;
+	            box-sizing: border-box;
 	        }
 
 	        #logo {
-	            height: 50px; /* Ajusta o tamanho do logo proporcionalmente ao header */
-	            margin-right: 50px; /* Espaçamento à direita do logo */
+	            height: 50px;
+	            margin-right: 50px;
 	        }
 
 	        #titulo-plataforma {
 	            color: white;
-	            font-size: 2rem; /* Tamanho da fonte do título */
+	            font-size: 2rem;
 	            margin: 0;
 	        }
 
@@ -44,7 +44,7 @@
 	            margin: 20px 0;
 	        }
 
-	        form {
+	        #inputs {
 	            max-width: 600px;
 	            margin: auto;
 	            padding: 20px;
@@ -83,6 +83,7 @@
 	        button:hover {
 	            background-color: #0056b3;
 	        }
+
 			#titulo-plataforma {
 			    margin: 1.15vh 0 0 0;
 			    color: #ffffff;
@@ -90,6 +91,21 @@
 			    font-family: Arial, Helvetica, sans-serif;
 			}
 
+			#logout-btn {
+				position: fixed;
+				bottom: 20px;
+				right: 20px;
+				padding: 10px 15px;
+				background-color: #dc3545;
+				color: white;
+				border: none;
+				border-radius: 4px;
+				cursor: pointer;
+			}
+
+			#logout-btn:hover {
+				background-color: rgb(128, 0, 0);
+			}
 	    </style>
 	</head>
 <body>
@@ -99,7 +115,7 @@
 	</header>
 		
     <h1>Editar Perfil da Empresa</h1>
-	<form action="/empresa/perfil-editar" method="post">
+	<form id="inputs" action="/empresa/perfil-editar" method="post">
 		<input type="hidden" name="id" value="${empresa.id}" />
 	    <label for="nome">Nome:</label>
 	    <input type="text" id="nome" name="nome" value="${empresa.nome}" />
@@ -124,6 +140,11 @@
 
 	    <button type="submit">Salvar</button>
 	</form>
+
+	<a href="http://localhost:8080/logout">
+	    <button id="logout-btn">Logout</button>
+	</a>
+
 	<script>
 	  document.querySelectorAll('input').forEach(input => {
 	    if (input.value.includes('${')) {

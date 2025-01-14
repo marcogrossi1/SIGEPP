@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import proj.dao.UsuarioDao;
 import proj.model.Empresa;
 
 import java.sql.Connection;
@@ -52,7 +53,7 @@ public class EmpresaEditarController {
 
     @PostMapping("/empresa/perfil-editar")
     public String editarPerfil(HttpSession session, String nome, String cnpj, String endereco, String website, String area, String telefone, String email) {
-        Long empresaId = (Long) session.getAttribute("empresaId");  // Obtém o ID da empresa da sessão
+        Long empresaId = (Long) session.getAttribute("empresaId");  
 
         try {
             String query = "UPDATE Empresa SET nome = ?, cnpj = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ? WHERE id = ?";
@@ -64,13 +65,23 @@ public class EmpresaEditarController {
             stmt.setString(5, area);
             stmt.setString(6, telefone);
             stmt.setString(7, email);
-            stmt.setLong(8, empresaId);  // Use o ID da empresa armazenado na sessão
+            stmt.setLong(8, empresaId);  
             stmt.executeUpdate();
+
+            String queryUsuario = "SELECT usuario_id FROM empresa WHERE id = ?";
+            var stmtUsuario = connection.prepareStatement(queryUsuario);
+            stmtUsuario.setLong(1, empresaId);
+            var rsUsuario = stmtUsuario.executeQuery();
+            if (rsUsuario.next()) {
+                long usuarioId = rsUsuario.getLong("usuario_id");
+                UsuarioDao.updateForNome(connection, usuarioId, cnpj);  
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return "PerfilEditar";
+        return "PerfilEditar"; 
     }
 
 }
