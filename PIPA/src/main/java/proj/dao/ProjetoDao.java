@@ -11,13 +11,13 @@ import proj.model.Projeto;
 
 public class ProjetoDao
 {
-    private final static String getsql = "SELECT * FROM projeto  WHERE id = ?";
-    private final static String listsql = "SELECT * FROM projeto";
-    private final static String listByNomeSql = "SELECT * FROM projeto WHERE nome like %?% ";
-    private final static String insertsql = "INSERT INTO projeto (nome, responsavel, descricao, carga_horaria, vagas, requisito) VALUES( ?, ?, ?, ?, ?, ?) ";
-    private final static String updatesql = "UPDATE projeto SET nome = ?, responsavel = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ? WHERE id = ? ";
-    private final static String deletesql = "DELETE FROM projeto WHERE id = ?";
-    private final static String getByNomeSql = "SELECT * FROM projeto WHERE nome = ?";
+    private final static String getsql = "SELECT * FROM Projeto  WHERE id = ?";
+    private final static String listsql = "SELECT * FROM Projeto";
+    private final static String listByNomeSql = "SELECT * FROM Projeto WHERE nome like %?% ";
+    private final static String insertsql = "INSERT INTO Projeto (nome, responsavel, descricao, carga_horaria, vagas, requisito) VALUES( ?, ?, ?, ?, ?, ?) ";
+    private final static String updatesql = "UPDATE Projeto SET nome = ?, responsavel = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ? WHERE id = ? ";
+    private final static String deletesql = "DELETE FROM Projeto WHERE id = ?";
+    private final static String getByNomeSql = "SELECT * FROM Projeto WHERE nome = ?";
 
     static Projeto set(ResultSet rs)
         throws SQLException
@@ -208,4 +208,6 @@ public class ProjetoDao
             ps = null;
         }
     }
+    
+    
 }
