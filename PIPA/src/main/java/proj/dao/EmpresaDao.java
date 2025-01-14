@@ -8,14 +8,7 @@ import java.util.ArrayList;
 
 import proj.model.Estagio;
 import proj.model.Empresa;
-<<<<<<< HEAD
 
-=======
-import org.springframework.stereotype.Repository;
-
-
-@Repository
->>>>>>> Asafe
 public class EmpresaDao extends AbstractDaoBase {
 
 	private final static String listEmpresaEstagiosSql = "SELECT p.* from empresa_has_estagio ap, estagio p where ap.estagio_id = p.id and ap.empresa_id = ? ";
@@ -26,11 +19,7 @@ public class EmpresaDao extends AbstractDaoBase {
 	private final static String listsql = "SELECT * FROM Empresa";
 	private final static String listByNomeSql = "SELECT * FROM Empresa WHERE nome like %?% ";
 	private final static String insertsql = "INSERT INTO Empresa (cnpj, nome, endereco, website, area, telefone, email, senha) VALUES(?, ?, ?, ?, ?, ?, ?, ?) ";
-<<<<<<< HEAD
 	private final static String updatesql = "UPDATE Empresa SET cnpj = ?, nome = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ?, senha = ?, WHERE id = ? ";
-=======
-	private final static String updatesql = "UPDATE Empresa SET cnpj = ?, nome = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ?, senha = ? WHERE id = ? ";
->>>>>>> Asafe
 	private final static String deletesql = "DELETE FROM Empresa WHERE id = ?";
 
 	static Empresa set(ResultSet rs) throws SQLException {
@@ -240,7 +229,6 @@ public class EmpresaDao extends AbstractDaoBase {
 	}
 
 	public static void update(Connection conn, Empresa vo) throws NotFoundException, SQLException {
-<<<<<<< HEAD
 		PreparedStatement ps = null;
 		try {
             //cnpj, nome, endereco, website, area, telefone, email, senha
@@ -267,32 +255,6 @@ public class EmpresaDao extends AbstractDaoBase {
 		}
 	}
 
-=======
-	    PreparedStatement ps = null;
-	    try {
-	        ps = conn.prepareStatement(updatesql);
-	        ps.setString(1, vo.getCnpj());
-	        ps.setString(2, vo.getNome());
-	        ps.setString(3, vo.getEndereco());
-	        ps.setString(4, vo.getWebsite());
-	        ps.setString(5, vo.getArea());
-	        ps.setString(6, vo.getTelefone());
-	        ps.setString(7, vo.getEmail());
-	        ps.setLong(8, vo.getId());
-	        int count = ps.executeUpdate();
-	        if (count == 0) {
-	            throw new NotFoundException("Object not found [" + vo.getId() + "] .");
-	        }
-	    } catch (SQLException e) {
-	        try { conn.rollback(); } catch (Exception e1) {}
-	        throw e;
-	    } finally {
-	        closeResource(ps);
-	    }
-	}
-
-
->>>>>>> Asafe
 	public static void delete(Connection conn, int id) throws NotFoundException, SQLException {
 		PreparedStatement ps = null;
 		try {
