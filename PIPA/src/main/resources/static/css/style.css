@@ -375,14 +375,7 @@ label {
 #apagar-button button{
     background-color: red;
 }
-#redirect-empresa-perfil{
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-}
-#redirect-empresa-perfil:hover{
-    text-decoration: underline;
-}
+
 @media (max-width: 768px) {
     body {
         overflow: visible;
@@ -481,4 +474,3 @@ label {
     line-height: 1.6;
     margin-bottom: 10px;
 }
-
