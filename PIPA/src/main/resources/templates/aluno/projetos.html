@@ -1,26 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="css/style.css">
-	<link rel="icon" href="img/icon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../img/icon.png">
     <title>Projetos - Home</title>
 </head>
 <body>
-	<header>
-	        <a href="http://localhost:8080/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-	        <h1 id="titulo-plataforma" >PIPA | Projetos</h1>
-	</header>
-	
-	<main>
-		<h2>Projetos de Pesquisa</h2>
-		<ul>
-			<li>Projeto 1</li>
-			<li>Projeto 2</li>
-			<li>Projeto 3</li>
-		</ul>
-	</main>
-    
+    <header>
+        <a href="/aluno"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma">PIPA | Projetos</h1>
+    </header>
+
+    <nav>
+        <p id="nome-no-portal"><span th:text="${aluno.nome}"></span></p>
+        <a href="/aluno/perfil" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png" alt="Ícone Perfil">
+            <label>Perfil</label>
+        </a>
+    </nav>
+
+    <main>
+        <h2>Projetos de Pesquisa</h2>
+
+        <!-- Lista de Projetos -->
+        <ul>
+            <li th:each="projeto : ${projetos}">
+                <span th:text="${projeto.nome}"></span>
+                <a th:href="@{'/projeto/' + ${projeto.id} + '/aplicacao'}">
+                    <button type="button">Candidatar</button>
+                </a>
+
+                <!-- Seção com detalhes do projeto -->
+                <section class="projeto">
+                    <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
+                    <p><strong>Responsável:</strong> <span th:text="${projeto.responsavel}"></span></p>
+                    <p><strong>Descrição:</strong> <span th:text="${projeto.descricao}"></span></p>
+                    <p><strong>Vagas:</strong> <span th:text="${projeto.vagas}"></span></p>
+                    <p><strong>Carga Horária:</strong> <span th:text="${projeto.cargaHoraria}"></span></p>
+                    <p><strong>Requisitos:</strong> <span th:text="${projeto.requisito}"></span></p>
+                    <div class="opcoes">
+                        <a th:href="@{/professor/editarProjeto?id={id}(id=${projeto.id})}" class="botao-editar">Editar projeto</a>
+                        <a th:href="@{/professor/editarProjeto?id={id}(id=${projeto.id})}" class="botao-excluir">Excluir projeto</a>
+                    </div>
+                </section>
+            </li>
+        </ul>
+    </main>
+
 </body>
 </html>

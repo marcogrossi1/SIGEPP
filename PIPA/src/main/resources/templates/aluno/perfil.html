@@ -1,20 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="perfil-html" lang="en"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../css/style.css">
-    <title>Estágios - Home</title>
+	<link rel="stylesheet" href="../css/style-perfil.css">
+    <title>Perfil</title>
 </head>
 <body>
 	<header>
-	        <a href="http://localhost:8080/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-	        <h1 id="titulo-plataforma" >PIPA | Perfil</h1>
+	        <a href="http://localhost:8080/aluno"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
+	        <h1 id="titulo-plataforma" >PIPA | Meu Perfil</h1>
 	</header>
 	
-	<main>
-		<h2>Perfil</h2>
+	<main id="seccao-principal">
+		<form enctype="multipart/form-data" id="form-banner">
+		    <input type="file" id="input-banner" style="display: none;" accept="image/*" disabled>
+		    <img id="banner" src="../img/banner.png" alt="Banner">
+		</form>
+
+		<form enctype="multipart/form-data" id="form-foto-perfil">
+		    <input type="file" id="input-foto-perfil" style="display: none;" accept="image/*" disabled>
+		    <img id="foto-perfil" src="../img/foto-perfil-padrao.png" alt="Foto de Perfil">
+		</form>
+		
+		<div class="seguidores">
+		    <button class="botao-seguidores">0<br>Seguidores </button>
+		    <button class="botao-seguindo">0<br>Seguindo</button>
+		</div>
+		
+		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
+		<button type="submit" class="botoes-perfil" id="botao-edicao"></button>
+		
+		<form id="form-descricao">
+			<p id="nome-descricao">Gabriel Tavares</p>
+			<p id="dados-descricao">Estudante do Curso Técnico de Informática - 2º Ano</p>
+	        <textarea id="campo-descricao" disabled name="descricao" rows="5" cols="78" maxlength="390" placeholder="SEM DESCRIÇÃO"></textarea><br><br>
+		</form>
+		
+		<button type="button" class="botoes-perfil" id="botao-add-seccao">ADICIONAR SEÇÃO</button>
+		<button type="button" class="botoes-perfil" id="botao-concluir-edicao">SALVAR ALTERAÇÕES</button>
+		
+		<div class="informacoes-contato">
+		  <p class="titulo-contato">Informações de contato</p>
+		  <div class="contatos">
+		    <p class="email">henriquepokacha@gmail.com</p>
+		    <p class="telefone">+55 31 975409988</p>
+		  </div>
+		</div>
+		
 	</main>
-    
+	
+	<div id="container-seccoes" class="drag-container"> <!--Secções criadas dentro do container-->
+		
+	</div>
+	 
+    <script src="../js/config.js"></script>
 </body>
 </html>

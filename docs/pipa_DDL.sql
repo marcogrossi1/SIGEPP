@@ -9,7 +9,6 @@ CREATE TABLE Usuario (
   PRIMARY KEY (id),
   UNIQUE INDEX nome_UNIQUE (nome ASC) )
 ENGINE = InnoDB default character set = utf8;
-
   
 -- -----------------------------------------------------
 -- Table Aluno
@@ -34,6 +33,25 @@ CREATE TABLE Aluno (
     )
 ENGINE = InnoDB default character set = utf8;
 
+-- -----------------------------------------------------
+-- Table Administrador
+-- -----------------------------------------------------
+CREATE TABLE Administrador (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  cpf VARCHAR(20) NOT NULL,
+  nome VARCHAR(255) NOT NULL,
+  campus VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  Usuario_id BIGINT NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE INDEX cpf_UNIQUE (cpf ASC),
+  UNIQUE INDEX email_UNIQUE (email ASC),
+  INDEX fk_Administrador_Usuario_idx (usuario_id ASC),
+  CONSTRAINT fk_Administrador_Usuario
+    FOREIGN KEY (usuario_id)
+    REFERENCES Usuario (id)
+)
+ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 -- -----------------------------------------------------
 -- Table Estagio
@@ -46,8 +64,9 @@ CREATE TABLE Estagio (
   vagas INT NULL,
   requisito VARCHAR(255) NULL,
   salario VARCHAR(255) NULL,
+  documentos VARCHAR(500) NULL,
   PRIMARY KEY (id),
-  INDEX empresa_INDEX (empresa ASC) )
+  INDEX empresa_INDEX (empresa ASC))
 ENGINE = InnoDB default character set = utf8;
 
 
@@ -178,3 +197,19 @@ CREATE TABLE candidatura (
     FOREIGN KEY (candidato_id) REFERENCES aluno(id),
     FOREIGN KEY (oportunidade_id) REFERENCES projeto(id)
 );
+
+-- -----------------------------------------------------
+-- Table Professor_has_Projeto
+-- -----------------------------------------------------
+CREATE TABLE
+  Professor_has_Projeto (
+    professor_id BIGINT NOT NULL,
+    projeto_id BIGINT NOT NULL,
+    PRIMARY KEY (professor_id, projeto_id),
+    INDEX fk_Professor_has_Projeto_Projeto1_idx (projeto_id ASC),
+    INDEX fk_Professor_has_Projeto_Prodessor1_idx (professor_id ASC),
+    CONSTRAINT fk_Professor_has_Projeto_Professor FOREIGN KEY (professor_id) REFERENCES Professor (id),
+    CONSTRAINT fk_Professor_has_Projeto_Projeto1 FOREIGN KEY (projeto_id) REFERENCES Projeto (id)
+  ) ENGINE = InnoDB default character
+set
+  = utf8;
