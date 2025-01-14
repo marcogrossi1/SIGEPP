@@ -20,5 +20,5 @@ public class HomeController {
 	@GetMapping("/cadastroAluno")
 	public String mostraPaginaDeCadastro() {
 		return "aluno/cadastroAluno";
-	}
+	}//para criar a conta
 }

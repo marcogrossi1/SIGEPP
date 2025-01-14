@@ -135,3 +135,12 @@ CREATE TABLE Empresa (
     REFERENCES Usuario (id)
     )
 ENGINE = InnoDB default character set = utf8;
+
+-- -----------------------------------------------------
+-- Table Upload Relatorio Estagio
+-- -----------------------------------------------------
+CREATE TABLE relatorio_estagio (
+    id SERIAL PRIMARY KEY,
+    file_name VARCHAR(255) NOT NULL,
+    file_data BYTEA NOT NULL
+);
