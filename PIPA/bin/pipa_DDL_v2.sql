@@ -6,37 +6,11 @@ CREATE TABLE Usuario (
   nome VARCHAR(45) NOT NULL,
   senha VARCHAR(255) NOT NULL,
   role VARCHAR(45) NOT NULL,
-  descricao TEXT,
-  banner_url VARCHAR(255) DEFAULT '../img/banner.png',
-  foto_perfil_url VARCHAR(255) DEFAULT '../img/foto-perfil-padrao.png',
   PRIMARY KEY (id),
   UNIQUE INDEX nome_UNIQUE (nome ASC) )
 ENGINE = InnoDB default character set = utf8;
 
--- -----------------------------------------------------
--- Table Seções
--- -----------------------------------------------------
 
-CREATE TABLE secoes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id INT NOT NULL,
-    titulo VARCHAR(255),
-    tipo ENUM('Texto Livre', 'Projetos Concluídos', 'Competências', 'Licenças e Certificados') NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);
-
--- -----------------------------------------------------
--- Table Topicos Seções
--- -----------------------------------------------------
-
-CREATE TABLE topicos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    secao_id INT NOT NULL,
-    texto TEXT,
-    imagem_url VARCHAR(255),
-    FOREIGN KEY (secao_id) REFERENCES secoes(id) ON DELETE CASCADE
-);
-  
 -- -----------------------------------------------------
 -- Table Aluno
 -- -----------------------------------------------------
@@ -60,25 +34,6 @@ CREATE TABLE Aluno (
     )
 ENGINE = InnoDB default character set = utf8;
 
--- -----------------------------------------------------
--- Table Administrador
--- -----------------------------------------------------
-CREATE TABLE Administrador (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  cpf VARCHAR(20) NOT NULL,
-  nome VARCHAR(255) NOT NULL,
-  campus VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
-  Usuario_id BIGINT NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE INDEX cpf_UNIQUE (cpf ASC),
-  UNIQUE INDEX email_UNIQUE (email ASC),
-  INDEX fk_Administrador_Usuario_idx (usuario_id ASC),
-  CONSTRAINT fk_Administrador_Usuario
-    FOREIGN KEY (usuario_id)
-    REFERENCES Usuario (id)
-)
-ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 -- -----------------------------------------------------
 -- Table Estagio
@@ -90,7 +45,6 @@ CREATE TABLE Estagio (
   carga_horaria INT NULL,
   vagas INT NULL,
   requisito VARCHAR(255) NULL,
-  salario VARCHAR(255) NULL,
   PRIMARY KEY (id),
   INDEX empresa_INDEX (empresa ASC) )
 ENGINE = InnoDB default character set = utf8;
@@ -172,54 +126,12 @@ ENGINE = InnoDB default character set = utf8;
 -- -----------------------------------------------------
 CREATE TABLE Empresa (
   id BIGINT NOT NULL  AUTO_INCREMENT,
-  cnpj VARCHAR(20) NOT NULL,
   nome VARCHAR(255) NOT NULL,
-  endereco VARCHAR(255) NOT NULL,
-  website VARCHAR(255) NOT NULL,
-  area VARCHAR(255) NOT NULL,
-  telefone VARCHAR(20) NOT NULL,
-  email VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NULL,
   PRIMARY KEY (id),
-  INDEX fk_Empresa_Usuario1_idx (Usuario_id ASC),
-  UNIQUE INDEX cnpj_UNIQUE (cnpj ASC),
-  UNIQUE INDEX email_UNIQUE (email ASC),
-  INDEX nome_INDEX (nome ASC),
+  INDEX fk_Empresa_Usuario1_idx (Usuario_id ASC) ,
   CONSTRAINT fk_Empresa_Usuario1
     FOREIGN KEY (Usuario_id)
-    REFERENCES Usuario (id)	
+    REFERENCES Usuario (id)
     )
 ENGINE = InnoDB default character set = utf8;
-
-
--- -----------------------------------------------------
--- Table Empresa_has_Estagio
--- -----------------------------------------------------
-CREATE TABLE Empresa_has_Estagio (
-  empresa_id BIGINT NOT NULL,
-  estagio_id BIGINT NOT NULL,
-  
-  PRIMARY KEY (empresa_id, estagio_id),
-  INDEX fk_Empresa_has_Estagio_Estagio1_idx (estagio_id ASC),
-  INDEX fk_Empresa_has_Estagio_Empresa1_idx (empresa_id ASC),
-  CONSTRAINT fk_Empresa_has_Estagio_Empresa1
-    FOREIGN KEY (empresa_id)
-    REFERENCES Empresa (id),
-  CONSTRAINT fk_Empresa_has_Estagio_Estagio1
-    FOREIGN KEY (estagio_id)
-    REFERENCES Estagio (id))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table candidatura
--- -----------------------------------------------------
-CREATE TABLE candidatura (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    candidato_id BIGINT NOT NULL,
-    oportunidade_id BIGINT NOT NULL,
-    mensagem TEXT NOT NULL,
-    data_aplicacao TIMESTAMP NOT NULL,
-    FOREIGN KEY (candidato_id) REFERENCES aluno(id),
-    FOREIGN KEY (oportunidade_id) REFERENCES projeto(id)
-);
