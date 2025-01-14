@@ -137,6 +137,16 @@ public class AlunoController {
 			return "erro";
 		}
 	}
+	
+	@GetMapping("/contaConfigPerfil")
+	public String mostraContaConfigPerfil(Model model, Principal principal) {
+			return "aluno/contaConfigPerfil";
+	}
+	
+	@GetMapping("/notificacaoConfigPerfil")
+	public String mostraNotificacaoConfigPerfil(Model model, Principal principal) {
+			return "aluno/notificacaoConfigPerfil";
+	}
 
 	@GetMapping("/certificados")			
 	public String listaCertificados(Model model, Principal principal) throws Exception {
