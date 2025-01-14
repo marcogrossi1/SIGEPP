@@ -14,20 +14,14 @@
 	</header>
     <main>
         <section id="detalhes-estagio">
-            <a id='redirect-empresa-perfil' th:href="@{${'/encontra-empresa?nome='+empresa}}"><h3 th:text="${empresa}"></h3></a>
+            <h3 th:text="${empresa}"></h3>
             <p th:text="'Carga horária: ' + ${cargaHoraria}"></p>
             <p th:text="'Vagas disponíveis: ' + ${vagas}"></p>
             <p th:text="'Requisitos: ' + ${requisito}"></p>
             <p th:text="'Salário: R$' + ${estagio.salario}"></p>
-            <p th:text="${documentos != null}?'Documentos necessários:' : 'Nenhum documento necessário.'"></p>
-            <ul if="${documentos != null && documentos != ''}">
-                <li th:each="doc : ${documentos}" th:text="${doc}"></li>
-            </ul>
             <hr>
             <p th:text="${descricao}"></p>
-             <a th:href="@{/aluno/upload(estagioId=${estagio.id})}">
-    		<button type = " submit" href = "aluno/upload">Enviar Documentos</button>
-        	</a>
+            
         </section>
         
     </main>

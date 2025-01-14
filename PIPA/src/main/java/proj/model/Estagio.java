@@ -1,7 +1,11 @@
 package proj.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Estagio {
-
+	
+	@Id
 	private long id;
 	private String empresa;
 	private String descricao;
@@ -9,14 +13,13 @@ public class Estagio {
 	private int vagas;
 	private String requisito;
 	private String salario;
-        private String documentos;
 
 	@Override
 	public String toString() {
 		return "Estagio [id=" + id + ", empresa=" + empresa + ", descricao=" + descricao + ", cargaHoraria="
-				+ cargaHoraria + ", vagas=" + vagas + ", requisito=" + requisito + ", salario="+ salario + "documentos="+documentos+ "]";
+				+ cargaHoraria + ", vagas=" + vagas + ", requisito=" + requisito + ", salario="+ salario + "]";
 	}
-        public Estagio(long id, String empresa, String descricao, int cargaHoraria, int vagas, String requisito, String salario, String documentos){
+        public Estagio(long id, String empresa, String descricao, int cargaHoraria, int vagas, String requisito, String salario){
             setId(id);
             setEmpresa(empresa);
             setDescricao(descricao);
@@ -24,7 +27,6 @@ public class Estagio {
             setVagas(vagas);
             setRequisito(requisito);
             setSalario(salario);
-            setDocumentos(documentos);
         }
         public Estagio(){}
 	public long getId() {
@@ -72,10 +74,4 @@ public class Estagio {
 	public void setSalario(String salario) {
 		this.salario = salario;
 	}
-        public String getDocumentos(){
-            return documentos;
-        }
-        public void setDocumentos(String documentos){
-            this.documentos = documentos;
-        }
 }

@@ -24,8 +24,6 @@
                 <input type="number" name="salario" th:field="*{salario}" required>
                 <label for="requisito">Requisito:</label>
                 <input type="text" name="requisito" th:field="*{requisito}" required>
-                <label for='documentos'>Documentos (Separe com vírgula, deixe vazio caso não precise de nenhum):</label>
-                <textarea name='documentos' th:field="*{documentos}" placeholder="RG, Certificado de conclusão do Ensino Fundamental"></textarea>
                 <label for="descricao">Descrição:</label>
                 <textarea name="descricao" th:field="*{descricao}" required rows="5" columns="400"></textarea>   
                 <input type="submit" th:value="${estagio.id != 0} ? 'Atualizar' : 'Criar'">

@@ -54,9 +54,6 @@ public class EmpresaController {
                 model.addAttribute("cargaHoraria", es.getCargaHoraria());
                 model.addAttribute("vagas", es.getVagas());
                 model.addAttribute("requisito", es.getRequisito());
-                String docArr[] = null;
-                if(es.getDocumentos() != null) docArr = es.getDocumentos().split(",");
-                model.addAttribute("documentos", docArr);
                 model.addAttribute("salario", es.getSalario());
             return "empresa/detalhesEstagio";
             }catch(Exception e) {
@@ -100,7 +97,6 @@ public class EmpresaController {
         @PostMapping("/editar")
         public String updateEstagio(Model model, Estagio estagio){
             try(Connection conn = ds.getConnection()){
-                if(estagio.getDescricao().equals("")) estagio.setDescricao(null);
                 if(estagio.getId() == 0)
                     EstagioDao.insert(conn, estagio);
                 else EstagioDao.update(conn, estagio);
@@ -117,7 +113,6 @@ public class EmpresaController {
                 Empresa emp = EmpresaDao.getByCnpj(conn, principal.getName());
                 estagio.setEmpresa(emp.getNome());
                 System.out.println(estagio.getEmpresa());
-                if(estagio.getDescricao().equals("")) estagio.setDescricao(null);
                 if(estagio.getId() == 0)
                     EstagioDao.insert(conn, estagio);
                 else EstagioDao.update(conn, estagio);
