@@ -3,40 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../css/style.css">
-    <link rel="icon" href="../img/icon.png">
-    <title>Estágios - Home</title>
+	<link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/icon.png">
+    <title>Professor - Home</title>
 </head>
 <body>
 	<header>
-	        <a href=""><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-	        <h1 id="titulo-plataforma" >PIPA | Home</h1>
-	</header>
+        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a>
+        <h1 id="titulo-plataforma">PIPA | Home</h1>
+    </header>
+
 	<nav>
-        <p id="nome-no-portal"><span></span></p>
-        <a href="professor/perfil" class="icone" id="icone-portal">
-            <img src="../img/icone-perfil.png">
+        <p th:text="${professor.nome}"></p>
+        <a href="link" class="icone">
+            <img src="img/icone-perfil.png">
             <label>Perfil</label>
         </a>
-    </nav>    
+        <a th:href="@{/professor/projetos?id={id}(id=${professor.id})}" class="icone">
+            <img src="img/icone-maleta.png">
+            <label>Projetos</label>
+        </a>
+    </nav>
+      
 	<main>
-		<h2>Seus estágios</h2>
-            <a class="estagio-section" th:each="estagio : ${estagioList}" th:href="@{/detalhes-estagio(n=${estagio.id})}">
-                <section>
-                    <h3 th:text="${estagio.empresa}"></h3>
-                    <p th:text="${estagio.requisito}"></p>
-                </section>
-            </a>
-            
-            <hr></hr>
-            <h2>Estágios disponíveis:</h2>
-            <a class="estagio-section" th:each="estagio : ${estagioDispList}" th:href="@{/detalhes-estagio(n=${estagio.id})}">
-                <section>
-                    <h3 th:text="${estagio.empresa}"></h3>
-                    <p th:text="${estagio.requisito}"></p>
-                </section>
-            </a>
-        </main> 
+
+    </main> 
     
-</body>s
+</body>
 </html>

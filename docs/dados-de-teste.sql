@@ -13,24 +13,24 @@ TRUNCATE TABLE usuario;
 
 SET foreign_key_checks = 1;
 
-INSERT INTO usuario (id, nome, senha, role, descricao, banner_url, foto_perfil_url) 
+INSERT INTO usuario (id, nome, senha, role) 
 VALUES 
-(1, "00000000001", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(2, "00000000002", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(3, "00000000003", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(4, "00000000004", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(5, "00000000005", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(6, "00000000006", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(7, "00000000007", sha2('123', 512), "Professor", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(8, "10000000000001", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(9, "10000000000002", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(10, "10000000000003", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(11, "10000000000004", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(12, "10000000000005", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(13, "10000000000006", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(14, "10000000000007", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(15, "20000000000001", sha2('123', 512), "Administrador", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
-(16, "20000000000002",  sha2('123', 512), "Administrador", 'Sem descrição.', '../img/banner.png', '../img/foto-perfil-padrao.png');
+(1, "00000000001", sha2('123', 512), "Aluno"),
+(2, "00000000002", sha2('123', 512), "Aluno"),
+(3, "00000000003", sha2('123', 512), "Aluno"),
+(4, "00000000004", sha2('123', 512), "Aluno"),
+(5, "00000000005", sha2('123', 512), "Aluno"),
+(6, "00000000006", sha2('123', 512), "Aluno"),
+(7, "00000000007", sha2('123', 512), "Professor"),
+(8, "10000000000001", sha2('123', 512), "Empresa"),
+(9, "10000000000002", sha2('123', 512), "Empresa"),
+(10, "10000000000003", sha2('123', 512), "Empresa"),
+(11, "10000000000004", sha2('123', 512), "Empresa"),
+(12, "10000000000005", sha2('123', 512), "Empresa"),
+(13, "10000000000006", sha2('123', 512), "Empresa"),
+(14, "10000000000007", sha2('123', 512), "Empresa"),
+(15, "20000000000001", sha2('123', 512), "Administrador"),
+(16, "20000000000002", sha2('123', 512), "Administrador");
 
 INSERT INTO professor (id, nome, Usuario_id) 
 VALUES 
@@ -74,8 +74,10 @@ VALUES
 
 INSERT INTO projeto (id, nome, responsavel, descricao, carga_horaria, vagas, requisito) 
 VALUES 
-(1, "Pipa", "Cristiano Amaral Maffort", "Trabalho em sistema de coordenação de oportunidades acadêmicas.", 80, 10, "Informática serie 2"),
-(2, "Ficando Rico", "Lucia Próspera", "Projeto em matemática financeira.", 50, 2, "Ser aluno do Cefet.");
+(1,"Pipa","Cristiano Amaral Maffort", "Trabalho em sistema de coordenação de oportunidades acadêmicas.",80,10,"Informática serie 2"),
+(2,"Ficando Rico","Lucia Próspera","Projeto em matemática financeira.",50,2,"Ser aluno do Cefet."),	
+(3, "Plataforma de Ensino Online", "Cristiano Amaral Maffort", "Desenvolvimento de uma plataforma para ensino a distância, focada em acessibilidade e interatividade para alunos de diversos níveis.", 120, 15, "Conhecimento básico em tecnologias web."),
+(4, "Sistema de Monitoramento de Desempenho Acadêmico", "Cristiano Amaral Maffort", "Criação de um sistema de monitoramento para acompanhar o desempenho dos alunos, com relatórios detalhados e alertas para professores.", 100, 12, "Noções de bancos de dados e programação orientada a objetos.");
 
 INSERT INTO aluno_has_estagio (aluno_id, estagio_id) 
 VALUES 
@@ -98,3 +100,9 @@ VALUES
 (3, 5),
 (4, 6),
 (4, 7);
+
+INSERT INTO professor_has_projeto (professor_id, projeto_id) 
+VALUES 
+(1,1),
+(1,3),
+(1,4);

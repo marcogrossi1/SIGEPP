@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" href="img/icon.png">
+    <title>Professor - Home</title>
+</head>
+
+<body>
+    <header>
+        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a>
+        <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma">PIPA | Home</h1>
+    </header>
+
+    <nav>
+		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+        <a href="/aluno/perfil" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+    </nav> 
+
+    <main>
+        <div th:if="${projetos != null && !projetos.isEmpty()}">
+            <div th:each="projeto : ${projetos}">
+                <section class="projeto">
+                    <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
+                    <p><strong>Responsável:</strong> <span th:text="${projeto.responsavel}"></span></p>
+                    <p><strong>Descrição:</strong> <span th:text="${projeto.descricao}"></span></p>
+                    <p><strong>Vagas:</strong> <span th:text="${projeto.vagas}"></span></p>
+                    <p><strong>Carga Horária:</strong> <span th:text="${projeto.cargaHoraria}"></span></p>
+                    <p><strong>Requisitos:</strong> <span th:text="${projeto.requisito}"></span></p>
+                    <div class="opcoes" ><a class="botao-aplicar" th:href="@{/projeto/{id}/aplicacao(id=${projeto.id})}">Aplicar para o projeto</a></div>
+                </section>
+            </div>
+        </div>
+    
+        <div th:if="${projetos == null || projetos.isEmpty()}">
+            <p>Nenhum projeto encontrado.</p>
+        </div>
+    </main>
+</body>
+</html>
