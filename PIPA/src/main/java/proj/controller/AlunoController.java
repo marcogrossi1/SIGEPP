@@ -277,4 +277,27 @@ public class AlunoController {
 			return true;
 		return false;
 	}
+
+	@GetMapping("/explorarProjetos")
+	public String explorarProjetos(Principal principal, Model model) throws Exception{
+		
+		try(Connection conn = ds.getConnection()) {
+			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+			if (u.getRole().equals("Aluno") == false) {
+				return mostraPaginaDeErro(model , "Usuário não é um Aluno!.");
+			}
+			
+			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+			ArrayList<Projeto> projetos = ProjetoDao.list(conn);
+			
+			model.addAttribute("aluno", a);
+			model.addAttribute("projetos", projetos);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return mostraPaginaDeErro(model , "Erro interno na aplicação!.");
+		}
+
+		return "aluno/explorarProjetos";
+	}	
 }
