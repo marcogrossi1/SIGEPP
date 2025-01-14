@@ -127,10 +127,10 @@ habilitacaoEdicao.addEventListener('click', function() {
 
 concluirEdicao.addEventListener('click', function() {
     configAlterada = false;
-    //alert('Alterações salvas com sucesso!');
+    //alert('Alterações salvas com sucesso!'); código pra manter!!!
     this.style.display = 'none';
     habilitacaoEdicao.style.display = 'block';
-    //submeterFormulariosPerfil();
+    //submeterFormulariosPerfil(); código pra manter!!!
     esconderEditaveis();
 });
 
