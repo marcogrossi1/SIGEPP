@@ -14,16 +14,24 @@ set foreign_key_checks = 1;
 
 
 
-INSERT INTO usuario (id, nome, senha, role) 
+INSERT INTO usuario (id, nome, senha, role, descricao, banner_url, foto_perfil_url) 
 VALUES 
-(1,"00000000001",sha2('123', 512),"Aluno"),
-(2,"00000000002",sha2('123', 512),"Aluno"),
-(3,"00000000003",sha2('123', 512),"Aluno"),
-(4,"00000000004",sha2('123', 512),"Aluno"),
-(5,"00000000005",sha2('123', 512),"Aluno"),
-(6,"00000000006",sha2('123', 512),"Aluno"),
-(7,"00000000007",sha2('123', 512),"Professor"),
-(8,"00000000008001",sha2('123', 512),"Empresa");
+(1, "00000000001", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(2, "00000000002", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(3, "00000000003", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(4, "00000000004", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(5, "00000000005", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(6, "00000000006", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(7, "00000000007", sha2('123', 512), "Professor", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(8, "10000000000001", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(9, "10000000000002", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(10, "10000000000003", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(11, "10000000000004", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(12, "10000000000005", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(13, "10000000000006", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(14, "10000000000007", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(15, "20000000000001", sha2('123', 512), "Administrador", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(16, "20000000000002",  sha2('123', 512), "Administrador", 'Sem descrição.', '../img/banner.png', '../img/foto-perfil-padrao.png');
 
 
 INSERT INTO professor (id, nome, Usuario_id) 

@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-config.css">
-	<link rel="stylesheet" href="../css/style-perfil.css">
+    <link rel="stylesheet" href="../css/style-perfil.css">
     <title>Configurações</title>
 </head>
 <body class="config">
@@ -19,18 +18,23 @@
             <ul class="menu-list">
                 <li><a href="http://localhost:8080/aluno/contaConfigPerfil">Conta</a></li>
                 <li><a href="http://localhost:8080/aluno/notificacaoConfigPerfil">Notificações</a></li>
-                <!-- <li><a href="http://localhost:8080/aluno/privacidadeConfigPerfil">Privacidade</a></li>               Depois do crud de seguidores--> 
-                <li><a href="http://localhost:8080/aluno/preferenciasConfigPerfil">Preferências</a></li>
             </ul>
         </div>
 
         <main>
             <h2 class="titulo-config">Notificações</h2>
-			<button type="button" class="botoes-perfil" id="botao-concluir-config">SALVAR ALTERAÇÕES</button>
+            
+            <label class="toggle-switch">
+                <input type="checkbox" id="notificacoes-switch">
+                <span class="slider"></span>
+            </label>
+            <label for="notificacoes-switch">Ativar notificações</label>
+
+            <button type="button" class="botoes-perfil" id="botao-concluir-config">SALVAR ALTERAÇÕES</button>
         </main>
     </div>
 
-	<script src="../js/config.js"></script>
-	<script src="../js/configAlterada.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/configAlterada.js"></script>
 </body>
 </html>

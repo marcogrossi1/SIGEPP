@@ -1,36 +1,24 @@
 SET foreign_key_checks = 0;
-
-TRUNCATE TABLE aluno_has_estagio;
-TRUNCATE TABLE aluno_has_projeto;
-TRUNCATE TABLE empresa_has_estagio;
-TRUNCATE TABLE estagio;
-TRUNCATE TABLE projeto;
-TRUNCATE TABLE aluno;
-TRUNCATE TABLE professor;
-TRUNCATE TABLE administrador;
-TRUNCATE TABLE empresa;
-TRUNCATE TABLE usuario;
-
 SET foreign_key_checks = 1;
 
-INSERT INTO usuario (id, nome, senha, role) 
+INSERT INTO usuario (id, nome, senha, role, descricao, banner_url, foto_perfil_url) 
 VALUES 
-(1, "00000000001", sha2('123', 512), "Aluno"),
-(2, "00000000002", sha2('123', 512), "Aluno"),
-(3, "00000000003", sha2('123', 512), "Aluno"),
-(4, "00000000004", sha2('123', 512), "Aluno"),
-(5, "00000000005", sha2('123', 512), "Aluno"),
-(6, "00000000006", sha2('123', 512), "Aluno"),
-(7, "00000000007", sha2('123', 512), "Professor"),
-(8, "10000000000001", sha2('123', 512), "Empresa"),
-(9, "10000000000002", sha2('123', 512), "Empresa"),
-(10, "10000000000003", sha2('123', 512), "Empresa"),
-(11, "10000000000004", sha2('123', 512), "Empresa"),
-(12, "10000000000005", sha2('123', 512), "Empresa"),
-(13, "10000000000006", sha2('123', 512), "Empresa"),
-(14, "10000000000007", sha2('123', 512), "Empresa"),
-(15, "20000000000001", sha2('123', 512), "Administrador"),
-(16, "20000000000002", sha2('123', 512), "Administrador");
+(1, "00000000001", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(2, "00000000002", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(3, "00000000003", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(4, "00000000004", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(5, "00000000005", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(6, "00000000006", sha2('123', 512), "Aluno", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(7, "00000000007", sha2('123', 512), "Professor", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(8, "10000000000001", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(9, "10000000000002", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(10, "10000000000003", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(11, "10000000000004", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(12, "10000000000005", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(13, "10000000000006", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(14, "10000000000007", sha2('123', 512), "Empresa", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(15, "20000000000001", sha2('123', 512), "Administrador", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png"),
+(16, "20000000000002",  sha2('123', 512), "Administrador", "Sem descrição.", "../img/banner.png", "../img/foto-perfil-padrao.png");
 
 INSERT INTO professor (id, nome, Usuario_id) 
 VALUES 
@@ -51,11 +39,11 @@ VALUES
 (6, "10000000000006", "Copasa", "Avenida do Contorno", "www.copasa.com.br", "Saneamento", "0800 000 0005", "contato@copasa.com.br", 13),
 (7, "10000000000007", "Santa Clara", "Rua das Flores", "www.santaclara.com.br", "Alimentos", "0800 000 0006", "contato@santaclara.com.br", 14);
 
-INSERT INTO aluno (id, cpf, nome, curso, campus, email, periodo, usuario_id) 
+INSERT INTO aluno (id, cpf, nome, curso, campus, email, periodo, Usuario_id) 
 VALUES 
 (1, "00000000001", "Thiago Figueiredo", "Eletrônica", "Nova Gameleira", "thiago@gmail.com", "serie 1", 1),
 (2, "00000000002", "Caio Figueiredo", "Informática", "Nova Gameleira", "caio@gmail.com", "serie 2", 2),
-(3, "00000000003", "Matheus Silva", "Mecânica", "Nova Suiça", "matheus@gmail.com", "serie 3", 3),
+(3, "00000000003", "Matheus Silva", "Mecânica", "Nova Suíça", "matheus@gmail.com", "serie 3", 3),
 (4, "00000000004", "Gabriel Tavares", "Informática", "Nova Gameleira", "gabriel@gmail.com", "serie 2", 4),
 (5, "00000000005", "Marco Grossi", "Edificações", "Nova Gameleira", "marco@gmail.com", "serie 2", 5),
 (6, "00000000006", "Nicolas Chagas", "Eletrônica", "Araxá", "nicolas@gmail.com", "serie 2", 6);
@@ -97,3 +85,5 @@ VALUES
 (3, 5),
 (4, 6),
 (4, 7);
+
+
