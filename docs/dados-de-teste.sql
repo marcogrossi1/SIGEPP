@@ -10,6 +10,7 @@ TRUNCATE TABLE professor;
 TRUNCATE TABLE administrador;
 TRUNCATE TABLE empresa;
 TRUNCATE TABLE usuario;
+TRUNCATE TABLE professor_has_projeto;
 
 SET foreign_key_checks = 1;
 
@@ -104,5 +105,4 @@ VALUES
 INSERT INTO professor_has_projeto (professor_id, projeto_id) 
 VALUES 
 (1,1),
-(1,3),
-(1,4);
+(1,2);
