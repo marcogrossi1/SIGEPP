@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import proj.model.Estagio;
 
@@ -15,6 +16,7 @@ public class EstagioDao extends AbstractDaoBase {
 	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario, documentos) VALUES( ?, ?, ?, ?, ?, ?, ?)";
 	private final static String updatesql = "UPDATE Estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, documentos = ? WHERE id = ? ";
 	private final static String deletesql = "DELETE FROM Estagio WHERE id = ?";
+
 
 	static Estagio set(ResultSet rs) throws SQLException {
 		Estagio vo = new Estagio();
@@ -159,6 +161,7 @@ public class EstagioDao extends AbstractDaoBase {
 	{
 		PreparedStatement ps = null;
 		try {
+			//empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? 
 			ps = conn.prepareStatement(updatesql);
 			ps.setString(1, vo.getEmpresa());
 			ps.setString(2, vo.getDescricao());
@@ -169,6 +172,7 @@ public class EstagioDao extends AbstractDaoBase {
                         ps.setString(7, vo.getDocumentos());
 			ps.setLong(8, vo.getId());
 			
+
 			int count = ps.executeUpdate();
                         System.out.printf("Count == %d", count);
 			if (count == 0) {
@@ -197,11 +201,12 @@ public class EstagioDao extends AbstractDaoBase {
                             throw new NotFoundException("Object not found [" + id + "] .");
 			ps = conn.prepareStatement(deletesql);
 			ps.setLong(1, id);
-			count = ps.executeUpdate();
-			if (count == 0)
-                            throw new NotFoundException("Object not found [" + id + "] .");
-			
-                } catch (SQLException e) {
+			count = ps.executeUpdate();	
+			conn.commit();
+			if (count == 0) {
+				throw new NotFoundException("Object not found [" + id + "] .");
+			}
+		} catch (SQLException e) {
 			try {conn.rollback();} catch (Exception e1) {}
 			throw e;
 		} finally {
