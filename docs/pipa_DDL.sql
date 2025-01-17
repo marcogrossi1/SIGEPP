@@ -74,6 +74,7 @@ ENGINE = InnoDB default character set = utf8;
 CREATE TABLE Aluno_has_Projeto (
   aluno_id BIGINT NOT NULL,
   projeto_id BIGINT NOT NULL,
+  progresso VARCHAR(255) NOT NULL,
   PRIMARY KEY (aluno_id, projeto_id),
   INDEX fk_Aluno_has_Projeto_Projeto1_idx (projeto_id ASC) ,
   INDEX fk_Aluno_has_Projeto_Aluno_idx (aluno_id ASC) ,
@@ -94,6 +95,7 @@ ENGINE = InnoDB default character set = utf8;
 CREATE TABLE Aluno_has_Estagio (
   aluno_id BIGINT NOT NULL,
   estagio_id BIGINT NOT NULL,
+  progresso VARCHAR(255) NOT NULL,
   PRIMARY KEY (aluno_id, estagio_id),
   INDEX fk_Aluno_has_Estagio_Estagio1_idx (estagio_id ASC) ,
   INDEX fk_Aluno_has_Estagio_Aluno1_idx (aluno_id ASC) ,

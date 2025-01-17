@@ -1,13 +1,13 @@
 set foreign_key_checks = 0;
 
-truncate usuario;
-truncate professor;
-truncate empresa;
-truncate aluno;
-truncate estagio;
-truncate projeto;
-truncate aluno_has_estagio;
-truncate aluno_has_projeto;
+--truncate usuario;
+--truncate professor;
+--truncate empresa;
+--truncate aluno;
+--truncate estagio;
+--truncate projeto;
+--truncate aluno_has_estagio;
+--truncate aluno_has_projeto;
 
 
 set foreign_key_checks = 1;
@@ -72,18 +72,23 @@ INSERT INTO projeto (id, nome, responsavel, descricao, carga_horaria, vagas, req
 VALUES 
 (1,"Pipa","Cristiano Amaral Maffort", "Trabalho em sistema de coordenação de oportunidades acadêmicas.",80,10,"Informática serie 2"),
 (2,"Ficando Rico","Lucia Próspera","Projeto em matemática financeira.",50,2,"Ser aluno do Cefet.");		
+(1,"SIGEPP","Willian Sallum", "Trabalho em sistema de gerenciamento de estágios e projetos de pesquisa.",80,10,"Informática serie 2"),
 			
 INSERT INTO aluno_has_estagio (aluno_id, estagio_id) 
 VALUES 
-(1,1),
-(2,1),
-(2,2);
+(1,1, "pendente"),
+(1,2, "aprovado"),
+(1,3, "concluido"),
+(2,1, "aprovado"),
+(2,2 "concluido");
 
 INSERT INTO aluno_has_projeto (aluno_id, projeto_id) 
 VALUES 
-(1,1),
-(3,1),
-(4,2);
+(1,1, "pendente"),
+(1,2, "aprovado"),
+(1,3, "concluido"),
+(3,1, "concluido"),
+(4,2, "pendente");
 
 INSERT INTO empresa_has_estagio (empresa_id, estagio_id) 
 VALUES 
