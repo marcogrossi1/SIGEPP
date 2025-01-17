@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Upload de Documento</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="header">
@@ -14,7 +14,8 @@
     </header>
     
     <div class="container">
-   <form action="/upload" method="post" enctype="multipart/form-data">
+     <h1>Enviar Documento</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
     <label for="idAluno">ID do Aluno:</label>
     <input type="number" id="idAluno" name="idAluno" required><br>
 
@@ -26,7 +27,7 @@
 
     <button type="submit">Enviar</button>
 </form>
-     <p th:if="${mensagem}" th:text="${mensagem}"></p>
+    <p th:if="${mensagem}" th:text="${mensagem}"></p>
     </div>
 </body>
 </html>
