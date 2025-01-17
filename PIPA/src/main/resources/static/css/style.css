@@ -161,6 +161,10 @@ button, input[type='submit'] {
 	margin-left: 170px;
 }
 
+#botao-professor, #botao-empresa {
+	margin-left: 50px;
+}
+
 .imgs-botoes-portal {
     height: 180px;
     width: 252px;
@@ -270,47 +274,49 @@ button, input[type='submit'] {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 15px;
+    padding: 10px;
+    width: 100%;
 }
 
 #detalhes-candidatura {
-    margin-top: 15px;
-    width: 80%;
-    max-width: 900px;
+    width: 90%; 
+    max-width: 750px; 
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px; 
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 #projeto-detalhes {
     background-color: #336699;
     color: white;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 10px; 
+    border-radius: 8px;
 }
 
 #projeto-detalhes p {
-    margin: 10px 0;
+    margin: 5px 0; 
+    font-size: 0.9rem; 
 }
 
 #form-candidatura {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 15px;
     width: 100%;
-    max-width: 600px;
-    gap: 15px;
-    padding: 0 15px; 
+    max-width: 500px; 
+    gap: 10px; 
+    padding: 0 10px; 
 }
 
 #mensagem {
     width: 100%;
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 10px;
+    padding: 8px;
     resize: vertical;
+    font-size: 0.9rem;
 }
 
 #botao-aplicar {
@@ -328,6 +334,23 @@ button, input[type='submit'] {
 
 #botao-aplicar:hover {
     background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    #pagina-candidatura {
+        padding: 5px; /* Reduzi o padding geral */
+    }
+    #detalhes-candidatura {
+        width: 95%;
+        padding: 10px; /* Reduzi o padding interno */
+    }
+    #form-candidatura {
+        padding: 5px; /* Reduzi o padding lateral */
+    }
+    #botao-aplicar {
+        width: 100%;
+        max-width: 100%; /* Ajustei para ocupar todo o espaço disponível */
+    }
 }
 
 #estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
@@ -491,4 +514,12 @@ label {
     transform: scale(1.05);
     background: linear-gradient(90deg, #003869, #2e6890);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+#redirect-empresa-perfil{
+    text-decoration: none;
+    color: black;
+}
+#redirect-empresa-perfil:hover{
+    text-decoration: underline;
+    color: purple;
 }

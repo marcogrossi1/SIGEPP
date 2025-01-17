@@ -1,0 +1,82 @@
+<!-- Esse html está apenas como exemplo -->
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Seguidores</title>
+</head>
+
+<body>
+    <style>
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        main h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .followers-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .follower {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .follower img {
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .follower span {
+            font-size: 1rem;
+            color: #333;
+        }
+    </style>
+
+    <header>
+        <a href="http://localhost:8080"><img id="logo" th:src="@{/img/logo.png}"></a>
+        <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma">PIPA | Perfil</h1>
+    </header>
+
+    <main>
+        <h2 th:text="${content}"></h2>
+        <div class="followers-list" th:each="aluno : ${Alunos}">
+            <div class="follower">
+                <img src="https://via.placeholder.com/40" alt="Renato Costela">
+                <span th:text="${aluno.nome}"></span>
+            </div>
+        </div>
+
+        <div class="followers-list" th:each="empresa : ${Empresas}">
+            <div class="follower">
+                <img src="https://via.placeholder.com/40" alt="Renato Costela">
+                <span th:text="${empresa.nome}"></span>
+            </div>
+        </div>
+
+        <div class="followers-list" th:each="professor : ${Professores}">
+            <div class="follower">
+                <img src="https://via.placeholder.com/40" alt="Renato Costela">
+                <span th:text="${professor.nome}"></span>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
