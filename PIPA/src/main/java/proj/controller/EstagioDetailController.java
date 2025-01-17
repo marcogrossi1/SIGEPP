@@ -15,7 +15,7 @@ import proj.dao.HDataSource;
 import proj.model.Estagio;
 
 @Controller
-@RequestMapping("teste/detalhes-estagio")
+@RequestMapping("/detalhes-estagio")
 public class EstagioDetailController {
     @Autowired
     private HDataSource ds;
