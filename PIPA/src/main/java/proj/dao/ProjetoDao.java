@@ -35,8 +35,7 @@ public class ProjetoDao {
         return vo;
     }
 
-    public static Projeto get(Connection conn, long id)
-            throws NotFoundException, SQLException {
+    public static Projeto get(Connection conn, long id) throws NotFoundException, SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
@@ -44,19 +43,18 @@ public class ProjetoDao {
             ps.setLong(1, id);
             rs = ps.executeQuery();
             if (!rs.next()) {
+                System.out.println("Projeto não encontrado com ID: " + id); // Log de não encontrado
                 throw new NotFoundException("Object not found [" + id + "]");
             }
             Projeto b = set(rs);
+            System.out.println("Projeto encontrado: " + b.getNome()); // Log do projeto encontrado
             return b;
         } catch (SQLException e) {
             throw e;
         } finally {
             closeResource(ps, rs);
-            ps = null;
-            rs = null;
         }
     }
-
     public static Projeto getByNome(Connection conn, String nome)
             throws NotFoundException, SQLException {
         PreparedStatement ps = null;
