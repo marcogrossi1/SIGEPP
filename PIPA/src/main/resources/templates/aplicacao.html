@@ -15,7 +15,7 @@
 
     <nav>
         <p id="nome-no-portal" th:if="${aluno != null}" th:text="'Bem-vindo, ' + ${aluno.nome}"></p>
-        <p id="nome-no-portal" th:if="${aluno == null}">Usuário não autenticado</p>
+        <p id="nome-no-portal" th:if="${aluno == null}">Usu ário não autenticado</p>
         <a href="/perfil" th:href="@{/perfil}" class="icone">
             <img src="/img/icone-perfil.png" alt="Ícone de Perfil">
             <label>Perfil</label>

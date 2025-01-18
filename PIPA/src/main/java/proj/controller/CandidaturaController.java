@@ -41,10 +41,9 @@ public class CandidaturaController {
     @GetMapping("/{id}/aplicacao")
     public String exibirFormularioCandidatura(@PathVariable Long id, Model model, Principal principal) {
         try (Connection conn = dataSource.getConnection()) {
-            // Obtém o projeto pelo ID
+            System.out.println("Buscando projeto com ID: " + id); // Log do ID do projeto
             Projeto projeto = ProjetoDao.get(conn, id);
 
-            // Caso o projeto não seja encontrado, exibe uma mensagem de erro
             if (projeto == null) {
                 model.addAttribute("erro", "Projeto não encontrado.");
                 return "error";
@@ -72,13 +71,13 @@ public class CandidaturaController {
 
             // Caso o aluno não tenha se candidatado, exibe o formulário
             model.addAttribute("aluno", alunoLogado);
-            model.addAttribute("projeto ", projeto);
+            model.addAttribute("projeto", projeto); // Corrigido: removido espaço extra
 
             return "aplicacao"; // Tela de candidatura
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Log do erro
             model.addAttribute("erro", "Erro ao carregar os dados.");
-            return "error"; // Erro ao tentar carregar os dados
+            return "error";
         }
     }
 
@@ -95,6 +94,9 @@ public class CandidaturaController {
     public String enviarCandidatura(@RequestParam("mensagem") String mensagem,
                                     @RequestParam("IDoportunidade") Long oportunidadeId, Model model, Principal principal) {
         try (Connection conn = dataSource.getConnection()) {
+            System.out.println("Mensagem recebida: " + mensagem); // Log da mensagem
+            System.out.println("ID da oportunidade: " + oportunidadeId); // Log do ID da oportunidade
+
             Aluno alunoLogado = AlunoDao.getByCpf(conn, principal.getName());
 
             // Caso o aluno não esteja autenticado, exibe uma mensagem de erro
@@ -113,6 +115,7 @@ public class CandidaturaController {
 
             // Verifica se o aluno já se candidatou ao projeto
             List<Candidatura> candidaturas = candidaturaDao.listarPorProjeto(oportunidadeId);
+            System.out.println("Candidaturas encontradas: " + candidaturas.size()); // Log do número de candidaturas
             for (Candidatura candidatura : candidaturas) {
                 if (candidatura.getCandidato().getId() == alunoLogado.getId()) {
                     model.addAttribute("erro", "Você já se candidatou a este projeto.");
