@@ -1,15 +1,15 @@
 SET foreign_key_checks = 0;
 
-TRUNCATE TABLE aluno_has_estagio;
-TRUNCATE TABLE aluno_has_projeto;
-TRUNCATE TABLE empresa_has_estagio;
-TRUNCATE TABLE estagio;
-TRUNCATE TABLE projeto;
-TRUNCATE TABLE aluno;
-TRUNCATE TABLE professor;
-TRUNCATE TABLE administrador;
-TRUNCATE TABLE empresa;
-TRUNCATE TABLE usuario;
+-- TRUNCATE TABLE aluno_has_estagio;
+-- TRUNCATE TABLE aluno_has_projeto;
+-- TRUNCATE TABLE empresa_has_estagio;
+-- TRUNCATE TABLE estagio;
+-- TRUNCATE TABLE projeto;
+-- TRUNCATE TABLE aluno;
+-- TRUNCATE TABLE professor;
+-- TRUNCATE TABLE administrador;
+-- TRUNCATE TABLE empresa;
+-- TRUNCATE TABLE usuario;
 
 SET foreign_key_checks = 1;
 
@@ -75,18 +75,18 @@ VALUES
 INSERT INTO projeto (id, nome, responsavel, descricao, carga_horaria, vagas, requisito) 
 VALUES 
 (1,"Pipa","Cristiano Amaral Maffort", "Trabalho em sistema de coordenação de oportunidades acadêmicas.",80,10,"Informática serie 2"),
-(2,"Ficando Rico","Lucia Próspera","Projeto em matemática financeira.",50,2,"Ser aluno do Cefet.");		
-(3,"SIGEPP","Willian Sallum", "Trabalho em sistema de gerenciamento de estágios e projetos de pesquisa.",80,10,"Informática serie 2"),
+(2,"Ficando Rico","Lucia Próspera","Projeto em matemática financeira.",50,2,"Ser aluno do Cefet."),		
+(3,"SIGEPP","Willian Sallum", "Trabalho em sistema de gerenciamento de estágios e projetos de pesquisa.",80,10,"Informática serie 2");
 			
-INSERT INTO aluno_has_estagio (aluno_id, estagio_id) 
+INSERT INTO aluno_has_estagio (aluno_id, estagio_id, progresso) 
 VALUES 
 (1,1, "pendente"),
 (1,2, "aprovado"),
 (1,3, "concluido"),
 (2,1, "aprovado"),
-(2,2 "concluido");
+(2,2, "concluido");
 
-INSERT INTO aluno_has_projeto (aluno_id, projeto_id) 
+INSERT INTO aluno_has_projeto (aluno_id, projeto_id, progresso) 
 VALUES 
 (1,1, "pendente"),
 (1,2, "aprovado"),
