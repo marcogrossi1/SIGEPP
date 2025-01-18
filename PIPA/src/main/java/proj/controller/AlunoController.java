@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,6 +38,23 @@ public class AlunoController {
 	
 	@Autowired
 	private HDataSource ds;
+	    @GetMapping("/cadastro")
+    public String mostraFormularioCadastroAluno(Model model) {
+        model.addAttribute("aluno", new Aluno());
+        return "aluno/cadastroAluno";
+    }
+
+  
+    @PostMapping("/cadastro")
+    public String criaNovoAluno(@ModelAttribute Aluno aluno, Model model) {
+        try (Connection conn = ds.getConnection()) {
+            AlunoDao.criar(conn, aluno);
+            return "redirect:/aluno";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return mostraPaginaDeErro(model, "Erro ao criar novo aluno.");
+        }
+    }
 	
 	@GetMapping
 	public String mostraPortal(Model model, Principal principal) throws Exception {
