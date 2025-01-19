@@ -194,6 +194,7 @@ CREATE TABLE candidatura (
     oportunidade_id BIGINT NOT NULL,
     mensagem TEXT NOT NULL,
     data_aplicacao TIMESTAMP NOT NULL,
+    status ENUM('EM_ANDAMENTO', 'VALIDADA', 'INVALIDADA') NOT NULL DEFAULT 'EM_ANDAMENTO',
     FOREIGN KEY (candidato_id) REFERENCES aluno(id),
     FOREIGN KEY (oportunidade_id) REFERENCES projeto(id)
 );
@@ -210,6 +211,24 @@ CREATE TABLE
     INDEX fk_Professor_has_Projeto_Prodessor1_idx (professor_id ASC),
     CONSTRAINT fk_Professor_has_Projeto_Professor FOREIGN KEY (professor_id) REFERENCES Professor (id),
     CONSTRAINT fk_Professor_has_Projeto_Projeto1 FOREIGN KEY (projeto_id) REFERENCES Projeto (id)
-  ) ENGINE = InnoDB default character
-set
-  = utf8;
+  ) ENGINE = InnoDB default character set = utf8;
+  
+  
+  
+  -- -----------------------------------------------------
+-- Table Seguidores
+-- -----------------------------------------------------
+CREATE TABLE Seguidores (
+    seguindo_id BIGINT NOT NULL,
+    seguidor_id BIGINT NOT NULL,
+    INDEX fk_Seguidores_Seguindo1_idx (seguindo_id ASC) ,
+  	INDEX fk_Seguidores_Seguidor1_idx (seguidor_id ASC) ,
+  CONSTRAINT fk_Seguidores_Seguindo1
+    FOREIGN KEY (seguindo_id)
+    REFERENCES Usuario (id)
+    ,
+  CONSTRAINT fk_Seguidores_Seguidor1
+    FOREIGN KEY (seguidor_id)
+    REFERENCES Usuario (id)
+    )
+ENGINE = InnoDB default character set = utf8;

@@ -45,7 +45,7 @@ public class AlunoController {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
 			
-			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+			Aluno a = AlunoDao.getByUsuario_id(conn, u.getId());
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 			
