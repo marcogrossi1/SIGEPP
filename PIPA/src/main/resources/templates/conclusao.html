@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/css/style.css">
+<<<<<<< HEAD
+<link rel="icon" href="../img/icon.png">
+=======
+>>>>>>> Asafe
 <title>Conclusão da Candidatura</title>
 </head>
 <body>
@@ -24,6 +28,22 @@
 		</a>
 	</nav>
 
+<<<<<<< HEAD
+	<main>
+		<h2 id="subtitulo-portal" th:if="${projeto != null}"
+			th:text="'Você já se candidatou ao projeto: ' + ${projeto.nome}"></h2>
+		<h2 id="subtitulo-portal" th:if="${erro}" th:text="${erro}"></h2>
+		<h2 id="subtitulo-portal" th:if="${sucesso}" th:text="${sucesso}"></h2>
+
+		<div th:if="${erro}" class="erro">
+			<p th:text="${erro}"></p>
+		</div>
+
+		<div th:if="${sucesso}" class="sucesso">
+			<p th:text="${sucesso}"></p>
+		</div>
+	</main>
+=======
 <main>
     <h2 id="subtitulo-portal" th:if="${projeto != null}" th:text="'Você já se candidatou ao projeto: ' + ${projeto.nome}"></h2>
     <h2 id="subtitulo-portal" th:if="${erro}" th:text="${erro}"></h2>
@@ -37,6 +57,7 @@
         <p th:text="${sucesso}"></p>
     </div>
 </main>
+>>>>>>> Asafe
 
 </body>
 </html>

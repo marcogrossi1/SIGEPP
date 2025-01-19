@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/css/style.css">
+<<<<<<< HEAD
+<link rel="icon" href="../img/icon.png">
+<title>Aplicação para Candidatura</title>
+</head>
+<body id="body-candidatura">
+	<header>
+		<a href="/" th:href="@{/}"><img id="logo" src="/img/logo.png"
+			alt="Logo"></a>
+=======
 <title>Aplicação para Candidatura</title>
 </head>
 <body>
@@ -11,12 +20,17 @@
 		<a href="/" th:href="@{/}"> <img id="logo" src="/img/logo.png"
 			alt="Logo">
 		</a>
+>>>>>>> Asafe
 		<h1 id="titulo-plataforma">PIPA | Aplicação</h1>
 	</header>
 
 	<nav>
 		<p id="nome-no-portal" th:if="${aluno != null}"
+<<<<<<< HEAD
+			th:text="'Bem-vindo, ' + ${aluno.nome}"></p>
+=======
 			th:text="${aluno.nome}"></p>
+>>>>>>> Asafe
 		<p id="nome-no-portal" th:if="${aluno == null}">Usuário não
 			autenticado</p>
 		<a href="/perfil" th:href="@{/perfil}" class="icone"> <img
@@ -24,6 +38,56 @@
 		</a>
 	</nav>
 
+<<<<<<< HEAD
+	<main id="pagina-candidatura">
+		<h2 id="subtitulo-portal" th:if="${projeto != null}"
+			th:text="'Aplicação para o projeto: ' + ${projeto.nome}"></h2>
+		<h2 id="subtitulo-portal" th:if="${projeto == null}">Projeto não
+			encontrado</h2>
+
+		<div th:if="${erro}" class="erro">
+			<p th:text="${erro}"></p>
+		</div>
+
+		<section id="detalhes-candidatura" th:if="${projeto != null}">
+			<h3>Detalhes do Projeto</h3>
+			<div id="projeto-detalhes">
+				<p>
+					<strong>Descrição:</strong> <span th:text="${projeto.descricao}"></span>
+				</p>
+				<p>
+					<strong>Carga Horária:</strong> <span
+						th:text="${projeto.cargaHoraria}"></span> horas
+				</p>
+				<p>
+					<strong>Vagas Disponíveis:</strong> <span
+						th:text="${projeto.vagas}"></span>
+				</p>
+				<p>
+					<strong>Requisitos:</strong> <span th:text="${projeto.requisito}"></span>
+				</p>
+				<p>
+					<strong>Responsável:</strong> <span
+						th:text="${projeto.responsavel}"></span>
+				</p>
+			</div>
+		</section>
+
+		<form id="form-candidatura" th:action="@{/projeto/aplicacao}"
+			method="post" th:if="${projeto != null}">
+			<input type="hidden" name="IDoportunidade" th:value="${projeto.id}">
+			<label for="mensagem">Detalhes da Candidatura:</label>
+			<textarea id="mensagem" name="mensagem" rows="5" cols="50"
+				placeholder="Escreva aqui os detalhes sobre sua candidatura..."
+				required></textarea>
+			<button type="submit" id="botao-aplicar">Aplicar</button>
+		</form>
+
+		<div th:if="${sucesso}" class="sucesso">
+			<p th:text="${sucesso}"></p>
+		</div>
+	</main>
+=======
 <main>
     <h2 id="subtitulo-portal" th:if="${projeto != null}" th:text="'Aplicação para o projeto: ' + ${projeto.nome}"></h2>
     <h2 id="subtitulo-portal" th:if="${projeto == null}">Projeto não encontrado</h2>
@@ -48,5 +112,6 @@
 
 
 
+>>>>>>> Asafe
 </body>
 </html>

@@ -7,6 +7,10 @@ body, html {
 
 body {
     overflow-x: hidden;
+<<<<<<< HEAD
+	overflow-y: hidden;
+=======
+>>>>>>> Asafe
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -41,6 +45,15 @@ main {
     border-radius: 1%;
     background-color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
+    overflow-y: auto;
+    max-height: 80vh;
+<<<<<<< HEAD
+}
+
+#main-adm {
+	overflow-y: hidden;
+=======
+>>>>>>> Asafe
 }
 
 /* Elementos */
@@ -93,7 +106,7 @@ input {
     background-color: #fefafa;
 }
 
-button {
+button, input[type='submit'] {
     min-width: 10vw;
     height: 3vh;
     border: 1px solid #c4c0bf;
@@ -112,16 +125,42 @@ button {
     width: 252px;
 }
 
+<<<<<<< HEAD
+.link-logout {
+	margin-left: 400px;
+	text-decoration: none;
+	color: black;
+}
+
+.botoes-portal:hover, .botoes-inicio:hover, #icone-portal:hover {
+=======
 .botoes-portal:hover, .botoes-inicio:hover {
+>>>>>>> Asafe
     transform: scale(1.1);
 }
 
-#botao-projeto {
-    margin-left: 100px;
+#botao-estagio, #botao-certificado {
+    margin-left: 50px;
 }
 
-#botao-estagio {
-    margin-left: 170px;
+#botao-professor, #botao-empresa {
+    margin-left: 50px;
+}
+
+#botao-adm {
+	margin-left: 310px;
+}
+
+#botao-projeto-adm {
+	margin-left: 100px;
+}
+
+#botao-empresa-adm {
+	margin-left: 105px;
+}
+
+#botao-estagio-adm, #botao-aluno-adm {
+	margin-left: 170px;
 }
 
 #botao-professor, #botao-empresa {
@@ -232,6 +271,148 @@ button {
     background-color: #f1f1f1;
 }
 
+<<<<<<< HEAD
+#pagina-candidatura {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px; 
+    width: 100%;
+}
+
+#detalhes-candidatura {
+    width: 90%; 
+    max-width: 750px; 
+    background: white;
+    padding: 10px; 
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+#projeto-detalhes {
+    background-color: #336699;
+    color: white;
+    padding: 10px; 
+    border-radius: 8px;
+}
+
+#projeto-detalhes p {
+    margin: 5px 0; 
+    font-size: 0.9rem; 
+}
+
+#form-candidatura {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px; 
+    width: 100%;
+    max-width: 500px; 
+    gap: 10px; 
+    padding: 0 10px; 
+}
+
+#mensagem {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 8px; 
+    resize: vertical;
+    font-size: 0.9rem; 
+}
+
+#botao-aplicar {
+    background-color: #002855;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; 
+    max-width: 250px;  
+    align-items: center;
+}
+
+#botao-aplicar:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    #pagina-candidatura {
+        padding: 5px; /* Reduzi o padding geral */
+    }
+    #detalhes-candidatura {
+        width: 95%;
+        padding: 10px; /* Reduzi o padding interno */
+    }
+    #form-candidatura {
+        padding: 5px; /* Reduzi o padding lateral */
+    }
+    #botao-aplicar {
+        width: 100%;
+        max-width: 100%; /* Ajustei para ocupar todo o espaço disponível */
+    }
+}
+
+
+#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+textarea, input {
+  padding: 10px;
+  width: 95%;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+#estagio-inputs{
+    justify-content: center;
+}
+#estagio-inputs input[type='submit']{
+    display: block;
+    text-align: center;
+    padding: 0;
+    height: 4vh;
+    max-width: 50%;
+}
+#criar-button{
+    width: 3vh;
+}
+#apagar-button button{
+    background-color: red;
+}
+#redirect-empresa-perfil{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+#redirect-empresa-perfil:hover{
+    text-decoration: underline;
+}
+@media (max-width: 768px) {
+    body {
+        overflow: visible;
+    }
+    #form-candidatura {
+        width: 100%;
+        padding: 10px;
+    }
+    #botao-aplicar {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+=======
+>>>>>>> Asafe
 .estagio-section {
     text-decoration: none;
     color: black;
@@ -247,6 +428,77 @@ button {
     border: 5px;
 }
 
+<<<<<<< HEAD
+.opcoes {
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.botao-editar {                     
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.botao-editar:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.botao-excluir {                     
+    background-color: #ff5555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.botao-excluir:hover {
+    background-color: #c24c4c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.projeto {
+    background-color: #f4f4f9;
+    padding: 20px;
+    border-radius: 8px;
+    width: 30vw;
+    margin: 3vh auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: auto;
+    border: 0.00001vh solid #c5c5c5;
+}
+
+
+.projeto h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.projeto p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+=======
 .botao-aplicar {
     display: inline-block;
     padding: 15px 30px;
@@ -268,3 +520,39 @@ button {
     background: linear-gradient(90deg, #003869, #2e6890);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+textarea, input {
+  padding: 10px;
+  width: 95%;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+#estagio-inputs{
+    justify-content: center;
+}
+#estagio-inputs input[type='submit']{
+    display: block;
+    text-align: center;
+    padding: 0;
+    height: 4vh;
+    max-width: 50%;
+}
+#criar-button{
+    width: 3vh;
+}
+#apagar-button button{
+    background-color: red;
+>>>>>>> Asafe
+}
+
