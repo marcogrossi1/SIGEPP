@@ -45,7 +45,8 @@ public class PerfilAlunoController {
 	@GetMapping
 	public String mostraPerfilAluno(@RequestParam("id") Long alunoId, Model model, Principal principal) 
 	throws Exception {
-		try(Connection conn = ds.getConnection()) {
+		//try(
+            Connection conn = ds.getConnection();//) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
         	model.addAttribute("usuario", u);
 
@@ -81,10 +82,10 @@ public class PerfilAlunoController {
 			}
 		}
 		
-		catch(Exception e) {
-			return "erro";
-		}
-	}
+		//catch(Exception e) {
+		//	return "erro";
+		//}
+	//}
 
 	@GetMapping("/emite")
 	public String emiteCertificado(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, @RequestParam("aluno") Long alunoId,Model model, Principal principal) throws Exception {

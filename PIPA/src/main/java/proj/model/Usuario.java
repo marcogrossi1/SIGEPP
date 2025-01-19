@@ -1,9 +1,5 @@
 package proj.model;
 
-<<<<<<< HEAD
-public class Usuario {
-
-=======
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -11,7 +7,6 @@ import jakarta.persistence.Id;
 public class Usuario {
 	
 	@Id
->>>>>>> Asafe
 	private long id;
 	private String nome;
 	private String senha;

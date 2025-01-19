@@ -13,36 +13,26 @@ public class Estagio {
 	private int vagas;
 	private String requisito;
 	private String salario;
-<<<<<<< HEAD
-        private String documentos;
-=======
->>>>>>> Asafe
+    private String documentos;
 
 	@Override
 	public String toString() {
 		return "Estagio [id=" + id + ", empresa=" + empresa + ", descricao=" + descricao + ", cargaHoraria="
-<<<<<<< HEAD
 				+ cargaHoraria + ", vagas=" + vagas + ", requisito=" + requisito + ", salario="+ salario + "documentos="+documentos+ "]";
 	}
-        public Estagio(long id, String empresa, String descricao, int cargaHoraria, int vagas, String requisito, String salario, String documentos){
-=======
-				+ cargaHoraria + ", vagas=" + vagas + ", requisito=" + requisito + ", salario="+ salario + "]";
-	}
-        public Estagio(long id, String empresa, String descricao, int cargaHoraria, int vagas, String requisito, String salario){
->>>>>>> Asafe
-            setId(id);
-            setEmpresa(empresa);
-            setDescricao(descricao);
-            setCargaHoraria(cargaHoraria);
-            setVagas(vagas);
-            setRequisito(requisito);
-            setSalario(salario);
-<<<<<<< HEAD
-            setDocumentos(documentos);
-=======
->>>>>>> Asafe
-        }
-        public Estagio(){}
+    
+	public Estagio(long id, String empresa, String descricao, int cargaHoraria, int vagas, String requisito, String salario){
+        setId(id);
+        setEmpresa(empresa);
+        setDescricao(descricao);
+        setCargaHoraria(cargaHoraria);
+        setVagas(vagas);
+        setRequisito(requisito);
+        setSalario(salario);
+    }
+    
+	public Estagio(){}
+	
 	public long getId() {
 		return id;
 	}
@@ -88,13 +78,10 @@ public class Estagio {
 	public void setSalario(String salario) {
 		this.salario = salario;
 	}
-<<<<<<< HEAD
-        public String getDocumentos(){
-            return documentos;
-        }
-        public void setDocumentos(String documentos){
-            this.documentos = documentos;
-        }
-=======
->>>>>>> Asafe
+    public String getDocumentos(){
+        return documentos;
+    }
+    public void setDocumentos(String documentos){
+        this.documentos = documentos;
+    }
 }
