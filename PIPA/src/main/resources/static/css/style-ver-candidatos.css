@@ -1,17 +1,4 @@
 @charset "UTF-8";
-/* Voltar */
-nav a {
-  display: inline-block;
-  text-decoration: none;
-  color: #003366;
-  font-weight: bold;
-  margin: 20px 0;
-  font-size: 1rem;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
 
 /* Título */
 main h2 {
@@ -20,78 +7,99 @@ main h2 {
   margin-bottom: 20px;
 }
 
-/* Tabela */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
+/* Candidaturas */
+.candidaturas {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-table th, table td {
-  padding: 15px;
-  text-align: left;
+.candidatura {
+  padding: 20px;
+  border: 2px solid #003366;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-table th {
-  background-color: #003366;
-  color: white;
-  font-weight: bold;
+.candidatura .info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%; /* Garante que ocupe todo o espaço disponível */
+  justify-content: space-between; /* Espaço entre nome e status */
 }
 
-table tr:nth-child(odd) {
-  background-color: #f1f1f1;
+.candidatura .info img {
+  width: 40px;
+  height: 40px;
 }
 
-table tr:nth-child(even) {
-  background-color: white;
+.candidatura .nome, .candidatura .status {
+  text-align: center;   /* Centraliza o texto */
+  flex: 1;               /* Faz o nome e status ocuparem a mesma quantidade de espaço */
 }
 
-/* Nome do aluno */
-table td:first-child {
-  font-weight: bold;
+.candidatura .status {
   font-size: 1rem;
+  font-weight: bold;
+  margin-top: 5px;
 }
 
 /* Status */
-table td:nth-child(2) {
-  font-weight: bold;
-  font-size: 0.9rem;
+.status.pending {
+    color: silver;
 }
 
-table td:nth-child(2).valid {
-  color: green;
+.status.valid {
+    color: green;
 }
 
-table td:nth-child(2).pending {
-  color: gray;
-}
-
-table td:nth-child(2).invalid {
-  color: red;
+.status.invalid {
+    color: red;
 }
 
 /* Botões */
-table .acoes a, table .acoes button {
-  display: inline-block;
+.candidatura .acoes {
+  display: flex;          /* Adiciona flex aqui para garantir que os botões fiquem lado a lado */
+  gap: 15px;              /* Espaço entre os botões */
+}
+
+.candidatura .acoes a,
+.candidatura .acoes button {
+  display: flex;          /* Flexbox para centralizar o texto */
+  justify-content: center; /* Centraliza o texto horizontalmente */
+  align-items: center;     /* Centraliza o texto verticalmente */
   text-decoration: none;
   color: white;
   background-color: #003366;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 10px 20px;
+  border-radius: 50px;
   border: none;
-  font-size: 0.9rem;
-  margin-right: 10px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  /* Definindo o tamanho fixo para os botões */
+  width: 160px;           /* Largura fixa para todos os botões */
+  height: 45px;           /* Altura fixa para todos os botões */
+  text-align: center;     /* Centraliza o texto dentro do botão */
 }
 
-table .acoes a:hover, table .acoes button:hover {
+.candidatura .acoes a:hover,
+.candidatura .acoes button:hover {
   background-color: #00509e;
 }
 
-button {
-  border: none;
-}
-
-button:hover {
-  cursor: pointer;
+/* Estilizando o nome do candidato */
+.candidatura .nome {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  margin: 0;
 }

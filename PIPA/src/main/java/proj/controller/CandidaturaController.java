@@ -150,7 +150,6 @@ public class CandidaturaController {
     @GetMapping("/professor/candidatos/{id}")
     public String exibirCandidaturas(@PathVariable Long id, Model model, Principal principal) {
         try (Connection conn = dataSource.getConnection()) {
-            // Obtém o projeto pelo ID
             Projeto projeto = ProjetoDao.get(conn, id);
 
             if (projeto == null) {
@@ -158,15 +157,23 @@ public class CandidaturaController {
                 return "error";
             }
 
-            // Recupera o professor logado
-            Professor professorLogado = ProfessorDao.getByUsuario_id(conn, Long.parseLong(principal.getName()));
-
-            if (professorLogado != null) {
-                model.addAttribute("professor", professorLogado);
+            // Verifica o professor logado
+            try {
+                Professor professorLogado = ProfessorDao.getByUsuario_id(conn, Long.parseLong(principal.getName()));
+                if (professorLogado != null) {
+                    model.addAttribute("professor", professorLogado);
+                }
+            } catch (NumberFormatException e) {
+                model.addAttribute("erro", "Erro ao identificar o professor logado.");
+                return "error";
             }
 
-            // Lista as candidaturas para o projeto
+            // Recupera as candidaturas do projeto
             List<Candidatura> candidaturas = candidaturaDao.listarPorProjeto(id);
+            if (candidaturas == null || candidaturas.isEmpty()) {
+                model.addAttribute("info", "Ainda não há candidaturas para este projeto.");
+            }
+
             model.addAttribute("candidaturas", candidaturas);
             model.addAttribute("projeto", projeto);
 
@@ -177,6 +184,7 @@ public class CandidaturaController {
             return "error";
         }
     }
+
 
     /**
      * Valida a candidatura de um aluno para um projeto específico.

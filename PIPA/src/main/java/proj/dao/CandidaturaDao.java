@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class CandidaturaDao {
 
-    private final DataSource dataSource; // Fonte de dados para conexão com o banco
+    private final DataSource dataSource;
 
     public CandidaturaDao(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -24,7 +24,7 @@ public class CandidaturaDao {
 
     /**
      * Salva uma candidatura no banco de dados.
-     * 
+     *
      * @param candidatura Objeto da candidatura a ser salva
      * @throws SQLException Em caso de falhas no banco
      */
@@ -35,13 +35,15 @@ public class CandidaturaDao {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            stmt.setLong(1, candidatura.getCandidato().getId()); // ID do candidato (aluno)
-            stmt.setLong(2, candidatura.getIDoportunidade());    // ID da oportunidade (projeto)
-            stmt.setString(3, candidatura.getMensagem());        // Mensagem da candidatura
-            stmt.setTimestamp(4, Timestamp.valueOf(candidatura.getDataAplicacao())); // Data da candidatura
-            stmt.setString(5, candidatura.getStatus().name()); // Salva o status como string
+            stmt.setLong(1, candidatura.getCandidato().getId());
+            stmt.setLong(2, candidatura.getIDoportunidade());
+            stmt.setString(3, candidatura.getMensagem());
+            stmt.setTimestamp(4, Timestamp.valueOf(candidatura.getDataAplicacao()));
 
-            stmt.executeUpdate(); // Executa a inserção no banco
+            // Salva o nome do enum no banco em vez da descrição
+            stmt.setString(5, candidatura.getStatus().name());
+
+            stmt.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException("Erro ao salvar a candidatura: " + e.getMessage(), e);
         }
@@ -49,7 +51,7 @@ public class CandidaturaDao {
 
     /**
      * Lista candidaturas associadas a um projeto específico.
-     * 
+     *
      * @param oportunidadeId ID da oportunidade/projeto
      * @return Lista de candidaturas associadas à oportunidade
      * @throws SQLException Em caso de falhas no banco
@@ -61,25 +63,24 @@ public class CandidaturaDao {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            stmt.setLong(1, oportunidadeId); // Define o ID do projeto na consulta
+            stmt.setLong(1, oportunidadeId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    Candidatura candidatura = mapResultSetToCandidatura(rs, connection); // Passa a conexão
-                    candidaturas.add(candidatura); // Adiciona a candidatura à lista
+                    Candidatura candidatura = mapResultSetToCandidatura(rs, connection);
+                    candidaturas.add(candidatura);
                 }
             }
         } catch (SQLException e) {
             throw new SQLException("Erro ao listar candidaturas por projeto: " + e.getMessage(), e);
         }
 
-        return candidaturas; // Retorna a lista de candidaturas
+        return candidaturas;
     }
-
 
     /**
      * Mapeia o ResultSet para um objeto Candidatura.
-     * 
+     *
      * @param rs ResultSet com os dados da candidatura
      * @return Objeto Candidatura
      * @throws SQLException Em caso de falhas ao acessar o ResultSet
@@ -87,29 +88,30 @@ public class CandidaturaDao {
     private Candidatura mapResultSetToCandidatura(ResultSet rs, Connection conn) throws SQLException {
         Candidatura candidatura = new Candidatura();
 
-        candidatura.setId(rs.getLong("id")); // Obtém o ID da candidatura
+        candidatura.setId(rs.getLong("id"));
+        long candidatoId = rs.getLong("candidato_id");
 
-        // Recupera o ID do aluno (candidato) da candidatura
-        long candidatoId = rs.getLong("candidato_id"); // Supondo que a tabela "candidatura" tenha o campo "candidato_id"
+        Aluno aluno = AlunoDao.get(conn, candidatoId);
+        candidatura.setCandidato(aluno);
+        candidatura.setIDoportunidade(rs.getLong("oportunidade_id"));
+        candidatura.setMensagem(rs.getString("mensagem"));
+        candidatura.setDataAplicacao(rs.getTimestamp("data_aplicacao").toLocalDateTime());
 
-        // Busca o aluno completo no banco com base no ID
-        Aluno aluno = AlunoDao.get(conn, candidatoId); // Aqui você vai usar o método getById
+        // Lê o status pelo nome do enum
+        String statusName = rs.getString("status");
+        try {
+            StatusCandidatura status = StatusCandidatura.valueOf(statusName);
+            candidatura.setStatus(status);
+        } catch (IllegalArgumentException e) {
+            throw new SQLException("Status inválido encontrado no banco de dados: " + statusName, e);
+        }
 
-        candidatura.setCandidato(aluno); // Associa o aluno à candidatura
-
-        candidatura.setIDoportunidade(rs.getLong("oportunidade_id")); // Obtém o ID da oportunidade (projeto)
-        candidatura.setMensagem(rs.getString("mensagem")); // Obtém a mensagem da candidatura
-        candidatura.setDataAplicacao(rs.getTimestamp("data_aplicacao").toLocalDateTime()); // Obtém a data da candidatura
-        candidatura.setStatus(StatusCandidatura.valueOf(rs.getString("status"))); // Mapeia o status
-
-        return candidatura; // Retorna o objeto Candidatura
+        return candidatura;
     }
-
-
 
     /**
      * Atualiza o status de uma candidatura.
-     * 
+     *
      * @param candidaturaId ID da candidatura a ser atualizada
      * @param status Novo status a ser atribuído à candidatura
      * @throws SQLException Em caso de falhas no banco
@@ -120,10 +122,10 @@ public class CandidaturaDao {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            stmt.setString(1, status.name()); // Define o novo status da candidatura
-            stmt.setLong(2, candidaturaId);   // Define o ID da candidatura a ser atualizada
+            stmt.setString(1, status.name()); // Define o novo status usando o nome do enum
+            stmt.setLong(2, candidaturaId);
 
-            stmt.executeUpdate(); // Executa a atualização no banco
+            stmt.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException("Erro ao atualizar status da candidatura: " + e.getMessage(), e);
         }
