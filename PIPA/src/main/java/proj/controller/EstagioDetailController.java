@@ -15,7 +15,7 @@ import proj.dao.HDataSource;
 import proj.model.Estagio;
 
 @Controller
-@RequestMapping("teste/detalhes-estagio")
+@RequestMapping("/detalhes-estagio")
 public class EstagioDetailController {
     @Autowired
     private HDataSource ds;
@@ -30,7 +30,7 @@ public class EstagioDetailController {
             model.addAttribute("cargaHoraria", es.getCargaHoraria());
             model.addAttribute("vagas", Integer.valueOf(es.getVagas()));
             model.addAttribute("requisito", es.getRequisito());
-            model.addAttribute("salario", es.getSalario());
+            
             return "detalhesEstagio";
         }catch(Exception e) {
                 e.printStackTrace();

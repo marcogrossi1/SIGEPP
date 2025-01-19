@@ -8,10 +8,7 @@ import java.util.ArrayList;
 
 import proj.model.Estagio;
 import proj.model.Empresa;
-import org.springframework.stereotype.Repository;
 
-
-@Repository
 public class EmpresaDao extends AbstractDaoBase {
 
 	private final static String listEmpresaEstagiosSql = "SELECT p.* from empresa_has_estagio ap, estagio p where ap.estagio_id = p.id and ap.empresa_id = ? ";
@@ -22,7 +19,7 @@ public class EmpresaDao extends AbstractDaoBase {
 	private final static String listsql = "SELECT * FROM Empresa";
 	private final static String listByNomeSql = "SELECT * FROM Empresa WHERE nome like %?% ";
 	private final static String insertsql = "INSERT INTO Empresa (cnpj, nome, endereco, website, area, telefone, email, senha) VALUES(?, ?, ?, ?, ?, ?, ?, ?) ";
-	private final static String updatesql = "UPDATE Empresa SET cnpj = ?, nome = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ?, senha = ? WHERE id = ? ";
+	private final static String updatesql = "UPDATE Empresa SET cnpj = ?, nome = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ?, senha = ?, WHERE id = ? ";
 	private final static String deletesql = "DELETE FROM Empresa WHERE id = ?";
 
 	static Empresa set(ResultSet rs) throws SQLException {

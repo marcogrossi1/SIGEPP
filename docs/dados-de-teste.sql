@@ -10,6 +10,7 @@ TRUNCATE TABLE professor;
 TRUNCATE TABLE administrador;
 TRUNCATE TABLE empresa;
 TRUNCATE TABLE usuario;
+TRUNCATE TABLE professor_has_projeto;
 
 SET foreign_key_checks = 1;
 
@@ -74,8 +75,10 @@ VALUES
 
 INSERT INTO projeto (id, nome, responsavel, descricao, carga_horaria, vagas, requisito) 
 VALUES 
-(1, "Pipa", "Cristiano Amaral Maffort", "Trabalho em sistema de coordenação de oportunidades acadêmicas.", 80, 10, "Informática serie 2"),
-(2, "Ficando Rico", "Lucia Próspera", "Projeto em matemática financeira.", 50, 2, "Ser aluno do Cefet.");
+(1,"Pipa","Cristiano Amaral Maffort", "Trabalho em sistema de coordenação de oportunidades acadêmicas.",80,10,"Informática serie 2"),
+(2,"Ficando Rico","Lucia Próspera","Projeto em matemática financeira.",50,2,"Ser aluno do Cefet."),	
+(3, "Plataforma de Ensino Online", "Cristiano Amaral Maffort", "Desenvolvimento de uma plataforma para ensino a distância, focada em acessibilidade e interatividade para alunos de diversos níveis.", 120, 15, "Conhecimento básico em tecnologias web."),
+(4, "Sistema de Monitoramento de Desempenho Acadêmico", "Cristiano Amaral Maffort", "Criação de um sistema de monitoramento para acompanhar o desempenho dos alunos, com relatórios detalhados e alertas para professores.", 100, 12, "Noções de bancos de dados e programação orientada a objetos.");
 
 INSERT INTO aluno_has_estagio (aluno_id, estagio_id) 
 VALUES 
@@ -98,3 +101,14 @@ VALUES
 (3, 5),
 (4, 6),
 (4, 7);
+
+INSERT INTO professor_has_projeto (professor_id, projeto_id) 
+VALUES 
+(1,1),
+(1,2);
+
+INSERT INTO candidatura (candidato_id, oportunidade_id, mensagem, data_aplicacao, status) 
+VALUES 
+(1, 2, "Estou muito interessado nesta oportunidade e acredito que posso contribuir muito.", NOW(), 'EM_ANDAMENTO'), 
+(2, 1, "Gostaria de me candidatar a esta vaga, pois tenho experiência na área.", NOW(), 'VALIDADA'), 
+(3, 3, "Acredito que este projeto é uma ótima oportunidade para aplicar meus conhecimentos.", NOW(), 'INVALIDADA');  

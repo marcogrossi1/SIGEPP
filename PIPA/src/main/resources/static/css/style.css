@@ -25,13 +25,14 @@ header {
 
 nav {
     width: 100vw;
-    height: 7vh;
+    height: 5vh;
+    padding: 0 1vw 0 0;
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: end;
     align-items: center;
     background-color: #ffffff;
-    padding: 0 10vw;
+    border-bottom: 0.00001vh solid #c5c5c5;
 }
 
 main {
@@ -53,6 +54,13 @@ main {
 /* Elementos */
 main>:first-child {
     margin-top: 0;
+}
+
+nav> :first-child {
+    position: absolute;
+    top: 8.5vh;
+    left: 1vw;
+    font-size: 1.5em;
 }
 
 .icone {
@@ -154,7 +162,7 @@ button, input[type='submit'] {
 }
 
 #botao-professor, #botao-empresa {
-    margin-left: 50px;
+	margin-left: 50px;
 }
 
 .imgs-botoes-portal {
@@ -261,11 +269,12 @@ button, input[type='submit'] {
     background-color: #f1f1f1;
 }
 
+/* Atualização para Candidatura */
 #pagina-candidatura {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px; 
+    padding: 10px;
     width: 100%;
 }
 
@@ -294,7 +303,7 @@ button, input[type='submit'] {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 15px; 
+    margin-top: 15px;
     width: 100%;
     max-width: 500px; 
     gap: 10px; 
@@ -305,9 +314,9 @@ button, input[type='submit'] {
     width: 100%;
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 8px; 
+    padding: 8px;
     resize: vertical;
-    font-size: 0.9rem; 
+    font-size: 0.9rem;
 }
 
 #botao-aplicar {
@@ -344,7 +353,6 @@ button, input[type='submit'] {
     }
 }
 
-
 #estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
   font-size: 1rem;
   letter-spacing: 1px;
@@ -379,14 +387,7 @@ label {
 #apagar-button button{
     background-color: red;
 }
-#redirect-empresa-perfil{
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-}
-#redirect-empresa-perfil:hover{
-    text-decoration: underline;
-}
+
 @media (max-width: 768px) {
     body {
         overflow: visible;
@@ -415,48 +416,8 @@ label {
     border: 5px;
 }
 
-.opcoes {
-    width: 30vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-.botao-editar {                     
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-}
-
-.botao-editar:hover {
-    background-color: #45a049;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.botao-excluir {                     
-    background-color: #ff5555;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-}
-
-.botao-excluir:hover {
-    background-color: #c24c4c;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+#body-candidatura{
+	overflow-y: auto;
 }
 
 .projeto {
@@ -485,6 +446,54 @@ label {
     line-height: 1.6;
     margin-bottom: 10px;
 }
+
+/*para o professor gerenciar os projetos dele*/
+.opcoes {
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.botao-editar {      
+    height: 2vh;               
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.botao-editar:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.botao-excluir {     
+    height: 4vh;                 
+    background-color: #ff5555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.botao-excluir:hover {
+    background-color: #c24c4c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .botao-aplicar {
     display: inline-block;
     padding: 15px 30px;
@@ -506,37 +515,11 @@ label {
     background: linear-gradient(90deg, #003869, #2e6890);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
-#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
-  font-size: 1rem;
-  letter-spacing: 1px;
+#redirect-empresa-perfil{
+    text-decoration: none;
+    color: black;
 }
-
-textarea, input {
-  padding: 10px;
-  width: 95%;
-  line-height: 1.5;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  box-shadow: 1px 1px 1px #999;
-}
-
-label {
-  display: block;
-  margin-bottom: 10px;
-}
-#estagio-inputs{
-    justify-content: center;
-}
-#estagio-inputs input[type='submit']{
-    display: block;
-    text-align: center;
-    padding: 0;
-    height: 4vh;
-    max-width: 50%;
-}
-#criar-button{
-    width: 3vh;
-}
-#apagar-button button{
-    background-color: red;
+#redirect-empresa-perfil:hover{
+    text-decoration: underline;
+    color: purple;
 }

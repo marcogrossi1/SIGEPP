@@ -4,24 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<<< HEAD:PIPA/bin/src/main/resources/templates/portal.html
+    <link rel="stylesheet" href="css/style.css">
+========
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" href="../img/icon.png">
+>>>>>>>> origin/dev:PIPA/bin/src/main/resources/templates/aluno/home.html
     <title>Portal</title>
 </head>
 <body>
     <header>
+<<<<<<<< HEAD:PIPA/bin/src/main/resources/templates/portal.html
+        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+========
         <a href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+>>>>>>>> origin/dev:PIPA/bin/src/main/resources/templates/aluno/home.html
         <h1 id="titulo-plataforma" >PIPA | Portal</h1>
     </header>
 
     <nav>
 		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+<<<<<<<< HEAD:PIPA/bin/src/main/resources/templates/portal.html
+        <a href="http://localhost:8080/perfil" class="icone" id="icone-portal">
+            <img src="img/icone-perfil.png">
+========
         <a href="/aluno/perfil" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
+>>>>>>>> origin/dev:PIPA/bin/src/main/resources/templates/aluno/home.html
             <label>Perfil</label>
         </a>
     </nav>    
     
+<<<<<<<< HEAD:PIPA/bin/src/main/resources/templates/portal.html
+
+========
+>>>>>>>> origin/dev:PIPA/bin/src/main/resources/templates/aluno/home.html
     <main>
         <h2 id="subtitulo-portal">Navegue pelo site</h2>
         <br>
@@ -31,31 +48,54 @@
             <p id="not-dois">notificação 2</p>
             <p id="not-tres">notificação 3</p>
             <button id="avancar-notificacao">&gt;</button>
+<<<<<<<< HEAD:PIPA/bin/src/main/resources/templates/portal.html
+            <img src="img/not-um-select.png" class="select-not-img" id="not-um-select">
+            <img src="img/not-dois-select.png" class="select-not-img" id="not-dois-select">
+            <img src="img/not-tres-select.png" class="select-not-img" id="not-tres-select">
+        </div>
+        <br>
+		<a href="http://localhost:8080/projetos">
+========
             <img src="../img/not-um-select.png" class="select-not-img" id="not-um-select">
             <img src="../img/not-dois-select.png" class="select-not-img" id="not-dois-select">
             <img src="../img/not-tres-select.png" class="select-not-img" id="not-tres-select">
         </div>
         <br>
 		<a href="/aluno/projetos">
+>>>>>>>> origin/dev:PIPA/bin/src/main/resources/templates/aluno/home.html
         <button class="botoes-portal" id="botao-projeto" type="submit">
             <img src="img/botao-projetos-de-pesquisa.png" class="imgs-botoes-portal">
         </button>
 		</a>
+<<<<<<<< HEAD:PIPA/bin/src/main/resources/templates/portal.html
+		<a href="http://localhost:8080/estagios">
+========
 		<a href="/aluno/estagios">
+>>>>>>>> origin/dev:PIPA/bin/src/main/resources/templates/aluno/home.html
         <button class="botoes-portal" id="botao-estagio" type="submit">
             <img src="img/botao-estagios.png" class="imgs-botoes-portal">
         </button>
 		</a>
+<<<<<<<< HEAD:PIPA/bin/src/main/resources/templates/portal.html
+========
         <a href="/aluno/certificados">
             <button class="botoes-portal" id="botao-estagio" type="submit">
                 <img src="img/botao-certificados.png" class="imgs-botoes-portal">
             </button>
         </a>
+>>>>>>>> origin/dev:PIPA/bin/src/main/resources/templates/aluno/home.html
     </main>
 
     <section id="section-meus-trabalhos">
         <p>Estágios:</p>
         <ul th:each="estagio : ${estagios}">
+<<<<<<<< HEAD:PIPA/bin/src/main/resources/templates/portal.html
+            <li th:text="${estagio.empresa}"></li>
+        </ul>
+		<p>Projetos:</p>
+		<ul th:each="projeto : ${projetos}">
+		     <li th:text="${projeto.nome}"></li>
+========
             <li><a th:href="'/encontra-empresa?nome=' + ${estagio.empresa}">
                 <button type="submit" th:text="${estagio.empresa}"></button>
             </a></li>
@@ -65,6 +105,7 @@
             <li><a th:href="'/encontra-projeto?nome=' + ${projeto.nome}">
                 <button type="submit" th:text="${projeto.nome}"></button>
             </a></li>
+>>>>>>>> origin/dev:PIPA/bin/src/main/resources/templates/aluno/home.html
 		</ul>
     </section>
 
