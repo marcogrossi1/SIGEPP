@@ -65,7 +65,7 @@ public class CandidaturaDao {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    Candidatura candidatura = mapResultSetToCandidatura(rs);
+                    Candidatura candidatura = mapResultSetToCandidatura(rs, connection); // Passa a conexão
                     candidaturas.add(candidatura); // Adiciona a candidatura à lista
                 }
             }
@@ -76,6 +76,7 @@ public class CandidaturaDao {
         return candidaturas; // Retorna a lista de candidaturas
     }
 
+
     /**
      * Mapeia o ResultSet para um objeto Candidatura.
      * 
@@ -83,14 +84,17 @@ public class CandidaturaDao {
      * @return Objeto Candidatura
      * @throws SQLException Em caso de falhas ao acessar o ResultSet
      */
-    private Candidatura mapResultSetToCandidatura(ResultSet rs) throws SQLException {
+    private Candidatura mapResultSetToCandidatura(ResultSet rs, Connection conn) throws SQLException {
         Candidatura candidatura = new Candidatura();
 
         candidatura.setId(rs.getLong("id")); // Obtém o ID da candidatura
 
-        // continuar usando a associação do candidato
-        Aluno aluno = new Aluno(); 
-        aluno.setId(rs.getLong("candidato_id")); // Obtém o ID do aluno (candidato)
+        // Recupera o ID do aluno (candidato) da candidatura
+        long candidatoId = rs.getLong("candidato_id"); // Supondo que a tabela "candidatura" tenha o campo "candidato_id"
+
+        // Busca o aluno completo no banco com base no ID
+        Aluno aluno = AlunoDao.get(conn, candidatoId); // Aqui você vai usar o método getById
+
         candidatura.setCandidato(aluno); // Associa o aluno à candidatura
 
         candidatura.setIDoportunidade(rs.getLong("oportunidade_id")); // Obtém o ID da oportunidade (projeto)
@@ -100,6 +104,8 @@ public class CandidaturaDao {
 
         return candidatura; // Retorna o objeto Candidatura
     }
+
+
 
     /**
      * Atualiza o status de uma candidatura.

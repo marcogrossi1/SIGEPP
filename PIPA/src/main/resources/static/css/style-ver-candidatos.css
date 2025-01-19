@@ -1,0 +1,97 @@
+@charset "UTF-8";
+/* Voltar */
+nav a {
+  display: inline-block;
+  text-decoration: none;
+  color: #003366;
+  font-weight: bold;
+  margin: 20px 0;
+  font-size: 1rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Título */
+main h2 {
+  font-size: 1.8rem;
+  color: #003366;
+  margin-bottom: 20px;
+}
+
+/* Tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table th, table td {
+  padding: 15px;
+  text-align: left;
+}
+
+table th {
+  background-color: #003366;
+  color: white;
+  font-weight: bold;
+}
+
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+table tr:nth-child(even) {
+  background-color: white;
+}
+
+/* Nome do aluno */
+table td:first-child {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Status */
+table td:nth-child(2) {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+table td:nth-child(2).valid {
+  color: green;
+}
+
+table td:nth-child(2).pending {
+  color: gray;
+}
+
+table td:nth-child(2).invalid {
+  color: red;
+}
+
+/* Botões */
+table .acoes a, table .acoes button {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  background-color: #003366;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  font-size: 0.9rem;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+table .acoes a:hover, table .acoes button:hover {
+  background-color: #00509e;
+}
+
+button {
+  border: none;
+}
+
+button:hover {
+  cursor: pointer;
+}

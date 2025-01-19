@@ -2,10 +2,12 @@ package proj.controller;
 
 import proj.model.Candidatura;
 import proj.model.Aluno;
+import proj.model.Professor;
 import proj.model.Projeto;
 import proj.model.StatusCandidatura;
 import proj.dao.CandidaturaDao;
 import proj.dao.AlunoDao;
+import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +43,6 @@ public class CandidaturaController {
     @GetMapping("/{id}/aplicacao")
     public String exibirFormularioCandidatura(@PathVariable Long id, Model model, Principal principal) {
         try (Connection conn = dataSource.getConnection()) {
-            System.out.println("Buscando projeto com ID: " + id); // Log do ID do projeto
             Projeto projeto = ProjetoDao.get(conn, id);
 
             if (projeto == null) {
@@ -52,7 +53,6 @@ public class CandidaturaController {
             // Obtém o aluno logado
             Aluno alunoLogado = AlunoDao.getByCpf(conn, principal.getName());
 
-            // Caso o aluno não seja encontrado, exibe uma mensagem de erro
             if (alunoLogado == null) {
                 model.addAttribute("erro", "Usuário não autenticado.");
                 return "error";
@@ -65,17 +65,15 @@ public class CandidaturaController {
                     model.addAttribute("conclusao", "Você já se candidatou a este projeto.");
                     model.addAttribute("projeto", projeto);
                     model.addAttribute("aluno", alunoLogado);
-                    return "conclusao"; // Tela de conclusão, se o aluno já se candidatou
+                    return "conclusao";
                 }
             }
 
-            // Caso o aluno não tenha se candidatado, exibe o formulário
             model.addAttribute("aluno", alunoLogado);
-            model.addAttribute("projeto", projeto); // Corrigido: removido espaço extra
-
-            return "aplicacao"; // Tela de candidatura
+            model.addAttribute("projeto", projeto);
+            return "aplicacao";
         } catch (Exception e) {
-            e.printStackTrace(); // Log do erro
+            e.printStackTrace();
             model.addAttribute("erro", "Erro ao carregar os dados.");
             return "error";
         }
@@ -94,12 +92,8 @@ public class CandidaturaController {
     public String enviarCandidatura(@RequestParam("mensagem") String mensagem,
                                     @RequestParam("IDoportunidade") Long oportunidadeId, Model model, Principal principal) {
         try (Connection conn = dataSource.getConnection()) {
-            System.out.println("Mensagem recebida: " + mensagem); // Log da mensagem
-            System.out.println("ID da oportunidade: " + oportunidadeId); // Log do ID da oportunidade
-
             Aluno alunoLogado = AlunoDao.getByCpf(conn, principal.getName());
 
-            // Caso o aluno não esteja autenticado, exibe uma mensagem de erro
             if (alunoLogado == null) {
                 model.addAttribute("erro", "Usuário não autenticado.");
                 return "error";
@@ -107,7 +101,6 @@ public class CandidaturaController {
 
             Projeto projeto = ProjetoDao.get(conn, oportunidadeId);
 
-            // Caso o projeto não seja encontrado, exibe uma mensagem de erro
             if (projeto == null) {
                 model.addAttribute("erro", "Projeto não encontrado.");
                 return "error";
@@ -115,11 +108,10 @@ public class CandidaturaController {
 
             // Verifica se o aluno já se candidatou ao projeto
             List<Candidatura> candidaturas = candidaturaDao.listarPorProjeto(oportunidadeId);
-            System.out.println("Candidaturas encontradas: " + candidaturas.size()); // Log do número de candidaturas
             for (Candidatura candidatura : candidaturas) {
                 if (candidatura.getCandidato().getId() == alunoLogado.getId()) {
                     model.addAttribute("erro", "Você já se candidatou a este projeto.");
-                    return "error"; // Retorna erro se já se candidatou
+                    return "error";
                 }
             }
 
@@ -129,7 +121,7 @@ public class CandidaturaController {
             candidatura.setIDoportunidade(oportunidadeId);
             candidatura.setMensagem(mensagem);
             candidatura.setDataAplicacao(java.time.LocalDateTime.now());
-            candidatura.setStatus(StatusCandidatura.EM_ANDAMENTO); // Define o status como "Em Andamento"
+            candidatura.setStatus(StatusCandidatura.EM_ANDAMENTO);
 
             candidaturaDao.salvar(candidatura);
 
@@ -137,11 +129,11 @@ public class CandidaturaController {
             model.addAttribute("projeto", projeto);
             model.addAttribute("aluno", alunoLogado);
 
-            return "conclusao"; // Página de conclusão
+            return "conclusao";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("erro", "Erro ao salvar candidatura.");
-            return "error"; // Erro ao tentar salvar a candidatura
+            return "error";
         }
     }
 
@@ -152,18 +144,25 @@ public class CandidaturaController {
      *
      * @param id    O ID do projeto
      * @param model Modelo para passar dados à view
+     * @param principal Objeto que representa o professor logado
      * @return O nome da view a ser exibida
      */
     @GetMapping("/professor/candidatos/{id}")
-    public String exibirCandidaturas(@PathVariable Long id, Model model) {
+    public String exibirCandidaturas(@PathVariable Long id, Model model, Principal principal) {
         try (Connection conn = dataSource.getConnection()) {
             // Obtém o projeto pelo ID
             Projeto projeto = ProjetoDao.get(conn, id);
 
-            // Caso o projeto não seja encontrado, exibe uma mensagem de erro
             if (projeto == null) {
                 model.addAttribute("erro", "Projeto não encontrado.");
                 return "error";
+            }
+
+            // Recupera o professor logado
+            Professor professorLogado = ProfessorDao.getByUsuario_id(conn, Long.parseLong(principal.getName()));
+
+            if (professorLogado != null) {
+                model.addAttribute("professor", professorLogado);
             }
 
             // Lista as candidaturas para o projeto
@@ -171,11 +170,11 @@ public class CandidaturaController {
             model.addAttribute("candidaturas", candidaturas);
             model.addAttribute("projeto", projeto);
 
-            return "listarCandidaturas"; // Tela de listagem das candidaturas
+            return "professor/candidatos";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("erro", "Erro ao carregar as candidaturas.");
-            return "error"; // Erro ao tentar carregar os dados
+            return "error";
         }
     }
 
@@ -194,7 +193,7 @@ public class CandidaturaController {
 
             model.addAttribute("sucesso", "Candidatura aprovada com sucesso!");
 
-            return "redirect:/professor/candidatos"; // Redireciona para a lista de candidaturas
+            return "redirect:/projeto/professor/candidatos"; // Redireciona para a lista de candidatos
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("erro", "Erro ao validar a candidatura.");

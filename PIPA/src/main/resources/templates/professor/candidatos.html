@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/style-ver-candidatos.css">
+<link rel="icon" href="../img/icon.png">
+<title>Candidatos</title>
+</head>
+<body>
+	<header>
+		<a href="/" th:href="@{/}"> <img id="logo" src="/img/logo.png"
+			alt="Logo">
+		</a>
+		<h1 id="titulo-plataforma">PIPA | Lista de Candidaturas</h1>
+	</header>
+
+	<nav>
+		<p id="nome-no-portal" th:if="${professor != null}"
+			th:text="'Bem-vindo, ' + ${professor.nome}"></p>
+		<p id="nome-no-portal" th:if="${professor == null}">Usuário não
+			autenticado</p>
+	</nav>
+
+	<main>
+		<h2>
+			Candidatos para o projeto: <span th:text="${projeto.nome}"></span>
+		</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Nome do Aluno</th>
+					<th>Status</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="candidatura : ${candidaturas}">
+					<td th:text="${candidatura.candidato.nome}"></td>
+					<td th:text="${candidatura.status}"></td>
+					<td class="acoes"><a
+						th:href="'/perfil-aluno?id=' + ${candidatura.candidato.id}"
+						class="botao-aplicar">Visitar Perfil</a>
+						<button th:if="${candidatura.status == 'EM_ANDAMENTO'}"
+							th:onclick="'location.href=\'/professor/validarCandidatura/' + ${candidatura.id} + '\'"
+							class="botao-editar">Validar</button> <a
+						th:href="'/professor/verCandidatura/' + ${candidatura.id}"
+						class="botao-aplicar">Ver Candidatura</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</main>
+
+</body>
+</html>
