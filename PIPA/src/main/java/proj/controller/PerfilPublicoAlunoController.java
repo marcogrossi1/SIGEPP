@@ -36,8 +36,8 @@ import proj.model.Estagio;
 import proj.model.Projeto;
 
 @Controller
-@RequestMapping("/perfilAluno")
-public class PerfilAlunoController {
+@RequestMapping("/perfilPublicoAluno")
+public class PerfilPublicoAlunoController {
 	
 	@Autowired
     private HDataSource ds;
@@ -59,7 +59,7 @@ public class PerfilAlunoController {
 			model.addAttribute("estagios", estagios);
 
 			if (u.getRole().equals("Aluno")) {
-                return "perfilAluno";
+                return "perfilPublicoAluno";
             }
     
             else if (u.getRole().equals("Administrador")) {
@@ -69,11 +69,11 @@ public class PerfilAlunoController {
                 model.addAttribute("administrador", adm);
                 model.addAttribute("listaEmpresas", empresas);
 
-                return "perfilAluno";
+                return "perfilPublicoAluno";
             }
     
             else if (u.getRole().equals("Empresa")) {
-                return "perfilAluno";
+                return "perfilPublicoAluno";
             }
 
 			else {
