@@ -216,6 +216,9 @@ CREATE TABLE
     INDEX fk_Professor_has_Projeto_Prodessor1_idx (professor_id ASC),
     CONSTRAINT fk_Professor_has_Projeto_Professor FOREIGN KEY (professor_id) REFERENCES Professor (id),
     CONSTRAINT fk_Professor_has_Projeto_Projeto1 FOREIGN KEY (projeto_id) REFERENCES Projeto (id)
+  ) ENGINE = InnoDB default character
+set
+  = utf8;
   ) ENGINE = InnoDB default character set = utf8;
   
   
