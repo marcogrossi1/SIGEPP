@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html class="perfil-html" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../css/style-perfil.css">
+    <title>Perfil</title>
+</head>
+<body>
+	<header>
+	        <a href="http://localhost:8080/aluno"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
+	        <h1 id="titulo-plataforma" th:text="'PIPA | ' + ${aluno.nome}">PIPA | Meu Perfil</h1>
+	</header>
+	
+	<main id="seccao-principal">
+		<form enctype="multipart/form-data" id="form-banner">
+		    <input type="file" id="input-banner" style="display: none;" accept="image/*" disabled>
+		    <img id="banner" src="../img/banner.png" alt="Banner">
+		</form>
+
+		<form enctype="multipart/form-data" id="form-foto-perfil">
+		    <input type="file" id="input-foto-perfil" style="display: none;" accept="image/*" disabled>
+		    <img id="foto-perfil" src="../img/foto-perfil-padrao.png" alt="Foto de Perfil">
+		</form>
+		
+		<div class="seguidores">
+		    <button class="botao-seguidores">0<br>Seguidores </button>
+		    <button class="botao-seguindo">0<br>Seguindo</button>
+		</div>
+		
+		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
+		<button type="submit" class="botoes-perfil" id="botao-edicao"></button>
+		
+		<form id="form-descricao">
+			<p id="nome-descricao" th:text="${aluno.nome}">Sem nome</p>
+			<p id="dados-descricao" th:text="'Estudante do Curso ' + ${aluno.curso} + ' - ' + ${aluno.periodo}">Estudante do Curso X - Xº Ano</p>
+	        <textarea id="campo-descricao" disabled name="descricao" rows="5" cols="78" maxlength="390">Sem descrição</textarea><br><br>
+		</form>
+		
+		<button type="button" class="botoes-perfil" id="botao-add-seccao">ADICIONAR SEÇÃO</button>
+		<button type="button" class="botoes-perfil" id="botao-concluir-edicao">SALVAR ALTERAÇÕES</button>
+		
+		<div class="informacoes-contato">
+		  <p class="titulo-contato">Informações de contato</p>
+		  <div class="contatos">
+		    <p class="email" th:text="${aluno.email}">Email</p>
+		    <p class="telefone" th:text="${aluno.telefone}">Telefone</p>
+		  </div>
+		</div>
+		
+	</main>
+	
+	<div id="container-seccoes" class="drag-container"> <!--Secções criadas dentro do container-->
+		
+	</div>
+	
+	<script th:inline="javascript">
+		let aluno = /*[[${aluno}]]*/ {};
+		
+        let projetos = /*[[${projetos}]]*/ '[]';
+        let estagios = /*[[${estagios}]]*/ '[]';
+
+        projetos = JSON.parse(projetos);
+        estagios = JSON.parse(estagios);
+	</script>
+	
+    <script src="../js/configAluno.js" th:inline="javascript"></script>
+</body>
+</html>
