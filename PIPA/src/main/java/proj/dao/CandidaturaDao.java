@@ -130,4 +130,36 @@ public class CandidaturaDao {
             throw new SQLException("Erro ao atualizar status da candidatura: " + e.getMessage(), e);
         }
     }
+    
+    
+    /**
+     * Recupera uma candidatura pelo seu ID.
+     *
+     * @param candidaturaId ID da candidatura a ser recuperada
+     * @return Objeto Candidatura
+     * @throws SQLException Em caso de falhas no banco
+     */
+    public Candidatura get(Long candidaturaId) throws SQLException {
+        String sql = "SELECT * FROM candidatura WHERE id = ?";
+        Candidatura candidatura = null;
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setLong(1, candidaturaId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    candidatura = mapResultSetToCandidatura(rs, connection);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao buscar candidatura: " + e.getMessage(), e);
+        }
+
+        return candidatura;
+    }
+
 }
+
+
