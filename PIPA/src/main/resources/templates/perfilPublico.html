@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="perfil-html" lang="en"
-	xmlns:th="http://www.thymeleaf.org">
+ xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,17 +25,30 @@
 		    <img id="foto-perfil" src="../img/foto-perfil-padrao.png" alt="Foto de Perfil">
 		</form>
 		
+		<div class="seguidores">
+		    <button class="botao-seguidores">0<br>Seguidores </button>
+		    <button class="botao-seguindo">0<br>Seguindo</button>
+		</div>
+		
 		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
 		<button type="submit" class="botoes-perfil" id="botao-edicao"></button>
 		
 		<form id="form-descricao">
-			<p id="nome-descricao">Gabriel Tavares</p>
+			<p id="nome-descricao"></p>
 			<p id="dados-descricao">Estudante do Curso Técnico de Informática - 2º Ano</p>
-	        <textarea id="campo-descricao" disabled name="descricao" rows="4" cols="50" maxlength="510" placeholder="SEM DESCRIÇÃO"></textarea><br><br>
+	        <textarea id="campo-descricao" disabled name="descricao" rows="5" cols="78" maxlength="390" placeholder="SEM DESCRIÇÃO"></textarea><br><br>
 		</form>
 		
 		<button type="button" class="botoes-perfil" id="botao-add-seccao">ADICIONAR SEÇÃO</button>
 		<button type="button" class="botoes-perfil" id="botao-concluir-edicao">SALVAR ALTERAÇÕES</button>
+		
+		<div class="informacoes-contato">
+		  <p class="titulo-contato">Informações de contato</p>
+		  <div class="contatos">
+		    <p class="email"></p>
+		    <p class="telefone">+55 31 975409988</p>
+		  </div>
+		</div>
 		
 	</main>
 	
@@ -42,6 +56,6 @@
 		
 	</div>
 	 
-    <script src="../js/config.js"></script>
+    <script src="../js/configPerfilPublico.js"></script>
 </body>
 </html>
