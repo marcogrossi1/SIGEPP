@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="config-html" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style-config.css">
+	<link rel="stylesheet" href="../css/style-perfil.css">
+    <title>Configurações</title>
+</head>
+<body>
+    <header>
+        <a href="http://localhost:8080/aluno/perfil"><img id="logo" src="../img/logo.png" alt="Logo"></a>
+        <h1 id="titulo-plataforma">PIPA | Configurações</h1>
+    </header>
+
+    <div class="menu-container">
+        <div id="menu-config">
+            <ul class="menu-list">
+                <li><a href="http://localhost:8080/aluno/contaConfigPerfil">Conta</a></li>
+                 <!-- <li><a href="http://localhost:8080/aluno/notificacaoConfigPerfil">Notificações</a></li> 			Segundo split--> 
+                <!-- <li><a href="http://localhost:8080/aluno/privacidadeConfigPerfil">Privacidade</a></li>               Depois do crud de seguidores--> 
+                <!-- <li><a href="http://localhost:8080/aluno/preferenciasConfigPerfil">Preferências</a></li>			Segundo split--> 
+            </ul>
+        </div>
+
+        <main>
+            <h2 class="titulo-config">Conta</h2>
+			<form id="form-conta-config">
+			    <label for="nome">Nome:</label>
+			    <input class="conta-config" type="text" id="nome" name="nome">
+			    
+				<label for="curso">Curso:</label>
+				<select class="conta-config" id="curso" name="curso">
+					<option value="" disabled selected>Selecione</option>
+				    <optgroup label="Graduação">
+				        <option value="administracao">Administração</option>
+				        <option value="engenharia_computacao">Engenharia de Computação</option>
+				        <option value="engenharia_producao_civil">Engenharia de Produção Civil – Engenharia Civil</option>
+				        <option value="engenharia_elettrica">Engenharia Elétrica</option>
+				        <option value="engenharia_mecanica">Engenharia Mecânica</option>
+				        <option value="formacao_pedagogica_docentes">Formação Pedagógica de Docentes – Programa Especial de Formação de Docentes</option>
+				        <option value="engenharia_ambiental_sanitaria">Engenharia Ambiental e Sanitária</option>
+				        <option value="engenharia_materiais">Engenharia de Materiais</option>
+				        <option value="engenharia_transportes">Engenharia de Transportes</option>
+				        <option value="letras">Letras</option>
+				        <option value="quimica_tecnologica">Química Tecnológica</option>
+				    </optgroup>
+				    <optgroup label="Técnico">
+				        <option value="controle_ambiental">Controle Ambiental</option>
+				        <option value="eletroeletronica">Eletroeletrônica</option>
+				        <option value="eletrotecnica">Eletrotécnica</option>
+				        <option value="hospedagem">Hospedagem</option>
+				        <option value="mecanica">Mecânica</option>
+				        <option value="metalurgia">Metalurgia</option>
+				        <option value="quimica">Química</option>
+				        <option value="desenvolvimento_sistemas">Desenvolvimento de Sistemas</option>
+				        <option value="eletromecanica">Eletromecânica</option>
+				        <option value="equipamentos_biomedicos">Equipamentos Biomédicos</option>
+				        <option value="informatica">Informática</option>
+				        <option value="mecatronica">Mecatrônica</option>
+				        <option value="mineracao">Mineração</option>
+				        <option value="rede_computadores">Rede de Computadores</option>
+				        <option value="edificacoes">Edificações</option>
+				        <option value="eletronica">Eletrônica</option>
+				        <option value="estradas">Estradas</option>
+				        <option value="informatica_internet">Informática para Internet</option>
+				        <option value="meio_ambiente">Meio Ambiente</option>
+				        <option value="producao_moda">Produção de Moda</option>
+				        <option value="transito">Trânsito</option>
+				    </optgroup>
+				</select>
+
+				<label for="campus">Campus:</label>
+				<select class="conta-config" id="campus" name="campus">
+					<option value="" disabled selected>Selecione</option>
+				    <option value="campus1">Campus 1</option>
+				    <option value="campus2">Campus 2</option>
+				    <option value="campus3">Campus 6</option>
+				</select>
+			    
+			    <label for="email">Email:</label>
+			    <input class="conta-config" type="email" id="email" name="email">
+			    
+			    <label for="telefone">Telefone:</label>
+			    <input class="conta-config" type="tel" id="telefone" name="telefone">
+			    
+			    <label for="senha">Senha:</label>
+			    <input class="conta-config" type="password" id="senha" name="senha">
+			    
+			    <label for="periodo-ano-letivo">Período/ano letivo:</label>
+			    <input class="conta-config" type="text" id="periodo-ano-letivo" name="periodo-anoletivo">
+			</form>
+			<!-- <button type="button" class="botoes-perfil" id="botao-apagar-conta">APAGAR CONTA</button>          Segundo split-->
+			<button type="button" class="botoes-perfil" id="botao-concluir-config">SALVAR ALTERAÇÕES</button>
+        </main>
+    </div>
+	<script src="../js/config.js"></script>
+</body>
+</html>
