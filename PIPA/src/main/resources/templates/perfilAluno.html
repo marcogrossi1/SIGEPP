@@ -55,10 +55,10 @@
 	</div>
 	
 	<script th:inline="javascript">
-		var aluno = /*[[${aluno}]]*/ {};
+		let aluno = /*[[${aluno}]]*/ {};
 		
-        var projetos = /*[[${projetos}]]*/ '[]';
-        var estagios = /*[[${estagios}]]*/ '[]';
+        let projetos = /*[[${projetos}]]*/ '[]';
+        let estagios = /*[[${estagios}]]*/ '[]';
 
         projetos = JSON.parse(projetos);
         estagios = JSON.parse(estagios);
