@@ -44,6 +44,7 @@ public class PesquisaAlunoController {
 			ArrayList<String> listaCursos = AlunoDao.listCursos(conn);
 			ArrayList<String> listaCampus = AlunoDao.listCampus(conn);
 			ArrayList<String> listaPeriodos = AlunoDao.listPeriodos(conn);
+			
 
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			String nome = null;

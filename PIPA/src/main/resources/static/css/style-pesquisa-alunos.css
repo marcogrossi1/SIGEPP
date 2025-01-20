@@ -143,6 +143,12 @@ nav> :first-child {
     border-bottom: none; /* Remove a linha do último elemento */
 }
 
+.project-card a {
+    color:black;
+	text-decoration: none;
+}
+
+
 .project-card h2 {
     font-size: 18px;
     margin-bottom: 5px;
