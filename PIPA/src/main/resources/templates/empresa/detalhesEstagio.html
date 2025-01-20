@@ -19,10 +19,10 @@
             <p th:text="'Vagas disponíveis: ' + ${vagas}"></p>
             <p th:text="'Requisitos: ' + ${requisito}"></p>
             <p th:text="'Salário: R$' + ${estagio.salario}"></p>
-			<p th:text="${documentos != null}?'Documentos necessários:' : 'Nenhum documento necessário.'"></p>
-			            <ul if="${documentos != null}">
-			                <li th:each="doc : ${documentos}" th:text="${doc}"></li>
-			            </ul>
+            <p th:text="${documentos != null}?'Documentos necessários:' : 'Nenhum documento necessário.'"></p>
+            <ul if="${documentos != null}">
+                <li th:each="doc : ${documentos}" th:text="${doc}"></li>
+            </ul>
             <hr>
             <p th:text="${descricao}"></p>
             <a th:if="${estagio.empresa} == ${empresa.nome}" th:href="@{http://localhost:8080/empresa/editar(n=${estagio.id})}">

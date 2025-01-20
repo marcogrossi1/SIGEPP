@@ -165,14 +165,6 @@ button, input[type='submit'] {
 	margin-left: 50px;
 }
 
-#botao-buscar-aluno {
-	margin-left: 150px;
-}
-
-#botao-projeto-professor, #botao-estagios-empresa {
-	margin-left: 105px;
-}
-
 .imgs-botoes-portal {
     height: 180px;
     width: 252px;
