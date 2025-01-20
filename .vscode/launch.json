@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PipaApplication<PIPA>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "proj.PipaApplication",
+            "projectName": "PIPA",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

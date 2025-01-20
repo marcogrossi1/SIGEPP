@@ -43,31 +43,6 @@ public class ProfessorController {
             return "erro";
         }
     }
-    
-    @GetMapping("/perfilProfessor")
-    public String perfilProfessor() {
-        return "professor/perfilProfessor";
-    }
-	 
-	@GetMapping("/contaConfigPerfilAProfessor")
-	public String mostraContaConfigPerfilProfessor(Model model, Principal principal) {
-			return "professor/contaConfigPerfilProfessor";
-	}
-		
-	@GetMapping("/notificacaoConfigPerfilAluno")
-	public String mostraNotificacaoConfigPerfilProfessor(Model model, Principal principal) {
-			return "professor/notificacaoConfigPerfilProfessor";
-	}
-	
-	@GetMapping("/preferenciasConfigPerfilAluno")
-	public String mostraPreferenciasConfigPerfilProfessor(Model model, Principal principal) {
-			return "professor/preferenciasConfigPerfilProfessor";
-	}
-	
-	@GetMapping("/privacidadeConfigPerfilAluno")
-	public String mostraPrivacidadeConfigPerfilProfessor(Model model, Principal principal) {
-			return "professor/privacidadeConfigPerfilProfessor";
-	}
 
     @GetMapping("/professor/projetos")
     public String mostraProjetosProfessor(@RequestParam long id, Model model, Principal principal) {

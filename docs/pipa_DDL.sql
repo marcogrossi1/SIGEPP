@@ -22,7 +22,6 @@ CREATE TABLE Aluno (
   email VARCHAR(255) NOT NULL,
   periodo VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NULL,
-  telefone VARCHAR(20) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX cpf_UNIQUE (cpf ASC) ,
   INDEX nome_INDEX (nome ASC) ,
@@ -44,7 +43,6 @@ CREATE TABLE Administrador (
   campus VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NOT NULL,
-  telefone VARCHAR(20) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX cpf_UNIQUE (cpf ASC),
   UNIQUE INDEX email_UNIQUE (email ASC),
@@ -134,9 +132,6 @@ CREATE TABLE Professor (
   id BIGINT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NULL,
-  telefone VARCHAR(20) NOT NULL,
-  email VARCHAR(255) NOT NULL,
-  cpf VARCHAR(20) NOT NULL,
   PRIMARY KEY (id),
   INDEX fk_Professor_Usuario1_idx (Usuario_id ASC) ,
   CONSTRAINT fk_Professor_Usuario1
@@ -216,6 +211,24 @@ CREATE TABLE
     INDEX fk_Professor_has_Projeto_Prodessor1_idx (professor_id ASC),
     CONSTRAINT fk_Professor_has_Projeto_Professor FOREIGN KEY (professor_id) REFERENCES Professor (id),
     CONSTRAINT fk_Professor_has_Projeto_Projeto1 FOREIGN KEY (projeto_id) REFERENCES Projeto (id)
-  ) ENGINE = InnoDB default character
-set
-  = utf8;
+  ) ENGINE = InnoDB default character set = utf8;
+  
+  
+  
+  -- -----------------------------------------------------
+-- Table Seguidores
+-- -----------------------------------------------------
+CREATE TABLE Seguidores (
+    seguindo_id BIGINT NOT NULL,
+    seguidor_id BIGINT NOT NULL,
+    INDEX fk_Seguidores_Seguindo1_idx (seguindo_id ASC) ,
+  	INDEX fk_Seguidores_Seguidor1_idx (seguidor_id ASC) ,
+  CONSTRAINT fk_Seguidores_Seguindo1
+    FOREIGN KEY (seguindo_id)
+    REFERENCES Usuario (id)
+    ,
+  CONSTRAINT fk_Seguidores_Seguidor1
+    FOREIGN KEY (seguidor_id)
+    REFERENCES Usuario (id)
+    )
+ENGINE = InnoDB default character set = utf8;

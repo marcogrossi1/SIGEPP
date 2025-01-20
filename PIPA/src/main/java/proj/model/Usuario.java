@@ -1,11 +1,19 @@
 package proj.model;
 
-public class Usuario {
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
+public class Usuario {
+	
+	@Id
 	private long id;
 	private String nome;
 	private String senha;
 	private String role;
+	//private String descricao;
+	//private String bannerUrl;
+	//private String fotoPerfilUrl;
 	
 	public long getId() {
 		return id;
@@ -19,6 +27,32 @@ public class Usuario {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	/* EM TESTE | DESATIVADO
+	 * public String getDescricao() {
+        return descricao;
+    }
+	
+	public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+	
+	public String getBannerUrl() {
+        return bannerUrl;
+    }
+	
+	public void setBannerUrl(String bannerUrl) {
+        this.bannerUrl = bannerUrl;
+    }
+	
+	public String getFotoPerfilUrl() {
+        return fotoPerfilUrl;
+    }
+
+    public void setFotoPerfilUrl(String fotoPerfilUrl) {
+        this.fotoPerfilUrl = fotoPerfilUrl;
+    }*/
+	
 	public String getSenha() {
 		return senha;
 	}

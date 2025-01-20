@@ -45,13 +45,14 @@ public class AlunoController {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
 			
-			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+			Aluno a = AlunoDao.getByUsuario_id(conn, u.getId());
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 			
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return mostraPaginaDeErro(model, "Erro interno na aplicação!.");
@@ -126,54 +127,32 @@ public class AlunoController {
 			model.addAttribute("estagios", estagios);
 
 			return "aluno/projetos";
+
+		} catch (Exception e) {
+
+			return "erro";
+		}
+	}
+	
+	@GetMapping("/perfil")
+	public String mostraPerfilPessoal(Model model, Principal principal) throws Exception {
+		try (Connection conn = ds.getConnection()) {
+			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+			model.addAttribute("usuario", u);
+			return "aluno/perfil";
 		} catch (Exception e) {
 			return "erro";
 		}
 	}
 	
-	@GetMapping("/perfilAluno")
-    public String mostrarPerfilAluno(Long alunoId, Model model, Principal principal) throws Exception {
-		try(Connection conn = ds.getConnection()) {
-			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-        	model.addAttribute("usuario", u);
-        	
-        	if (!u.getRole().equals("Aluno")) {
-				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
-			}
-
-        	Aluno a = AlunoDao.getByCpf(conn, principal.getName());
-			model.addAttribute("aluno", a);
-
-			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
-			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
-			
-			model.addAttribute("aluno", a);
-			model.addAttribute("projetos", projetos);
-			model.addAttribute("estagios", estagios);
-			
-			return "aluno/perfilAluno";
-		}
-	}
-	
-	 
-	@GetMapping("/contaConfigPerfilAluno")
-	public String mostraContaConfigPerfilAluno(Model model, Principal principal) {
+	@GetMapping("/contaConfigPerfil")
+	public String mostraContaConfigPerfil(Model model, Principal principal) {
 			return "aluno/contaConfigPerfil";
 	}
-		
-	@GetMapping("/notificacaoConfigPerfilAluno")
-	public String mostraNotificacaoConfigPerfilAluno(Model model, Principal principal) {
+	
+	@GetMapping("/notificacaoConfigPerfil")
+	public String mostraNotificacaoConfigPerfil(Model model, Principal principal) {
 			return "aluno/notificacaoConfigPerfil";
-	}
-	
-	@GetMapping("/preferenciasConfigPerfilAluno")
-	public String mostraPreferenciasConfigPerfilAluno(Model model, Principal principal) {
-			return "aluno/preferenciasConfigPerfilAluno";
-	}
-	
-	@GetMapping("/privacidadeConfigPerfilAluno")
-	public String mostraPrivacidadeConfigPerfilAluno(Model model, Principal principal) {
-			return "aluno/privacidadeConfigPerfilAluno";
 	}
 
 	@GetMapping("/certificados")			
@@ -193,7 +172,9 @@ public class AlunoController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
+
 		} catch (Exception e) {
+
 			return "erro";
 		}
 
@@ -201,6 +182,7 @@ public class AlunoController {
 	}
 
 	@GetMapping("/emite")
+
 	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
