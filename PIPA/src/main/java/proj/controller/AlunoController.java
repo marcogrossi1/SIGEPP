@@ -52,6 +52,7 @@ public class AlunoController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return mostraPaginaDeErro(model, "Erro interno na aplicação!.");
@@ -126,7 +127,9 @@ public class AlunoController {
 			model.addAttribute("estagios", estagios);
 
 			return "aluno/projetos";
+
 		} catch (Exception e) {
+
 			return "erro";
 		}
 	}
@@ -169,7 +172,9 @@ public class AlunoController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
+
 		} catch (Exception e) {
+
 			return "erro";
 		}
 
@@ -177,6 +182,7 @@ public class AlunoController {
 	}
 
 	@GetMapping("/emite")
+
 	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
