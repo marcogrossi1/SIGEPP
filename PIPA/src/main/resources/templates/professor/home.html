@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/icon.png">
+    <title>Professor - Home</title>
+</head>
+<body>
+	<header>
+        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a>
+        <h1 id="titulo-plataforma">PIPA | Home</h1>
+    </header>
+
+	<nav>
+        <p th:text="${professor.nome}"></p>
+        <a href="/professor/perfilProfessor" class="icone">
+            <img src="img/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+        <a th:href="@{/professor/projetos?id={id}(id=${professor.id})}" class="icone">
+            <img src="img/icone-maleta.png">
+            <label>Projetos</label>
+        </a>
+    </nav>
+      
+	<main>
+
+    </main> 
+    
+</body>
+</html>
