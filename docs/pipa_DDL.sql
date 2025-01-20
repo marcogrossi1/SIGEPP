@@ -22,6 +22,7 @@ CREATE TABLE Aluno (
   email VARCHAR(255) NOT NULL,
   periodo VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NULL,
+  telefone VARCHAR(20) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX cpf_UNIQUE (cpf ASC) ,
   INDEX nome_INDEX (nome ASC) ,
@@ -43,6 +44,7 @@ CREATE TABLE Administrador (
   campus VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NOT NULL,
+  telefone VARCHAR(20) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX cpf_UNIQUE (cpf ASC),
   UNIQUE INDEX email_UNIQUE (email ASC),
@@ -132,6 +134,9 @@ CREATE TABLE Professor (
   id BIGINT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NULL,
+  telefone VARCHAR(20) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  cpf VARCHAR(20) NOT NULL,
   PRIMARY KEY (id),
   INDEX fk_Professor_Usuario1_idx (Usuario_id ASC) ,
   CONSTRAINT fk_Professor_Usuario1
@@ -194,6 +199,7 @@ CREATE TABLE candidatura (
     oportunidade_id BIGINT NOT NULL,
     mensagem TEXT NOT NULL,
     data_aplicacao TIMESTAMP NOT NULL,
+    status ENUM('EM_ANDAMENTO', 'VALIDADA', 'INVALIDADA') NOT NULL DEFAULT 'EM_ANDAMENTO',
     FOREIGN KEY (candidato_id) REFERENCES aluno(id),
     FOREIGN KEY (oportunidade_id) REFERENCES projeto(id)
 );

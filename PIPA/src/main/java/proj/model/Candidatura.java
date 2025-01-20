@@ -2,52 +2,60 @@ package proj.model;
 
 import java.time.LocalDateTime;
 
-public class Candidatura{
-	
-	private Long id;
-	private Aluno candidato;
-	private Long IDoportunidade;
-	private String mensagem;
-	private LocalDateTime dataAplicacao;
-	
-	public Long getIDoportunidade() {
-		return IDoportunidade;
-	}
+public class Candidatura {
+    
+    private Long id;
+    private Aluno candidato;
+    private Long IDoportunidade;
+    private String mensagem;
+    private LocalDateTime dataAplicacao;
+    private StatusCandidatura status; 
 
-	public void setIDoportunidade(Long iDoportunidade) {
-		IDoportunidade = iDoportunidade;
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    public Long getIDoportunidade() {
+        return IDoportunidade;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setIDoportunidade(Long iDoportunidade) {
+        IDoportunidade = iDoportunidade;
+    }
 
-	public Aluno getCandidato() {
-		return candidato;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setCandidato(Aluno candidato) {
-		this.candidato = candidato;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getMensagem() {
-		return mensagem;
-	}
+    public Aluno getCandidato() {
+        return candidato;
+    }
 
-	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
-	}
+    public void setCandidato(Aluno candidato) {
+        this.candidato = candidato;
+    }
 
-	public LocalDateTime getDataAplicacao() {
-		return dataAplicacao;
-	}
+    public String getMensagem() {
+        return mensagem;
+    }
 
-	public void setDataAplicacao(LocalDateTime dataAplicacao) {
-		this.dataAplicacao = dataAplicacao;
-	}
-	
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+
+    public LocalDateTime getDataAplicacao() {
+        return dataAplicacao;
+    }
+
+    public void setDataAplicacao(LocalDateTime dataAplicacao) {
+        this.dataAplicacao = dataAplicacao;
+    }
+
+    public StatusCandidatura getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusCandidatura status) {
+        this.status = status;
+    }
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="perfil-html" lang="en"
-	xmlns:th="http://www.thymeleaf.org">
+ xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
 </head>
 <body>
 	<header>
-	        <a href="http://localhost:8080/aluno"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
+	        <a href="http://localhost:8080/professor"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
 	        <h1 id="titulo-plataforma" >PIPA | Meu Perfil</h1>
 	</header>
 	
@@ -29,12 +30,12 @@
 		    <button class="botao-seguindo">0<br>Seguindo</button>
 		</div>
 		
-		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
+		<a href="http://localhost:8080/professor/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
 		<button type="submit" class="botoes-perfil" id="botao-edicao"></button>
 		
 		<form id="form-descricao">
-			<p id="nome-descricao">Gabriel Tavares</p>
-			<p id="dados-descricao">Estudante do Curso Técnico de Informática - 2º Ano</p>
+			<p id="nome-descricao"></p>
+			<p id="dados-descricao">Professor</p>
 	        <textarea id="campo-descricao" disabled name="descricao" rows="5" cols="78" maxlength="390" placeholder="SEM DESCRIÇÃO"></textarea><br><br>
 		</form>
 		
@@ -44,7 +45,7 @@
 		<div class="informacoes-contato">
 		  <p class="titulo-contato">Informações de contato</p>
 		  <div class="contatos">
-		    <p class="email">henriquepokacha@gmail.com</p>
+		    <p class="email"></p>
 		    <p class="telefone">+55 31 975409988</p>
 		  </div>
 		</div>
@@ -55,6 +56,6 @@
 		
 	</div>
 	 
-    <script src="../js/config.js"></script>
+    <script src="../js/configProfessor.js"></script>
 </body>
 </html>

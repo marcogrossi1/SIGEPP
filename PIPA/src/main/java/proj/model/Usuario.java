@@ -6,9 +6,6 @@ public class Usuario {
 	private String nome;
 	private String senha;
 	private String role;
-	//private String descricao;
-	//private String bannerUrl;
-	//private String fotoPerfilUrl;
 	
 	public long getId() {
 		return id;
@@ -22,32 +19,6 @@ public class Usuario {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	/* EM TESTE | DESATIVADO
-	 * public String getDescricao() {
-        return descricao;
-    }
-	
-	public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-	
-	public String getBannerUrl() {
-        return bannerUrl;
-    }
-	
-	public void setBannerUrl(String bannerUrl) {
-        this.bannerUrl = bannerUrl;
-    }
-	
-	public String getFotoPerfilUrl() {
-        return fotoPerfilUrl;
-    }
-
-    public void setFotoPerfilUrl(String fotoPerfilUrl) {
-        this.fotoPerfilUrl = fotoPerfilUrl;
-    }*/
-	
 	public String getSenha() {
 		return senha;
 	}
