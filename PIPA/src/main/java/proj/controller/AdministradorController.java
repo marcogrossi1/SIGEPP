@@ -8,21 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import proj.dao.HDataSource;
-import proj.dao.UsuarioDao;
-import proj.dao.EstagioDao;
 import proj.dao.AdministradorDao;
+import proj.dao.AlunoDao;
+import proj.dao.EstagioDao;
+import proj.dao.HDataSource;
 import proj.dao.ProjetoDao;
-
+import proj.dao.UsuarioDao;
+import proj.model.Administrador;
+import proj.model.Aluno;
+import proj.model.Empresa;
 import proj.model.Estagio;
 import proj.model.Projeto;
 import proj.model.Usuario;
-import proj.model.Administrador;
-import proj.model.Empresa;
-import proj.model.Aluno;
 
 @Controller
 @RequestMapping("/administrador")
@@ -211,7 +212,7 @@ public class AdministradorController {
         }
     }
 
-    @RequestMapping("/listar-alunos")
+    @GetMapping("/listar-alunos")
     public String listaAlunos(Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
@@ -230,4 +231,23 @@ public class AdministradorController {
             return "erro";
         }
     }
+    
+    
+    @PostMapping("/deletar-aluno")
+    public String deletarAluno(@RequestParam("n") Long alunoId, Model model, Principal principal) 
+    throws Exception 
+    {
+        try(Connection conn = ds.getConnection())
+        {
+            Aluno al = AlunoDao.get(conn, alunoId);
+            AlunoDao.delete(conn, al.getId());
+            conn.commit();
+            return "redirect:/administrador/listar-alunos";
+        }
+        catch(Exception e) {
+            return mostraPaginaDeErro(model, "Não foi possível deletar.");
+        }
+    }
 }
+
+
