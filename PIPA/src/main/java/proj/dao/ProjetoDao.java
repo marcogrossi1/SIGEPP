@@ -12,13 +12,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import proj.model.Projeto;
+import proj.model.Projeto.Curso;
+import proj.model.Projeto.TipoProjeto;
 
 public class ProjetoDao {
     private final static String getsql = "SELECT * FROM Projeto  WHERE id = ?";
     private final static String listsql = "SELECT * FROM Projeto";
     private final static String listByNomeSql = "SELECT * FROM Projeto WHERE nome like %?% ";
     private final static String insertsql = "INSERT INTO Projeto (nome, responsavel, descricao, carga_horaria, vagas, requisito) VALUES( ?, ?, ?, ?, ?, ?) ";
-    private final static String updatesql = "UPDATE Projeto SET nome = ?, responsavel = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ? WHERE id = ? ";
+    private final static String updatesql = "UPDATE Projeto SET nome = ?, responsavel = ?, descricao = ?, carga_horaria = ?, vagas_remuneradas = ?, vagas_voluntarias = ?, requisito = ?, campus = ?, tipo_projeto = ?, curso = ? WHERE id = ? ";
     private final static String deletesql = "DELETE FROM Projeto WHERE id = ?";
     private final static String getByNomeSql = "SELECT * FROM Projeto WHERE nome = ?";
 
@@ -30,8 +32,13 @@ public class ProjetoDao {
         vo.setResponsavel(rs.getString("responsavel"));
         vo.setDescricao(rs.getString("descricao"));
         vo.setCargaHoraria(rs.getInt("carga_horaria"));
-        vo.setVagas(rs.getInt("vagas"));
+        vo.setVagasRemuneradas(rs.getInt("vagas_remuneradas")); // Alterado para 'vagas_remuneradas'
+        vo.setVagasVoluntarias(rs.getInt("vagas_voluntarias")); // Alterado para 'vagas_voluntarias'
         vo.setRequisito(rs.getString("requisito"));
+        vo.setCampus(rs.getString("campus")); // Alterado para 'campus'
+        vo.setTipoProjeto(TipoProjeto.valueOf(rs.getString("tipo_projeto"))); // Alterado para 'tipo_projeto' usando
+                                                                              // enum
+        vo.setCurso(Curso.valueOf(rs.getString("curso"))); // Alterado para 'curso' usando enum
         return vo;
     }
 
@@ -55,6 +62,7 @@ public class ProjetoDao {
             closeResource(ps, rs);
         }
     }
+
     public static Projeto getByNome(Connection conn, String nome)
             throws NotFoundException, SQLException {
         PreparedStatement ps = null;
@@ -137,13 +145,19 @@ public class ProjetoDao {
         try {
             conn.setAutoCommit(false);
 
+            // Prepara a declaração SQL
             ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, vo.getNome());
             ps.setString(2, vo.getResponsavel());
             ps.setString(3, vo.getDescricao());
             ps.setInt(4, vo.getCargaHoraria());
-            ps.setInt(5, vo.getVagas());
-            ps.setString(6, vo.getRequisito());
+            ps.setInt(5, vo.getVagasRemuneradas());
+            ps.setInt(6, vo.getVagasVoluntarias());
+            ps.setString(7, vo.getRequisito());
+            ps.setString(8, vo.getCampus());
+            ps.setString(9, vo.getTipoProjeto().getDescricao());
+            ps.setString(10, vo.getCurso().getDescricao());
+            ps.setLong(11, vo.getId());
             ps.executeUpdate();
 
             rs = ps.getGeneratedKeys();
@@ -179,14 +193,18 @@ public class ProjetoDao {
             conn.setAutoCommit(false);
 
             // Prepara a declaração SQL
-            ps = conn.prepareStatement(updatesql);
+            ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, vo.getNome());
             ps.setString(2, vo.getResponsavel());
             ps.setString(3, vo.getDescricao());
             ps.setInt(4, vo.getCargaHoraria());
-            ps.setInt(5, vo.getVagas());
-            ps.setString(6, vo.getRequisito());
-            ps.setLong(7, vo.getId());
+            ps.setInt(5, vo.getVagasRemuneradas());
+            ps.setInt(6, vo.getVagasVoluntarias());
+            ps.setString(7, vo.getRequisito());
+            ps.setString(8, vo.getCampus());
+            ps.setString(9, vo.getTipoProjeto().getDescricao());
+            ps.setString(10, vo.getCurso().getDescricao());
+            ps.setLong(11, vo.getId());
 
             // Executa a atualização
             int count = ps.executeUpdate();
@@ -194,22 +212,19 @@ public class ProjetoDao {
                 throw new NotFoundException("Object not found [" + vo.getId() + "].");
             }
 
-            // Confirma a transação
             conn.commit();
         } catch (SQLException e) {
-            // Reverte a transação em caso de erro
             try {
                 conn.rollback();
             } catch (SQLException e1) {
                 System.err.println("Erro ao fazer rollback: " + e1.getMessage());
             }
-            throw e; // Relança a exceção para ser tratada no nível superior
+            throw e;
         } finally {
-            // Restaura o estado original do auto-commit
             try {
                 conn.setAutoCommit(autoCommitOriginal);
             } catch (SQLException e) {
-                System.err.println("Erro ao restaurar auto-commit: " + e.getMessage());
+                System.err.println(e.getMessage());
             }
             closeResource(ps);
         }
@@ -222,10 +237,10 @@ public class ProjetoDao {
             // Desativa o auto-commit para gerenciar transações manualmente
             conn.setAutoCommit(false);
 
-            // 1. Remove as relações na tabela professor_has_projeto
+            // Remove as relações na tabela professor_has_projeto
             removerPorProjeto(conn, id);
 
-            // 2. Deleta o projeto
+            // Deleta o projeto
             try (PreparedStatement ps = conn.prepareStatement(deletesql)) {
                 ps.setInt(1, id);
                 int count = ps.executeUpdate();
@@ -234,14 +249,11 @@ public class ProjetoDao {
                 }
             }
 
-            // Confirma a transação
             conn.commit();
         } catch (SQLException e) {
-            // Reverte a transação em caso de erro
             rollbackConnection(conn);
             throw e;
         } finally {
-            // Restaura o estado original do auto-commit
             try {
                 conn.setAutoCommit(autoCommitOriginal);
             } catch (SQLException e) {
