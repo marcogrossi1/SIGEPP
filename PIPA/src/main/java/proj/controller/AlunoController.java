@@ -132,7 +132,7 @@ public class AlunoController {
 	}
 	
 	@GetMapping("/perfilAluno")
-    public String mostrarPerfilAluno(Long alunoId, Model model, Principal principal) throws Exception {
+    public String mostrarPerfilAluno(Model model, Principal principal) throws Exception {
 		try(Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
         	model.addAttribute("usuario", u);
