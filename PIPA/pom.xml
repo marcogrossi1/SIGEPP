@@ -34,10 +34,7 @@
                 <source.version>${java.version}</source.version>
 	</properties>
 	<dependencies>
-		<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-data-jpa</artifactId>
-</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -46,12 +43,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-    <groupId>javax.servlet</groupId>
-    <artifactId>javax.servlet-api</artifactId>
-    <version>4.0.1</version> <!-- ou a versão mais recente -->
-    <scope>provided</scope>
-</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -66,16 +57,14 @@
 		</dependency>
 		
 		<dependency>
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		
-				
-		<dependency>
-		    <groupId>javax.persistence</groupId>
-		    <artifactId>javax.persistence-api</artifactId>
-		    <version>2.2</version> <!-- ou a versão mais recente disponível -->
-		</dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+<dependency>
+    <groupId>javax.persistence</groupId>
+    <artifactId>javax.persistence-api</artifactId>
+    <version>2.2</version> <!-- ou a versão mais recente disponível -->
+</dependency>
 
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -98,17 +87,6 @@
     		<groupId>com.itextpdf</groupId>
     		<artifactId>itextpdf</artifactId>
     		<version>5.5.13.3</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

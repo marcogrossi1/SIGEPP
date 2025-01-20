@@ -23,8 +23,6 @@ public class SecurityConfig {
                     .requestMatchers("/aluno/**").hasRole("Aluno")
                     .requestMatchers("/professor/**").hasRole("Professor")
                     .requestMatchers("/empresa/**").hasRole("Empresa")
-                    .requestMatchers("/administrador/**").hasRole("Administrador")
-                    .requestMatchers("/pesquisa/**").hasAnyRole("Professor","Empresa")
                     .anyRequest().authenticated()
             )
             .csrf(csrf -> csrf.disable()) 

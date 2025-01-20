@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Projeto;
-import proj.model.Usuario;
 
 public class AlunoDao {
 
@@ -24,13 +23,10 @@ public class AlunoDao {
     private final static String getByEmailSql = "SELECT * FROM aluno  WHERE email = ?";
     private final static String getByUsuario_idSql = "SELECT * FROM aluno  WHERE usuario_id = ?";
     private final static String listsql = "SELECT * FROM aluno";
-    private final static String listByNomeSql = "SELECT * FROM aluno WHERE nome like ? ";
+    private final static String listByNomeSql = "SELECT * FROM aluno WHERE nome = ? ";
     private final static String listByCursoSql = "SELECT * FROM aluno WHERE curso = ? ";
     private final static String listByCampusSql = "SELECT * FROM aluno WHERE campus = ? ";
     private final static String listByPeriodoSql = "SELECT * FROM aluno WHERE periodo = ? ";
-    private final static String listCursosSql = "SELECT DISTINCT curso FROM aluno ORDER BY curso";
-    private final static String listCampusSql = "SELECT DISTINCT campus FROM aluno ORDER BY campus";
-    private final static String listPeriodosSql = "SELECT DISTINCT periodo FROM aluno ORDER BY periodo";
     private final static String insertsql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id) VALUES( ?, ?, ?, ?, ?, ?, ?) ";
     private final static String updatesql = "UPDATE aluno SET cpf = ?, nome = ?, curso = ?, campus = ?, email = ?, periodo = ?, usuario_id = ? WHERE id = ? ";
     private final static String updateForCpfSql = "UPDATE aluno SET cpf = ?  WHERE id = ? ";
@@ -41,6 +37,7 @@ public class AlunoDao {
     private final static String updateForTelefoneSql = "UPDATE aluno SET telefone = ?  WHERE id = ? ";
     private final static String updateForPeriodoSql = "UPDATE aluno SET periodo = ?  WHERE id = ? ";
     private final static String updateForUsuario_idSql = "UPDATE aluno SET usuario_id = ?  WHERE id = ? ";
+    private final static String deletesql = "DELETE FROM aluno WHERE id = ?";
 
     private static void closeResource(Statement ps) {
         try{if (ps != null) ps.close();}catch (Exception e){ps = null;}
@@ -67,137 +64,8 @@ public class AlunoDao {
         return vo;
     }
 
-
-    
-    public static ArrayList<Aluno> listByCursoCampusPeriodo(Connection conn, String curso, String campus, String periodo)
-    throws SQLException
-    {
-	    String sql = "SELECT * FROM aluno ";
-	    
-	    ArrayList<String> sqladd = new ArrayList<>();
-	    
-	    if (curso != null   &&  curso.trim().isEmpty() == false) sqladd.add(" curso = '"+curso+"'");
-	    if (campus != null  &&  campus.trim().isEmpty() == false) sqladd.add(" campus = '"+campus+"'");
-	    if (periodo != null &&  periodo.trim().isEmpty() == false) sqladd.add(" periodo = '"+periodo+"'");
-	    
-	    if (sqladd.isEmpty() == false ) {
-	    	
-    	    for (int i = 0; i < sqladd.size(); i++) {
-				if (i==0) {
-					sql = sql + " WHERE "+ sqladd.get(i);
-				}
-				else
-				{
-					sql = sql + " and "+ sqladd.get(i);
-				}
-			}
-	    }
-	    
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-            if (!rs.next()) {return new ArrayList<Aluno>();}
-            ArrayList<Aluno> list = new ArrayList<Aluno>();
-            do
-            { Aluno b = set(rs); list.add(b); }
-            while (rs.next());
-            return list;
-        }
-        catch (SQLException e){ throw e;}
-        finally{closeResource(ps,rs); ps = null;rs = null; }
-    }
-    
-    public static ArrayList<String> listCursos(Connection conn)
-    throws SQLException
-    {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            ps = conn.prepareStatement(listCursosSql);
-            rs = ps.executeQuery();
-            if (!rs.next()) {return new ArrayList<String>();}
-            ArrayList<String> list = new ArrayList<String>();
-            do
-            { 
-            	String b = rs.getString("curso"); 
-            	list.add(b); 
-            }
-            while (rs.next());
-            return list;
-        }
-        catch (SQLException e){ 
-        	throw e;
-        }
-        finally{
-        	closeResource(ps,rs); 
-        	ps = null;
-        	rs = null; 
-        }
-    }
-    
-    public static ArrayList<String> listCampus(Connection conn)
-    	    throws SQLException
-    	    {
-    	        PreparedStatement ps = null;
-    	        ResultSet rs = null;
-    	        try {
-    	            ps = conn.prepareStatement(listCampusSql);
-    	            rs = ps.executeQuery();
-    	            if (!rs.next()) {return new ArrayList<String>();}
-    	            ArrayList<String> list = new ArrayList<String>();
-    	            do
-    	            { 
-    	            	String b = rs.getString("campus"); 
-    	            	list.add(b); 
-    	            }
-    	            while (rs.next());
-    	            return list;
-    	        }
-    	        catch (SQLException e){ 
-    	        	throw e;
-    	        }
-    	        finally{
-    	        	closeResource(ps,rs); 
-    	        	ps = null;
-    	        	rs = null; 
-    	        }
-    	    }
-
-    
-    public static ArrayList<String> listPeriodos(Connection conn)
-    	    throws SQLException
-    	    {
-    	        PreparedStatement ps = null;
-    	        ResultSet rs = null;
-    	        try {
-    	            ps = conn.prepareStatement(listPeriodosSql);
-    	            rs = ps.executeQuery();
-    	            if (!rs.next()) {return new ArrayList<String>();}
-    	            ArrayList<String> list = new ArrayList<String>();
-    	            do
-    	            { 
-    	            	String b = rs.getString("periodo"); 
-    	            	list.add(b); 
-    	            }
-    	            while (rs.next());
-    	            return list;
-    	        }
-    	        catch (SQLException e){ 
-    	        	throw e;
-    	        }
-    	        finally{
-    	        	closeResource(ps,rs); 
-    	        	ps = null;
-    	        	rs = null; 
-    	        }
-    	    }
-
-
-    
     public static Aluno get(Connection conn, long id)
-    throws NotFoundException, SQLException
+        throws NotFoundException, SQLException
     {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -213,7 +81,6 @@ public class AlunoDao {
         finally{closeResource(ps,rs); ps = null;rs = null; }
     }
 
-    
     public static Aluno getByCpf(Connection conn, String cpf)
         throws NotFoundException, SQLException
     {
@@ -291,7 +158,7 @@ public class AlunoDao {
         ResultSet rs = null;
         try {
             ps = conn.prepareStatement(listByNomeSql);
-            ps.setString(1, "%"+nome+"%");
+            ps.setString(1, nome);
             rs = ps.executeQuery();
             if (!rs.next()) {return new ArrayList<Aluno>();}
             ArrayList<Aluno> list = new ArrayList<Aluno>();
@@ -544,42 +411,17 @@ public class AlunoDao {
     public static void delete(Connection conn, long id)
         throws NotFoundException, SQLException
     {
-    	Aluno a = new Aluno();
-    	Usuario u = new Usuario();
-    	String sql1 = "delete from aluno_has_projeto where aluno_id = ? ";
-    	String sql2 = "delete from aluno_has_estagio where aluno_id = ? ";
-    	String sql3 = "delete from candidatura where candidato_id = ? ";
-    	String sql4 = "delete from aluno where id = ? ";
-    	String sql5 = "delete from seguidores where seguindo_id = ? ";
-    	String sql6 = "delete from seguidores where seguidor_id = ? ";
-    	String sql7 = "delete from usuario where id = ? ";
-    	
-    	
-    	a = AlunoDao.get(conn, id);
-    	u = UsuarioDao.get(conn, a.getUsuario_id());
-
-    	deleteRelation(conn, sql1, id);	
-    	deleteRelation(conn, sql2, id);	
-    	deleteRelation(conn, sql3, id);	    		
-    	deleteRelation(conn, sql4, id);
-    	deleteRelation(conn, sql5, u.getId());
-    	deleteRelation(conn, sql6, u.getId());
-    	deleteRelation(conn, sql7, u.getId());
-    }
-
-    private static void deleteRelation(Connection conn, String sql, long id)
-    throws NotFoundException, SQLException
-    {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(deletesql);
             ps.setLong(1,id);
-            ps.executeUpdate();
+            int count = ps.executeUpdate();
+            if (count == 0 ){throw new NotFoundException("Object not found ["+id+"] .");}
         }
         catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
         finally{closeResource(ps); ps = null; }
     }
-    
+
 	public static ArrayList<Projeto> listProjetosByAlunoId(Connection conn, long idAluno) 
 	throws SQLException 
 	{
