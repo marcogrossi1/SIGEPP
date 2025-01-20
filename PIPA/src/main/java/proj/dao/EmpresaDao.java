@@ -7,11 +7,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import proj.model.Estagio;
+import proj.model.Professor;
 import proj.model.Empresa;
 
 public class EmpresaDao extends AbstractDaoBase {
 
 	private final static String listEmpresaEstagiosSql = "SELECT p.* from empresa_has_estagio ap, estagio p where ap.estagio_id = p.id and ap.empresa_id = ? ";
+	private final static String getByUsuario_idSql = "SELECT * FROM Empresa  WHERE usuario_id = ?";
 	private final static String getsql = "SELECT * FROM Empresa  WHERE id = ?";
 	private final static String getByCnpjSql = "SELECT * FROM Empresa  WHERE cnpj = ?";
 	private final static String getByEmailSql = "SELECT * FROM Empresa  WHERE email = ?";
@@ -55,6 +57,23 @@ public class EmpresaDao extends AbstractDaoBase {
 			rs = null;
 		}
 	}
+	
+	 public static Empresa getByUsuario_id(Connection conn, long usuario_id)
+		        throws NotFoundException, SQLException
+		    {
+		        PreparedStatement ps = null;
+		        ResultSet rs = null;
+		        try {
+		            ps = conn.prepareStatement(getByUsuario_idSql);
+		            ps.setLong(1, usuario_id);
+		            rs = ps.executeQuery();
+		            if (!rs.next()) {throw new NotFoundException("Object not found By [" + usuario_id + "]");}
+		            Empresa b = set(rs);
+		            return b;
+		        }
+		        catch (SQLException e){throw e;}
+		        finally{closeResource(ps,rs); ps = null;rs = null; }
+		    }
 
 	public static Empresa getByCnpj(Connection conn, String cnpj) throws NotFoundException, SQLException {
 		PreparedStatement ps = null;

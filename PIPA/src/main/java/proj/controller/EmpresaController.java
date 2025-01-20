@@ -3,20 +3,21 @@ package proj.controller;
 import java.security.Principal;
 import java.sql.Connection;
 import java.util.ArrayList;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import proj.dao.EstagioDao;
-import proj.model.Estagio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import proj.dao.EmpresaDao;
+import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.UsuarioDao;
 import proj.model.Empresa;
+import proj.model.Estagio;
 import proj.model.Usuario;
 
 @Controller
@@ -24,9 +25,30 @@ import proj.model.Usuario;
 public class EmpresaController {
 	@Autowired
         private HDataSource ds;
+		
+		
 	
-        @GetMapping
-	public String mostraHomeEmpresa(Model model, Principal principal) {
+    @GetMapping
+    public String mostraHomeEmpresa(Principal principal, Model model) {
+    	
+        try (Connection conn = ds.getConnection()) {
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+            if (!u.getRole().equals("Empresa")) {
+                return mostraPaginaDeErro(model, "Usuário não é uma Empresa!");
+            }
+
+            Empresa e = EmpresaDao.getByUsuario_id(conn, u.getId());
+
+            model.addAttribute("empresa", e);
+            return "empresa/home";
+        } catch (Exception e) {
+            return "erro";
+        }
+    }	
+    
+    
+        @GetMapping("/estagios")
+        public String mostraEstagiosEmpresa(Model model, Principal principal) {
 		try (Connection conn = ds.getConnection()){
                     Usuario u = UsuarioDao.getByNome(conn, principal.getName());
                     if (u.getRole().equals("Empresa") == false)
@@ -36,7 +58,7 @@ public class EmpresaController {
                     ArrayList<Estagio> e = EmpresaDao.listEstagiosByEmpresaId(conn, empresa.getId());
                     model.addAttribute("empresa", empresa);
                     model.addAttribute("estagioList", e);
-			return "empresa/home";
+			return "empresa/estagios";
 		}
 
 		catch(Exception e) {

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import proj.model.Aluno;
 import proj.model.Professor;
 
 public class ProfessorDao {
@@ -57,6 +58,8 @@ public class ProfessorDao {
         catch (SQLException e){throw e;}
         finally{closeResource(ps,rs); ps = null;rs = null; }
     }
+    
+   
 
     public static Professor getByUsuario_id(Connection conn, long usuario_id)
         throws NotFoundException, SQLException

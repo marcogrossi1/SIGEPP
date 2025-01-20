@@ -194,7 +194,6 @@ CREATE TABLE candidatura (
     oportunidade_id BIGINT NOT NULL,
     mensagem TEXT NOT NULL,
     data_aplicacao TIMESTAMP NOT NULL,
-    status ENUM('EM_ANDAMENTO', 'VALIDADA', 'INVALIDADA') NOT NULL DEFAULT 'EM_ANDAMENTO',
     FOREIGN KEY (candidato_id) REFERENCES aluno(id),
     FOREIGN KEY (oportunidade_id) REFERENCES projeto(id)
 );
