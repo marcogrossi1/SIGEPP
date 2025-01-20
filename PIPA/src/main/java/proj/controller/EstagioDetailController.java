@@ -30,7 +30,7 @@ public class EstagioDetailController {
             model.addAttribute("cargaHoraria", es.getCargaHoraria());
             model.addAttribute("vagas", Integer.valueOf(es.getVagas()));
             model.addAttribute("requisito", es.getRequisito());
-            model.addAttribute("salario", es.getSalario());
+            
             return "detalhesEstagio";
         }catch(Exception e) {
                 e.printStackTrace();
