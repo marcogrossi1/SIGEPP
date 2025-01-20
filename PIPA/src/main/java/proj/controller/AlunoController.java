@@ -130,51 +130,6 @@ public class AlunoController {
 			return "erro";
 		}
 	}
-	
-	@GetMapping("/perfilAluno")
-    public String mostrarPerfilAluno(Model model, Principal principal) throws Exception {
-		try(Connection conn = ds.getConnection()) {
-			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-        	model.addAttribute("usuario", u);
-        	
-        	if (!u.getRole().equals("Aluno")) {
-				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
-			}
-
-        	Aluno a = AlunoDao.getByCpf(conn, principal.getName());
-			model.addAttribute("aluno", a);
-
-			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
-			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
-			
-			model.addAttribute("aluno", a);
-			model.addAttribute("projetos", projetos);
-			model.addAttribute("estagios", estagios);
-			
-			return "aluno/perfilAluno";
-		}
-	}
-	
-	 
-	@GetMapping("/contaConfigPerfilAluno")
-	public String mostraContaConfigPerfilAluno(Model model, Principal principal) {
-			return "aluno/contaConfigPerfil";
-	}
-		
-	@GetMapping("/notificacaoConfigPerfilAluno")
-	public String mostraNotificacaoConfigPerfilAluno(Model model, Principal principal) {
-			return "aluno/notificacaoConfigPerfil";
-	}
-	
-	@GetMapping("/preferenciasConfigPerfilAluno")
-	public String mostraPreferenciasConfigPerfilAluno(Model model, Principal principal) {
-			return "aluno/preferenciasConfigPerfilAluno";
-	}
-	
-	@GetMapping("/privacidadeConfigPerfilAluno")
-	public String mostraPrivacidadeConfigPerfilAluno(Model model, Principal principal) {
-			return "aluno/privacidadeConfigPerfilAluno";
-	}
 
 	@GetMapping("/certificados")			
 	public String listaCertificados(Model model, Principal principal) throws Exception {

@@ -36,7 +36,7 @@ import proj.model.Estagio;
 import proj.model.Projeto;
 
 @Controller
-@RequestMapping("/perfilAlunoXXX")
+@RequestMapping("/perfil-aluno")
 public class PerfilAlunoController {
 	
 	@Autowired
@@ -59,7 +59,7 @@ public class PerfilAlunoController {
 			model.addAttribute("estagios", estagios);
 
 			if (u.getRole().equals("Aluno")) {
-                return "perfilAlunoXXX";
+                return "perfilAluno";
             }
     
             else if (u.getRole().equals("Administrador")) {
@@ -69,11 +69,11 @@ public class PerfilAlunoController {
                 model.addAttribute("administrador", adm);
                 model.addAttribute("listaEmpresas", empresas);
 
-                return "perfilAlunoXXX";
+                return "perfilAluno";
             }
     
             else if (u.getRole().equals("Empresa")) {
-                return "perfilAlunoXXX";
+                return "perfilAluno";
             }
 
 			else {
