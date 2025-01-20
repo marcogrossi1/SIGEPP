@@ -117,11 +117,9 @@ values
 (2, 1),
 (3, 1),
 (4, 1);
-(1,2);
 
 INSERT INTO candidatura (candidato_id, oportunidade_id, mensagem, data_aplicacao, status) 
 VALUES 
 (1, 2, "Estou muito interessado nesta oportunidade e acredito que posso contribuir muito.", NOW(), 'EM_ANDAMENTO'), 
 (2, 1, "Gostaria de me candidatar a esta vaga, pois tenho experiência na área.", NOW(), 'VALIDADA'), 
 (3, 3, "Acredito que este projeto é uma ótima oportunidade para aplicar meus conhecimentos.", NOW(), 'INVALIDADA');  
-
