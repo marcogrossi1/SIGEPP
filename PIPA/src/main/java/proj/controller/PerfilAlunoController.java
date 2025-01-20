@@ -36,7 +36,7 @@ import proj.model.Estagio;
 import proj.model.Projeto;
 
 @Controller
-@RequestMapping("/perfil-aluno")
+@RequestMapping("/perfilAluno")
 public class PerfilAlunoController {
 	
 	@Autowired

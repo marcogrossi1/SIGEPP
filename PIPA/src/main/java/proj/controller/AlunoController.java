@@ -131,30 +131,6 @@ public class AlunoController {
 		}
 	}
 	
-	@GetMapping("/perfilAluno")
-    public String mostrarPerfilAluno(Long alunoId, Model model, Principal principal) throws Exception {
-		try(Connection conn = ds.getConnection()) {
-			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-        	model.addAttribute("usuario", u);
-        	
-        	if (!u.getRole().equals("Aluno")) {
-				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
-			}
-
-        	Aluno a = AlunoDao.getByCpf(conn, principal.getName());
-			model.addAttribute("aluno", a);
-
-			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
-			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
-			
-			model.addAttribute("aluno", a);
-			model.addAttribute("projetos", projetos);
-			model.addAttribute("estagios", estagios);
-			
-			return "aluno/perfilAluno";
-		}
-	}
-	
 	 
 	@GetMapping("/contaConfigPerfilAluno")
 	public String mostraContaConfigPerfilAluno(Model model, Principal principal) {
