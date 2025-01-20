@@ -16,7 +16,7 @@
 
     <nav>
 		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
-        <a href="/aluno/perfilAluno" class="icone" id="icone-portal">
+        <a th:href="@{/perfil-aluno(id=${aluno.id})}" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
         </a>
