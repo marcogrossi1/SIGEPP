@@ -1,7 +1,12 @@
 package proj.model;
 
-public class Usuario {
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
+public class Usuario {
+	
+	@Id
 	private long id;
 	private String nome;
 	private String senha;

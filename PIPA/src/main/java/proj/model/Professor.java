@@ -7,7 +7,6 @@ public class Professor {
 	private long usuario_id;
 	
 	
-	
 	public long getId() {
 		return id;
 	}

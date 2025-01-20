@@ -1,33 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="img/icon.png">
-    <title>Professor - Home</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../img/icon.png">
+    <title>Home</title>
 </head>
 <body>
-	<header>
-        <a href="http://localhost:8080"><img id="logo" src="img/logo.png"></a>
-        <h1 id="titulo-plataforma">PIPA | Home</h1>
+    <header>
+        <a href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma" >PIPA | Professor</h1>
     </header>
 
-	<nav>
-        <p th:text="${professor.nome}"></p>
-        <a href="link" class="icone">
-            <img src="img/icone-perfil.png">
+    <nav>
+		<p id="nome-no-portal" th:text="${professor.nome}"></p>
+        <a href="/aluno/perfil" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png">
             <label>Perfil</label>
         </a>
-        <a th:href="@{/professor/projetos?id={id}(id=${professor.id})}" class="icone">
-            <img src="img/icone-maleta.png">
-            <label>Projetos</label>
-        </a>
-    </nav>
-      
-	<main>
-
-    </main> 
+    </nav>    
     
+    <main>
+        <h2 id="subtitulo-portal">Navegue pelo site</h2>
+        <br>
+		<a th:href="@{/professor/projetos?id={id}(id=${professor.id})}">
+        <button class="botoes-portal" id="botao-projeto-professor" type="submit">
+            <img src="img/botao-projetos-de-pesquisa.png" class="imgs-botoes-portal">
+        </button>
+		</a>
+		<a th:href="@{/pesquisa/listaalunos}">
+        <button class="botoes-portal" id="botao-buscar-aluno" type="submit">
+            <img src="img/botao-buscar-aluno.png" class="imgs-botoes-portal">
+        </button>
+		</a>
+		<br>
+		<br>
+		<a href="/logout" class="link-logout">Logout</a>
+    </main>
+
+
 </body>
 </html>

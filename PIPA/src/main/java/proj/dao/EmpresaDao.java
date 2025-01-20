@@ -7,11 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import proj.model.Estagio;
+import proj.model.Professor;
 import proj.model.Empresa;
+import org.springframework.stereotype.Repository;
 
+
+@Repository
 public class EmpresaDao extends AbstractDaoBase {
 
 	private final static String listEmpresaEstagiosSql = "SELECT p.* from empresa_has_estagio ap, estagio p where ap.estagio_id = p.id and ap.empresa_id = ? ";
+	private final static String getByUsuario_idSql = "SELECT * FROM Empresa  WHERE usuario_id = ?";
 	private final static String getsql = "SELECT * FROM Empresa  WHERE id = ?";
 	private final static String getByCnpjSql = "SELECT * FROM Empresa  WHERE cnpj = ?";
 	private final static String getByEmailSql = "SELECT * FROM Empresa  WHERE email = ?";
@@ -19,7 +24,7 @@ public class EmpresaDao extends AbstractDaoBase {
 	private final static String listsql = "SELECT * FROM Empresa";
 	private final static String listByNomeSql = "SELECT * FROM Empresa WHERE nome like %?% ";
 	private final static String insertsql = "INSERT INTO Empresa (cnpj, nome, endereco, website, area, telefone, email, senha) VALUES(?, ?, ?, ?, ?, ?, ?, ?) ";
-	private final static String updatesql = "UPDATE Empresa SET cnpj = ?, nome = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ?, senha = ?, WHERE id = ? ";
+	private final static String updatesql = "UPDATE Empresa SET cnpj = ?, nome = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ?, senha = ? WHERE id = ? ";
 	private final static String deletesql = "DELETE FROM Empresa WHERE id = ?";
 
 	static Empresa set(ResultSet rs) throws SQLException {
@@ -55,6 +60,23 @@ public class EmpresaDao extends AbstractDaoBase {
 			rs = null;
 		}
 	}
+	
+	 public static Empresa getByUsuario_id(Connection conn, long usuario_id)
+		        throws NotFoundException, SQLException
+		    {
+		        PreparedStatement ps = null;
+		        ResultSet rs = null;
+		        try {
+		            ps = conn.prepareStatement(getByUsuario_idSql);
+		            ps.setLong(1, usuario_id);
+		            rs = ps.executeQuery();
+		            if (!rs.next()) {throw new NotFoundException("Object not found By [" + usuario_id + "]");}
+		            Empresa b = set(rs);
+		            return b;
+		        }
+		        catch (SQLException e){throw e;}
+		        finally{closeResource(ps,rs); ps = null;rs = null; }
+		    }
 
 	public static Empresa getByCnpj(Connection conn, String cnpj) throws NotFoundException, SQLException {
 		PreparedStatement ps = null;
@@ -229,31 +251,29 @@ public class EmpresaDao extends AbstractDaoBase {
 	}
 
 	public static void update(Connection conn, Empresa vo) throws NotFoundException, SQLException {
-		PreparedStatement ps = null;
-		try {
-            //cnpj, nome, endereco, website, area, telefone, email, senha
-			ps = conn.prepareStatement(updatesql);
-			ps.setString(1, vo.getCnpj());
-			ps.setString(2, vo.getNome());
-			ps.setString(3, vo.getEndereco());
-			ps.setString(4, vo.getWebsite());
-			ps.setString(5, vo.getArea());
-			ps.setString(6, vo.getTelefone());
-			ps.setString(7, vo.getEmail());
-			ps.setLong(8, vo.getId());
-			int count = ps.executeUpdate();
-			if (count == 0) {
-				throw new NotFoundException("Object not found [" + vo.getId() + "] .");
-			}
-			// SEM COMMIT
-		} catch (SQLException e) {
-			try {conn.rollback();} catch (Exception e1) {}
-			throw e;
-		} finally {
-			closeResource(ps);
-			ps = null;
-		}
+	    PreparedStatement ps = null;
+	    try {
+	        ps = conn.prepareStatement(updatesql);
+	        ps.setString(1, vo.getCnpj());
+	        ps.setString(2, vo.getNome());
+	        ps.setString(3, vo.getEndereco());
+	        ps.setString(4, vo.getWebsite());
+	        ps.setString(5, vo.getArea());
+	        ps.setString(6, vo.getTelefone());
+	        ps.setString(7, vo.getEmail());
+	        ps.setLong(8, vo.getId());
+	        int count = ps.executeUpdate();
+	        if (count == 0) {
+	            throw new NotFoundException("Object not found [" + vo.getId() + "] .");
+	        }
+	    } catch (SQLException e) {
+	        try { conn.rollback(); } catch (Exception e1) {}
+	        throw e;
+	    } finally {
+	        closeResource(ps);
+	    }
 	}
+
 
 	public static void delete(Connection conn, int id) throws NotFoundException, SQLException {
 		PreparedStatement ps = null;
