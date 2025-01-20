@@ -25,7 +25,7 @@ header {
 
 nav {
     width: 100vw;
-    height: 5vh;
+    height: 6vh;
     padding: 0 1vw 0 0;
     display: flex;
     flex-direction: row;
@@ -38,9 +38,10 @@ nav {
 main {
     margin-top: 5vh;
     width: 64vw;
-    min-height: calc(100vh - 28vh); /* nav + header + navMargin */
-    padding: 3vh; /*     + mainPadding = 18vh */
-    border-radius: 1%;
+    min-height: calc(100vh - 29vh); /* nav + header + navMargin */
+    padding: 3vh;                   /*     + mainPadding = 28vh */
+    border-radius: 1% 1% 0 0;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     background-color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
     overflow-y: auto;
@@ -58,13 +59,13 @@ main>:first-child {
 
 nav> :first-child {
     position: absolute;
-    top: 8.5vh;
-    left: 1vw;
+    top: 9vh;
+    left: 0vw;
     font-size: 1.5em;
 }
 
 .icone {
-    height: 6vh;
+    height: 5.5vh;
     display: grid;
     grid-template-rows: 4vh 2vh;
     color: black;
@@ -79,6 +80,7 @@ nav> :first-child {
 
 .icone label {
     justify-self: center;
+    font-size: 0.9em;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -89,7 +91,7 @@ nav> :first-child {
 #logo {
     padding-left: 1vw;
     height: 8vh;
-    padding-right: 5vw;
+    padding-right: 1vw;
 }
 
 #titulo-plataforma {
