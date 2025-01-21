@@ -1,69 +1,88 @@
 <!DOCTYPE html>
-<html class="perfil-html" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../css/style-perfil.css">
-    <title>Perfil</title>
+	<link rel="stylesheet" href="../css/style.css">
+    <title>Estágios - Home</title>
 </head>
 <body>
 	<header>
-	        <a href="http://localhost:8080/aluno"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
-	        <h1 id="titulo-plataforma" th:text="'PIPA | ' + ${aluno.nome}">PIPA | Meu Perfil</h1>
-	</header>
-	
-	<main id="seccao-principal">
-		<form enctype="multipart/form-data" id="form-banner">
-		    <input type="file" id="input-banner" style="display: none;" accept="image/*" disabled>
-		    <img id="banner" src="../img/banner.png" alt="Banner">
-		</form>
+		<div th:switch="${usuario.role}">
+            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Professor'" href="/professor"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
 
-		<form enctype="multipart/form-data" id="form-foto-perfil">
-		    <input type="file" id="input-foto-perfil" style="display: none;" accept="image/*" disabled>
-		    <img id="foto-perfil" src="../img/foto-perfil-padrao.png" alt="Foto de Perfil">
-		</form>
-		
-		<div class="seguidores">
-		    <button class="botao-seguidores">0<br>Seguidores </button>
-		    <button class="botao-seguindo">0<br>Seguindo</button>
-		</div>
-		
-		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
-		<button type="submit" class="botoes-perfil" id="botao-edicao"></button>
-		
-		<form id="form-descricao">
-			<p id="nome-descricao" th:text="${aluno.nome}">Sem nome</p>
-			<p id="dados-descricao" th:text="'Estudante do Curso ' + ${aluno.curso} + ' - ' + ${aluno.periodo}">Estudante do Curso X - Xº Ano</p>
-	        <textarea id="campo-descricao" disabled name="descricao" rows="5" cols="78" maxlength="390">Sem descrição</textarea><br><br>
-		</form>
-		
-		<button type="button" class="botoes-perfil" id="botao-add-seccao">ADICIONAR SEÇÃO</button>
-		<button type="button" class="botoes-perfil" id="botao-concluir-edicao">SALVAR ALTERAÇÕES</button>
-		
-		<div class="informacoes-contato">
-		  <p class="titulo-contato">Informações de contato</p>
-		  <div class="contatos">
-		    <p class="email" th:text="${aluno.email}">Email</p>
-		    <p class="telefone" th:text="${aluno.telefone}">Telefone</p>
-		  </div>
-		</div>
-		
+    <nav>
+        <div th:switch="${usuario.role}">
+            <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Professor'"><span th:text="${professor.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+	</nav>
+	<main>
+		<h2 id="subtitulo-portal" th:text="${aluno.nome}"></h2>        
+        <section id="descricao-aluno">
+            <h3>Informações</h3>
+            <table class="table">
+                <tr>
+                    <td>🏫<span th:text="${aluno.campus}"></span></td>
+                    <td>📧<span th:text="${aluno.email}"></span></td>
+                </tr>
+                <tr>
+                    <td>📖<span th:text="${aluno.curso}"></span></td>
+                    <td>⏱️<span th:text="${aluno.periodo}"></span></td>
+                </tr>
+            </table>
+        </section>
+
+        <section id="tabela-projetos-estagios-concluidos">
+			<h3>Projetos concluídos</h3>
+            <table class="table">
+                <thead>
+                    <th>Natureza</th>
+					<th>Empresa/Título</th>
+                    <th>Descrição</th>
+                    <th>Requisitos</th>
+                    <th>Carga Horária</th>
+					<th>Ver certificado</th>
+                </thead>
+                <tbody>
+                    <tr th:each="projetos : ${projetos}">
+						<td th:text="'Pesquisa/extensão'"></td>
+                        <td th:text="${projetos.nome}"></td>
+                        <td th:text="${projetos.descricao}"></td>
+                        <td th:text="${projetos.requisito}"></td>
+                        <td th:text="${projetos.cargaHoraria}"></td>
+						<td>
+							<a th:href="@{'/perfil-aluno/emite?id=' + ${projetos.id} + '&tipo=projeto&aluno=' + ${aluno.id}}">
+								<button id="botao-certificado">Ver certificado</button>
+							</a>
+						</td>
+                    </tr>
+					<tr th:each="estagios : ${estagios}">
+						<td th:text="'Pesquisa/extensão'"></td>
+                        <td th:text="${estagios.empresa}"></td>
+                        <td th:text="${estagios.descricao}"></td>
+                        <td th:text="${estagios.requisito}"></td>
+                        <td th:text="${estagios.cargaHoraria}"></td>
+						<td>
+							<a th:href="@{'/perfil-aluno/emite?id=' + ${estagios.id} + '&tipo=estagio&aluno=' + ${aluno.id}}">
+								<button id="botao-certificado">Ver certificado</button>
+							</a>
+						</td>
+					</tr>
+                </tbody>
+            </table>
+        </section>
 	</main>
-	
-	<div id="container-seccoes" class="drag-container"> <!--Secções criadas dentro do container-->
-		
-	</div>
-	
-	<script th:inline="javascript">
-		var aluno = /*[[${aluno}]]*/ {};
-		
-        var projetos = /*[[${projetos}]]*/ '[]';
-        var estagios = /*[[${estagios}]]*/ '[]';
-
-        projetos = JSON.parse(projetos);
-        estagios = JSON.parse(estagios);
-	</script>
-	
-    <script src="../js/configAluno.js" th:inline="javascript"></script>
+    
 </body>
 </html>

@@ -133,6 +133,27 @@ public class AlunoController {
 			return "erro";
 		}
 	}
+	
+	@GetMapping("/perfil")
+	public String mostraPerfilPessoal(Model model, Principal principal) throws Exception {
+		try (Connection conn = ds.getConnection()) {
+			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+			model.addAttribute("usuario", u);
+			return "aluno/perfil";
+		} catch (Exception e) {
+			return "erro";
+		}
+	}
+	
+	@GetMapping("/contaConfigPerfil")
+	public String mostraContaConfigPerfil(Model model, Principal principal) {
+			return "aluno/contaConfigPerfil";
+	}
+	
+	@GetMapping("/notificacaoConfigPerfil")
+	public String mostraNotificacaoConfigPerfil(Model model, Principal principal) {
+			return "aluno/notificacaoConfigPerfil";
+	}
 
 	@GetMapping("/certificados")			
 	public String listaCertificados(Model model, Principal principal) throws Exception {
