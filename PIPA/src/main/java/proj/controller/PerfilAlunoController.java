@@ -22,20 +22,20 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import proj.dao.AdministradorDao;
 import proj.dao.AlunoDao;
+import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
+import proj.dao.SeguidoresDao;
 import proj.dao.UsuarioDao;
-import proj.dao.EmpresaDao;
-
-import proj.model.Usuario;
 import proj.model.Administrador;
 import proj.model.Aluno;
 import proj.model.Empresa;
 import proj.model.Estagio;
 import proj.model.Professor;
 import proj.model.Projeto;
+import proj.model.Usuario;
 
 @Controller
 @RequestMapping("/perfil-aluno")
@@ -52,10 +52,15 @@ public class PerfilAlunoController {
         	model.addAttribute("usuario", u);
 
 			Aluno a = AlunoDao.get(conn, alunoId);
+			
 
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
+			int n_seguidores = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
+			int n_seguidos = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
 			
+			model.addAttribute("seguidores", n_seguidores);
+			model.addAttribute("seguidos", n_seguidos);
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);

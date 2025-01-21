@@ -24,8 +24,8 @@
 		</form>
 		
 		<div class="seguidores">
-		    <button class="botao-seguidores">0<br>Seguidores </button>
-		    <button class="botao-seguindo">0<br>Seguindo</button>
+		    <button class="botao-seguidores"><p th:text="${seguidores}"></p><br><a class="botao-seguidores-text" th:href="@{/seguidores}">Seguidores</a></button>
+		    <button class="botao-seguindo"><p th:text="${seguidos}"></p><br><a class="botao-seguidores-text" th:href="@{seguidores/seguidos}">Seguindo</a></button>
 		</div>
 		
 		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
