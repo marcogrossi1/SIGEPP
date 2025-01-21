@@ -530,8 +530,8 @@ public class AlunoDao {
     	String sql2 = "delete from aluno_has_estagio where aluno_id = ? ";
     	String sql3 = "delete from candidatura where candidato_id = ? ";
     	String sql4 = "delete from aluno where id = ? ";
-    	String sql5 = "delete from seguidores where seguindo_id = ? ";
-    	String sql6 = "delete from seguidores where seguidor_id = ? ";
+    	String sql5 = "delete from seguidores where seguidor_id = ? ";
+    	String sql6 = "delete from seguidores where seguindo_id = ? ";
     	String sql7 = "delete from usuario where id = ? ";
     	
     	
