@@ -493,6 +493,22 @@ public class AlunoDao {
         catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
         finally{closeResource(ps); ps = null; }
     }
+    
+    public static void updateForTelefone(Connection conn, long id, String telefone)
+        throws NotFoundException, SQLException
+    {
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(updateForTelefoneSql);
+            ps.setString(1, telefone);
+            ps.setLong(2, id);
+            int count = ps.executeUpdate();
+            if (count == 0 ){ throw new NotFoundException("Object not found ["+ id + "] ."); }
+            //SEM COMMIT 
+        }
+        catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
+        finally{closeResource(ps); ps = null; }
+    }
 
     public static void updateForPeriodo(Connection conn, long id, String periodo)
         throws NotFoundException, SQLException
