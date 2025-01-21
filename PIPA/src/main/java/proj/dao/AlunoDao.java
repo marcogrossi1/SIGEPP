@@ -39,6 +39,7 @@ public class AlunoDao {
     private final static String updateForCampusSql = "UPDATE aluno SET campus = ?  WHERE id = ? ";
     private final static String updateForEmailSql = "UPDATE aluno SET email = ?  WHERE id = ? ";
     private final static String updateForPeriodoSql = "UPDATE aluno SET periodo = ?  WHERE id = ? ";
+    private final static String updateForTelefoneSql = "UPDATE aluno SET telefone = ?  WHERE id = ? ";
     private final static String updateForUsuario_idSql = "UPDATE aluno SET usuario_id = ?  WHERE id = ? ";
 
     private static void closeResource(Statement ps) {
@@ -55,6 +56,7 @@ public class AlunoDao {
     {
         Aluno vo = new Aluno();
         vo.setId(rs.getLong("id"));
+        vo.setId(rs.getLong("id"));
         vo.setCpf(rs.getString("cpf"));
         vo.setNome(rs.getString("nome"));
         vo.setCurso(rs.getString("curso"));
@@ -62,6 +64,7 @@ public class AlunoDao {
         vo.setEmail(rs.getString("email"));
         vo.setPeriodo(rs.getString("periodo"));
         vo.setUsuario_id(rs.getLong("usuario_id"));
+        vo.setTelefone(rs.getString("telefone"));
         return vo;
     }
 
@@ -376,6 +379,7 @@ public class AlunoDao {
             ps.setString(5, vo.getEmail());
             ps.setString(6, vo.getPeriodo());
             ps.setLong(7, vo.getUsuario_id());
+            ps.setString(8, vo.getTelefone());
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -400,7 +404,8 @@ public class AlunoDao {
             ps.setString(5, vo.getEmail());
             ps.setString(6, vo.getPeriodo());
             ps.setLong(7, vo.getUsuario_id());
-            ps.setLong(8, vo.getId());
+            ps.setString(8, vo.getTelefone());
+            ps.setLong(9, vo.getId());
             int count = ps.executeUpdate();
             if (count == 0 ){ throw new NotFoundException("Object not found ["+ vo.getId()+"] ."); }
             //SEM COMMIT 
@@ -480,6 +485,22 @@ public class AlunoDao {
         try {
             ps = conn.prepareStatement(updateForEmailSql);
             ps.setString(1, email);
+            ps.setLong(2, id);
+            int count = ps.executeUpdate();
+            if (count == 0 ){ throw new NotFoundException("Object not found ["+ id + "] ."); }
+            //SEM COMMIT 
+        }
+        catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
+        finally{closeResource(ps); ps = null; }
+    }
+    
+    public static void updateForTelefone(Connection conn, long id, String telefone)
+        throws NotFoundException, SQLException
+    {
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(updateForTelefoneSql);
+            ps.setString(1, telefone);
             ps.setLong(2, id);
             int count = ps.executeUpdate();
             if (count == 0 ){ throw new NotFoundException("Object not found ["+ id + "] ."); }
