@@ -52,6 +52,7 @@ public class AlunoController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return mostraPaginaDeErro(model, "Erro interno na aplicação!.");
@@ -126,30 +127,11 @@ public class AlunoController {
 			model.addAttribute("estagios", estagios);
 
 			return "aluno/projetos";
+
 		} catch (Exception e) {
+
 			return "erro";
 		}
-	}
-	
-	@GetMapping("/perfil")
-	public String mostraPerfilPessoal(Model model, Principal principal) throws Exception {
-		try (Connection conn = ds.getConnection()) {
-			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-			model.addAttribute("usuario", u);
-			return "aluno/perfil";
-		} catch (Exception e) {
-			return "erro";
-		}
-	}
-	
-	@GetMapping("/contaConfigPerfil")
-	public String mostraContaConfigPerfil(Model model, Principal principal) {
-			return "aluno/contaConfigPerfil";
-	}
-	
-	@GetMapping("/notificacaoConfigPerfil")
-	public String mostraNotificacaoConfigPerfil(Model model, Principal principal) {
-			return "aluno/notificacaoConfigPerfil";
 	}
 
 	@GetMapping("/certificados")			
@@ -169,7 +151,9 @@ public class AlunoController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
+
 		} catch (Exception e) {
+
 			return "erro";
 		}
 
@@ -177,6 +161,7 @@ public class AlunoController {
 	}
 
 	@GetMapping("/emite")
+
 	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
