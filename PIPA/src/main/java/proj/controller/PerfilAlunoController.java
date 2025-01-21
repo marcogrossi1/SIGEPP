@@ -24,6 +24,7 @@ import proj.dao.AdministradorDao;
 import proj.dao.AlunoDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
+import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
 import proj.dao.UsuarioDao;
 import proj.dao.EmpresaDao;
@@ -33,6 +34,7 @@ import proj.model.Administrador;
 import proj.model.Aluno;
 import proj.model.Empresa;
 import proj.model.Estagio;
+import proj.model.Professor;
 import proj.model.Projeto;
 
 @Controller
@@ -74,6 +76,18 @@ public class PerfilAlunoController {
             }
     
             else if (u.getRole().equals("Empresa")) {
+            	Empresa emp = EmpresaDao.getByUsuario_id(conn, u.getId());
+            	
+            	model.addAttribute("empresa", emp);
+            	
+                return "perfilAluno";
+            }
+			
+            else if (u.getRole().equals("Professor")) {
+            	Professor p = ProfessorDao.getByUsuario_id(conn, u.getId());
+            	
+            	model.addAttribute("professor", p);
+            	
                 return "perfilAluno";
             }
 
