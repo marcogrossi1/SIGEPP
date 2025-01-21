@@ -1,6 +1,3 @@
-//    USAR->     /*[[${aluno.nome}]]*/
-
-
 let configAlterada = false;
 let edicaoAtiva = false;
 
@@ -414,7 +411,12 @@ inputBanner.addEventListener('change', function(e) {
     if (file) {
         let reader = new FileReader();
         reader.onload = function(e) {
-            document.getElementById('banner').src = e.target.result;
+			//TEMPORÁRIO PRA APRESENTAÇÃO//////////////////
+			let result = e.target.result;
+            document.getElementById('banner').src = result;
+            localStorage.setItem('bannerImage', result);
+			/////////////////////////////////////////////////
+            //document.getElementById('banner').src = e.target.result; código pra manter!!!
             configAlterada = true;
         };
         reader.readAsDataURL(file);
@@ -426,12 +428,32 @@ inputFotoPerfil.addEventListener('change', function(e) {
     if (file) {
         let reader = new FileReader();
         reader.onload = function(e) {
-            fotoPerfil.src = e.target.result;
+			//TEMPORÁRIO PRA APRESENTAÇÃO//////////////////
+			let result = e.target.result;
+			fotoPerfil.src = result;
+			localStorage.setItem('profileImage', result);
+			/////////////////////////////////////////////////
+            //fotoPerfil.src = e.target.result; código pra manter!!!
             configAlterada = true;
         };
         reader.readAsDataURL(file);
     }
 });
+
+
+//TEMPORÁRIO PRA APRESENTAÇÃO///////////////////////////////
+window.addEventListener('load', function() {
+    let storedBanner = localStorage.getItem('bannerImage');
+    if (storedBanner) {
+        document.getElementById('banner').src = storedBanner;
+    }
+
+    let storedProfileImage = localStorage.getItem('profileImage');
+    if (storedProfileImage) {
+        fotoPerfil.src = storedProfileImage;
+    }
+});
+////////////////////////////////////////////////////////////////////
 
 window.addEventListener('beforeunload', function (event) {
     if (configAlterada) {
