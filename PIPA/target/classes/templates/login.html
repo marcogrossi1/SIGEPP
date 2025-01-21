@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="css/style.css">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Login</title>
   </head>
   <body>
@@ -14,20 +14,17 @@
         <h2>Login</h2>
 
         <p>
-          <label for="username" class="screenreader">Username</label>
+          <label for="username" class="screenreader">Nome</label>
           <input type="text" id="username" name="username" placeholder="Username" required autofocus>
         </p>
         <p>
-          <label for="password" class="screenreader">Password</label>
+          <label for="password" class="screenreader">Senha</label>
           <input type="password" id="password" name="password" placeholder="Password" required>
         </p>
 
-        <button type="submit" class="primary">Sign in</button>
+        <button type="submit" class="primary">Entrar</button>
+        <p>Não tem uma conta? <a th:href="@{/cadastroAluno}">Criar</a></p>
       </form>
-      <p> não tem uma conta? <a href="http://localhost:8080/cadastroAluno">Criar </a>  </p>
-
-
-
     </div>
   </body>
 </html>
