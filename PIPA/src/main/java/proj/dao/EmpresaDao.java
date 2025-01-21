@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import proj.model.Estagio;
-import proj.model.Professor;
 import proj.model.Empresa;
 import org.springframework.stereotype.Repository;
 

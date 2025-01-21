@@ -103,7 +103,8 @@ public class PerfilAlunoController {
 
 	@GetMapping("/emite")
 	public String emiteCertificado(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, @RequestParam("aluno") Long alunoId,Model model, Principal principal) throws Exception {
-        try(Connection conn = ds.getConnection()) {
+        try(
+            Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
         	model.addAttribute("usuario", u);
 
@@ -145,7 +146,7 @@ public class PerfilAlunoController {
             Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
             Paragraph title = new Paragraph("Certificado", font);
             Paragraph p;
-            
+
             String imagePath = "PIPA/src/main/resources/static/img/logo-cefet.png";
             Image img = Image.getInstance(imagePath);
             img.scalePercent(10);

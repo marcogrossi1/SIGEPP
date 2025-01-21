@@ -359,7 +359,7 @@ function adicionarSecao(tipo) {
 	        td5.innerText = projeto.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
+	        a.href = `perfil-aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
@@ -390,7 +390,7 @@ function adicionarSecao(tipo) {
 	        td5.innerText = estagio.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
+	        a.href = `/perfil-aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';

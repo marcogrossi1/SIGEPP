@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import proj.model.Aluno;
 import proj.model.Professor;
 
 public class ProfessorDao {

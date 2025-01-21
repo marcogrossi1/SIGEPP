@@ -214,7 +214,8 @@ public class AdministradorController {
 
     @GetMapping("/listar-alunos")
     public String listaAlunos(Model model, Principal principal) throws Exception {
-        try(Connection conn = ds.getConnection()) {
+        //try(
+            Connection conn = ds.getConnection();//) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
             Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
 
@@ -225,11 +226,11 @@ public class AdministradorController {
             model.addAttribute("listaAlunos", alunos);
 
             return "administrador/alunos";
-        }
+        //}
 
-        catch(Exception e) {
-            return "erro";
-        }
+        //catch(Exception e) {
+        //    return "erro";
+        //}
     }
     
     
