@@ -11,6 +11,7 @@ public class Aluno{
 	private String campus;
 	private String email;
 	private String periodo;
+	private String telefone;
 	private long usuario_id;
 	
 	private ArrayList<Estagio> listaEstagio = new ArrayList<Estagio>();
@@ -70,6 +71,15 @@ public class Aluno{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
 
 	public String getPeriodo() {
 		return periodo;
