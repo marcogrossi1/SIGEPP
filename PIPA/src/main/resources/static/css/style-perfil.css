@@ -106,6 +106,7 @@ body {
     font-size: 20px;
     padding-bottom: 20px;
     font-weight: bold;
+	text-transform: uppercase;
 }
 
 #campo-descricao {
