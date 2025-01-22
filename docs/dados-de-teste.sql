@@ -56,7 +56,7 @@ INSERT INTO aluno (id, cpf, nome, curso, campus, email, periodo, usuario_id, tel
 VALUES 
 (1, "00000000001", "Thiago Figueiredo", "Eletrônica", "Nova Gameleira", "thiago@gmail.com", "serie 1", 1, '00000-0016'),
 (2, "00000000002", "Caio Figueiredo", "Informática", "Nova Gameleira", "caio@gmail.com", "serie 2", 2, '00000-0015'),
-(3, "00000000003", "Matheus Silva", "Mecânica", "Nova Suiça", "matheus@gmail.com", "serie 3", 3, '00000-0014'),
+(3, "00000000003", "Matheus Silva", "Mecânica", "Nova Suíça", "matheus@gmail.com", "serie 3", 3, '00000-0014'),
 (4, "00000000004", "Gabriel Tavares", "Informática", "Nova Gameleira", "gabriel@gmail.com", "serie 2", 4, '00000-0013'),
 (5, "00000000005", "Marco Grossi", "Edificações", "Nova Gameleira", "marco@gmail.com", "serie 2", 5, '00000-0012'),
 (6, "00000000006", "Nicolas Chagas", "Eletrônica", "Araxá", "nicolas@gmail.com", "serie 2", 6, '00000-0011');

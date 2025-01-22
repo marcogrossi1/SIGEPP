@@ -21,13 +21,13 @@ body {
     border: none;
     position: absolute;
     left: 76.5%;
-    top: 41%;
+    top: 42%;
 }
 
 #icone-config {
     position: absolute;
     left: 80%;
-    top: 41%;
+    top: 42%;
 }
 
 .botoes-perfil {
@@ -418,7 +418,7 @@ main:not(#seccao-principal, #form-banner, #form-foto-perfil) {
     padding: 3vh; /*     + mainPadding = 18vh */
     border-radius: 1%;
     background-color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, ns-serif;
     overflow-y: auto;
     max-height: 80vh;
 }
@@ -734,8 +734,8 @@ label {
     text-align: center;
     margin: 0 0 0 0;
 	position: relative;
-	top: -32%;
-	left: -8%;
+	top: -30%;
+	left: -15%;
 }
 
 .botao-seguidores, .botao-seguindo {
@@ -743,20 +743,18 @@ label {
     color: rgb(0, 0, 0);
     border: none;
     margin: 0;
-    font-size: 16px;
-    cursor: pointer;
+    font-size: 18px;
     font-weight: bold;
 }
 
 .botao-seguidores-text {
     background: none;
-    color: rgb(0, 0, 0);
+    color: rgb(46, 46, 46);
     border: none;
     margin: 0;
-    padding: 0;
-    font-size: 16px;
+    padding: 1%;
+    font-size: 14px;
     cursor: pointer;
-    font-weight: bold;
     text-decoration: none;
 }
 
@@ -767,4 +765,58 @@ label {
 .seguidores p {
     display: inline-block;
     margin: 0;
+}
+
+#botao-seguir {
+	display: block;
+    color: white;
+    white-space: nowrap;
+    background-color: #003869;
+    background-size: cover;
+    background-position: center;
+    word-spacing: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: justify;
+    width: 55px;
+    height: 15px;
+    padding: 5px;
+	position: absolute;
+	top: 43%;
+	left: 48%;
+    transform-origin: center;
+    cursor: pointer;
+	border-radius: 10px;
+}
+
+#botao-seguir:hover {
+    background: rgb(0, 128, 255);
+}
+
+.dados-campus {
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+	color:#000;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+#container-campus {
+	position: absolute;
+	top: 42.4%;
+	left: 64%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+#container-campus .dados-campus {
+    margin: 0;
+    padding: 0;
+}
+
+.dados-campus:hover {
+	color: rgb(0, 128, 255);
 }

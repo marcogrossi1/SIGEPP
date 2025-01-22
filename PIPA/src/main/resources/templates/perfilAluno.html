@@ -8,7 +8,7 @@
 </head>
 <body>
 	<header>
-	        <a href="http://localhost:8080/aluno"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
+	        <a href="javascript:void(0);" onclick="window.history.back();"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
 	        <h1 id="titulo-plataforma" th:text="'PIPA | ' + ${aluno.nome}">PIPA | Meu Perfil</h1>
 	</header>
 	
@@ -28,14 +28,38 @@
 		    <button class="botao-seguindo"><p th:text="${seguidos}"></p><br><a class="botao-seguidores-text" th:href="@{seguidores/seguidos}">Seguindo</a></button>
 		</div>
 		
-		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
-		<button type="submit" class="botoes-perfil" id="botao-edicao"></button>
+		<div id="container-campus">
+		    <a class="dados-campus" id="campus-aluno" th:utext="${'CAMPUS' + '<br>' + aluno.campus}"
+		       th:href="${(aluno.campus == 'Araxá' ? 'https://www.araxa.cefetmg.br/' : 
+		                   aluno.campus == 'Nova Suíça' ? 'https://www.ns.cefetmg.br/' : 
+		                   aluno.campus == 'Nova Gameleira' ? 'https://www.ng.cefetmg.br/' : 
+		                   aluno.campus == 'Gameleira' ? 'https://www.campus6.cefetmg.br/' : 
+		                   aluno.campus == 'Contagem' ? 'https://www.contagem.cefetmg.br/' : 
+		                   aluno.campus == 'Curvelo' ? 'https://www.curvelo.cefetmg.br/' : 
+		                   aluno.campus == 'Leopoldina' ? 'https://www.leopoldina.cefetmg.br/' : 
+		                   aluno.campus == 'Nepomuceno' ? 'https://www.nepomuceno.cefetmg.br/' : 
+		                   aluno.campus == 'Timóteo' ? 'https://www.timoteo.cefetmg.br/' : 
+		                   aluno.campus == 'Varginha' ? 'https://www.varginha.cefetmg.br/' : 
+		                   'https://www.cefetmg.br/')}"
+		    >
+		    </a>
+		</div>
+		
+		
+		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:if="${idDoUsuario == aluno.cpf}"></a>
+		<button type="submit" class="botoes-perfil" id="botao-edicao" th:if="${idDoUsuario == aluno.cpf}"></button>
+		<button type="submit" class="botoes-perfil" id="botao-seguir" th:if="${idDoUsuario != aluno.cpf}">SEGUIR</button>
+		
+		<!--   PARA VERIFICAR!!!
+		<p>Visitante CPF: <span th:text="${idDoUsuario}"></span></p>
+		<p>Dono do perfil CPF: <span th:text="${aluno.cpf}"></span></p>-->
 		
 		<form id="form-descricao">
 			<p id="nome-descricao" th:text="${aluno.nome}">Sem nome</p>
 			<p id="dados-descricao" th:text="'Estudante do Curso ' + ${aluno.curso} + ' - ' + ${aluno.periodo}">Estudante do Curso X - Xº Ano</p>
 	        <textarea id="campo-descricao" disabled name="descricao" rows="5" cols="78" maxlength="390">Sem descrição</textarea><br><br>
 		</form>
+		
 		
 		<button type="button" class="botoes-perfil" id="botao-add-seccao">ADICIONAR SEÇÃO</button>
 		<button type="button" class="botoes-perfil" id="botao-concluir-edicao">SALVAR ALTERAÇÕES</button>

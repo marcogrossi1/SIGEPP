@@ -59,7 +59,10 @@ public class PerfilAlunoController {
 			int n_seguidores = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
 			int n_seguidos = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
 			
+			String idDoUsuarioVisitante = principal.getName();
+			
 			model.addAttribute("seguidores", n_seguidores);
+			model.addAttribute("idDoUsuario", idDoUsuarioVisitante);
 			model.addAttribute("seguidos", n_seguidos);
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
