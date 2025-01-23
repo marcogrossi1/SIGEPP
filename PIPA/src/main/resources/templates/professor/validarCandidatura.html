@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="icon" href="../img/icon.png">
-    <title>Validar Candidatura</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/style-validar-candidato.css">
+<link rel="icon" href="../img/icon.png">
+<title>Validar Candidatura</title>
 </head>
 <body>
-<header>
-    <a href="/" th:href="@{/}"><img id="logo" src="/img/logo.png" alt="Logo"></a>
-    <h1 id="titulo-plataforma">PIPA | Validar Candidatura</h1>
-</header>
+	<header>
+		<a href="/" th:href="@{/}"><img id="logo" src="/img/logo.png"
+			alt="Logo"></a>
+		<h1 id="titulo-plataforma">PIPA | Validar Candidatura</h1>
+	</header>
 
-<main>
-    <h2>Informações do Aluno</h2>
-    <p><strong>Nome:</strong> <span th:text="${candidatura.candidato.nome}"></span></p>
-    <p><strong>Email:</strong> <span th:text="${candidatura.candidato.email}"></span></p>
-    <p><strong>Curso:</strong> <span th:text="${candidatura.candidato.curso}"></span></p>
-    <p><strong>Período:</strong> <span th:text="${candidatura.candidato.periodo}"></span></p>
-
-    <h2>Detalhes da Candidatura</h2>
-    <p><strong>Mensagem:</strong> <span th:text="${candidatura.mensagem}"></span></p>
-    <p><strong>Data:</strong> <span th:text="${candidatura.dataAplicacao}"></span></p>
-    
-<form th:action="@{/projeto/professor/validarCandidatura/{candidaturaId}(candidaturaId=${candidatura.id})}" method="POST">
-    <button type="submit" name="acao" value="VALIDAR">Validar</button>
-    <button type="submit" name="acao" value="INVALIDAR">Invalidar</button>
-</form>
+	<main>
+		<a id="voltar"
+			th:href="@{/projeto/professor/candidatos/{id}(id=${candidatura.IDoportunidade})}">&larr;
+			Voltar</a>
 
 
-</main>
+		<div class="card">
+			<img src="/img/default-avatar.png" alt="Foto do Aluno">
+			<div>
+				<a th:text="${candidatura.candidato.nome}" href="#"></a>
+				<p th:text="${candidatura.candidato.email}"></p>
+			</div>
+			<button th:onclick="'/curriculo/' + ${candidatura.candidato.id}"
+				class="botao">Baixar currículo</button>
+		</div>
+
+		<h2>Detalhes da Candidatura</h2>
+		<p>
+			<strong>Mensagem:</strong> <span th:text="${candidatura.mensagem}"></span>
+		</p>
+		<p>
+			<strong>Curso:</strong> <span
+				th:text="${candidatura.candidato.curso}"></span>
+		</p>
+		<p>
+			<strong>Data:</strong> <span th:text="${candidatura.dataAplicacao}"></span>
+		</p>
+
+		<form
+			th:action="@{/projeto/professor/validarCandidatura/{candidaturaId}(candidaturaId=${candidatura.id})}"
+			method="POST">
+			<button type="submit" name="acao" value="VALIDAR">Validar</button>
+			<button type="submit" name="acao" value="INVALIDAR">Invalidar</button>
+		</form>
+	</main>
 </body>
 </html>

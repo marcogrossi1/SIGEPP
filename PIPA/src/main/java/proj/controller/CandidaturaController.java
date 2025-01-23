@@ -251,5 +251,25 @@ public class CandidaturaController {
 	    }
 	}
 
+	@GetMapping("/professor/verCandidatura/{candidaturaId}")
+	public String exibirDetalhesCandidatura(@PathVariable Long candidaturaId, Model model) {
+	    try {
+	        // Busca a candidatura pelo ID
+	        Candidatura candidatura = candidaturaDao.get(candidaturaId);
+	        if (candidatura == null) {
+	            model.addAttribute("erro", "Candidatura não encontrada.");
+	            return "error";
+	        }
+
+	        // Adiciona a candidatura no modelo para exibir na página
+	        model.addAttribute("candidatura", candidatura);
+	        return "professor/verCandidatura"; // Nome da view para exibir detalhes
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("erro", "Erro ao carregar os detalhes da candidatura.");
+	        return "error";
+	    }
+	}
+
 
 }
