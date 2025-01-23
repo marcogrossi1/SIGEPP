@@ -38,23 +38,16 @@
 						th:text="${candidatura.status.descricao}"></p>
 				</div>
 				<div class="acoes">
-					<a th:href="'/perfil-aluno?id=' + ${candidatura.candidato.id}"
-						class="botao-aplicar">Acessar perfil</a>
-
-					<form
-						th:action="@{/projeto/professor/validarCandidatura/{candidaturaId}(candidaturaId=${candidatura.id})}"
-						method="post"
+					<a
+						th:href="@{/projeto/professor/validarCandidatura/{candidaturaId}(candidaturaId=${candidatura.id})}"
+						class="botao-aplicar"
 						th:if="${candidatura.status.descricao == 'Em Andamento'}">
-						<input type="hidden" name="acao" value="VALIDAR" />
-						<button type="submit" class="botao-aplicar">Validar
-							Candidatura</button>
-					</form>
-
-
-					<a th:if="${candidatura.status.descricao != 'Em Andamento'}"
+						Validar Candidatura </a> <a
+						th:if="${candidatura.status.descricao != 'Em Andamento'}"
 						th:href="'/projeto/professor/verCandidatura/' + ${candidatura.id}"
-						class="botao-aplicar">Ver Candidatura</a>
+						class="botao-aplicar"> Ver Candidatura </a>
 				</div>
+
 			</div>
 		</div>
 	</main>

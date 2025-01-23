@@ -187,22 +187,23 @@ public class CandidaturaController {
 
 	@GetMapping("/professor/validarCandidatura/{candidaturaId}")
 	public String exibirTelaValidacao(@PathVariable Long candidaturaId, Model model) {
-		try {
-			// Obtém a candidatura usando o ID da candidatura
-			Candidatura candidatura = candidaturaDao.get(candidaturaId);
-			if (candidatura == null) {
-				model.addAttribute("erro", "Candidatura não encontrada.");
-				return "error";
-			}
+	    try {
+	        // Obtém a candidatura pelo ID
+	        Candidatura candidatura = candidaturaDao.get(candidaturaId);
+	        if (candidatura == null) {
+	            model.addAttribute("erro", "Candidatura não encontrada.");
+	            return "error";
+	        }
 
-			model.addAttribute("candidatura", candidatura);
-			return "professor/validarCandidatura"; // Tela para validar/invalidar
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("erro", "Erro ao carregar dados da candidatura.");
-			return "error";
-		}
+	        model.addAttribute("candidatura", candidatura);
+	        return "professor/validarCandidatura";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("erro", "Erro ao carregar dados da candidatura.");
+	        return "error";
+	    }
 	}
+
 
 	// Método para processar a validação/invalidação após a escolha do professor
 	@PostMapping("/professor/validarCandidatura/{candidaturaId}")
