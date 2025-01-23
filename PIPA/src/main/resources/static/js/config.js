@@ -1,12 +1,27 @@
-//    USAR->     /*[[${aluno.nome}]]*/
-
+//CONFIGPERFIL
 
 let configAlterada = false;
-let edicaoAtiva = false;
 
-let concluirConfig = document.getElementById('botao-concluir-config');
+let concluirConfig = document.getElementById('botao-concluir-config-conta');
 let elementos = document.querySelectorAll('.conta-config');
 let formularioContaConfig = document.getElementById('form-conta-config');
+
+function submeterFormulariosConfig() {
+    formularioContaConfig.submit();
+}
+
+concluirConfig.addEventListener('click', function() {
+	configAlterada = false;
+	
+    alert('Alterações salvas com sucesso!');
+    submeterFormulariosConfig();
+    esconderEditaveis();
+});
+
+
+//PERFIL
+
+let edicaoAtiva = false;
 
 let habilitacaoEdicao = document.getElementById('botao-edicao');
 let concluirEdicao = document.getElementById('botao-concluir-edicao');
@@ -26,8 +41,6 @@ let contadorProjetosConcluidos = 0;
 let contadorCompetencias = 0;
 let contadorLicencasCertificados = 0;
 
-// Perfil
-
 function submeterFormulariosPerfil() {
     let descricaoMudou = campoDescricao && campoDescricao.value.trim() !== 'Sem descrição';
     let imagemMudou = inputFotoPerfil.files.length > 0 || inputBanner.files.length > 0;
@@ -42,6 +55,8 @@ function mostrarEditaveis() {
     inputFotoPerfil.disabled = false;
     inputBanner.disabled = false;
     adicionarSeccao.style.display = 'block';
+	fotoPerfil.style.cursor = 'pointer';
+	banner.style.cursor = 'pointer';
 
     let botaoApagar = document.querySelectorAll('.seccao-botao-apagar');
     let botaoCriarTopico = document.querySelectorAll('.seccao-botao-criar-topico');
@@ -86,6 +101,8 @@ function esconderEditaveis() {
     inputFotoPerfil.disabled = true;
     inputBanner.disabled = true;
     adicionarSeccao.style.display = 'none';
+	fotoPerfil.style.cursor = 'none';
+	banner.style.cursor = 'none';
 
 	let botaoApagar = document.querySelectorAll('.seccao-botao-apagar');
     let botaoCriarTopico = document.querySelectorAll('.seccao-botao-criar-topico');
@@ -144,7 +161,7 @@ concluirEdicao.addEventListener('click', function() {
 	configAlterada = false;
 	edicaoAtiva = false;
 	
-    //alert('Alterações salvas com sucesso!');
+    alert('Alterações salvas com sucesso!');
     this.style.display = 'none';
     habilitacaoEdicao.style.display = 'block';
     submeterFormulariosPerfil();

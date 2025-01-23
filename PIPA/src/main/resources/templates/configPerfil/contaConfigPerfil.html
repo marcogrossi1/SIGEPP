@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html class="config-html" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style-config.css">
+	<link rel="stylesheet" href="../css/style-perfil.css">
+    <title>Configurações</title>
+</head>
+<body>
+    <header>
+        <a th:href="@{/perfilAluno(id=${aluno.id})}"><img id="logo" src="../img/logo.png" alt="Logo"></a>
+        <h1 id="titulo-plataforma">PIPA | Configurações</h1>
+    </header>
+
+    <div class="menu-container">
+        <div id="menu-config">
+            <ul class="menu-list">
+                <li><a th:href="@{/configPerfil/contaConfigPerfil(id=${aluno.id})}">Conta</a></li>
+                <li><a href="http://localhost:8080/aluno/notificacaoConfigPerfil">Notificações</a></li>
+                <li><a href="http://localhost:8080/aluno/privacidadeConfigPerfil">Privacidade</a></li>               
+                <li><a href="http://localhost:8080/aluno/preferenciasConfigPerfil">Preferências</a></li>			
+            </ul>
+        </div>
+
+        <main>
+            <h2 class="titulo-config">Conta</h2>
+			<form action="/configPerfil/atualizar-config-conta" method="POST" enctype="multipart/form-data" id="form-conta-config">
+				<input type="hidden" name="id" th:value="${usuario.id}">
+				
+			    <label for="nome">Nome:</label>
+			    <input class="conta-config" type="text" id="nome" name="nome" th:placeholder="${nome}">
+				
+				<label for="nome">Cpf:</label>
+				<input class="conta-config" type="text" id="cpf" name="cpf" th:placeholder="${cpf}" maxlength="11">
+			    
+				<label for="curso">Curso:</label>
+				<select class="conta-config" id="curso" name="curso">
+					<option value="" disabled selected th:text="${curso}"></option>
+					<optgroup label="Graduação">
+			            <option value="Administração" th:selected="'Administração' == ${curso}">Administração</option>
+			            <option value="Engenharia de Computação" th:selected="'Engenharia de Computação' == ${curso}">Engenharia de Computação</option>
+			            <option value="Engenharia de Produção Civil – Engenharia Civil" th:selected="'Engenharia de Produção Civil – Engenharia Civil' == ${curso}">Engenharia de Produção Civil – Engenharia Civil</option>
+			            <option value="Engenharia Elétrica" th:selected="'Engenharia Elétrica' == ${curso}">Engenharia Elétrica</option>
+			            <option value="Engenharia Mecânica" th:selected="'Engenharia Mecânica' == ${curso}">Engenharia Mecânica</option>
+			            <option value="Formação Pedagógica de Docentes – Programa Especial de Formação de Docentes" th:selected="'Formação Pedagógica de Docentes – Programa Especial de Formação de Docentes' == ${curso}">Formação Pedagógica de Docentes</option>
+			            <option value="Engenharia Ambiental e Sanitária" th:selected="'Engenharia Ambiental e Sanitária' == ${curso}">Engenharia Ambiental e Sanitária</option>
+			            <option value="Engenharia de Materiais" th:selected="'Engenharia de Materiais' == ${curso}">Engenharia de Materiais</option>
+			            <option value="Engenharia de Transportes" th:selected="'Engenharia de Transportes' == ${curso}">Engenharia de Transportes</option>
+			            <option value="Letras" th:selected="'Letras' == ${curso}">Letras</option>
+			            <option value="Química Tecnológica" th:selected="'Química Tecnológica' == ${curso}">Química Tecnológica</option>
+			        </optgroup>
+			        <optgroup label="Técnico">
+			            <option value="Controle Ambiental" th:selected="'Controle Ambiental' == ${curso}">Controle Ambiental</option>
+			            <option value="Eletroeletrônica" th:selected="'Eletroeletrônica' == ${curso}">Eletroeletrônica</option>
+			            <option value="Eletrotécnica" th:selected="'Eletrotécnica' == ${curso}">Eletrotécnica</option>
+			            <option value="Hospedagem" th:selected="'Hospedagem' == ${curso}">Hospedagem</option>
+			            <option value="Mecânica" th:selected="'Mecânica' == ${curso}">Mecânica</option>
+			            <option value="Metalurgia" th:selected="'Metalurgia' == ${curso}">Metalurgia</option>
+			            <option value="Química" th:selected="'Química' == ${curso}">Química</option>
+			            <option value="Desenvolvimento de Sistemas" th:selected="'Desenvolvimento de Sistemas' == ${curso}">Desenvolvimento de Sistemas</option>
+			            <option value="Eletromecânica" th:selected="'Eletromecânica' == ${curso}">Eletromecânica</option>
+			            <option value="Equipamentos Biomédicos" th:selected="'Equipamentos Biomédicos' == ${curso}">Equipamentos Biomédicos</option>
+			            <option value="Informática" th:selected="'Informática' == ${curso}">Informática</option>
+			            <option value="Mecatrônica" th:selected="'Mecatrônica' == ${curso}">Mecatrônica</option>
+			            <option value="Mineração" th:selected="'Mineração' == ${curso}">Mineração</option>
+			            <option value="Rede de Computadores" th:selected="'Rede de Computadores' == ${curso}">Rede de Computadores</option>
+			            <option value="Edificações" th:selected="'Edificações' == ${curso}">Edificações</option>
+			            <option value="Eletrônica" th:selected="'Eletrônica' == ${curso}">Eletrônica</option>
+			            <option value="Estradas" th:selected="'Estradas' == ${curso}">Estradas</option>
+			            <option value="Informática para Internet" th:selected="'Informática para Internet' == ${curso}">Informática para Internet</option>
+			            <option value="Meio Ambiente" th:selected="'Meio Ambiente' == ${curso}">Meio Ambiente</option>
+			            <option value="Produção de Moda" th:selected="'Produção de Moda' == ${curso}">Produção de Moda</option>
+			            <option value="Trânsito" th:selected="'Trânsito' == ${curso}">Trânsito</option>
+			        </optgroup>
+				</select>
+
+				<label for="campus">Campus:</label>
+				<select class="conta-config" id="campus" name="campus">
+				    <option value="" disabled selected th:text="${campus}"></option>
+				    <option value="Nova Suíça">Nova Suíça</option>
+				    <option value="Nova Gameleira">Nova Gameleira</option>
+				    <option value="Gameleira">Gameleira</option>
+				    <option value="Contagem">Contagem</option>
+				    <option value="Curvelo">Curvelo</option>
+				    <option value="Leopoldina">Leopoldina</option>
+				    <option value="Nepomuceno">Nepomuceno</option>
+				    <option value="Timóteo">Timóteo</option>
+				    <option value="Varginha">Varginha</option>
+				</select>
+			    
+			    <label for="email">Email:</label>
+			    <input class="conta-config" type="email" id="email" name="email" th:placeholder="${email}">
+			    
+			    <label for="telefone">Telefone:</label>
+			    <input class="conta-config" type="tel" id="telefone" name="telefone" th:placeholder="${telefone}">
+			    
+			    <label for="senha">Senha:</label>
+			    <input class="conta-config" type="password" id="senha" name="senha" placeholder="••••••••••••">
+			    
+			    <label for="periodo-ano-letivo">Período/ano letivo:</label>
+			    <input class="conta-config" type="text" id="periodo-ano-letivo" name="periodo" th:placeholder="${periodo}">
+			</form>
+			<button type="button" class="botoes-perfil" id="botao-apagar-conta">APAGAR CONTA</button>
+			<button type="button" class="botoes-perfil" id="botao-concluir-config-conta">SALVAR ALTERAÇÕES</button>
+        </main>
+    </div>
+	<script src="../js/config.js"></script>
+</body>
+</html>

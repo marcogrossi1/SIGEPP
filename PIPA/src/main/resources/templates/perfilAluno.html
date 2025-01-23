@@ -50,17 +50,19 @@
 		                   aluno.campus == 'Varginha' ? 'https://www.varginha.cefetmg.br/' : 
 		                   'https://www.cefetmg.br/')}"
 		    >
+			ALUNO DO CAMPUS X
 		    </a>
 		</div>
 		
 		
-		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:if="${idDoUsuario == aluno.cpf}"></a>
-		<button type="submit" class="botoes-perfil" id="botao-edicao" th:if="${idDoUsuario == aluno.cpf}"></button>
-		<button type="submit" class="botoes-perfil" id="botao-seguir" th:if="${idDoUsuario != aluno.cpf}">SEGUIR</button>
+		<a th:href="@{/configPerfil/contaConfigPerfil(id=${aluno.id})}" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:if="${idDoUsuario == aluno.id}"></a>
+		<button type="submit" class="botoes-perfil" id="botao-edicao" th:if="${idDoUsuario == aluno.id}"></button>
+		<button type="submit" class="botoes-perfil" id="botao-seguir" th:if="${idDoUsuario != aluno.id}">SEGUIR</button>
 		
 		<!--   PARA VERIFICAR!!!
-		<p>Visitante CPF: <span th:text="${idDoUsuario}"></span></p>
-		<p>Dono do perfil CPF: <span th:text="${aluno.cpf}"></span></p>-->
+		<p>Visitante ID: <span th:text="${idDoUsuario}"></span></p>
+		<p>Dono do perfil ID: <span th:text="${aluno.id}"></span></p>
+		-->
 		
 		
 		
