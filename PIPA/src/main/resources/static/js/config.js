@@ -1,3 +1,6 @@
+//    USAR->     /*[[${aluno.nome}]]*/
+
+
 let configAlterada = false;
 let edicaoAtiva = false;
 
@@ -15,9 +18,7 @@ let banner = document.getElementById('banner');
 let inputFotoPerfil = document.getElementById('input-foto-perfil');
 let fotoPerfil = document.getElementById('foto-perfil');
 
-let formularioDescricao = document.getElementById('form-descricao');
-let formularioBanner = document.getElementById('form-banner');
-let formularioFotoPerfil = document.getElementById('form-foto-perfil');
+let formAtualizar = document.getElementById('form-atualizar');
 
 // Contadores para limitar o número de seções
 let contadorTextoLivre = 0;
@@ -26,12 +27,14 @@ let contadorCompetencias = 0;
 let contadorLicencasCertificados = 0;
 
 // Perfil
+
 function submeterFormulariosPerfil() {
-    formularioDescricao.submit();
-    formularioBanner.submit();
-    formularioFotoPerfil.submit();
-    document.getElementById('form-titulo-texto-livre').submit();
-    document.getElementById('form-logo-texto').submit();
+    let descricaoMudou = campoDescricao && campoDescricao.value.trim() !== 'Sem descrição';
+    let imagemMudou = inputFotoPerfil.files.length > 0 || inputBanner.files.length > 0;
+
+    if (descricaoMudou || imagemMudou) {
+        document.getElementById('form-atualizar').submit();
+    }
 }
 
 function mostrarEditaveis() {
@@ -138,12 +141,13 @@ habilitacaoEdicao.addEventListener('click', function() {
 });
 
 concluirEdicao.addEventListener('click', function() {
-    configAlterada = false;
+	configAlterada = false;
 	edicaoAtiva = false;
-    //alert('Alterações salvas com sucesso!'); código pra manter!!!
+	
+    //alert('Alterações salvas com sucesso!');
     this.style.display = 'none';
     habilitacaoEdicao.style.display = 'block';
-    //submeterFormulariosPerfil(); código pra manter!!!
+    submeterFormulariosPerfil();
     esconderEditaveis();
 });
 
@@ -247,19 +251,60 @@ function getDragAfterElement(container, y) {
     ).element;
 }
 
+/*
+<table class="table">
+    <thead>
+        <th>Natureza</th>
+		<th>Empresa/Título</th>
+        <th>Descrição</th>
+        <th>Requisitos</th>
+        <th>Carga Horária</th>
+		<th>Ver certificado</th>
+    </thead>
+    <tbody>
+        <tr th:each="projetos : ${projetos}">
+			<td th:text="'Pesquisa/extensão'"></td>
+            <td th:text="${projetos.nome}"></td>
+            <td th:text="${projetos.descricao}"></td>
+            <td th:text="${projetos.requisito}"></td>
+            <td th:text="${projetos.cargaHoraria}"></td>
+			<td>
+				<a th:href="@{'/perfil-aluno/emite?id=' + ${projetos.id} + '&tipo=projeto&aluno=' + ${aluno.id}}">
+					<button id="botao-certificado">Ver certificado</button>
+				</a>
+			</td>
+        </tr>
+		<tr th:each="estagios : ${estagios}">
+			<td th:text="'Pesquisa/extensão'"></td>
+            <td th:text="${estagios.empresa}"></td>
+            <td th:text="${estagios.descricao}"></td>
+            <td th:text="${estagios.requisito}"></td>
+            <td th:text="${estagios.cargaHoraria}"></td>
+			<td>
+				<a th:href="@{'/perfil-aluno/emite?id=' + ${estagios.id} + '&tipo=estagio&aluno=' + ${aluno.id}}">
+					<button id="botao-certificado">Ver certificado</button>
+				</a>
+			</td>
+		</tr>
+    </tbody>
+</table>
+*/
+
 function adicionarSecao(tipo) {
-	configAlterada = true;
+    configAlterada = true;
     let seccao = document.createElement('section');
     seccao.className = 'seccao';
-	seccao.draggable = true;
+    seccao.draggable = true;
     let limitador = 0;
 
-    if (tipo !== "Texto Livre") {
+    if (tipo !== "Texto Livre" && tipo !== "Projetos Concluídos") {
         let titulo = document.createElement('h3');
         titulo.innerText = tipo;
         titulo.className = 'titulo-seccao-texto';
         seccao.appendChild(titulo);
-    } else {
+    }
+
+    if (tipo === "Texto Livre") {
         let formTitulo = document.createElement('form');
         let texto = document.createElement('input');
         formTitulo.className = 'form-titulo-texto-livre';
@@ -270,120 +315,218 @@ function adicionarSecao(tipo) {
         seccao.appendChild(formTitulo);
     }
 
+	if (tipo === "Projetos Concluídos") {
+	    let tabela = document.createElement('table');
+	    tabela.className = 'table';
+	    
+	    let thead = document.createElement('thead');
+	    let th1 = document.createElement('th');
+	    th1.innerText = 'Natureza';
+	    let th2 = document.createElement('th');
+	    th2.innerText = 'Empresa/Título';
+	    let th3 = document.createElement('th');
+	    th3.innerText = 'Descrição';
+	    let th4 = document.createElement('th');
+	    th4.innerText = 'Requisitos';
+	    let th5 = document.createElement('th');
+	    th5.innerText = 'Carga Horária';
+	    let th6 = document.createElement('th');
+	    th6.innerText = 'Ver certificado';
+
+	    let trHeader = document.createElement('tr');
+	    trHeader.appendChild(th1);
+	    trHeader.appendChild(th2);
+	    trHeader.appendChild(th3);
+	    trHeader.appendChild(th4);
+	    trHeader.appendChild(th5);
+	    trHeader.appendChild(th6);
+	    thead.appendChild(trHeader);
+	    tabela.appendChild(thead);
+
+	    let tbody = document.createElement('tbody');
+		
+	    projetos.forEach(projeto => {
+	        let tr = document.createElement('tr');
+	        
+	        let td1 = document.createElement('td');
+	        td1.innerText = 'Pesquisa/extensão';
+	        let td2 = document.createElement('td');
+	        td2.innerText = projeto.nome;
+	        let td3 = document.createElement('td');
+	        td3.innerText = projeto.descricao;
+	        let td4 = document.createElement('td');
+	        td4.innerText = projeto.requisito;
+	        let td5 = document.createElement('td');
+	        td5.innerText = projeto.cargaHoraria;
+	        let td6 = document.createElement('td');
+	        let a = document.createElement('a');
+	        a.href = `/aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
+	        let button = document.createElement('button');
+	        button.id = 'botao-certificado';
+	        button.innerText = 'Ver certificado';
+	        a.appendChild(button);
+	        td6.appendChild(a);
+
+	        tr.appendChild(td1);
+	        tr.appendChild(td2);
+	        tr.appendChild(td3);
+	        tr.appendChild(td4);
+	        tr.appendChild(td5);
+	        tr.appendChild(td6);
+	        tbody.appendChild(tr);
+	    });
+
+	    estagios.forEach(estagio => {
+	        let tr = document.createElement('tr');
+	        
+	        let td1 = document.createElement('td');
+	        td1.innerText = 'Pesquisa/extensão';
+	        let td2 = document.createElement('td');
+	        td2.innerText = estagio.empresa;
+	        let td3 = document.createElement('td');
+	        td3.innerText = estagio.descricao;
+	        let td4 = document.createElement('td');
+	        td4.innerText = estagio.requisito;
+	        let td5 = document.createElement('td');
+	        td5.innerText = estagio.cargaHoraria;
+	        let td6 = document.createElement('td');
+	        let a = document.createElement('a');
+	        a.href = `/aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
+	        let button = document.createElement('button');
+	        button.id = 'botao-certificado';
+	        button.innerText = 'Ver certificado';
+	        a.appendChild(button);
+	        td6.appendChild(a);
+
+	        tr.appendChild(td1);
+	        tr.appendChild(td2);
+	        tr.appendChild(td3);
+	        tr.appendChild(td4);
+	        tr.appendChild(td5);
+	        tr.appendChild(td6);
+	        tbody.appendChild(tr);
+	    });
+
+	    tabela.appendChild(tbody);
+	    seccao.appendChild(tabela);
+	}
+
+
+    // Botão de apagar a seção
     let botaoApagar = document.createElement('button');
     botaoApagar.className = 'seccao-botao-apagar';
     seccao.appendChild(botaoApagar);
-	
-	let botaoCriarTopico = document.createElement('button');
-    botaoCriarTopico.className = 'seccao-botao-criar-topico';
-    seccao.appendChild(botaoCriarTopico);
 
     botaoApagar.addEventListener('click', function () {
-		if(contadorTextoLivre != 0 && tipo === "Texto Livre") {
-			contadorTextoLivre--;			
-					
-		}
-		
-		if(contadorProjetosConcluidos != 0 && tipo === "Projetos Concluídos") {
-			contadorProjetosConcluidos = 0;		
-		}
-		
-		if(contadorCompetencias != 0 && tipo === "Competências") {
-			contadorCompetencias = 0;		
-		}
-		
-		if(contadorLicencasCertificados != 0 && tipo === "Licenças e Certificados") {
-			contadorLicencasCertificados = 0;						
-		}
-		
+        if (contadorTextoLivre != 0 && tipo === "Texto Livre") {
+            contadorTextoLivre--;
+        }
+        
+        if (contadorProjetosConcluidos != 0 && tipo === "Projetos Concluídos") {
+            contadorProjetosConcluidos = 0;
+        }
+
+        if (contadorCompetencias != 0 && tipo === "Competências") {
+            contadorCompetencias = 0;
+        }
+
+        if (contadorLicencasCertificados != 0 && tipo === "Licenças e Certificados") {
+            contadorLicencasCertificados = 0;
+        }
+
         if (confirm('Você tem certeza que deseja excluir esta seção?')) {
             seccao.remove();
         }
     });
 
-    botaoCriarTopico.addEventListener('click', function () {
-        if (tipo !== "Licenças e Certificados") {
-            if (limitador < 5) {
-				botaoCriarTopico.disabled = false;
-                let formCaixaTexto = document.createElement('form');
-				let botaoApagarTopico = document.createElement('button');
-				botaoApagarTopico.className = 'seccao-botao-apagar-topico';
-				
+    // NÃO CRIAR O BOTÃO CRIAR TÓPICO PARA "PROJETOS CONCLUÍDOS"
+    if (tipo !== "Projetos Concluídos") {
+        let botaoCriarTopico = document.createElement('button');
+        botaoCriarTopico.className = 'seccao-botao-criar-topico';
+        seccao.appendChild(botaoCriarTopico);
+
+        botaoCriarTopico.addEventListener('click', function () {
+            if (tipo !== "Licenças e Certificados") {
+                if (limitador < 5) {
+                    botaoCriarTopico.disabled = false;
+                    let formCaixaTexto = document.createElement('form');
+                    let botaoApagarTopico = document.createElement('button');
+                    botaoApagarTopico.className = 'seccao-botao-apagar-topico';
+
+                    let caixaTexto = document.createElement('textarea');
+                    formCaixaTexto.className = "form-caixa-texto";
+                    caixaTexto.className = 'caixa-texto-topico';
+                    caixaTexto.placeholder = "Escreva seu texto...";
+                    caixaTexto.maxLength = 288;
+                    caixaTexto.rows = "3";
+                    caixaTexto.cols = "50";
+                    formCaixaTexto.appendChild(caixaTexto);
+                    formCaixaTexto.appendChild(botaoApagarTopico);
+                    seccao.appendChild(formCaixaTexto);
+                    limitador++;
+
+                    botaoApagarTopico.addEventListener('click', function () {
+                        formCaixaTexto.remove();
+                        if (limitador > 0) limitador--;
+                    });
+                } else {
+                    alert('Limite de criação de tópicos atingido!');
+                }
+            } else {
+                let formLogoTexto = document.createElement('form');
+                let botaoApagarTopico = document.createElement('button');
+                botaoApagarTopico.className = 'seccao-botao-apagar-topico';
+                formLogoTexto.className = "form-logo-texto";
+                let conteinerLogoTexto = document.createElement('div');
+                conteinerLogoTexto.className = "form-logo-texto-container";
+
+                let inputLogo = document.createElement('input');
+                inputLogo.className = "input-logo";
+                inputLogo.type = 'file';
+                inputLogo.accept = 'image/*';
+
+                let logoPreview = document.createElement('img');
+                logoPreview.className = "logo-preview";
+                logoPreview.style.width = '50px';
+                logoPreview.style.height = '50px';
+
                 let caixaTexto = document.createElement('textarea');
-                formCaixaTexto.className = "form-caixa-texto";
-                caixaTexto.className = 'caixa-texto-topico';
+                caixaTexto.className = 'caixa-texto-topico2';
                 caixaTexto.placeholder = "Escreva seu texto...";
-                caixaTexto.maxLength = 288;
+                caixaTexto.maxLength = 108;
                 caixaTexto.rows = "3";
                 caixaTexto.cols = "50";
-                formCaixaTexto.appendChild(caixaTexto);
-				formCaixaTexto.appendChild(botaoApagarTopico);
-                seccao.appendChild(formCaixaTexto);
+
+                formLogoTexto.appendChild(inputLogo);
+                formLogoTexto.appendChild(logoPreview);
+                formLogoTexto.appendChild(caixaTexto);
+                conteinerLogoTexto.appendChild(formLogoTexto);
+                conteinerLogoTexto.appendChild(botaoApagarTopico);
+                seccao.appendChild(conteinerLogoTexto);
                 limitador++;
-				
-				botaoApagarTopico.addEventListener('click', function () {
-					formCaixaTexto.remove();
-					if(limitador > 0)
-						limitador--;
-			    });
-            } else {
-                alert('Limite de criação de tópicos atingido!');
+
+                logoPreview.addEventListener('click', function () {
+                    inputLogo.click();
+                });
+
+                inputLogo.addEventListener('change', function (e) {
+                    let file = e.target.files[0];
+                    if (file) {
+                        let reader = new FileReader();
+                        reader.onload = function (e) {
+                            logoPreview.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                botaoApagarTopico.addEventListener('click', function () {
+                    conteinerLogoTexto.remove();
+                    if (limitador != 0) limitador--;
+                });
             }
-        } else {
-            let formLogoTexto = document.createElement('form');
-			let botaoApagarTopico = document.createElement('button');
-			botaoApagarTopico.className = 'seccao-botao-apagar-topico';
-			formLogoTexto.className = "form-logo-texto";
-			let conteinerLogoTexto = document.createElement('div');
-			conteinerLogoTexto.className = "form-logo-texto-container"
-
-            let inputLogo = document.createElement('input');
-            inputLogo.className = "input-logo";
-            inputLogo.type = 'file';
-            inputLogo.accept = 'image/*';
-
-            let logoPreview = document.createElement('img');
-            logoPreview.className = "logo-preview";
-            logoPreview.style.width = '50px';
-            logoPreview.style.height = '50px';
-
-            let caixaTexto = document.createElement('textarea');
-            caixaTexto.className = 'caixa-texto-topico2';
-            caixaTexto.placeholder = "Escreva seu texto...";
-            caixaTexto.maxLength = 108;
-            caixaTexto.rows = "3";
-            caixaTexto.cols = "50";
-			
-			formLogoTexto.appendChild(inputLogo);
-			formLogoTexto.appendChild(logoPreview);
-            formLogoTexto.appendChild(caixaTexto);
-			conteinerLogoTexto.appendChild(formLogoTexto);
-			conteinerLogoTexto.appendChild(botaoApagarTopico);
-            seccao.appendChild(conteinerLogoTexto);
-            limitador++;
-
-            logoPreview.addEventListener('click', function () {
-                inputLogo.click();
-            });
-
-            inputLogo.addEventListener('change', function (e) {
-                let file = e.target.files[0];
-                if (file) {
-                    let reader = new FileReader();
-                    reader.onload = function (e) {
-                        logoPreview.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-			
-			botaoApagarTopico.addEventListener('click', function () {
-				conteinerLogoTexto.remove();
-				if(limitador != 0)
-					limitador--;
-		    });
-        }
-    });
+        });
+    }
 
     containerSeccoes.appendChild(seccao);
 }
@@ -411,12 +554,7 @@ inputBanner.addEventListener('change', function(e) {
     if (file) {
         let reader = new FileReader();
         reader.onload = function(e) {
-			//TEMPORÁRIO PRA APRESENTAÇÃO//////////////////
-			let result = e.target.result;
-            document.getElementById('banner').src = result;
-            localStorage.setItem('bannerImage', result);
-			/////////////////////////////////////////////////
-            //document.getElementById('banner').src = e.target.result; código pra manter!!!
+            document.getElementById('banner').src = e.target.result;
             configAlterada = true;
         };
         reader.readAsDataURL(file);
@@ -428,32 +566,12 @@ inputFotoPerfil.addEventListener('change', function(e) {
     if (file) {
         let reader = new FileReader();
         reader.onload = function(e) {
-			//TEMPORÁRIO PRA APRESENTAÇÃO//////////////////
-			let result = e.target.result;
-			fotoPerfil.src = result;
-			localStorage.setItem('profileImage', result);
-			/////////////////////////////////////////////////
-            //fotoPerfil.src = e.target.result; código pra manter!!!
+            fotoPerfil.src = e.target.result;
             configAlterada = true;
         };
         reader.readAsDataURL(file);
     }
 });
-
-
-//TEMPORÁRIO PRA APRESENTAÇÃO///////////////////////////////
-window.addEventListener('load', function() {
-    let storedBanner = localStorage.getItem('bannerImage');
-    if (storedBanner) {
-        document.getElementById('banner').src = storedBanner;
-    }
-
-    let storedProfileImage = localStorage.getItem('profileImage');
-    if (storedProfileImage) {
-        fotoPerfil.src = storedProfileImage;
-    }
-});
-////////////////////////////////////////////////////////////////////
 
 window.addEventListener('beforeunload', function (event) {
     if (configAlterada) {
