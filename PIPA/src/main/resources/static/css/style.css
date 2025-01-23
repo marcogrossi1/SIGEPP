@@ -550,3 +550,13 @@ label {
   background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
   cursor: pointer;
 }
+
+.seguidor {
+	color: black;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.seguidor:hover {
+	color: rgb(0, 128, 255);
+}

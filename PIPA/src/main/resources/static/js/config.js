@@ -18,9 +18,7 @@ let banner = document.getElementById('banner');
 let inputFotoPerfil = document.getElementById('input-foto-perfil');
 let fotoPerfil = document.getElementById('foto-perfil');
 
-let formularioDescricao = document.getElementById('form-descricao');
-let formularioBanner = document.getElementById('form-banner');
-let formularioFotoPerfil = document.getElementById('form-foto-perfil');
+let formAtualizar = document.getElementById('form-atualizar');
 
 // Contadores para limitar o número de seções
 let contadorTextoLivre = 0;
@@ -29,12 +27,14 @@ let contadorCompetencias = 0;
 let contadorLicencasCertificados = 0;
 
 // Perfil
+
 function submeterFormulariosPerfil() {
-    formularioDescricao.submit();
-    formularioBanner.submit();
-    formularioFotoPerfil.submit();
-    document.getElementById('form-titulo-texto-livre').submit();
-    document.getElementById('form-logo-texto').submit();
+    let descricaoMudou = campoDescricao && campoDescricao.value.trim() !== 'Sem descrição';
+    let imagemMudou = inputFotoPerfil.files.length > 0 || inputBanner.files.length > 0;
+
+    if (descricaoMudou || imagemMudou) {
+        document.getElementById('form-atualizar').submit();
+    }
 }
 
 function mostrarEditaveis() {
@@ -141,12 +141,13 @@ habilitacaoEdicao.addEventListener('click', function() {
 });
 
 concluirEdicao.addEventListener('click', function() {
-    configAlterada = false;
+	configAlterada = false;
 	edicaoAtiva = false;
+	
     //alert('Alterações salvas com sucesso!');
     this.style.display = 'none';
     habilitacaoEdicao.style.display = 'block';
-    //submeterFormulariosPerfil();
+    submeterFormulariosPerfil();
     esconderEditaveis();
 });
 
