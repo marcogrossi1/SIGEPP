@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../css/style-perfil.css">
+	
+	<!-- Cropper.js JS -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <title>Perfil</title>
 </head>
 <body>
@@ -17,6 +21,16 @@
 	<main id="seccao-principal">
 		<img id="banner" th:src="'data:image/jpeg;base64,' + ${banner}" alt="Banner" onerror="this.src='../img/banner.png'">
 		<img id="foto-perfil" th:src="'data:image/jpeg;base64,' + ${fotoPerfil}" alt="Foto de Perfil" onerror="this.src='../img/foto-perfil-padrao.png'">
+		
+		<div id="cropModal" style="display: none;">
+		    <div style="width: 100%; text-align: center;">
+		        <img id="imageToCrop" style="max-width: 100%; max-height: 80vh; display: block; margin: auto;" />
+		    </div>
+		    <div style="text-align: center; margin-top: 20px;">
+		        <button id="cropButton" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Cortar</button>
+		        <button id="closeModalButton" style="padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancelar</button>
+		    </div>
+		</div>
 		
 
 		<form action="/perfil-aluno/atualizar" method="POST" enctype="multipart/form-data" id="form-atualizar">

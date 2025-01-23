@@ -1,27 +1,8 @@
-//CONFIGPERFIL
-
-let configAlterada = false;
-
-let concluirConfig = document.getElementById('botao-concluir-config-conta');
-let elementos = document.querySelectorAll('.conta-config');
-let formularioContaConfig = document.getElementById('form-conta-config');
-
-function submeterFormulariosConfig() {
-    formularioContaConfig.submit();
-}
-
-concluirConfig.addEventListener('click', function() {
-	configAlterada = false;
-	
-    alert('Alterações salvas com sucesso!');
-    submeterFormulariosConfig();
-    esconderEditaveis();
-});
-
-
 //PERFIL
-
+let configAlterada = false;
 let edicaoAtiva = false;
+
+let verificador = 0;
 
 let habilitacaoEdicao = document.getElementById('botao-edicao');
 let concluirEdicao = document.getElementById('botao-concluir-edicao');
@@ -160,6 +141,7 @@ habilitacaoEdicao.addEventListener('click', function() {
 concluirEdicao.addEventListener('click', function() {
 	configAlterada = false;
 	edicaoAtiva = false;
+	verificador = 0;
 	
     alert('Alterações salvas com sucesso!');
     this.style.display = 'none';
@@ -456,7 +438,6 @@ function adicionarSecao(tipo) {
         }
     });
 
-    // NÃO CRIAR O BOTÃO CRIAR TÓPICO PARA "PROJETOS CONCLUÍDOS"
     if (tipo !== "Projetos Concluídos") {
         let botaoCriarTopico = document.createElement('button');
         botaoCriarTopico.className = 'seccao-botao-criar-topico';
@@ -551,11 +532,11 @@ function adicionarSecao(tipo) {
 document.addEventListener('dragover', (event) => {
     event.preventDefault(edicaoAtiva);
 
-    const scrollSpeed = 6;
-    const buffer = 50;
+    let scrollSpeed = 6;
+    let buffer = 50;
 
-    const mouseY = event.clientY;
-    const windowHeight = window.innerHeight;
+    let mouseY = event.clientY;
+    let windowHeight = window.innerHeight;
 
     if (mouseY < buffer) {
         window.scrollBy(0, -scrollSpeed);
@@ -566,30 +547,116 @@ document.addEventListener('dragover', (event) => {
     }
 });
 
-inputBanner.addEventListener('change', function(e) {
-    let file = e.target.files[0];
-    if (file) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('banner').src = e.target.result;
+
+//CROPPEP
+
+let cropper;
+let currentInput = '';
+
+let borderBottom = 2; // Borda inferior de 2px do banner
+
+function openCropModal(file, inputId) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+        let imageToCrop = document.getElementById('imageToCrop');
+        imageToCrop.src = e.target.result;
+        currentInput = inputId;
+
+        // Mostrar o modal
+        document.getElementById('cropModal').style.display = 'flex';
+
+        if (cropper) cropper.destroy();
+        cropper = new Cropper(imageToCrop, {
+            aspectRatio: inputId === 'input-banner' ? 20 / 7 : 1, // Aspecto para banner ou foto de perfil
+            viewMode: 1,
+            autoCropArea: 1,
+            movable: true,
+            zoomable: true,
+            scalable: true,
+            background: false,
+            ready() {
+                if (inputId === 'input-foto-perfil') {
+                    let cropBoxData = cropper.getCropBoxData();
+                    // Para foto de perfil, subtrair a borda e garantir formato circular
+                    cropper.setCropBoxData({
+                        left: cropBoxData.left + borderRadius,
+                        top: cropBoxData.top + borderRadius,
+                        width: Math.min(cropBoxData.width, cropBoxData.height) - borderRadius * 2,
+                        height: Math.min(cropBoxData.width, cropBoxData.height) - borderRadius * 2,
+                    });
+                } else if (inputId === 'input-banner') {
+                    let cropBoxData = cropper.getCropBoxData();
+                    // Para o banner, subtrair a borda inferior de 2px na altura
+                    cropper.setCropBoxData({
+                        left: cropBoxData.left, // Não é necessário ajustar a largura
+                        top: cropBoxData.top, // Não é necessário ajustar o topo
+                        width: cropBoxData.width,
+                        height: cropBoxData.height - borderBottom, // Subtrai a borda inferior de 2px
+                    });
+                }
+            },
+        });
+    };
+    reader.readAsDataURL(file);
+}
+
+// Botão de cortar
+document.getElementById('cropButton').addEventListener('click', () => {
+    if (cropper) {
+        let bannerHeight = Math.round(window.innerHeight * 0.35) - borderBottom; // Subtrai a borda inferior de 2px
+        let width = currentInput === 'input-banner' ? window.innerWidth : 170;
+        let height = currentInput === 'input-banner' ? bannerHeight : 170;
+
+        let croppedCanvas = cropper.getCroppedCanvas({
+            width: width,
+            height: height,
+        });
+
+        croppedCanvas.toBlob((blob) => {
+            let croppedFile = new File([blob], `cropped-${currentInput}.png`, { type: blob.type });
+
+            let dataTransfer = new DataTransfer();
+            dataTransfer.items.add(croppedFile);
+
+            let inputElement = document.getElementById(currentInput);
+            inputElement.files = dataTransfer.files;
+
+            let url = URL.createObjectURL(blob);
+            if (currentInput === 'input-banner') {
+                document.getElementById('banner').src = url;
+            } else if (currentInput === 'input-foto-perfil') {
+                document.getElementById('foto-perfil').src = url;
+            }
+
             configAlterada = true;
-        };
-        reader.readAsDataURL(file);
+            verificador = 1;
+            document.getElementById('cropModal').style.display = 'none';
+        });
     }
 });
 
-inputFotoPerfil.addEventListener('change', function(e) {
-    let file = e.target.files[0];
-    if (file) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            fotoPerfil.src = e.target.result;
-            configAlterada = true;
-        };
-        reader.readAsDataURL(file);
+// Botão cancelar
+document.getElementById('closeModalButton').addEventListener('click', () => {
+    if (verificador !== 1) configAlterada = false;
+    document.getElementById('cropModal').style.display = 'none';
+    if (cropper) {
+        cropper.destroy();
+        cropper = null;
     }
 });
 
+// Eventos para inputs
+document.getElementById('input-banner').addEventListener('change', (event) => {
+    let file = event.target.files[0];
+    if (file) openCropModal(file, 'input-banner');
+});
+
+document.getElementById('input-foto-perfil').addEventListener('change', (event) => {
+    let file = event.target.files[0];
+    if (file) openCropModal(file, 'input-foto-perfil');
+});
+
+// Verificação de alterações
 window.addEventListener('beforeunload', function (event) {
     if (configAlterada) {
         event.preventDefault();
