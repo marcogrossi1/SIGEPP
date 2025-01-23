@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import proj.dao.AlunoDao;
+import proj.dao.ProfessorDao;
 import proj.dao.HDataSource;
 import proj.model.Aluno;
+import proj.model.Professor;
 
 @Controller
 @RequestMapping("/cadastro")
@@ -23,7 +25,7 @@ public class CadastroController {
     @GetMapping
     public String mostraFormularioCadastroAluno(Model model) {
         model.addAttribute("aluno", new Aluno());
-        return "cadastroAluno";
+        return "aluno/cadastroAluno";
     }
 
     @PostMapping
@@ -34,7 +36,20 @@ public class CadastroController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("erro", e.getMessage());
-            return "cadastroAluno";
+            return "aluno/home";
+        }
+
+
+        @PostMapping
+        public String criaNovoProfessor(@ModelAttribute Professor professor, Model model) {
+        try (Connection conn = ds.getConnection()) {
+            ProfessorDao.insert(conn, professor);
+            return "redirect:/professor";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("erro", e.getMessage());
+            return "professor/home";
         }
     }
+    
 }

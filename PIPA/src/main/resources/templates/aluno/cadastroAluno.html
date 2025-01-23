@@ -12,7 +12,7 @@
         <h1 id="titulo-plataforma">PIPA | Portal</h1>
     </header>
     <main>
-        <form id="aluno-inputs" th:action="@{/login/cadastro}" th:object="${aluno}" method="post">
+        <form id="aluno-inputs" th:action="@{/cadastro}" th:object="${aluno}" method="post">
             <input type="hidden" th:field="*{id}">
             <label for="cpf">CPF:</label>
             <input type="text" name="cpf" th:field="*{cpf}" required>

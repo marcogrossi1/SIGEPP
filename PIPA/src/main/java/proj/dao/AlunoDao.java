@@ -249,7 +249,7 @@ public class AlunoDao {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement(insertsql);
             ps.setString(1, vo.getCpf());
             ps.setString(2, vo.getNome());
             ps.setString(3, vo.getCurso());
@@ -258,6 +258,7 @@ public class AlunoDao {
             ps.setString(6, vo.getPeriodo());
             ps.setLong(7, vo.getUsuario_id());
             ps.executeUpdate();
+            conn.commit();
             rs = ps.getGeneratedKeys();
             if (rs.next()) {
             long id = rs.getLong(1);
