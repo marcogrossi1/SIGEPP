@@ -21,18 +21,22 @@ CREATE TABLE Aluno (
   campus VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   periodo VARCHAR(255) NOT NULL,
-  Usuario_id BIGINT NULL,
   telefone VARCHAR(20) NOT NULL,
+  fotoPerfil LONGBLOB NULL,
+  bannerPerfil LONGBLOB NULL,
+  descricaoPerfil VARCHAR(550) DEFAULT "Sem descrição.",
+  Usuario_id BIGINT NULL,
   PRIMARY KEY (id),
-  UNIQUE INDEX cpf_UNIQUE (cpf ASC) ,
-  INDEX nome_INDEX (nome ASC) ,
-  UNIQUE INDEX email_UNIQUE (email ASC) ,
-  INDEX fk_Aluno_Usuario1_idx (Usuario_id ASC) ,
+  UNIQUE INDEX cpf_UNIQUE (cpf ASC),
+  INDEX nome_INDEX (nome ASC),
+  UNIQUE INDEX email_UNIQUE (email ASC),
+  INDEX fk_Aluno_Usuario1_idx (Usuario_id ASC),
   CONSTRAINT fk_Aluno_Usuario1
     FOREIGN KEY (Usuario_id)
     REFERENCES Usuario (id)
-    )
-ENGINE = InnoDB default character set = utf8;
+)
+ENGINE = InnoDB 
+DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table Administrador
@@ -45,6 +49,9 @@ CREATE TABLE Administrador (
   email VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NOT NULL,
   telefone VARCHAR(20) NOT NULL,
+  fotoPerfil LONGBLOB NULL,
+  bannerPerfil LONGBLOB NULL,
+  descricaoPerfil VARCHAR(550) DEFAULT "Sem descrição.",
   PRIMARY KEY (id),
   UNIQUE INDEX cpf_UNIQUE (cpf ASC),
   UNIQUE INDEX email_UNIQUE (email ASC),
@@ -137,6 +144,9 @@ CREATE TABLE Professor (
   telefone VARCHAR(20) NOT NULL,
   email VARCHAR(255) NOT NULL,
   cpf VARCHAR(20) NOT NULL,
+  fotoPerfil LONGBLOB NULL,
+  bannerPerfil LONGBLOB NULL,
+  descricaoPerfil VARCHAR(550) DEFAULT "Sem descrição.",
   PRIMARY KEY (id),
   INDEX fk_Professor_Usuario1_idx (Usuario_id ASC) ,
   CONSTRAINT fk_Professor_Usuario1

@@ -8,34 +8,62 @@
 </head>
 <body>
 	<header>
-	        <a href="http://localhost:8080/aluno"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
+	        <a href="javascript:void(0);" onclick="window.history.back();"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
 	        <h1 id="titulo-plataforma" th:text="'PIPA | ' + ${aluno.nome}">PIPA | Meu Perfil</h1>
 	</header>
 	
+	<a class="link-topo" href="#">&#9650;</a>
+	
 	<main id="seccao-principal">
-		<form enctype="multipart/form-data" id="form-banner">
-		    <input type="file" id="input-banner" style="display: none;" accept="image/*" disabled>
-		    <img id="banner" src="../img/banner.png" alt="Banner">
-		</form>
+		<img id="banner" th:src="'data:image/jpeg;base64,' + ${banner}" alt="Banner" onerror="this.src='../img/banner.png'">
+		<img id="foto-perfil" th:src="'data:image/jpeg;base64,' + ${fotoPerfil}" alt="Foto de Perfil" onerror="this.src='../img/foto-perfil-padrao.png'">
+		
 
-		<form enctype="multipart/form-data" id="form-foto-perfil">
-		    <input type="file" id="input-foto-perfil" style="display: none;" accept="image/*" disabled>
-		    <img id="foto-perfil" src="../img/foto-perfil-padrao.png" alt="Foto de Perfil">
+		<form action="/perfil-aluno/atualizar" method="POST" enctype="multipart/form-data" id="form-atualizar">
+		    <input type="hidden" name="id" th:value="${aluno.id}">
+		    <input type="file" name="fotoPerfil" id="input-foto-perfil" style="display: none;" accept="image/*" disabled>
+		    <input type="file" name="banner" id="input-banner" style="display: none;" accept="image/*" disabled>
+			
+			<div id="parte-descricao">
+				<p id="nome-descricao" th:text="${aluno.nome}">Sem nome</p>
+				<p id="dados-descricao" th:text="'Estudante do Curso ' + ${aluno.curso} + ' - ' + ${aluno.periodo}">Estudante do Curso X - Xº Ano</p>
+		        <textarea id="campo-descricao" disabled name="descricao" rows="5" cols="78" maxlength="522" th:text="${aluno.descricaoPerfil}">Sem descrição</textarea><br><br>
+			</div>
 		</form>
 		
 		<div class="seguidores">
-		    <button class="botao-seguidores">0<br>Seguidores </button>
-		    <button class="botao-seguindo">0<br>Seguindo</button>
+		    <button class="botao-seguidores"><p th:text="${seguidores}"></p><br><a class="botao-seguidores-text" th:href="@{/seguidores}">Seguidores</a></button>
+		    <button class="botao-seguindo"><p th:text="${seguidos}"></p><br><a class="botao-seguidores-text" th:href="@{seguidores/seguidos}">Seguindo</a></button>
 		</div>
 		
-		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações"></a>
-		<button type="submit" class="botoes-perfil" id="botao-edicao"></button>
+		<div id="container-campus">
+		    <a class="dados-campus" id="campus-aluno" th:utext="${'ALUNO DO CAMPUS' + '<br>' + aluno.campus}"
+		       th:href="${(aluno.campus == 'Araxá' ? 'https://www.araxa.cefetmg.br/' : 
+		                   aluno.campus == 'Nova Suíça' ? 'https://www.ns.cefetmg.br/' : 
+		                   aluno.campus == 'Nova Gameleira' ? 'https://www.ng.cefetmg.br/' : 
+		                   aluno.campus == 'Gameleira' ? 'https://www.campus6.cefetmg.br/' : 
+		                   aluno.campus == 'Contagem' ? 'https://www.contagem.cefetmg.br/' : 
+		                   aluno.campus == 'Curvelo' ? 'https://www.curvelo.cefetmg.br/' : 
+		                   aluno.campus == 'Leopoldina' ? 'https://www.leopoldina.cefetmg.br/' : 
+		                   aluno.campus == 'Nepomuceno' ? 'https://www.nepomuceno.cefetmg.br/' : 
+		                   aluno.campus == 'Timóteo' ? 'https://www.timoteo.cefetmg.br/' : 
+		                   aluno.campus == 'Varginha' ? 'https://www.varginha.cefetmg.br/' : 
+		                   'https://www.cefetmg.br/')}"
+		    >
+		    </a>
+		</div>
 		
-		<form id="form-descricao">
-			<p id="nome-descricao" th:text="${aluno.nome}">Sem nome</p>
-			<p id="dados-descricao" th:text="'Estudante do Curso ' + ${aluno.curso} + ' - ' + ${aluno.periodo}">Estudante do Curso X - Xº Ano</p>
-	        <textarea id="campo-descricao" disabled name="descricao" rows="5" cols="78" maxlength="390">Sem descrição</textarea><br><br>
-		</form>
+		
+		<a href="http://localhost:8080/aluno/contaConfigPerfil" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:if="${idDoUsuario == aluno.cpf}"></a>
+		<button type="submit" class="botoes-perfil" id="botao-edicao" th:if="${idDoUsuario == aluno.cpf}"></button>
+		<button type="submit" class="botoes-perfil" id="botao-seguir" th:if="${idDoUsuario != aluno.cpf}">SEGUIR</button>
+		
+		<!--   PARA VERIFICAR!!!
+		<p>Visitante CPF: <span th:text="${idDoUsuario}"></span></p>
+		<p>Dono do perfil CPF: <span th:text="${aluno.cpf}"></span></p>-->
+		
+		
+		
 		
 		<button type="button" class="botoes-perfil" id="botao-add-seccao">ADICIONAR SEÇÃO</button>
 		<button type="button" class="botoes-perfil" id="botao-concluir-edicao">SALVAR ALTERAÇÕES</button>
@@ -55,15 +83,18 @@
 	</div>
 	
 	<script th:inline="javascript">
-		var aluno = /*[[${aluno}]]*/ {};
+		let aluno = /*[[${aluno}]]*/ {};
+		let alunoId = /*[[${aluno.id}]]*/ {};
 		
-        var projetos = /*[[${projetos}]]*/ '[]';
-        var estagios = /*[[${estagios}]]*/ '[]';
+        let projetos = /*[[${projetos}]]*/ '[]';
+        let estagios = /*[[${estagios}]]*/ '[]';
 
         projetos = JSON.parse(projetos);
         estagios = JSON.parse(estagios);
 	</script>
 	
     <script src="../js/config.js" th:inline="javascript"></script>
+	
+	
 </body>
 </html>

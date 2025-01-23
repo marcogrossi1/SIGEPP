@@ -4,13 +4,16 @@ import java.io.FileOutputStream;
 import java.security.Principal;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -22,20 +25,20 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import proj.dao.AdministradorDao;
 import proj.dao.AlunoDao;
+import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
+import proj.dao.SeguidoresDao;
 import proj.dao.UsuarioDao;
-import proj.dao.EmpresaDao;
-
-import proj.model.Usuario;
 import proj.model.Administrador;
 import proj.model.Aluno;
 import proj.model.Empresa;
 import proj.model.Estagio;
 import proj.model.Professor;
 import proj.model.Projeto;
+import proj.model.Usuario;
 
 @Controller
 @RequestMapping("/perfil-aluno")
@@ -52,10 +55,27 @@ public class PerfilAlunoController {
         	model.addAttribute("usuario", u);
 
 			Aluno a = AlunoDao.get(conn, alunoId);
+			
+			if (a.getFotoPerfil() != null) {
+			    String fotoPerfilBase64 = Base64.getEncoder().encodeToString(a.getFotoPerfil());
+			    model.addAttribute("fotoPerfil", fotoPerfilBase64);
+			}
+
+			if (a.getBannerPerfil() != null) {
+			    String bannerBase64 = Base64.getEncoder().encodeToString(a.getBannerPerfil());
+			    model.addAttribute("banner", bannerBase64);
+			}
 
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
+			int n_seguidores = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
+			int n_seguidos = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
 			
+			String idDoUsuarioVisitante = principal.getName();
+			
+			model.addAttribute("seguidores", n_seguidores);
+			model.addAttribute("idDoUsuario", idDoUsuarioVisitante);
+			model.addAttribute("seguidos", n_seguidos);
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
@@ -207,5 +227,49 @@ public class PerfilAlunoController {
 	public String mostraPaginaDeErro(Model model, String message) {
 		model.addAttribute("message",message);
 		return "erro";
+	}
+	
+	@PostMapping("/atualizar")
+	public String atualizarImagens(
+	    @RequestParam("id") Long alunoId, 
+	    @RequestParam("fotoPerfil") MultipartFile fotoPerfil,
+	    @RequestParam("banner") MultipartFile banner,
+	    @RequestParam("descricao") String descricaoPerfil,
+	    Principal principal, Model model) throws Exception {
+	    try (Connection conn = ds.getConnection()) {
+	    	
+	    	//pra verificar se tá funcionando
+	    	System.out.println("DESCRIÇÃO:\n\n" + descricaoPerfil);
+	    	
+	    	System.out.println("Tamanho da fotoPerfil: " + fotoPerfil.getSize());
+	        System.out.println("Tamanho do banner: " + banner.getSize());
+	        
+	        byte[] fotoPerfilBytes = fotoPerfil.getBytes();
+	        byte[] bannerBytes = banner.getBytes();
+	        
+	        //pra verificar se tá funcionando
+	        System.out.println("Bytes fotoPerfil: " + fotoPerfilBytes.length);
+	        System.out.println("Bytes banner: " + bannerBytes.length);
+
+	        Aluno a = AlunoDao.get(conn, alunoId);
+	        
+	        a.setDescricaoPerfil(descricaoPerfil);
+	        
+	        if (fotoPerfil != null && !fotoPerfil.isEmpty())
+	        	a.setFotoPerfil(fotoPerfilBytes);
+	        if (banner != null && !banner.isEmpty())
+	        	a.setBannerPerfil(bannerBytes);
+	        
+	        AlunoDao.updateForDescricaoPerfil(conn, a.getId(), a.getDescricaoPerfil());
+	        AlunoDao.updateForFotoPerfil(conn, a.getId(), a.getFotoPerfil());
+	        AlunoDao.updateForBannerPerfil(conn, a.getId(), a.getBannerPerfil());
+	        conn.commit();
+
+	        return "redirect:/perfil-aluno?id=" + alunoId;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("message", "Erro ao atualizar dados.");
+	        return "erro";
+	    }
 	}
 }
