@@ -71,7 +71,7 @@ public class PerfilAlunoController {
 			int n_seguidores = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
 			int n_seguidos = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
 			
-			String idDoUsuarioVisitante = principal.getName();
+			long idDoUsuarioVisitante = u.getId();
 			
 			model.addAttribute("seguidores", n_seguidores);
 			model.addAttribute("idDoUsuario", idDoUsuarioVisitante);
@@ -230,7 +230,7 @@ public class PerfilAlunoController {
 	}
 	
 	@PostMapping("/atualizar")
-	public String atualizarImagens(
+	public String atualizarDadosPerfil(
 	    @RequestParam("id") Long alunoId, 
 	    @RequestParam("fotoPerfil") MultipartFile fotoPerfil,
 	    @RequestParam("banner") MultipartFile banner,
