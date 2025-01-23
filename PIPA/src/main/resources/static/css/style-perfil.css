@@ -21,13 +21,13 @@ body {
     border: none;
     position: absolute;
     left: 76.5%;
-    top: 42%;
+    top: 54.5%;
 }
 
 #icone-config {
     position: absolute;
     left: 80%;
-    top: 42%;
+    top: 54.5%;
 }
 
 .botoes-perfil {
@@ -44,7 +44,7 @@ body {
 }
 
 #banner {
-    height: 24vh;
+    height: 35vh;
     width: 100%;
     object-fit: cover;
     border-bottom: 2px rgb(219, 219, 219) solid;
@@ -52,10 +52,10 @@ body {
 }
 
 #seccao-principal {
-    margin-top: 5vh;
+    margin-top: 7vh;
     margin-bottom: 5vh;
     min-width: 66vw;
-    min-height: 95vh;
+    min-height: 105vh;
     border: 2px rgb(219, 219, 219) solid;
     background-color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
@@ -76,7 +76,7 @@ body {
     width: 170px;
     position: relative;
     left: 30px;
-    top: -85px;
+    top: -15%;
     cursor: pointer;
     border-radius: 50%;
     object-fit: cover;
@@ -84,9 +84,9 @@ body {
 }
 
 /* Formulário de descrição */
-#form-descricao {
+#parte-descricao {
     position: absolute;
-    top: 65%;
+    top: 75%;
     left: 21%;
     border: none;
     font-family: Arial, Helvetica, sans-serif;
@@ -110,6 +110,7 @@ body {
 }
 
 #campo-descricao {
+	color: #000;
     position: absolute;
     top: 55px;
     border: none;
@@ -119,7 +120,7 @@ body {
     font-size: 16px;
     text-align: justify;
     line-height: 1.5;
-    min-height: 120px;
+    min-height: 150px;
     min-width: calc(66vw - 116px);
 }
 
@@ -138,9 +139,9 @@ body {
     width: 120px;
     height: 15px;
     padding: 5px;
-    bottom: -6%;
+    bottom: -18%;
     position: absolute;
-    left: 70%;
+    left: 69.8%;
     transform-origin: center;
     cursor: pointer;
 }
@@ -172,72 +173,6 @@ body {
     transform: translateX(-50%) scale(1.1);
 }
 
-/* Ajustes para responsividade */
-@media (max-width: 768px) {
-    #botao-edicao, #icone-config {
-        left: 70%;
-        top: 35%;
-    }
-
-    #form-descricao {
-        top: 320px;
-        left: 20px;
-    }
-
-    #campo-descricao {
-        min-width: calc(100% - 40px);
-    }
-
-    #foto-perfil {
-        left: 20px;
-        top: -60px;
-        width: 150px;
-        height: 150px;
-    }
-
-    #botao-add-seccao {
-        left: 20px;
-        bottom: -10px;
-    }
-
-    #seccao-principal {
-        min-width: 90vw;
-    }
-
-    .seccao {
-        min-width: 90vw;
-    }
-}
-
-@media (max-width: 480px) {
-    #botao-edicao, #icone-config {
-        left: 60%;
-        top: 30%;
-    }
-
-    #form-descricao {
-        top: 280px;
-        left: 10px;
-    }
-
-    #campo-descricao {
-        min-width: calc(100% - 20px);
-    }
-
-    #foto-perfil {
-        left: 10px;
-        top: -50px;
-        width: 130px;
-        height: 130px;
-    }
-
-    #botao-add-seccao {
-        left: 10px;
-        bottom: -5px;
-    }
-}
-
-/* Responsividade para os botões de ação dentro das seções */
 .seccao-botao-apagar {
     display: block;
     background-image: url('../img/apagarSimbolo.png');
@@ -694,8 +629,8 @@ label {
 
 .informacoes-contato {
     position: relative;
-	top: 25%;
-	left: 7%;
+	top: 21%;
+	left: 6.6%;
     display: inline-block;
 }
 
@@ -734,7 +669,7 @@ label {
     text-align: center;
     margin: 0 0 0 0;
 	position: relative;
-	top: -30%;
+	top: -27.8%;
 	left: -15%;
 }
 
@@ -744,7 +679,6 @@ label {
     border: none;
     margin: 0;
     font-size: 18px;
-    font-weight: bold;
 }
 
 .botao-seguidores-text {
@@ -753,7 +687,7 @@ label {
     border: none;
     margin: 0;
     padding: 1%;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
     text-decoration: none;
 }
@@ -782,7 +716,7 @@ label {
     height: 15px;
     padding: 5px;
 	position: absolute;
-	top: 43%;
+	top: 55.7%;
 	left: 48%;
     transform-origin: center;
     cursor: pointer;
@@ -804,8 +738,8 @@ label {
 
 #container-campus {
 	position: absolute;
-	top: 42.4%;
-	left: 64%;
+	top: 55%;
+	left: 60%;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
@@ -819,4 +753,15 @@ label {
 
 .dados-campus:hover {
 	color: rgb(0, 128, 255);
+}
+
+.link-topo {
+	text-decoration: none;
+	color: white;
+	background-color: #003869;
+	padding: 10px;
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	box-shadow: 2px 2px 9px #333;
 }

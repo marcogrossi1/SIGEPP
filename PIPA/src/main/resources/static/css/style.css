@@ -531,3 +531,13 @@ label {
     text-decoration: underline;
     color: purple;
 }
+
+.seguidor {
+	color: black;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.seguidor:hover {
+	color: rgb(0, 128, 255);
+}
