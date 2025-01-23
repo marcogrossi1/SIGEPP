@@ -25,7 +25,7 @@
 		    <input type="file" name="banner" id="input-banner" style="display: none;" accept="image/*" disabled>
 			
 			<div id="parte-descricao">
-				<p id="nome-descricao" th:text="${aluno.nome}">Sem nome</p>
+				<p id="nome-descricao" th:text="${aluno.nome}" style="white-space: nowrap;">Sem nome</p>
 				<p id="dados-descricao" th:text="'Estudante do Curso ' + ${aluno.curso} + ' - ' + ${aluno.periodo}">Estudante do Curso X - Xº Ano</p>
 		        <textarea id="campo-descricao" disabled name="descricao" rows="5" cols="78" maxlength="522" th:text="${aluno.descricaoPerfil}">Sem descrição</textarea><br><br>
 			</div>
