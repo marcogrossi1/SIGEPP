@@ -12,7 +12,7 @@
         <h1 id="titulo-plataforma">PIPA | Portal</h1>
     </header>
     <main>
-        <form id="aluno-inputs" th:action="@{/cadastro}" th:object="${aluno}" method="post">
+        <form id="aluno-inputs" th:action="@{/cadastro/aluno}" th:object="${aluno}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}">
             <label for="cpf">CPF:</label>
             <input type="text" name="cpf" th:field="*{cpf}" required>
@@ -26,8 +26,16 @@
             <input type="email" name="email" th:field="*{email}" required>
             <label for="periodo">Período:</label>
             <input type="text" name="periodo" th:field="*{periodo}" required>
+            <label for="telefone">Telefone:</label>
+            <input type="text" name="telefone" th:field="*{telefone}" required>
             <label for="usuario_id">ID do Usuário:</label>
-            <input type="text" name="usuario_id" th:field="*{usuario_id}" required>
+            <input type="text" name="usuario_id" th:field="*{usuario_id}">
+            <label for="fotoPerfil">Foto de Perfil:</label>
+            <input type="file" name="fotoPerfil" th:field="*{fotoPerfil}">
+            <label for="bannerPerfil">Banner de Perfil:</label>
+            <input type="file" name="bannerPerfil" th:field="*{bannerPerfil}">
+            <label for="descricaoPerfil">Descrição de Perfil:</label>
+            <textarea name="descricaoPerfil" th:field="*{descricaoPerfil}"></textarea>
             <input type="submit" th:value="Cadastrar">
         </form>
     </main>

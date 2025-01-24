@@ -30,7 +30,7 @@ public class CadastroController {
     @GetMapping("/aluno")
     public String mostraFormularioCadastroAluno(Model model) {
         model.addAttribute("aluno", new Aluno());
-        return "aluno/cadastroAluno";
+        return "aluno/cadastro";
     }
 
     @PostMapping("/aluno")
