@@ -58,7 +58,6 @@ public class CandidaturaController {
                 return "error";
             }
 
-            // Obtém o aluno logado
             Aluno alunoLogado = AlunoDao.getByCpf(conn, principal.getName());
 
             if (alunoLogado == null) {

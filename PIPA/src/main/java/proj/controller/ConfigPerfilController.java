@@ -112,9 +112,7 @@ public class ConfigPerfilController {
 	            if (nome != null && !nome.isEmpty()) {
 	                a.setNome(nome);
 	            }
-	            if (cpf != null && !cpf.isEmpty()) {
-	                a.setCpf(cpf);
-	            }
+	            
 	            if (curso != null && !curso.isEmpty()) {
 	                a.setCurso(curso);
 	            }
@@ -131,7 +129,20 @@ public class ConfigPerfilController {
 	                a.setTelefone(telefone);
 	            }
 	            
-	            //PRA TESTAR!!! "DEBUG"
+	            if (cpf != null && !cpf.isEmpty()) {
+	                a.setCpf(cpf);
+	                u.setNome(cpf);
+	                AlunoDao.update(conn, a);
+	                UsuarioDao.update(conn, u);
+	                conn.commit();
+	                return "redirect:/logout";
+	            }
+	            else {
+	            	AlunoDao.update(conn, a);
+		            UsuarioDao.update(conn, u);
+		            conn.commit();
+	            }
+	            
 	            System.out.println("Valores recebidos:");
 	            System.out.println("Nome: " + nome);
 	            System.out.println("CPF: " + cpf);
@@ -142,11 +153,7 @@ public class ConfigPerfilController {
 	            System.out.println("Telefone: " + telefone);
 	            System.out.println("Senha: " + senha);
 	            
-	            AlunoDao.update(conn, a);
-	            
 	        }
-
-	        conn.commit();
 	        
 	        return "redirect:/configPerfil/contaConfigPerfil?id=" + u.getId();
 	    } catch (Exception e) {
