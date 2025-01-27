@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import proj.dao.AdministradorDao;
 import proj.dao.HDataSource;
-import proj.model.Administrador;
 import proj.dao.AlunoDao;
 import proj.dao.ProfessorDao;
 import proj.dao.EmpresaDao;
@@ -81,21 +79,6 @@ public class CadastroController {
         }
     }
 
-    @GetMapping("/administrador")
-    public String mostraFormularioCadastroAdministrador(Model model) {
-        model.addAttribute("administrador", new Administrador());
-        return "administrador/cadastroAdministrador";
-    }
-
-   // @PostMapping("/administrador")
-   // public String criaNovoAdministrador(@ModelAttribute Administrador administrador, Model model) {
-   //     try (Connection conn = ds.getConnection()) {
-   //         AdministradorDao.insert(conn, administrador);
-   ///         return "redirect:/administrador";
-    //    } catch (Exception e) {
-    //        e.printStackTrace();
-      ///      model.addAttribute("erro", e.getMessage());
-      //      return "administrador/home";
-      //  }
-    //}
+  
+  
 }
