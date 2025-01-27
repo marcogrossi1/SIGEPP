@@ -24,11 +24,14 @@
 		<div class="card">
 			<img src="/img/default-avatar.png" alt="Foto do Aluno">
 			<div>
-				<a th:text="${candidatura.candidato.nome}" href="#"></a>
+				<a th:if="${candidatura.candidato != null}"
+					th:text="${candidatura.candidato.nome}"
+					th:href="@{/perfil-aluno(id=${candidatura.candidato.id})}">
+					Nome do Aluno </a>
 				<p th:text="${candidatura.candidato.email}"></p>
 			</div>
 			<button th:onclick="'/curriculo/' + ${candidatura.candidato.id}"
-				class="botao">Baixar currículo</button>
+				class="botao">Baixar Documentos</button>
 		</div>
 
 		<h2>Detalhes da Candidatura</h2>
