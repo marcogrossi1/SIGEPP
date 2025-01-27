@@ -3,6 +3,7 @@ package proj.controller;
 import java.security.Principal;
 import java.sql.Connection;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,6 @@ import proj.model.Administrador;
 import proj.model.Aluno;
 import proj.model.Professor;
 import proj.model.Usuario;
-import proj.security.SecurityConfig;
 
 @Controller
 @RequestMapping("/configPerfil")
@@ -100,11 +100,12 @@ public class ConfigPerfilController {
 	    try (Connection conn = ds.getConnection()) {
 	        Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 	        
-	        /*String senhaCriptografada = senha;
-	        u.setSenha(senhaCriptografada);
-	        UsuarioDao.updateForSenha(conn, UsuarioId, senhaCriptografada);*/
-	        //POR ENQUANTO!
-
+	        if (senha != null && !senha.isEmpty()) {
+		        String senhaCriptografada = DigestUtils.sha512Hex(senha);
+		        u.setSenha(senhaCriptografada);
+		        UsuarioDao.updateForSenha(conn, UsuarioId, senhaCriptografada);
+	        }
+	        
 	        if (u.getRole().equals("Aluno")) {
 	            Aluno a = AlunoDao.get(conn, UsuarioId);
 	            

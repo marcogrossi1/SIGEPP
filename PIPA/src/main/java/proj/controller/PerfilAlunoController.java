@@ -83,7 +83,7 @@ public class PerfilAlunoController {
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
 
-			if (u.getRole().equals("Aluno")) {
+			if (u.getRole().equals("Aluno") || u.getRole().equals("Professor")) {
                 return "perfilAluno";
             }
 			else {

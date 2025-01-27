@@ -4,11 +4,17 @@ import proj.model.Candidatura;
 import proj.model.Aluno;
 import proj.model.Professor;
 import proj.model.Projeto;
+import proj.model.Secao;
 import proj.model.StatusCandidatura;
+import proj.model.Usuario;
 import proj.dao.CandidaturaDao;
+import proj.dao.HDataSource;
 import proj.dao.AlunoDao;
 import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
+import proj.dao.SecaoDao;
+import proj.dao.UsuarioDao;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.util.Base64;
 import java.util.List;
 import java.security.Principal;
 
@@ -165,14 +172,24 @@ public class CandidaturaController {
                     model.addAttribute("professor", professorLogado);
                 }
             } catch (NumberFormatException e) {
-                model.addAttribute("erro", "Erro ao identificar o professor logado.");
+                model.addAttribute("errluo", "Erro ao identificar o professor logado.");
                 return "error";
             }
 
             // Recupera as candidaturas do projeto
             List<Candidatura> candidaturas = candidaturaDao.listarPorProjeto(id);
+
             if (candidaturas == null || candidaturas.isEmpty()) {
                 model.addAttribute("info", "Ainda não há candidaturas para este projeto.");
+            } else {
+                // Adiciona as fotos dos alunos à lista de candidaturas
+                for (Candidatura candidatura : candidaturas) {
+                    Aluno aluno = AlunoDao.get(conn, candidatura.getCandidato().getId());
+                    if (aluno.getFotoPerfil() != null) {
+        			    String fotoPerfilBase64 = Base64.getEncoder().encodeToString(aluno.getFotoPerfil());
+        			    model.addAttribute("fotoPerfil", fotoPerfilBase64);
+        			}
+                }
             }
 
             model.addAttribute("candidaturas", candidaturas);
@@ -186,6 +203,7 @@ public class CandidaturaController {
         }
     }
 
+
     /**
      * Exibe a tela de validação de candidatura para um professor.
      *
@@ -193,11 +211,23 @@ public class CandidaturaController {
      * @param model         Modelo para passar dados à view
      * @return O nome da view a ser exibida
      */
+    
+	@Autowired
+    private HDataSource ds;
+
     @GetMapping("/professor/validarCandidatura/{candidaturaId}")
     public String exibirTelaValidacao(@PathVariable Long candidaturaId, Model model) {
-        try {
-            // Obtém a candidatura pelo ID
+        try (Connection conn = ds.getConnection()){
+            
             Candidatura candidatura = candidaturaDao.get(candidaturaId);
+            
+            Aluno a = AlunoDao.get(conn, candidatura.getId());
+			
+			if (a.getFotoPerfil() != null) {
+			    String fotoPerfilBase64 = Base64.getEncoder().encodeToString(a.getFotoPerfil());
+			    model.addAttribute("fotoPerfil", fotoPerfilBase64);
+			}
+
             if (candidatura == null) {
                 model.addAttribute("erro", "Candidatura não encontrada.");
                 return "error";
@@ -274,9 +304,17 @@ public class CandidaturaController {
      */
     @GetMapping("/professor/verCandidatura/{candidaturaId}")
     public String exibirDetalhesCandidatura(@PathVariable Long candidaturaId, Model model) {
-        try {
+        try (Connection conn = ds.getConnection()){
             // Busca a candidatura pelo ID
             Candidatura candidatura = candidaturaDao.get(candidaturaId);
+            
+            
+            Aluno a = AlunoDao.get(conn, candidaturaId);
+			
+			if (a.getFotoPerfil() != null) {
+			    String fotoPerfilBase64 = Base64.getEncoder().encodeToString(a.getFotoPerfil());
+			    model.addAttribute("fotoPerfil", fotoPerfilBase64);
+			}
             if (candidatura == null) {
                 model.addAttribute("erro", "Candidatura não encontrada.");
                 return "error";

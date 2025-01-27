@@ -22,7 +22,7 @@
 
 
 		<div class="card">
-			<img src="/img/default-avatar.png" alt="Foto do Aluno">
+			<img th:src="'data:image/jpeg;base64,' + ${fotoPerfil}" alt="Foto de Perfil" onerror="this.src='../img/foto-perfil-padrao.png'">
 			<div>
 				<a th:if="${candidatura.candidato != null}"
 					th:text="${candidatura.candidato.nome}"
