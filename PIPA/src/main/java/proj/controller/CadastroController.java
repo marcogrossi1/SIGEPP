@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import proj.dao.HDataSource;
@@ -32,8 +34,24 @@ public class CadastroController {
     }
 
     @PostMapping("/aluno")
-    public String criaNovoAluno(@ModelAttribute Aluno aluno, Model model) {
+     public String criaNovoAluno(@ModelAttribute Aluno aluno, 
+                                @RequestParam("fotoPerfil") MultipartFile fotoPerfil,
+                                @RequestParam("bannerPerfil") MultipartFile bannerPerfil,
+                                Model model) {
         try (Connection conn = ds.getConnection()) {
+            if (!fotoPerfil.isEmpty()) {
+                aluno.setFotoPerfil(fotoPerfil.getBytes());
+            } else {
+                aluno.setFotoPerfil(null);
+            }
+            if (!bannerPerfil.isEmpty()) {
+                aluno.setBannerPerfil(bannerPerfil.getBytes());
+            } else {
+                aluno.setBannerPerfil(null);
+            }
+            if (aluno.getDescricaoPerfil() == null || aluno.getDescricaoPerfil().isEmpty()) {
+                aluno.setDescricaoPerfil(null);
+            }
             AlunoDao.insert(conn, aluno);
             return "redirect:/aluno";
         } catch (Exception e) {
@@ -42,6 +60,7 @@ public class CadastroController {
             return "aluno/home";
         }
     }
+
 
     @GetMapping("/professor")
     public String mostraFormularioCadastroProfessor(Model model) {

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/config.css}">
 </head>
 <body>
     <header>
@@ -13,23 +14,71 @@
     </header>
     <main>
         <form id="aluno-inputs" th:action="@{/cadastro/aluno}" th:object="${aluno}" method="post" enctype="multipart/form-data">
-            <input type="hidden" th:field="*{id}">
+            <input type="hidden" name="id" th:value="${usuario.id}">
             <label for="cpf">CPF:</label>
             <input type="text" name="cpf" th:field="*{cpf}" required>
             <label for="nome">Nome:</label>
             <input type="text" name="nome" th:field="*{nome}" required>
-            <label for="curso">Curso:</label>
-            <input type="text" name="curso" th:field="*{curso}" required>
+            <select class="conta-config" id="curso" name="curso">
+                <option value="" disabled selected th:text="${curso}"></option>
+                <optgroup label="Graduação">
+                    <option value="Administração" th:selected="'Administração' == ${curso}">Administração</option>
+                    <option value="Engenharia de Computação" th:selected="'Engenharia de Computação' == ${curso}">Engenharia de Computação</option>
+                    <option value="Engenharia de Produção Civil – Engenharia Civil" th:selected="'Engenharia de Produção Civil – Engenharia Civil' == ${curso}">Engenharia de Produção Civil – Engenharia Civil</option>
+                    <option value="Engenharia Elétrica" th:selected="'Engenharia Elétrica' == ${curso}">Engenharia Elétrica</option>
+                    <option value="Engenharia Mecânica" th:selected="'Engenharia Mecânica' == ${curso}">Engenharia Mecânica</option>
+                    <option value="Formação Pedagógica de Docentes – Programa Especial de Formação de Docentes" th:selected="'Formação Pedagógica de Docentes – Programa Especial de Formação de Docentes' == ${curso}">Formação Pedagógica de Docentes</option>
+                    <option value="Engenharia Ambiental e Sanitária" th:selected="'Engenharia Ambiental e Sanitária' == ${curso}">Engenharia Ambiental e Sanitária</option>
+                    <option value="Engenharia de Materiais" th:selected="'Engenharia de Materiais' == ${curso}">Engenharia de Materiais</option>
+                    <option value="Engenharia de Transportes" th:selected="'Engenharia de Transportes' == ${curso}">Engenharia de Transportes</option>
+                    <option value="Letras" th:selected="'Letras' == ${curso}">Letras</option>
+                    <option value="Química Tecnológica" th:selected="'Química Tecnológica' == ${curso}">Química Tecnológica</option>
+                </optgroup>
+                <optgroup label="Técnico">
+                    <option value="Controle Ambiental" th:selected="'Controle Ambiental' == ${curso}">Controle Ambiental</option>
+                    <option value="Eletroeletrônica" th:selected="'Eletroeletrônica' == ${curso}">Eletroeletrônica</option>
+                    <option value="Eletrotécnica" th:selected="'Eletrotécnica' == ${curso}">Eletrotécnica</option>
+                    <option value="Hospedagem" th:selected="'Hospedagem' == ${curso}">Hospedagem</option>
+                    <option value="Mecânica" th:selected="'Mecânica' == ${curso}">Mecânica</option>
+                    <option value="Metalurgia" th:selected="'Metalurgia' == ${curso}">Metalurgia</option>
+                    <option value="Química" th:selected="'Química' == ${curso}">Química</option>
+                    <option value="Desenvolvimento de Sistemas" th:selected="'Desenvolvimento de Sistemas' == ${curso}">Desenvolvimento de Sistemas</option>
+                    <option value="Eletromecânica" th:selected="'Eletromecânica' == ${curso}">Eletromecânica</option>
+                    <option value="Equipamentos Biomédicos" th:selected="'Equipamentos Biomédicos' == ${curso}">Equipamentos Biomédicos</option>
+                    <option value="Informática" th:selected="'Informática' == ${curso}">Informática</option>
+                    <option value="Mecatrônica" th:selected="'Mecatrônica' == ${curso}">Mecatrônica</option>
+                    <option value="Mineração" th:selected="'Mineração' == ${curso}">Mineração</option>
+                    <option value="Rede de Computadores" th:selected="'Rede de Computadores' == ${curso}">Rede de Computadores</option>
+                    <option value="Edificações" th:selected="'Edificações' == ${curso}">Edificações</option>
+                    <option value="Eletrônica" th:selected="'Eletrônica' == ${curso}">Eletrônica</option>
+                    <option value="Estradas" th:selected="'Estradas' == ${curso}">Estradas</option>
+                    <option value="Informática para Internet" th:selected="'Informática para Internet' == ${curso}">Informática para Internet</option>
+                    <option value="Meio Ambiente" th:selected="'Meio Ambiente' == ${curso}">Meio Ambiente</option>
+                    <option value="Produção de Moda" th:selected="'Produção de Moda' == ${curso}">Produção de Moda</option>
+                    <option value="Trânsito" th:selected="'Trânsito' == ${curso}">Trânsito</option>
+                </optgroup>
+            </select>
             <label for="campus">Campus:</label>
-            <input type="text" name="campus" th:field="*{campus}" required>
+            <select class="conta-config" id="campus" name="campus">
+                <option value="" disabled selected th:text="${campus}"></option>
+                <option value="Nova Suíça">Nova Suíça</option>
+                <option value="Nova Gameleira">Nova Gameleira</option>
+                <option value="Gameleira">Gameleira</option>
+                <option value="Contagem">Contagem</option>
+                <option value="Curvelo">Curvelo</option>
+                <option value="Leopoldina">Leopoldina</option>
+                <option value="Nepomuceno">Nepomuceno</option>
+                <option value="Timóteo">Timóteo</option>
+                <option value="Varginha">Varginha</option>
+            </select>
             <label for="email">Email:</label>
             <input type="email" name="email" th:field="*{email}" required>
+            <label for="senha">Senha:</label>
+            <input class="conta-config" type="password" id="senha" name="senha" placeholder="••••••••••••">
             <label for="periodo">Período:</label>
             <input type="text" name="periodo" th:field="*{periodo}" required>
             <label for="telefone">Telefone:</label>
             <input type="text" name="telefone" th:field="*{telefone}" required>
-            <label for="usuario_id">ID do Usuário:</label>
-            <input type="text" name="usuario_id" th:field="*{usuario_id}">
             <label for="fotoPerfil">Foto de Perfil:</label>
             <input type="file" name="fotoPerfil" th:field="*{fotoPerfil}">
             <label for="bannerPerfil">Banner de Perfil:</label>
