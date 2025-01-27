@@ -396,7 +396,7 @@ label {
         max-width: 100%;
     }
 }
-.estagio-section {
+.estagio-section, .estagio-section section a{
     text-decoration: none;
     color: black;
 }

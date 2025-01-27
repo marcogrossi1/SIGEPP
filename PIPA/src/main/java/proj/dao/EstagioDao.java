@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+import java.util.List;
+import proj.model.Aluno;
 import proj.model.Estagio;
-
+import proj.model.Progresso;
+import proj.dao.AlunoDao;
 public class EstagioDao extends AbstractDaoBase {
 	private final static String getsql = "SELECT * FROM Estagio WHERE id = ?";
 	private final static String listsql = "SELECT * FROM Estagio";
@@ -259,4 +262,29 @@ public class EstagioDao extends AbstractDaoBase {
 	            ps = null;
 	        }
 	    }
+        public static void listCandidatos(Connection conn, Long id_estagio, ArrayList<Aluno> aluno, List<Progresso> progressoAlunos)
+        throws SQLException, NotFoundException{
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            try {
+                ps = conn.prepareStatement("SELECT * FROM aluno_has_estagio WHERE estagio_id = ?");
+                ps.setLong(1, id_estagio);
+                rs = ps.executeQuery();
+                if (!rs.next()){
+                    aluno = new ArrayList<>();
+                    progressoAlunos = new ArrayList<>();
+                    return;
+                }
+                do{    
+                    Long id = rs.getLong("aluno_id");
+                    Progresso pro = Progresso.valueOf(rs.getString("progresso").toUpperCase());
+                    Aluno al = AlunoDao.get(conn, id);
+                    aluno.add(al);
+                    progressoAlunos.add(pro);
+                }while(rs.next());
+            }catch (SQLException e){throw e;}
+            finally{closeResource(ps,rs); ps = null;rs = null; }
+        }
+    
 }
+    

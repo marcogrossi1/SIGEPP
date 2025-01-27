@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="icon" href="../img/icon.png">
+    <title>Estágios - Home</title>
+</head>
+<body>
+
+    <header>
+        <a href="/empresa"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav>
+	<p id="nome-no-portal" th:text="${empresa.nome}"></p>
+        <a href="/empresa/perfil" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+    </nav>
+	<main>
+                <h2>Alunos inscritos:</h2>
+                
+                <p th:if="${#lists.isEmpty(candidatos)}">Nenhum candidato encontrado.</p>
+                <div class="estagio-section">
+                    <section th:unless="${#lists.isEmpty(candidatos)}" th:each="aluno, iterStat : ${candidatos}">
+                        <a th:href="'/perfil-aluno?id='+ ${aluno.id}">
+                        <h3 th:text="${aluno.nome}"></h3></a>
+                        <p th:text="${progresso[iterStat.index]}"></p>
+                        <a th:if="${progresso[iterStat.index].name() == 'PENDENTE'}" th:href="'/empresa/aprovar?n='+${aluno.id}"><button id='good' th:text='Aprovar'></a>
+                        <a th:if="${progresso[iterStat.index].name() == 'APROVADO'}" th:href="'/empresa/concluir?n='+${aluno.id}"><button id='good' th:text='Finalizar'></a>
+                        <a th:href="'/empresa/remover?n='+${aluno.id}"><button id='bad' th:text='Remover'></a>
+                    </section>
+                </div>
+                
+                
+                <a th:href="'/empresa/detalhes-estagio?='+ ${estagioId}">
+                    <button>Voltar</button>
+                </a>
+	</main>
+    
+</body>
+</html>

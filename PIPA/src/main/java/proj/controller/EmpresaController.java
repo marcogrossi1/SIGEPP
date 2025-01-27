@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import proj.dao.EmpresaDao;
 import proj.dao.HDataSource;
 import proj.dao.UsuarioDao;
+import proj.model.Aluno;
 import proj.model.Empresa;
+import proj.model.Progresso;
 import proj.model.Usuario;
 
 @Controller
@@ -61,8 +63,29 @@ public class EmpresaController {
             return "empresa/detalhesEstagio";
             }catch(Exception e) {
                 return mostraPaginaDeErro(model, e.getMessage());
+            } 
+        }
+        @GetMapping("/candidatos-estagio")
+        public String mostraCandidatosEstagio(Model model, Principal principal, @RequestParam("n") long id){
+            try(Connection conn = ds.getConnection()){
+                Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+                if (u.getRole().equals("Empresa") == false)
+                    return mostraPaginaDeErro(model , "Usuário não é uma Empresa!");
+                Empresa emp = EmpresaDao.getByCnpj(conn, principal.getName());
+                Estagio est = EstagioDao.get(conn, id);
+                if(!emp.getNome().equals(est.getEmpresa()))
+                    return mostraPaginaDeErro(model, "Estágio selecionado não pertence à empresa.");
+                ArrayList<Aluno> aluno = new ArrayList<>();
+                ArrayList<Progresso> progresso = new ArrayList<>();
+                EstagioDao.listCandidatos(conn, id, aluno, progresso);
+                model.addAttribute("empresa", emp);
+                model.addAttribute("candidatos", aluno);
+                model.addAttribute("progresso", progresso);
+                model.addAttribute("estagioId", id);
+                return "empresa/candidaturas";
+            }catch(Exception ex){
+                return mostraPaginaDeErro(model, ex.getMessage());
             }
-         
         }
         @GetMapping("/criar")
         public String criarEstagio(Model model, Principal principal){
