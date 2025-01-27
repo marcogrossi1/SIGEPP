@@ -5,7 +5,10 @@ import java.security.Principal;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,16 +31,16 @@ import proj.dao.AlunoDao;
 import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
-import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
+import proj.dao.SecaoDao;
 import proj.dao.SeguidoresDao;
 import proj.dao.UsuarioDao;
 import proj.model.Administrador;
 import proj.model.Aluno;
 import proj.model.Empresa;
 import proj.model.Estagio;
-import proj.model.Professor;
 import proj.model.Projeto;
+import proj.model.Secao;
 import proj.model.Usuario;
 
 @Controller
@@ -55,6 +58,8 @@ public class PerfilAlunoController {
         	model.addAttribute("usuario", u);
 
 			Aluno a = AlunoDao.get(conn, alunoId);
+			List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, alunoId);
+			model.addAttribute("secoes", secoes);
 			
 			if (a.getFotoPerfil() != null) {
 			    String fotoPerfilBase64 = Base64.getEncoder().encodeToString(a.getFotoPerfil());
@@ -83,33 +88,6 @@ public class PerfilAlunoController {
 			if (u.getRole().equals("Aluno")) {
                 return "perfilAluno";
             }
-    
-            else if (u.getRole().equals("Administrador")) {
-                Administrador adm = AdministradorDao.getByCpf(conn, principal.getName());
-                ArrayList<Empresa> empresas = AdministradorDao.listEmpresas(conn);
-
-                model.addAttribute("administrador", adm);
-                model.addAttribute("listaEmpresas", empresas);
-
-                return "perfilAluno";
-            }
-    
-            else if (u.getRole().equals("Empresa")) {
-            	Empresa emp = EmpresaDao.getByUsuario_id(conn, u.getId());
-            	
-            	model.addAttribute("empresa", emp);
-            	
-                return "perfilAluno";
-            }
-			
-            else if (u.getRole().equals("Professor")) {
-            	Professor p = ProfessorDao.getByUsuario_id(conn, u.getId());
-            	
-            	model.addAttribute("professor", p);
-            	
-                return "perfilAluno";
-            }
-
 			else {
 				return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
 			}
@@ -272,4 +250,69 @@ public class PerfilAlunoController {
 	        return "erro";
 	    }
 	}
+	
+	@PostMapping("/atualizar-secoes")
+	public String atualizarSecoes(
+		@RequestParam(value = "id", required = true) Long usuarioId,
+        @RequestParam(value = "titulo", required = false, defaultValue = "") String titulo,
+        @RequestParam(value = "conteudoTexto", required = false, defaultValue = "Escreva seu texto...") String conteudoTexto,
+        @RequestParam(value = "tipo", required = true) String tipo,
+        @RequestParam(value = "ordem", required = true) Integer ordem,
+        @RequestParam(value = "comprimentoConteudoTexto", required = false) Integer comprimentoConteudoTexto,
+        @RequestParam(value = "alturaConteudoTexto", required = false) Integer alturaConteudoTexto,
+	    Model model) {
+
+	    try (Connection conn = ds.getConnection()) {
+	        if (ordem == null) 
+	        	ordem = 0;
+	        
+	        //VERIFICAR SE TÁ DANDO LARGURA E ALTURA MESMO DO CONTEUDO TEXTO
+	        System.out.println("Largura: " + comprimentoConteudoTexto + ", Altura: " + alturaConteudoTexto);
+	        
+            Secao sec = new Secao();
+            sec.setUsuarioId(usuarioId);
+            sec.setTipo(tipo);
+            sec.setTitulo(titulo);
+            
+            if (conteudoTexto == null || conteudoTexto.isEmpty())
+            	sec.setConteudoTexto("Escreva seu texto..."); 
+            else {
+            	sec.setConteudoTexto(conteudoTexto); 
+            }            
+            
+            sec.setOrdem(ordem);
+            sec.setComprimentoConteudoTexto(comprimentoConteudoTexto);
+            sec.setAlturaConteudoTexto(alturaConteudoTexto);
+            
+            SecaoDao.salvarSecao(conn, sec);
+	       
+	        conn.commit();
+
+	        return "redirect:/perfil-aluno?id=" + usuarioId;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("message", "Erro ao salvar as seções: " + e.getMessage());
+	        return "erro";
+	    }
+	}
+	
+	@PostMapping("/apagar-secao")
+	public String apagarSecao(
+		@RequestParam("idSecao") Long secaoId,
+		@RequestParam("idUsuario") Long alunoId,
+	    Model model) {
+
+	    try (Connection conn = ds.getConnection()) {
+
+            SecaoDao.excluirSecao(conn, secaoId);
+	        conn.commit();
+
+	        return "redirect:/perfil-aluno?id=" + alunoId;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("message", "Erro ao salvar as seções: " + e.getMessage());
+	        return "erro";
+	    }
+	}
+
 }

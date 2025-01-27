@@ -7,7 +7,8 @@ CREATE TABLE Usuario (
   senha VARCHAR(255) NOT NULL,
   role VARCHAR(45) NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE INDEX nome_UNIQUE (nome ASC) )
+  UNIQUE INDEX nome_UNIQUE (nome ASC) 
+)
 ENGINE = InnoDB default character set = utf8;
   
 -- -----------------------------------------------------
@@ -247,3 +248,20 @@ CREATE TABLE Seguidores (
     REFERENCES Usuario (id)
     )
 ENGINE = InnoDB default character set = utf8;
+
+  -- -----------------------------------------------------
+-- Table SEÇÕES COLOCAR conteudoVideo, e outras coisas necesariasssssssssssssssssssssssssss
+-- -----------------------------------------------------
+
+CREATE TABLE secoes (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Usuario_id BIGINT NULL,
+    titulo VARCHAR(255) DEFAULT "Sem título",
+    tipo VARCHAR(255) NOT NULL,
+    conteudoTexto LONG TEXT,
+    comprimentoConteudoTexto INT NULL,
+    alturaConteudoTexto INT NULL,
+    conteudoImagem LONGBLOB NULL,
+    ordem INT,
+  	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
+)
