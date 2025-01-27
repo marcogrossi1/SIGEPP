@@ -400,13 +400,11 @@ function criarSecao(tipo) {
 		            [{ 'size': ['small', false, 'large', 'huge'] }],
 		            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
 		            [{ 'align': [] }],
-		            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+		            ['bold', 'italic', 'underline', 'strike'],
 		            [{ 'color': [] }, { 'background': [] }],
-		            ['link', 'image', 'video', 'formula'],
-		            [{ 'script': 'sub' }, { 'script': 'super' }],
+		            ['link', 'video', 'formula'],
 		            [{ 'indent': '-1' }, { 'indent': '+1' }],
 		            [{ 'direction': 'rtl' }],
-		            ['code-block'],
 		            ['clean']
 		        ]
 		    }
