@@ -258,7 +258,7 @@ CREATE TABLE secoes (
     Usuario_id BIGINT NULL,
     titulo VARCHAR(255) DEFAULT "Sem título",
     tipo VARCHAR(255) NOT NULL,
-    conteudoTexto LONG TEXT,
+    conteudoTexto LONGTEXT,
     comprimentoConteudoTexto INT NULL,
     alturaConteudoTexto INT NULL,
     conteudoImagem LONGBLOB NULL,
