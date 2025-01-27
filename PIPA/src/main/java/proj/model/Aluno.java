@@ -12,6 +12,9 @@ public class Aluno{
 	private String email;
 	private String periodo;
 	private String telefone;
+	private byte[] fotoPerfil;
+	private byte[] bannerPerfil;
+	private String descricaoPerfil;
 	private long usuario_id;
 	
 	private ArrayList<Estagio> listaEstagio = new ArrayList<Estagio>();
@@ -113,4 +116,29 @@ public class Aluno{
 	public void setUsuario_id(long usuario_id) {
 		this.usuario_id = usuario_id;
 	}
+	
+	public byte[] getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(byte[] fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+
+    public byte[] getBannerPerfil() {
+        return bannerPerfil;
+    }
+
+    public void setBannerPerfil(byte[] bannerPerfil) {
+        this.bannerPerfil = bannerPerfil;
+    }
+
+    public String getDescricaoPerfil() {
+        return descricaoPerfil;
+    }
+
+    public void setDescricaoPerfil(String descricaoPerfil) {
+        this.descricaoPerfil = descricaoPerfil;
+    }
+
 }
