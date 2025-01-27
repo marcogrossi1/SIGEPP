@@ -248,6 +248,100 @@ public class AdministradorController {
             return mostraPaginaDeErro(model, "Não foi possível deletar.");
         }
     }
+    
+    @GetMapping("/listar-alunos/editar")
+    public String mostraTelaDeEdicao(@RequestParam("id") Long id, Model model, Principal principal) {
+    	
+    	 try(Connection conn = ds.getConnection())
+         {
+    		 Aluno a = AlunoDao.get(conn, id);
+    		   		 
+    		 
+              model.addAttribute("aluno", a);
+              
+              System.out.println(a);
+
+         }
+    	 
+    	 catch(Exception e) {
+             return mostraPaginaDeErro(model, "Erro");
+         }
+    	    	
+    	    	    	
+    	 return "administrador/editarAluno";
+    }
+    
+    @PostMapping("/listar-alunos/editado")
+    public String alteraAluno(
+    		@RequestParam(value = "id", required = false) String id, 
+    		@RequestParam(value = "nome", required = false) String nome,
+    	    @RequestParam(value = "cpf", required = false) String cpf,
+    	    @RequestParam(value = "curso", required = false) String curso,
+    	    @RequestParam(value = "campus", required = false) String campus,
+    	    @RequestParam(value = "periodo", required = false) String periodo,
+    	    @RequestParam(value = "telefone", required = false) String telefone,
+    	    @RequestParam(value = "email", required = false) String email,
+    	    Model model, Principal principal) {
+    	
+    	
+    	 try(Connection conn = ds.getConnection())
+         {
+    		 
+    		 
+    		 long id_conv = Long.parseLong(id);
+    		 
+    		 Aluno a = AlunoDao.get(conn, id_conv);
+    		 
+    		 if (nome != null && !nome.isEmpty()) {
+    			 a.setNome(nome);
+    		 }
+    		 
+    		 if (cpf != null && !cpf.isEmpty()) {    		 
+    			 a.setCpf(cpf);    	
+    			 UsuarioDao.updateForNome(conn, a.getUsuario_id(), cpf);
+    		 }
+    		 
+    		 if (curso != null && !curso.isEmpty()) {
+    			 a.setCurso(curso);
+    		 }
+    		 
+    		 if (campus != null && !campus.isEmpty()) {
+    			 a.setCampus(campus);
+    		 }
+    		 
+    		 if (periodo != null && !periodo.isEmpty()) {
+    			 a.setPeriodo(periodo);
+    		 }
+    		 
+    		 if (telefone != null && !telefone.isEmpty()) {
+    			 a.setTelefone(telefone);
+    		 }
+    		 
+    		 if (email != null && !email.isEmpty()) {
+    			 a.setEmail(email);
+    		 }
+
+    		 
+    		 System.out.println(a);
+    		 
+    		 AlunoDao.update(conn, a);
+    		 conn.commit();  		 
+    		 
+    		 
+
+              model.addAttribute("aluno", a);
+
+         }
+    	 
+    	 catch(Exception e) {
+    		 e.printStackTrace();
+             return mostraPaginaDeErro(model, "Erro ao atualizar no banco");
+         }
+    	
+    	
+    	 return "redirect:/administrador/listar-alunos";
+    }
+    
 }
 
 

@@ -32,7 +32,7 @@ public class AlunoDao {
     private final static String listCampusSql = "SELECT DISTINCT campus FROM aluno ORDER BY campus";
     private final static String listPeriodosSql = "SELECT DISTINCT periodo FROM aluno ORDER BY periodo";
     private final static String insertsql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id) VALUES( ?, ?, ?, ?, ?, ?, ?) ";
-    private final static String updatesql = "UPDATE aluno SET cpf = ?, nome = ?, curso = ?, campus = ?, email = ?, periodo = ?, usuario_id = ? WHERE id = ? ";
+    private final static String updatesql = "UPDATE aluno SET cpf = ?, nome = ?, curso = ?, campus = ?, email = ?, periodo = ?, usuario_id = ?, telefone = ? WHERE id = ? ";
     private final static String updateForCpfSql = "UPDATE aluno SET cpf = ?  WHERE id = ? ";
     private final static String updateForNomeSql = "UPDATE aluno SET nome = ?  WHERE id = ? ";
     private final static String updateForCursoSql = "UPDATE aluno SET curso = ?  WHERE id = ? ";
