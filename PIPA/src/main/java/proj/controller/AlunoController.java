@@ -54,7 +54,7 @@ public class AlunoController {
 			model.addAttribute("estagios", estagios);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return mostraPaginaDeErro(model, "Erro interno na aplicação!.");
+			return mostraPaginaDeErro(model, e.getMessage());
 		}
 
 		return "aluno/home";

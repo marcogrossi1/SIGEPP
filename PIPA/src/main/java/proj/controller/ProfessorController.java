@@ -89,7 +89,8 @@ public class ProfessorController {
         System.out.println("Responsável: " + projeto.getResponsavel());
         System.out.println("Descrição: " + projeto.getDescricao());
         System.out.println("Carga Horária: " + projeto.getCargaHoraria());
-        System.out.println("Vagas: " + projeto.getVagas());
+        System.out.println("Vagas Remuneradas: " + projeto.getVagasRemuneradas());
+        System.out.println("Vagas Voluntárias: " + projeto.getVagasVoluntarias());
         System.out.println("Requisito: " + projeto.getRequisito());
 
         try (Connection conn = ds.getConnection()) {

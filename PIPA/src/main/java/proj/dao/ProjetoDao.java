@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.sql.results.spi.ResultsConsumer;
+
 import proj.model.Projeto;
-import proj.model.Projeto.Curso;
 import proj.model.Projeto.TipoProjeto;
+import proj.model.Curso;
 
 public class ProjetoDao {
     private final static String getsql = "SELECT * FROM Projeto  WHERE id = ?";
@@ -23,6 +25,7 @@ public class ProjetoDao {
     private final static String updatesql = "UPDATE Projeto SET nome = ?, responsavel = ?, descricao = ?, carga_horaria = ?, vagas_remuneradas = ?, vagas_voluntarias = ?, requisito = ?, campus = ?, tipo_projeto = ?, curso = ? WHERE id = ? ";
     private final static String deletesql = "DELETE FROM Projeto WHERE id = ?";
     private final static String getByNomeSql = "SELECT * FROM Projeto WHERE nome = ?";
+    private final static String getCursosByProjetoIDsql = "SELECT curso_id FROM Projeto_has_Curso WHERE projeto_id = ?";
 
     static Projeto set(ResultSet rs)
             throws SQLException {
@@ -32,13 +35,12 @@ public class ProjetoDao {
         vo.setResponsavel(rs.getString("responsavel"));
         vo.setDescricao(rs.getString("descricao"));
         vo.setCargaHoraria(rs.getInt("carga_horaria"));
-        vo.setVagasRemuneradas(rs.getInt("vagas_remuneradas")); // Alterado para 'vagas_remuneradas'
-        vo.setVagasVoluntarias(rs.getInt("vagas_voluntarias")); // Alterado para 'vagas_voluntarias'
+        vo.setVagasRemuneradas(rs.getInt("vagas_remuneradas"));
+        vo.setValorBolsa(rs.getString("valor_bolsa"));
+        vo.setVagasVoluntarias(rs.getInt("vagas_voluntarias"));
         vo.setRequisito(rs.getString("requisito"));
-        vo.setCampus(rs.getString("campus")); // Alterado para 'campus'
-        vo.setTipoProjeto(TipoProjeto.valueOf(rs.getString("tipo_projeto"))); // Alterado para 'tipo_projeto' usando
-                                                                              // enum
-        vo.setCurso(Curso.valueOf(rs.getString("curso"))); // Alterado para 'curso' usando enum
+        vo.setCampus(rs.getString("campus"));
+        vo.setTipoProjeto(TipoProjeto.valueOf(rs.getString("tipo_projeto")));
         return vo;
     }
 
@@ -155,8 +157,7 @@ public class ProjetoDao {
             ps.setInt(6, vo.getVagasVoluntarias());
             ps.setString(7, vo.getRequisito());
             ps.setString(8, vo.getCampus());
-            ps.setString(9, vo.getTipoProjeto().getDescricao());
-            ps.setString(10, vo.getCurso().getDescricao());
+            ps.setString(9, vo.getTipoProjeto().getnomeTipo());
             ps.setLong(11, vo.getId());
             ps.executeUpdate();
 
@@ -202,8 +203,7 @@ public class ProjetoDao {
             ps.setInt(6, vo.getVagasVoluntarias());
             ps.setString(7, vo.getRequisito());
             ps.setString(8, vo.getCampus());
-            ps.setString(9, vo.getTipoProjeto().getDescricao());
-            ps.setString(10, vo.getCurso().getDescricao());
+            ps.setString(9, vo.getTipoProjeto().getnomeTipo());
             ps.setLong(11, vo.getId());
 
             // Executa a atualização
@@ -401,5 +401,40 @@ public class ProjetoDao {
         }
 
         return projetosIds;
+    }
+
+    /**
+     * Retorna uma lista de cursos relacioandos a um projeto.
+     *
+     * @param conn        A conexão com o banco de dados.
+     * @param projetoId O ID do projeto.
+     * @return Uma lista de cursos relacionados ao projeto.
+     * @throws SQLException Se ocorrer um erro durante a consulta.
+     */
+    public ArrayList<Curso> getCursos(Connection conn, int projetoId) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            // Cria uma lista com os ids dos cursos.
+            ps = conn.prepareStatement(getCursosByProjetoIDsql);
+            ps.setInt(1, projetoId);
+            rs = ps.executeQuery();
+            ArrayList<Integer> ids = new ArrayList<>();
+            while (rs.next()) {
+                ids.add(rs.getInt("curso_id"));
+            }
+
+            // A partir da lista de IDs, monta a lista de cursos.
+            ArrayList<Curso> cursos = new ArrayList<>();
+            for (int id : ids) {
+                Curso c = CursoDao.get(conn, id);
+                cursos.add(c);
+            }
+            return cursos;
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResource(ps, rs);
+        }
     }
 }
