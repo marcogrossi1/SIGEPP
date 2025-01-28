@@ -33,8 +33,8 @@ public class AlunoDao {
     private final static String listCursosSql = "SELECT DISTINCT curso FROM aluno ORDER BY curso";
     private final static String listCampusSql = "SELECT DISTINCT campus FROM aluno ORDER BY campus";
     private final static String listPeriodosSql = "SELECT DISTINCT periodo FROM aluno ORDER BY periodo";
-    private final static String insertsql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id, telefone, fotoPerfil, bannerPerfil, descricaoPerfil) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
-    private final static String updatesql = "UPDATE aluno SET cpf = ?, nome = ?, curso = ?, campus = ?, email = ?, periodo = ?, usuario_id = ?, telefone = ?, fotoPerfil = ?, bannerPerfil = ?, descricaoPerfil = ? WHERE id = ? ";
+    private final static String insertsql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id) VALUES( ?, ?, ?, ?, ?, ?, ?) ";
+    private final static String updatesql = "UPDATE aluno SET cpf = ?, nome = ?, curso = ?, campus = ?, email = ?, periodo = ?, usuario_id = ?, telefone = ? WHERE id = ? ";
     private final static String updateForCpfSql = "UPDATE aluno SET cpf = ?  WHERE id = ? ";
     private final static String updateForNomeSql = "UPDATE aluno SET nome = ?  WHERE id = ? ";
     private final static String updateForCursoSql = "UPDATE aluno SET curso = ?  WHERE id = ? ";
@@ -614,8 +614,8 @@ public class AlunoDao {
     	String sql2 = "delete from aluno_has_estagio where aluno_id = ? ";
     	String sql3 = "delete from candidatura where candidato_id = ? ";
     	String sql4 = "delete from aluno where id = ? ";
-    	String sql5 = "delete from seguidores where seguindo_id = ? ";
-    	String sql6 = "delete from seguidores where seguidor_id = ? ";
+    	String sql5 = "delete from seguidores where seguidor_id = ? ";
+    	String sql6 = "delete from seguidores where seguindo_id = ? ";
     	String sql7 = "delete from usuario where id = ? ";
     	
     	
