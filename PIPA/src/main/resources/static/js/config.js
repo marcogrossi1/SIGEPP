@@ -311,6 +311,56 @@ function criarSecao(tipo) {
 
 	    seccao.appendChild(editorContainer);
 		
+		let quill = new Quill(editorContainer, {
+		    theme: 'snow',
+		    modules: {
+		        toolbar: [
+		            [{ 'header': '1' }, { 'header': '2' }, { 'header': [3, 4, 5, 6, false] }, { 'font': [] }], // Cabeçalhos e fontes
+		            [{ 'size': ['small', false, 'large', 'huge'] }], // Tamanhos do texto
+		            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }], // Listas (ordenada, com marcadores, checklist)
+		            [{ 'align': [] }], // Alinhamento
+		            ['bold', 'italic', 'underline', 'strike', 'blockquote'], // Formatação (negrito, itálico, sublinhado, tachado, citação)
+		            [{ 'color': [] }, { 'background': [] }], // Cores do texto e fundo
+		            ['link', 'video', 'formula'], // Links, imagens, vídeos e fórmulas matemáticas
+					['move-video-up', 'move-video-left', 'move-video-right']
+		            [{ 'script': 'sub' }, { 'script': 'super' }], // Subscrito e sobrescrito
+		            [{ 'indent': '-1' }, { 'indent': '+1' }], // Indentação
+		            [{ 'direction': 'rtl' }], // Direção do texto (da direita para esquerda)
+		            ['code-block'], // Bloco de código
+		            ['clean'] // Limpar formatação
+		        ]
+		    }
+		});
+
+		quill.getModule('toolbar').addHandler('video', function() {
+		    let range = quill.getSelection();
+		    let value = prompt('Digite a URL do vídeo');
+
+		    if (value) {
+		        let iframeSrc = '';
+		        if (value.includes('youtube.com')) {
+		            let videoId = value.split('v=')[1].split('&')[0];
+		            iframeSrc = `https://www.youtube.com/embed/${videoId}`;
+		        } else if (value.includes('vimeo.com')) {
+		            let videoId = value.split('vimeo.com/')[1];
+		            iframeSrc = `https://player.vimeo.com/video/${videoId}`;
+		        }
+
+		        if (iframeSrc)
+		            quill.insertEmbed(range.index, 'video', iframeSrc);
+		        else
+		            alert('URL de vídeo não suportada');
+		    }
+		});
+		
+		quill.getModule('toolbar').addHandler('link', function() {
+		    let range = quill.getSelection();
+		    let value = prompt('Digite a URL do link');
+		    if (value) {
+		        quill.format('link', value);
+		    }
+		});
+		
 	    let comprimentoConteudoTextoInput = document.createElement('input');
 	    comprimentoConteudoTextoInput.type = 'hidden';
 	    comprimentoConteudoTextoInput.name = 'comprimentoConteudoTexto';
@@ -392,23 +442,6 @@ function criarSecao(tipo) {
 			editorContainer.style.cursor = 'pointer';
 	    });
 		
-		let quill = new Quill(editorContainer, {
-		    theme: 'snow',
-		    modules: {
-		        toolbar: [
-		            [{ 'header': '1' }, { 'header': '2' }, { 'header': [3, 4, 5, 6, false] }, { 'font': [] }],
-		            [{ 'size': ['small', false, 'large', 'huge'] }],
-		            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-		            [{ 'align': [] }],
-		            ['bold', 'italic', 'underline', 'strike'],
-		            [{ 'color': [] }, { 'background': [] }],
-		            ['link', 'video', 'formula'],
-		            [{ 'indent': '-1' }, { 'indent': '+1' }],
-		            [{ 'direction': 'rtl' }],
-		            ['clean']
-		        ]
-		    }
-		});
 		
 		let conteudoTexto = document.createElement('input');
 	    conteudoTexto.type = 'hidden';

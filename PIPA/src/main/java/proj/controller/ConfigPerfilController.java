@@ -129,6 +129,7 @@ public class ConfigPerfilController {
 	                a.setTelefone(telefone);
 	            }
 	            
+	            //MUDA CPF PRA FAZER LOGIN!!!
 	            if (cpf != null && !cpf.isEmpty()) {
 	                a.setCpf(cpf);
 	                u.setNome(cpf);
