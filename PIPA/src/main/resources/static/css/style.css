@@ -1,50 +1,50 @@
 /* Contêiners */
 body, html {
-    margin: 0;
-    height: 100%;
-    overflow: auto;
+	margin: 0;
+	height: 100%;
+	overflow: auto;
 }
 
 body {
-    overflow-x: hidden;
+	overflow-x: hidden;
 	overflow-y: hidden;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    background-color: #f4f2ee;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	background-color: #f4f2ee;
 }
 
 header {
-    width: 100vw;
-    height: 10vh;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    background-color: #003869;
+	width: 100vw;
+	height: 10vh;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	background-color: #003869;
 }
 
 nav {
-    width: 100vw;
-    height: 5vh;
-    padding: 0 1vw 0 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    align-items: center;
-    background-color: #ffffff;
-    border-bottom: 0.00001vh solid #c5c5c5;
+	width: 100vw;
+	height: 5vh;
+	padding: 0 1vw 0 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+	align-items: center;
+	background-color: #ffffff;
+	border-bottom: 0.00001vh solid #c5c5c5;
 }
 
 main {
-    margin-top: 5vh;
-    width: 64vw;
-    min-height: calc(100vh - 28vh); /* nav + header + navMargin */
-    padding: 3vh; /*     + mainPadding = 18vh */
-    border-radius: 1%;
-    background-color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow-y: auto;
-    max-height: 80vh;
+	margin-top: 5vh;
+	width: 64vw;
+	min-height: calc(100vh - 28vh); /* nav + header + navMargin */
+	padding: 3vh; /*     + mainPadding = 18vh */
+	border-radius: 1%;
+	background-color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	overflow-y: auto;
+	max-height: 80vh;
 }
 
 #main-adm {
@@ -53,78 +53,78 @@ main {
 
 /* Elementos */
 main>:first-child {
-    margin-top: 0;
+	margin-top: 0;
 }
 
-nav> :first-child {
-    position: absolute;
-    top: 8.5vh;
-    left: 1vw;
-    font-size: 1.5em;
+nav>:first-child {
+	position: absolute;
+	top: 8.5vh;
+	left: 1vw;
+	font-size: 1.5em;
 }
 
 .icone {
-    height: 6vh;
-    display: grid;
-    grid-template-rows: 4vh 2vh;
-    color: black;
-    text-decoration: none;
+	height: 6vh;
+	display: grid;
+	grid-template-rows: 4vh 2vh;
+	color: black;
+	text-decoration: none;
 }
 
 .icone img {
-    height: 4vh;
-    grid-row: 1;
-    justify-self: center;
+	height: 4vh;
+	grid-row: 1;
+	justify-self: center;
 }
 
 .icone label {
-    justify-self: center;
-    font-family: Arial, Helvetica, sans-serif;
+	justify-self: center;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .icone:hover {
-    transform: scale(1.1);
+	transform: scale(1.1);
 }
 
 #logo {
-    padding-left: 1vw;
-    height: 8vh;
-    padding-right: 5vw;
+	padding-left: 1vw;
+	height: 8vh;
+	padding-right: 5vw;
 }
 
 #titulo-plataforma {
-    margin: 1.15vh 0 0 0;
-    color: #ffffff;
-    font-size: 3em;
-    font-family: Arial, Helvetica, sans-serif;
+	margin: 1.15vh 0 0 0;
+	color: #ffffff;
+	font-size: 3em;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 input {
-    margin: 1vh 0 1vh 0;
-    min-width: 10vw;
-    height: 2vh;
-    border: 1px solid #c4c0bf;
-    border-radius: 5%;
-    background-color: #fefafa;
+	margin: 1vh 0 1vh 0;
+	min-width: 10vw;
+	height: 2vh;
+	border: 1px solid #c4c0bf;
+	border-radius: 5%;
+	background-color: #fefafa;
 }
 
 button, input[type='submit'] {
-    min-width: 10vw;
-    height: 3vh;
-    border: 1px solid #c4c0bf;
-    border-radius: 5%;
-    background-color: #2e6890;
-    color: white;
-    cursor: pointer;
+	min-width: 10vw;
+	height: 3vh;
+	border: 1px solid #c4c0bf;
+	border-radius: 5%;
+	background-color: #2e6890;
+	color: white;
+	cursor: pointer;
 }
 
 .botoes-portal, .botoes-inicio {
-    background-color: red;
-    all: unset;
-    cursor: pointer;
-    outline: revert;
-    height: 180px;
-    width: 252px;
+	background-color: red;
+	all: unset;
+	cursor: pointer;
+	outline: revert;
+	height: 180px;
+	width: 252px;
 }
 
 .link-logout {
@@ -134,15 +134,15 @@ button, input[type='submit'] {
 }
 
 .botoes-portal:hover, .botoes-inicio:hover, #icone-portal:hover {
-    transform: scale(1.1);
+	transform: scale(1.1);
 }
 
 #botao-estagio, #botao-certificado {
-    margin-left: 50px;
+	margin-left: 50px;
 }
 
 #botao-professor, #botao-empresa {
-    margin-left: 50px;
+	margin-left: 50px;
 }
 
 #botao-adm {
@@ -174,360 +174,381 @@ button, input[type='submit'] {
 }
 
 .imgs-botoes-portal {
-    height: 180px;
-    width: 252px;
-    padding: 0px;
+	height: 180px;
+	width: 252px;
+	padding: 0px;
 }
 
 #subtitulo-portal {
-    text-align: center;
+	text-align: center;
 }
 
 #icone-portal {
-    margin-left: 100px;
+	margin-left: 100px;
 }
 
 #notificacoes-portal {
-    background-color: #2e6890;
-    text-align: center;
+	background-color: #2e6890;
+	text-align: center;
 }
 
 #notificacoes-portal p {
-    color: white;
-    text-align: center;
+	color: white;
+	text-align: center;
 }
 
 #not-um {
-    display: inline;
+	display: inline;
 }
 
 #not-dois, #not-tres, #not-dois-select, #not-tres-select {
-    display: none;
+	display: none;
 }
 
 #avancar-notificacao, #voltar-notificacao {
-    font-size: 40px;
-    background-color: #2e6890;
-    border-color: #2e6890;
+	font-size: 40px;
+	background-color: #2e6890;
+	border-color: #2e6890;
 }
 
 #avancar-notificacao {
-    margin-left: 500px;
+	margin-left: 500px;
 }
 
 .select-not-img {
-    width: 4%;
-    height: 4%;
+	width: 4%;
+	height: 4%;
 }
 
 #section-meus-trabalhos {
-    margin-top: 5vh;
-    margin-left: 100px;
-    padding: 3vh;
-    max-height: calc(100vh - 40vh);
-    border-radius: 1%;
-    background-color: #2e6890;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
+	margin-top: 5vh;
+	margin-left: 100px;
+	padding: 3vh;
+	max-height: calc(100vh - 40vh);
+	border-radius: 1%;
+	background-color: #2e6890;
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 #section-meus-trabalhos ul {
-    padding-left: 4px;
-    font-size: 75%;
+	padding-left: 4px;
+	font-size: 75%;
 }
 
 #nome-no-portal {
-    font-family: Arial, Helvetica, sans-serif;
-    max-height: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    width: 1000px;
-    margin-left: 100px;
+	font-family: Arial, Helvetica, sans-serif;
+	max-height: 100%;
+	max-width: 100%;
+	overflow: hidden;
+	width: 1000px;
+	margin-left: 100px;
 }
 
 #pdfView {
-    width: 500px;
-    height: 500px;
-    border: 1px solid #ccc;
+	width: 500px;
+	height: 500px;
+	border: 1px solid #ccc;
 }
 
 .table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 18px;
-    text-align: left;
+	width: 100%;
+	border-collapse: collapse;
+	margin: 20px 0;
+	font-size: 18px;
+	text-align: left;
 }
 
 .table th, .table td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
+	padding: 12px 15px;
+	border: 1px solid #ddd;
 }
 
 .table th {
-    background-color: #f2f2f2;
-    color: #333;
+	background-color: #f2f2f2;
+	color: #333;
 }
 
 .table tr:nth-child(even) {
-    background-color: #f9f9f9;
+	background-color: #f9f9f9;
 }
 
 .table tr:hover {
-    background-color: #f1f1f1;
+	background-color: #f1f1f1;
 }
 
 /* Atualização para Candidatura */
 #pagina-candidatura {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10px;
+	width: 100%;
 }
 
 #detalhes-candidatura {
-    width: 90%; 
-    max-width: 750px; 
-    background: white;
-    padding: 10px; 
-    border-radius: 8px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+	width: 90%;
+	max-width: 750px;
+	background: white;
+	padding: 10px;
+	border-radius: 8px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 #projeto-detalhes {
-    background-color: #336699;
-    color: white;
-    padding: 10px; 
-    border-radius: 8px;
+	background-color: #336699;
+	color: white;
+	padding: 10px;
+	border-radius: 8px;
 }
 
 #projeto-detalhes p {
-    margin: 5px 0; 
-    font-size: 0.9rem; 
+	margin: 5px 0;
+	font-size: 0.9rem;
 }
 
 #form-candidatura {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 15px;
-    width: 100%;
-    max-width: 500px; 
-    gap: 10px; 
-    padding: 0 10px; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 15px;
+	width: 100%;
+	max-width: 500px;
+	gap: 10px;
+	padding: 0 10px;
 }
 
 #mensagem {
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 8px;
-    resize: vertical;
-    font-size: 0.9rem;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 8px;
+	resize: vertical;
+	font-size: 0.9rem;
 }
 
 #botao-aplicar {
-    background-color: #002855;
-    color: white;
-    border: none;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%; 
-    max-width: 250px;  
-    align-items: center;
+	background-color: #002855;
+	color: white;
+	border: none;
+	font-size: 1rem;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	width: 100%;
+	max-width: 250px;
+	align-items: center;
 }
 
 #botao-aplicar:hover {
-    background-color: #0056b3;
+	background-color: #0056b3;
 }
 
-@media (max-width: 768px) {
-    #pagina-candidatura {
-        padding: 5px; /* Reduzi o padding geral */
-    }
-    #detalhes-candidatura {
-        width: 95%;
-        padding: 10px; /* Reduzi o padding interno */
-    }
-    #form-candidatura {
-        padding: 5px; /* Reduzi o padding lateral */
-    }
-    #botao-aplicar {
-        width: 100%;
-        max-width: 100%; /* Ajustei para ocupar todo o espaço disponível */
-    }
+@media ( max-width : 768px) {
+	#pagina-candidatura {
+		padding: 5px; /* Reduzi o padding geral */
+	}
+	#detalhes-candidatura {
+		width: 95%;
+		padding: 10px; /* Reduzi o padding interno */
+	}
+	#form-candidatura {
+		padding: 5px; /* Reduzi o padding lateral */
+	}
+	#botao-aplicar {
+		width: 100%;
+		max-width: 100%; /* Ajustei para ocupar todo o espaço disponível */
+	}
 }
 
-#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input{
-  font-size: 1rem;
-  letter-spacing: 1px;
+#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input {
+	font-size: 1rem;
+	letter-spacing: 1px;
 }
 
 textarea, input {
-  padding: 10px;
-  width: 95%;
-  line-height: 1.5;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  box-shadow: 1px 1px 1px #999;
+	padding: 10px;
+	width: 95%;
+	line-height: 1.5;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	box-shadow: 1px 1px 1px #999;
 }
 
 label {
-  display: block;
-  margin-bottom: 10px;
-}
-#estagio-inputs{
-    justify-content: center;
-}
-#estagio-inputs input[type='submit']{
-    display: block;
-    text-align: center;
-    padding: 0;
-    height: 4vh;
-    max-width: 50%;
-}
-#criar-button{
-    width: 3vh;
-}
-#apagar-button button{
-    background-color: red;
+	display: block;
+	margin-bottom: 10px;
 }
 
-@media (max-width: 768px) {
-    body {
-        overflow: visible;
-    }
-    #form-candidatura {
-        width: 100%;
-        padding: 10px;
-    }
-    #botao-aplicar {
-        width: 100%;
-        max-width: 100%;
-    }
+#estagio-inputs {
+	justify-content: center;
 }
+
+#estagio-inputs input[type='submit'] {
+	display: block;
+	text-align: center;
+	padding: 0;
+	height: 4vh;
+	max-width: 50%;
+}
+
+#criar-button {
+	width: 3vh;
+}
+
+#apagar-button button {
+	background-color: red;
+}
+
+@media ( max-width : 768px) {
+	body {
+		overflow: visible;
+	}
+	#form-candidatura {
+		width: 100%;
+		padding: 10px;
+	}
+	#botao-aplicar {
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
 .estagio-section {
-    text-decoration: none;
-    color: black;
+	text-decoration: none;
+	color: black;
 }
 
 .estagio-section section {
-    background-color: #EEEEEE;
-    margin: 20px;
+	background-color: #EEEEEE;
+	margin: 20px;
 }
 
 .estagio-section h3, .estagio-section p {
-    margin: 5px;
-    border: 5px;
+	margin: 5px;
+	border: 5px;
 }
 
-#body-candidatura{
+#body-candidatura {
 	overflow-y: auto;
 }
 
 .projeto {
-    background-color: #f4f4f9;
-    padding: 20px;
-    border-radius: 8px;
-    width: 30vw;
-    margin: 3vh auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: auto;
-    border: 0.00001vh solid #c5c5c5;
+	background-color: #f4f4f9;
+	padding: 20px;
+	border-radius: 8px;
+	width: 30vw;
+	margin: 3vh auto;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	height: auto;
+	border: 0.00001vh solid #c5c5c5;
 }
 
-
 .projeto h2 {
-    font-size: 2rem;
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-weight: bold;
+	font-size: 2rem;
+	color: #333;
+	margin-top: 0;
+	margin-bottom: 15px;
+	font-weight: bold;
 }
 
 .projeto p {
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 10px;
+	font-size: 1rem;
+	color: #555;
+	line-height: 1.6;
+	margin-bottom: 10px;
 }
 
 /*para o professor gerenciar os projetos dele*/
 .opcoes {
-    width: 30vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-.botao-editar {      
-    height: 2vh;               
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-}
-
-.botao-editar:hover {
-    background-color: #45a049;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.botao-excluir {     
-    height: 4vh;                 
-    background-color: #ff5555;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-}
-
-.botao-excluir:hover {
-    background-color: #c24c4c;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	width: 30vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
 }
 
 .botao-aplicar {
-    display: inline-block;
-    padding: 15px 30px;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    background: linear-gradient(90deg, #2e6890, #003869);
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
+	display: inline-block;
+	color: white;
+	text-decoration: none;
+	background: linear-gradient(90deg, #2e6890, #003869);
+	border: none;
+	cursor: pointer;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transition: all 0.3s ease-in-out;
+	padding: 10px 15px;
+	border-radius: 5px;
+	font-size: 0.9rem;
+	margin-right: 10px;
+	font-weight: bold;
+	text-align: center;
 }
 
 .botao-aplicar:hover {
-    transform: scale(1.05);
-    background: linear-gradient(90deg, #003869, #2e6890);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+	transform: scale(1.05);
+	background: linear-gradient(90deg, #003869, #2e6890);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
-#redirect-empresa-perfil{
+
+/* Classe comum para todos os botões de projeto */
+.botao-projeto {
+    display: inline-block;
     text-decoration: none;
-    color: black;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem; 
+    margin-right: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none; 
+    line-height: 1.5; 
 }
-#redirect-empresa-perfil:hover{
-    text-decoration: underline;
-    color: purple;
+
+/* IDs específicos para cada botão */
+#botao-projeto-editar {
+    background-color: #4CAF50; /* Verde */
+}
+
+#botao-projeto-editar:hover {
+    background-color: #45a049; /* Verde mais escuro */
+}
+
+#botao-projeto-excluir {
+    min-width: auto;
+    height: auto;
+    background-color: #ff5555; /* Cor de fundo específica para o botão de deletar */
+}
+
+#botao-projeto-excluir:hover {
+    background-color: #c24c4c; /* Vermelho mais escuro */
+}
+
+#botao-projeto-ver {
+    background-color: #007bff; /* Azul */
+}
+
+#botao-projeto-ver:hover {
+    background-color: #0056b3; /* Azul mais escuro */
+}
+
+#redirect-empresa-perfil {
+	text-decoration: none;
+	color: black;
+}
+
+#redirect-empresa-perfil:hover {
+	text-decoration: underline;
+	color: purple;
+}
+
+.seguidor {
+	color: black;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.seguidor:hover {
+	color: rgb(0, 128, 255);
 }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/style-ver-candidatos.css">
+<link rel="icon" href="../img/icon.png">
+<title>Candidatos</title>
+</head>
+<body>
+	<header>
+		<a href="/" th:href="@{/}"> <img id="logo" src="/img/logo.png"
+			alt="Logo"></a>
+		<h1 id="titulo-plataforma">PIPA | Lista de Candidaturas</h1>
+	</header>
+
+	<nav>
+		<p id="nome-no-portal" th:if="${professor != null}"
+			th:text="'Bem-vindo, ' + ${professor.nome}"></p>
+		<p id="nome-no-portal" th:if="${professor == null}">Usuário não
+			autenticado</p>
+	</nav>
+
+	<main>
+		<h2>Gerenciar Candidatos</h2>
+
+		<div class="candidaturas">
+			<div class="candidatura" th:each="candidatura : ${candidaturas}">
+				<div class="info">
+						<img th:src="'data:image/jpeg;base64,' + ${fotoPerfil}" alt="Foto de Perfil" onerror="this.src='../img/foto-perfil-padrao.png'">
+					<p class="nome" th:text="${candidatura.candidato.nome}"></p>
+
+					<p class="status"
+						th:classappend="${candidatura.status.descricao == 'Em Andamento' ? 'pending' : 
+                                         candidatura.status.descricao == 'Validada' ? 'valid' : 
+                                         candidatura.status.descricao == 'Invalidada' ? 'invalid' : ''}"
+						th:text="${candidatura.status.descricao}"></p>
+				</div>
+				<div class="acoes">
+					<a
+						th:href="@{/projeto/professor/validarCandidatura/{candidaturaId}(candidaturaId=${candidatura.id})}"
+						class="botao-aplicar"
+						th:if="${candidatura.status.descricao == 'Em Andamento'}">
+						Validar Candidatura </a> <a
+						th:if="${candidatura.status.descricao != 'Em Andamento'}"
+						th:href="'/projeto/professor/verCandidatura/' + ${candidatura.id}"
+						class="botao-aplicar"> Ver Candidatura </a>
+				</div>
+
+			</div>
+		</div>
+	</main>
+</body>
+</html>
