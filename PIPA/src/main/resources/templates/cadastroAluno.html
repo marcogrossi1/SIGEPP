@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Aluno</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <a href="http://localhost:8080"><img id="logo" th:src="@{/img/logo.png}"></a> <!-- Clique na logo para retornar à página inicial -->
+        <h1 id="titulo-plataforma">PIPA | Portal</h1>
+    </header>
+    <main>
+        <form id="aluno-inputs" th:action="@{/cadastro/aluno}" th:object="${aluno}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}">
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" th:field="*{cpf}" required>
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" th:field="*{nome}" required>
+            <label for="curso">Curso:</label>
+            <input type="text" name="curso" th:field="*{curso}" required>
+            <label for="campus">Campus:</label>
+            <input type="text" name="campus" th:field="*{campus}" required>
+            <label for="email">Email:</label>
+            <input type="email" name="email" th:field="*{email}" required>
+            <label for="periodo">Período:</label>
+            <input type="text" name="periodo" th:field="*{periodo}" required>
+            <label for="telefone">Telefone:</label>
+            <input type="text" name="telefone" th:field="*{telefone}" required>
+            <label for="usuario_id">ID do Usuário:</label>
+            <input type="text" name="usuario_id" th:field="*{usuario_id}">
+            <label for="fotoPerfil">Foto de Perfil:</label>
+            <input type="file" name="fotoPerfil" th:field="*{fotoPerfil}">
+            <label for="bannerPerfil">Banner de Perfil:</label>
+            <input type="file" name="bannerPerfil" th:field="*{bannerPerfil}">
+            <label for="descricaoPerfil">Descrição de Perfil:</label>
+            <textarea name="descricaoPerfil" th:field="*{descricaoPerfil}"></textarea>
+            <input type="submit" th:value="Cadastrar">
+        </form>
+    </main>
+</body>
+</html>
