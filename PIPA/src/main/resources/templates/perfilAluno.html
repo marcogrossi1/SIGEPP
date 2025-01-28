@@ -52,8 +52,8 @@
 		</form>
 		
 		<div class="seguidores">
-		    <button class="botao-seguidores"><p th:text="${seguidores}"></p><br><a class="botao-seguidores-text" th:href="@{/seguidores}">Seguidores</a></button>
-		    <button class="botao-seguindo"><p th:text="${seguidos}"></p><br><a class="botao-seguidores-text" th:href="@{seguidores/seguidos}">Seguindo</a></button>
+		    <button class="botao-seguidores"><p th:text="${seguidores}"></p><br><a class="botao-seguidores-text" th:href="@{/relacoes/seguidores?id=aluno.id}">Seguidores</a></button>
+		    <button class="botao-seguindo"><p th:text="${seguidos}"></p><br><a class="botao-seguidores-text" th:href="@{/relacoes/seguidos?id=aluno.id}">Seguindo</a></button>
 		</div>
 		
 		<div id="container-campus">
@@ -77,7 +77,7 @@
 		
 		<a th:href="@{/configPerfil/contaConfigPerfil(id=${aluno.id})}" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:if="${idDoUsuario == aluno.id}"></a>
 		<button type="submit" class="botoes-perfil" id="botao-edicao" th:if="${idDoUsuario == aluno.id}"></button>
-		<button type="submit" class="botoes-perfil" id="botao-seguir" th:if="${idDoUsuario != aluno.id}">SEGUIR</button>
+		<button type="submit" class="botoes-perfil" id="botao-seguir" th:href="@{/relacoes/toggle?id=aluno.id}" th:if="${idDoUsuario != aluno.id}">SEGUIR</button>
 		
 		<!--   PARA VERIFICAR!!!
 		<p>Visitante ID: <span th:text="${idDoUsuario}"></span></p>

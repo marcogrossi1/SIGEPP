@@ -56,6 +56,8 @@ public class PerfilAlunoController {
         	model.addAttribute("usuario", u);
 
 			Aluno a = AlunoDao.get(conn, alunoId);
+			model.addAttribute("alunoId", alunoId);
+			
 			List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, alunoId);
 			model.addAttribute("secoes", secoes);
 			
@@ -71,7 +73,7 @@ public class PerfilAlunoController {
 
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
-			int n_seguidores = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
+			int n_seguidores = SeguidoresDao.listSeguidores(conn, a.getUsuario_id()).getNumeroSeguidores();
 			int n_seguidos = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
 			
 			long idDoUsuarioVisitante = u.getId();
