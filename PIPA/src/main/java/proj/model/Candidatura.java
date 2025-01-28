@@ -62,4 +62,15 @@ public class Candidatura {
     public void setStatusFromDescricao(String descricao) {
         this.status = StatusCandidatura.fromDescricao(descricao); 
     }
+    
+    private String fotoPerfilBase64;
+
+    public String getFotoPerfilBase64() {
+        return fotoPerfilBase64;
+    }
+
+    public void setFotoPerfilBase64(String fotoPerfilBase64) {
+        this.fotoPerfilBase64 = fotoPerfilBase64;
+    }
+
 }
