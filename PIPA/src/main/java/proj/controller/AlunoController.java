@@ -251,20 +251,31 @@ public class AlunoController {
 	}
 	
 	@GetMapping("/upload")
-	public String mostraUploadDocumentos(@RequestParam("estagioId") Long estagioId, Model model, Principal principal) throws Exception {	    
-		try (Connection conn = ds.getConnection()) {
-			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-			if (!u.getRole().equals("Aluno")) {
-				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
-			}
-			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
-			model.addAttribute("alunoId", a.getId());
-			model.addAttribute("alunoNome", a.getNome());
-			model.addAttribute("estagioId", estagioId);
-			return "aluno/upload";
-		}
+	public String mostraUploadDocumentos(@RequestParam("estagioId") Long estagioId, Model model, Principal principal) throws Exception {    
+	    try (Connection conn = ds.getConnection()){
+	        Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+	        if (!u.getRole().equals("Aluno")) {
+	            return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
+	        }
+	        
+	        Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+	        Estagio estagio = EstagioDao.get(conn, estagioId);
+	        model.addAttribute("usuarioId", a.getUsuario_id());
+	     	 model.addAttribute("alunoId", a.getId());
+	        model.addAttribute("alunoNome", a.getNome());
+	        model.addAttribute("estagioId", estagioId);
+	        model.addAttribute("nomeEstagio", estagio.getEmpresa());
+	        return "aluno/upload";
+	        } catch (Exception e) {
+	        e.printStackTrace();
+	        return mostraPaginaDeErro(model, "Erro ao carregar informações do estágio.");
+	    }
 	}
-
+	@GetMapping("/uploadprojeto")
+	public String mostraUploadDocumentosProjeto(Model model, Principal principal) throws Exception {    
+	        return "aluno/uploadprojeto";
+	    }
+	
 	@GetMapping("/explorarProjetos")
 	public String explorarProjetos(Principal principal, Model model) throws Exception{
 		
