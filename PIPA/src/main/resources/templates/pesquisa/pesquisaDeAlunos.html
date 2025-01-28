@@ -9,7 +9,13 @@
 </head>
 <body>
 	<header>
-	    <a href="/professor"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+		<div th:switch="${usuario.role}">
+		            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+		            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+		            <a th:case="'Professor'" href="/professor"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+		            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+		            <p id="nome-no-portal" th:case="'*'"></p>
+		        </div> <!--Clique na logo para retornar à página inicial-->
 	    <h1 id="titulo-plataforma" >PIPA | Pesquisa de alunos</h1>
 	</header>
 
