@@ -2,7 +2,6 @@ package proj.controller;
 
 import java.security.Principal;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,81 +26,65 @@ import proj.dao.EmpresaDao;
 
 
 @Controller
-@RequestMapping("/relacoes")
+@RequestMapping("/seguidores")
 public class SeguidoresController {
 	
     @Autowired
     HDataSource ds;
 
-    //retorna o nome dos seguidores pelo 'Role' de cada um
-    private void getNames(Model model, Seguidores s) throws SQLException{
-
-        try (Connection conn = ds.getConnection()) {
-
-            if (s.getNumeroSeguidores() > 0){
-
-                ArrayList<Aluno> alunos = new ArrayList<>();
-                ArrayList<Empresa> empresas = new ArrayList<>();
-                ArrayList<Professor> professores = new ArrayList<>();
-
-                for (Usuario seguidor : s.getSeguidores()){
-                    
-                    if (seguidor.getRole().equals("Aluno")) 
-                       alunos.add(AlunoDao.getByUsuario_id(conn, seguidor.getId()));
-                    
-                    else if(seguidor.getRole().equals("Empresa")){
-                        Empresa e = EmpresaDao.getByCnpj(conn, seguidor.getNome());
-                        empresas.add(e);
-                    }
-
-                    else if(seguidor.getRole().equals("Professor")){
-                        professores.add( ProfessorDao.getByUsuario_id(conn, seguidor.getId()) );
-                    }
-                }
-                model.addAttribute("Alunos", alunos);
-                model.addAttribute("Empresas", empresas);
-                model.addAttribute("Professores", professores);
-                
-            }
-        }
-        catch(SQLException e) {
-            throw e;
-        }
-    }
-
-    //mostra todas as pessoas que seguem o usuário
-	@GetMapping("/seguidores/self")
+	@GetMapping
 	public String mostraSeguidores(Model model, Principal principal) {
             
-        Seguidores s;
-        
-        try (Connection conn = ds.getConnection()) {
-            //retorna o usuário que faz a requisição
-            Usuario  usuarioLogged = UsuarioDao.getByNome( conn, principal.getName() );
+            Seguidores s;
             
-            s = SeguidoresDao.listSeguidores( conn, usuarioLogged.getId() );
-            
-            if (s.getNumeroSeguidores() > 0){
+            try (Connection conn = ds.getConnection()) {
 
-                getNames(model, s);
-                model.addAttribute("content", "Lista de Seguidores");
-                return "verSeguidores";
+                //retorna o usuário que faz a requisição
+                Usuario  usuarioLogged = UsuarioDao.getByNome( conn, principal.getName() );
+                
+                s = SeguidoresDao.listSeguidores( conn, usuarioLogged.getId() );
+                
+                if (s.getNumeroSeguidores() > 0){
+
+                    ArrayList<Aluno> alunos = new ArrayList<>();
+                    ArrayList<Empresa> empresas = new ArrayList<>();
+                    ArrayList<Professor> professores = new ArrayList<>();
+
+                    for (Usuario seguidor : s.getSeguidores()){
+                        
+                        if (seguidor.getRole().equals("Aluno")) 
+                           alunos.add(AlunoDao.getByUsuario_id(conn, seguidor.getId()));
+                        
+                        else if(seguidor.getRole().equals("Empresa")){
+                            Empresa e = EmpresaDao.getByCnpj(conn, seguidor.getNome());
+                            empresas.add(e);
+                        }
+
+                        else if(seguidor.getRole().equals("Professor")){
+                            professores.add( ProfessorDao.getByUsuario_id(conn, seguidor.getId()) );
+                        }
+                    }
+                    model.addAttribute("content", "Lista de Seguidos");
+                    model.addAttribute("Alunos", alunos);
+                    model.addAttribute("Empresas", empresas);
+                    model.addAttribute("Professores", professores);
+                    return "verSeguidores";
+                }
+
+                else{
+                    model.addAttribute("message", "Nenhum seguidor encontrado");
+                    return "followingMessage";
+                }
             }
-            else{
-                model.addAttribute("message", "Nenhum seguidor encontrado");
-                return "followingMessage";
+            catch(Exception e) {
+                e.printStackTrace();
+                model.addAttribute("message", e.getMessage());
+                return "erro";
             }
         }
-        catch(Exception e) {
-            e.printStackTrace();
-            model.addAttribute("message", e.getMessage());
-            return "erro";
-        }
-    }
 
-        //mostra todas as pessoas seguidas pelo usuário
-    @GetMapping("/seguidos/self")
-    public String MostrarSeguindo(Model model, Principal principal) {
+        @GetMapping("/seguidos")
+        public String MostrarSeguindo(Model model, Principal principal) {
         
         Seguidores s;
         
@@ -112,65 +95,29 @@ public class SeguidoresController {
             s = SeguidoresDao.listSeguidos( conn, usuarioLogged.getId() );
                 
             if (s.getNumeroSeguidores() > 0){
+                //recupera o nome do usuário através do seu Role ()
+                ArrayList<Aluno> alunos = new ArrayList<>();
+                ArrayList<Empresa> empresas = new ArrayList<>();
+                ArrayList<Professor> professores = new ArrayList<>();
 
-                getNames(model, s);
+                for (Usuario seguidor : s.getSeguidores()){
+                    
+                    if (seguidor.getRole().equals("Aluno")) 
+                       alunos.add( AlunoDao.getByUsuario_id(conn, seguidor.getId()) );
+                    
+                    else if(seguidor.getRole().equals("Empresa")){
+                        Empresa e = EmpresaDao.getByCnpj(conn, seguidor.getNome());
+                        empresas.add(e);
+                    }
+
+                    else if(seguidor.getRole().equals("Professor")){
+                        professores.add( ProfessorDao.getByUsuario_id(conn, seguidor.getId()) );
+                    }
+                }
                 model.addAttribute("content", "Lista de Seguidos");
-                return "verSeguidores";
-            }
-
-            else{
-                model.addAttribute("message", "Nenhum seguidor encontrado");
-                return "followingMessage";
-            }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-            model.addAttribute("message", e.getMessage());
-            return "erro";
-        }
-    }
-
-    @GetMapping("/seguidores")
-	public String mostraSeguidoresById(Model model, @RequestParam("id") long usuario_id) {
-        Seguidores s;
-        
-        try (Connection conn = ds.getConnection()) {
-            //retorna o usuário que faz a requisição
-            
-            s = SeguidoresDao.listSeguidores( conn, usuario_id);
-                
-            if (s.getNumeroSeguidores() > 0){
-
-                getNames(model, s);
-                model.addAttribute("content", "Lista de Seguidores");
-                return "verSeguidores";
-            }
-
-            else{
-                model.addAttribute("message", "Nenhum seguidor encontrado");
-                return "followingMessage";
-            }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-            model.addAttribute("message", e.getMessage());
-            return "erro";
-        }
-    }
-
-    @GetMapping("/seguidos")
-	public String mostraSeguidosById(Model model, @RequestParam("id") long usuario_id) {
-        Seguidores s;
-        
-        try (Connection conn = ds.getConnection()) {
-            //retorna o usuário que faz a requisição
-            
-            s = SeguidoresDao.listSeguidos( conn, usuario_id);
-                
-            if (s.getNumeroSeguidores() > 0){
-
-                getNames(model, s);
-                model.addAttribute("content", "Lista de Seguidos");
+                model.addAttribute("Alunos", alunos);
+                model.addAttribute("Empresas", empresas);
+                model.addAttribute("Professores", professores);
                 return "verSeguidores";
             }
 
@@ -188,11 +135,9 @@ public class SeguidoresController {
 
     @GetMapping("/toggle")
     public String toogleSeguidor(Model model, @RequestParam("id") long seguindo_id, Principal principal){
-        /*  
-         *  Se estiver seguindo, apaga a relação entre 
-         *  seguindo_id e o usuário que realizou logging
-         *  Se não estiver seguindo, começa a seguir 'id' (Usuário com id)
-         */ 
+        /*  Se estiver seguindo
+         * 
+         */
         try (Connection conn = ds.getConnection()) {
 
             //retorna o usuário que faz a requisição
@@ -207,7 +152,7 @@ public class SeguidoresController {
 
             if (uSeguido.getRole().equals("Aluno")) 
                 nome = (AlunoDao.getByUsuario_id(conn, uSeguido.getId()))
-                    .getNome();
+                .getNome();
                     
             else if(uSeguido.getRole().equals("Empresa")){
                 nome = EmpresaDao.getByCnpj(conn, uSeguido.getNome())
