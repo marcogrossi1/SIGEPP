@@ -6,16 +6,12 @@
 	<link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="icon" th:href="@{/img/icon.png}">
     <title>Estágios - Home</title>
-    <style>
-        #good{color: green; }
-        #bad{color: red;}
-    </style>
 </head>
 <body>
 	<header>
-	        <a href="@{/}"><img id="logo" th:src="@{/img/logo.png}"></a> <!--Cpque na logo para retornar à página inicial-->
-	        <h1 id="titulo-plataforma" >PIPA | Estágios</h1>
-	</header>
+            <a href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+        </header>
     <main>
         <section id="detalhes-estagio">
             <a id='redirect-empresa-perfil' th:href="@{${'/encontra-empresa?nome='+empresa}}"><h3 th:text="${empresa}"></h3></a>
@@ -31,11 +27,11 @@
             <p th:text="${descricao}"></p>
         </section>
         <section>
-            <!--<p  th:if="${progresso == null}">isNull</p>
-            <p th:if="${progresso.equals(T(proj.model.Progresso).PENDENTE)}">Aguardando aprovação da empresa.</p>
-            <p th:if="${progresso.equals(T(proj.model.Progresso).APROVADO)}">Você é inscrito neste estágio.</p>
-            <p th:if="${progresso.equals(T(proj.model.Progresso).CONCLUIDO)}">Você concluiu este estágio.</p>       
-            -->
+            <div th:unless='${progresso == null}'>    
+                <p th:if="${progresso.name() == 'PENDENTE'}">Aguardando aprovação da empresa.</p>
+                <p th:if="${progresso.name() == 'APROVADO'}">Você é inscrito neste estágio.</p>
+                <p th:if="${progresso.name() == 'CONCLUIDO'}">Você concluiu este estágio.</p>       
+            </div>
             <p th:id="${warning}" th:text="${status}"></p>
             <a th:if="${progresso == null}" th:href="@{/aluno/inscrever-estagio(n=${estagio.id})}">
                 <button>Inscrever-se</button>

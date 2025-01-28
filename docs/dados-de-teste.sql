@@ -88,20 +88,20 @@ VALUES
 
 INSERT INTO aluno_has_projeto (aluno_id, projeto_id, progresso) 
 VALUES 
-(1,1, "PENDENTE"),
-(1,2, "APROVADO"),
-(1,3, "CONCLUIDO"),
-(3,1, "CONCLUIDO"),
-(4,2, "PENDENTE");
+(1,1),
+(1,2),
+(1,3),
+(3,1),
+(4,2);
 
 INSERT INTO empresa_has_estagio (empresa_id, estagio_id) 
 VALUES 
 
 (2, 1),
 (6, 2),
-(7, 3).
+(7, 3),
 (1, 4),
 (3, 5),
 (4, 6),
-(5, 7);
+(5, 7),
 (5, 8);

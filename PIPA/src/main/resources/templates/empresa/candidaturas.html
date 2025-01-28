@@ -6,6 +6,14 @@
 	<link rel="stylesheet" href="../css/style.css">
 	<link rel="icon" href="../img/icon.png">
     <title>Estágios - Home</title>
+    <style>
+        #fade-in{
+            display: inline-flex;
+        }
+        #voltar{
+            display: block;
+        }
+    </style>
 </head>
 <body>
 
@@ -25,22 +33,48 @@
                 <h2>Alunos inscritos:</h2>
                 
                 <p th:if="${#lists.isEmpty(candidatos)}">Nenhum candidato encontrado.</p>
-                <div class="estagio-section">
-                    <section th:unless="${#lists.isEmpty(candidatos)}" th:each="aluno, iterStat : ${candidatos}">
+                <div class="estagio-section" th:unless="${#lists.isEmpty(candidatos)}" th:each="aluno, iterStat : ${candidatos}">
+                    <section th:unless="${progresso[iterStat.index].name() == 'CONCLUIDO'}">
                         <a th:href="'/perfil-aluno?id='+ ${aluno.id}">
                         <h3 th:text="${aluno.nome}"></h3></a>
                         <p th:text="${progresso[iterStat.index]}"></p>
-                        <a th:if="${progresso[iterStat.index].name() == 'PENDENTE'}" th:href="'/empresa/aprovar?n='+${aluno.id}"><button id='good' th:text='Aprovar'></a>
-                        <a th:if="${progresso[iterStat.index].name() == 'APROVADO'}" th:href="'/empresa/concluir?n='+${aluno.id}"><button id='good' th:text='Finalizar'></a>
-                        <a th:href="'/empresa/remover?n='+${aluno.id}"><button id='bad' th:text='Remover'></a>
+                        <a th:if="${progresso[iterStat.index].name() == 'PENDENTE'}" th:href="'/empresa/aprovar?a_id='+${aluno.id} + '&e_id=' + ${estagioId}"><button th:text='Aprovar'></button></a>
+                        <a th:if="${progresso[iterStat.index].name() == 'APROVADO'}" th:href="'/empresa/concluir?a_id='+${aluno.id} + '&e_id=' + ${estagioId}"><button th:text='Finalizar'></button></a>
+                        <a th:href="'/empresa/remover?a_id='+${aluno.id}+ '&e_id=' + ${estagioId}"><button th:text='Remover'></a>
+                    </section>
+                </div>
+                <hr>
+                <div class="flexbox-center">
+                    <h2>Alunos que concluíram o estágio:</h2> <button id="fader-in">\/</button>
+                </div>
+                <div id="fade-in" class="estagio-section" th:unless="${#lists.isEmpty(candidatos)}" th:each="aluno, iterStat : ${candidatos}">
+                    <section th:unless="${progresso[iterStat.index].name() != 'CONCLUIDO'}">
+                        <a th:href="'/perfil-aluno?id='+ ${aluno.id}">
+                        <h3 th:text="${aluno.nome}"></h3></a>
+                        <p th:text="${progresso[iterStat.index]}"></p>
+                        <a th:if="${progresso[iterStat.index].name() == 'PENDENTE'}" th:href="'/empresa/aprovar?a_id='+${aluno.id} + '&e_id=' + ${estagioId}"><button th:text='Aprovar'></button></a>
+                        <a th:if="${progresso[iterStat.index].name() == 'APROVADO'}" th:href="'/empresa/concluir?a_id='+${aluno.id} + '&e_id=' + ${estagioId}"><button th:text='Finalizar'></button></a>
+                        <!--<a th:href="'/empresa/remover?a_id='+${aluno.id}+ '&e_id=' + ${estagioId}"><button th:text='Remover'></a>-->
                     </section>
                 </div>
                 
-                
-                <a th:href="'/empresa/detalhes-estagio?='+ ${estagioId}">
+                <a id="voltar" th:href="'/empresa/detalhes-estagio?n='+ ${estagioId}">
                     <button>Voltar</button>
                 </a>
 	</main>
-    
+    <script>
+        
+    const fadeInEl = document.querySelector('#fade-in');
+    fadeInEl.style.display = 'none'; // Initially hide the element
+    const faderInEl = document.querySelector('#fader-in');
+    faderInEl.addEventListener('click', function() {
+        if (fadeInEl.style.display === 'none') {
+            fadeInEl.style.display = 'inline-flex'; // Show the element
+        } else {
+            fadeInEl.style.display = 'none'; // Hide the element
+        }
+    });
+
+    </script>
 </body>
 </html>

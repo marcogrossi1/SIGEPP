@@ -481,4 +481,10 @@ label {
     line-height: 1.6;
     margin-bottom: 10px;
 }
-
+#good{color: green; }
+#bad{color: red;}
+.flexbox-center{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

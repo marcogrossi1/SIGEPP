@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import proj.dao.AlunoDao;
 import proj.dao.EmpresaDao;
 import proj.dao.HDataSource;
 import proj.dao.UsuarioDao;
@@ -83,6 +84,65 @@ public class EmpresaController {
                 model.addAttribute("progresso", progresso);
                 model.addAttribute("estagioId", id);
                 return "empresa/candidaturas";
+            }catch(Exception ex){
+                return mostraPaginaDeErro(model, ex.getMessage());
+            }
+        }
+        
+        @GetMapping("/aprovar")
+        public String aprovarInscricaoDeAluno(Model model, Principal principal, @RequestParam("a_id") long alunoId, @RequestParam("e_id") long estagioId){
+            try(Connection conn = ds.getConnection()){
+                Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+                if (u.getRole().equals("Empresa") == false)
+                    return mostraPaginaDeErro(model , "Usuário não é uma Empresa!");
+                Empresa emp = EmpresaDao.getByCnpj(conn, principal.getName());
+                Estagio est = EstagioDao.get(conn, estagioId);
+                if(!emp.getNome().equals(est.getEmpresa()))
+                    return mostraPaginaDeErro(model, "Estágio selecionado não pertence à empresa.");
+                if(AlunoDao.getProgressoEstagio(conn, alunoId, estagioId) != Progresso.PENDENTE)
+                    return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
+                AlunoDao.setProgresso(conn, alunoId, estagioId, Progresso.APROVADO);
+                conn.commit();
+                return "redirect:/empresa/candidatos-estagio?n=" + estagioId;
+            }catch(Exception ex){
+                return mostraPaginaDeErro(model, ex.getMessage());
+            }
+        }
+        @GetMapping("/concluir")
+        public String concluirEstagioDeAluno(Model model, Principal principal, @RequestParam("a_id") long alunoId, @RequestParam("e_id") long estagioId){
+            try(Connection conn = ds.getConnection()){
+                Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+                if (u.getRole().equals("Empresa") == false)
+                    return mostraPaginaDeErro(model , "Usuário não é uma Empresa!");
+                Empresa emp = EmpresaDao.getByCnpj(conn, principal.getName());
+                Estagio est = EstagioDao.get(conn, estagioId);
+                if(!emp.getNome().equals(est.getEmpresa()))
+                    return mostraPaginaDeErro(model, "Estágio selecionado não pertence à empresa.");
+                if(AlunoDao.getProgressoEstagio(conn, alunoId, estagioId) != Progresso.APROVADO)
+                    return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
+                AlunoDao.setProgresso(conn, alunoId, estagioId, Progresso.CONCLUIDO);
+                conn.commit();
+                return "redirect:/empresa/candidatos-estagio?n=" + estagioId;
+            }catch(Exception ex){
+                return mostraPaginaDeErro(model, ex.getMessage());
+            }
+        }
+        
+        @GetMapping("/remover")
+        public String removerAlunoDoEstagio(Model model, Principal principal, @RequestParam("a_id") long alunoId, @RequestParam("e_id") long estagioId){
+            try(Connection conn = ds.getConnection()){
+                Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+                if (u.getRole().equals("Empresa") == false)
+                    return mostraPaginaDeErro(model , "Usuário não é uma Empresa!");
+                Empresa emp = EmpresaDao.getByCnpj(conn, principal.getName());
+                Estagio est = EstagioDao.get(conn, estagioId);
+                if(!emp.getNome().equals(est.getEmpresa()))
+                    return mostraPaginaDeErro(model, "Estágio selecionado não pertence à empresa.");
+                if(AlunoDao.getProgressoEstagio(conn, alunoId, estagioId) == Progresso.CONCLUIDO)
+                    return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
+                AlunoDao.desinscreverEstagio(conn, alunoId, estagioId);
+                conn.commit();
+                return "redirect:/empresa/candidatos-estagio?n=" + estagioId;
             }catch(Exception ex){
                 return mostraPaginaDeErro(model, ex.getMessage());
             }
@@ -169,7 +229,8 @@ public class EmpresaController {
             }
             return "redirect:/empresa"; 
         }
-        
+            
+            
         public String mostraPaginaDeErro(Model model, String message) {
 		model.addAttribute("message",message);
 		return "erro";
