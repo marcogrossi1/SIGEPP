@@ -4,9 +4,6 @@ public class Professor {
 
 	private long id;
 	private String nome;
-	private String email;
-	private String telefone;
-	private String cpf;
 	private long usuario_id;
 	
 	
@@ -22,24 +19,6 @@ public class Professor {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getCpf() {
-		return cpf;
-	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-	public String getTelefone() {
-		return telefone;
-	}
 	public long getUsuario_id() {
 		return usuario_id;
 	}
@@ -48,8 +27,7 @@ public class Professor {
 	}
 	@Override
 	public String toString() {
-		return "Professor [id=" + id + ", nome=" + nome + ", email=" + email + ", telefone=" + telefone
-				+ ", usuario_id=" + usuario_id + "]";
+		return "Professor [id=" + id + ", nome=" + nome + ", usuario_id=" + usuario_id + "]";
 	}
 	
 	

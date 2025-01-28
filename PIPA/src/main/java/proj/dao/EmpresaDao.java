@@ -6,11 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.springframework.stereotype.Repository;
-
-import proj.model.Empresa;
 import proj.model.Estagio;
-import proj.model.Usuario;
+import proj.model.Professor;
+import proj.model.Empresa;
+import org.springframework.stereotype.Repository;
 
 
 @Repository
@@ -25,7 +24,8 @@ public class EmpresaDao extends AbstractDaoBase {
 	private final static String listsql = "SELECT * FROM Empresa";
 	private final static String listByNomeSql = "SELECT * FROM Empresa WHERE nome like %?% ";
 	private final static String insertsql = "INSERT INTO Empresa (cnpj, nome, endereco, website, area, telefone, email, senha) VALUES(?, ?, ?, ?, ?, ?, ?, ?) ";
-	private final static String updatesql = "UPDATE Empresa SET cnpj = ?, nome = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ? WHERE id = ? ";
+	private final static String updatesql = "UPDATE Empresa SET cnpj = ?, nome = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ?, senha = ? WHERE id = ? ";
+	private final static String deletesql = "DELETE FROM Empresa WHERE id = ?";
 
 	static Empresa set(ResultSet rs) throws SQLException {
 		Empresa vo = new Empresa();
@@ -36,7 +36,6 @@ public class EmpresaDao extends AbstractDaoBase {
 		vo.setWebsite(rs.getString("website"));
 		vo.setEmail(rs.getString("email"));
 		vo.setArea(rs.getString("area"));
-		vo.setUsuario_id(Long.parseLong(rs.getString("usuario_id")));
         vo.setTelefone(rs.getString("telefone"));
 		return vo;
 	}
@@ -276,11 +275,11 @@ public class EmpresaDao extends AbstractDaoBase {
 	}
 
 
-	/*public static void delete(Connection conn, long id) throws NotFoundException, SQLException {
+	public static void delete(Connection conn, int id) throws NotFoundException, SQLException {
 		PreparedStatement ps = null;
 		try {
 			ps = conn.prepareStatement(deletesql);
-			ps.setLong(1, id);
+			ps.setInt(1, id);
 			int count = ps.executeUpdate();
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + id + "] .");
@@ -293,45 +292,4 @@ public class EmpresaDao extends AbstractDaoBase {
 			ps = null;
 		}
 	}
-}*/
-	
-	public static void delete(Connection conn, long id)
-	        throws NotFoundException, SQLException
-	    {
-	    	Empresa e = new Empresa();
-	    	Usuario u = new Usuario();
-	    	String sql1 = "delete from empresa_has_estagio where empresa_id = ? ";
-	    	String sql2 = "delete from empresa where id = ? ";
-	    	String sql3 = "delete from seguidores where seguidor_id = ? ";
-	    	String sql4 = "delete from seguidores where seguindo_id = ? ";
-	    	String sql5 = "delete from usuario where id = ? ";
-	    	
-	    	
-	    	e = EmpresaDao.get(conn, id);
-	    	
-	    	System.out.println(e);
-	    	
-	    	u = UsuarioDao.get(conn, e.getUsuario_id());
-
-
-	    	deleteRelation(conn, sql1, id);	
-	    	deleteRelation(conn, sql2, id);	
-	    	deleteRelation(conn, sql3, u.getId());
-	    	deleteRelation(conn, sql4, u.getId());
-	    	deleteRelation(conn, sql5, u.getId());
-	    }
-
-	    private static void deleteRelation(Connection conn, String sql, long id)
-	    throws NotFoundException, SQLException
-	    {
-	        PreparedStatement ps = null;
-	        try {
-	            ps = conn.prepareStatement(sql);
-	            ps.setLong(1,id);
-	            ps.executeUpdate();
-	        }
-	        catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
-	        finally{closeResource(ps); ps = null; }
-	    }
-	    
 }

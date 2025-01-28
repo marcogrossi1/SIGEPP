@@ -44,7 +44,6 @@
 					<th>Curso</th>
 					<th>Campus</th>
                     <th>Ver mais</th>
-					<th>Editar</th>
 					<th>Deletar</th>
 				</tr>
 			</thead>
@@ -57,16 +56,10 @@
                     <td><a th:href="'/perfil-aluno?id=' + ${alunos.id}">
                         <button id="botao-certificado">Ver mais</button>
                     </a></td>
-					<td>
-						<a th:href="@{/administrador/listar-alunos/editar(id=${alunos.id})}">
-						 <button id="botao-certificado">Editar</button>
-						</a>
-					</td>
 					<td>						
 						<form   class="f-form" 
 						        th:action="@{/administrador/deletar-aluno}" 
-						        method="post"
-								onsubmit="return confirm('Tem certeza que deseja deletar este aluno?');" >
+						        method="post" >
 
 								<input type="hidden"  name="n" th:value=" ${alunos.id}" />
 								<input  id="botao-deletar" type="submit" value="Deletar" />  
@@ -78,6 +71,12 @@
         </table>
     </main>
 
+	<script>
+	     let botaoDeletarEstagioEl = document.querySelector("#botao-deletar");
+	     botaoDeletarEstagioEl.addEventListener("click", function() {
+	         alert("Tem certeza que deseja deletar o aluno?");
+	     });
+	 </script>
 
 </body>
 </html>

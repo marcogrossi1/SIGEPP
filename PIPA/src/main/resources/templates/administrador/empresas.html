@@ -44,8 +44,6 @@
 					<th>Área</th>
 					<th>Website</th>
                     <th>Ver mais</th>
-					<th>Editar</th>
-					<th>Deletar</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -57,22 +55,6 @@
                     <td><a th:href="'/perfil-empresa?id=' + ${empresas.id}">
                         <button id="botao-certificado">Ver mais</button>
                     </a></td>
-					<td>
-						<a th:href="@{/administrador/listar-empresas/editar(id=${empresas.id})}">
-						<button id="botao-certificado">Editar</button>
-						</a>
-					</td>
-					<td>						
-						<form   class="f-form" 
-						th:action="@{/administrador/deletar-empresa}" 
-						method="post"
-						onsubmit="return confirm('Tem certeza que deseja deletar esta empresa?');" >
-
-						<input type="hidden"  name="n" th:value=" ${empresas.id}" />
-						<input  id="botao-deletar" type="submit" value="Deletar" />  
-						</form> 
-											
-					</td>
 				</tr>				
 			</tbody>
         </table>
