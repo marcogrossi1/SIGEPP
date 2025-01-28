@@ -20,7 +20,7 @@
 			th:text="${aluno.nome}"></p>
 		<p id="nome-no-portal" th:if="${aluno == null}">Usuário não
 			autenticado</p>
-		<a href="/perfil" th:href="@{/perfil}" class="icone"> <img
+		<a th:href="@{/perfil-aluno(id=${aluno.id})}" class="icone" id="icone-portal"> <img
 			src="/img/icone-perfil.png" alt="Ícone de Perfil"> <label>Perfil</label>
 		</a>
 	</nav>

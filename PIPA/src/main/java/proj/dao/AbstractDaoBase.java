@@ -11,7 +11,7 @@ public abstract class AbstractDaoBase {
     public static Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/pipa?createDatabaseIfNotExist=true&characterEncoding=UTF-8"; // Altere para a URL do seu banco de dados
         String user = "root"; // Altere para seu usuário
-        String password = "1234"; // Altere para sua senha
+        String password = ""; // Altere para sua senha
         return DriverManager.getConnection(url, user, password);
     }
 

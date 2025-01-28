@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Projeto;
@@ -32,7 +34,7 @@ public class AlunoDao {
     private final static String listCampusSql = "SELECT DISTINCT campus FROM aluno ORDER BY campus";
     private final static String listPeriodosSql = "SELECT DISTINCT periodo FROM aluno ORDER BY periodo";
     private final static String insertsql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id) VALUES( ?, ?, ?, ?, ?, ?, ?) ";
-    private final static String updatesql = "UPDATE aluno SET cpf = ?, nome = ?, curso = ?, campus = ?, email = ?, periodo = ?, usuario_id = ? WHERE id = ? ";
+    private final static String updatesql = "UPDATE aluno SET cpf = ?, nome = ?, curso = ?, campus = ?, email = ?, periodo = ?, usuario_id = ?, telefone = ? WHERE id = ? ";
     private final static String updateForCpfSql = "UPDATE aluno SET cpf = ?  WHERE id = ? ";
     private final static String updateForNomeSql = "UPDATE aluno SET nome = ?  WHERE id = ? ";
     private final static String updateForCursoSql = "UPDATE aluno SET curso = ?  WHERE id = ? ";
@@ -40,6 +42,9 @@ public class AlunoDao {
     private final static String updateForEmailSql = "UPDATE aluno SET email = ?  WHERE id = ? ";
     private final static String updateForPeriodoSql = "UPDATE aluno SET periodo = ?  WHERE id = ? ";
     private final static String updateForTelefoneSql = "UPDATE aluno SET telefone = ?  WHERE id = ? ";
+    private final static String updateForFotoPerfilSql = "UPDATE aluno SET fotoPerfil = ?  WHERE id = ? ";
+    private final static String updateForBannerPerfilSql = "UPDATE aluno SET bannerPerfil = ?  WHERE id = ? ";
+    private final static String updateForDescricaoPerfilSql = "UPDATE aluno SET descricaoPerfil = ?  WHERE id = ? ";
     private final static String updateForUsuario_idSql = "UPDATE aluno SET usuario_id = ?  WHERE id = ? ";
 
     private static void closeResource(Statement ps) {
@@ -65,6 +70,9 @@ public class AlunoDao {
         vo.setPeriodo(rs.getString("periodo"));
         vo.setUsuario_id(rs.getLong("usuario_id"));
         vo.setTelefone(rs.getString("telefone"));
+        vo.setFotoPerfil(rs.getBytes("fotoPerfil"));
+        vo.setBannerPerfil(rs.getBytes("bannerPerfil"));
+        vo.setDescricaoPerfil(rs.getString("descricaoPerfil"));
         return vo;
     }
 
@@ -380,6 +388,9 @@ public class AlunoDao {
             ps.setString(6, vo.getPeriodo());
             ps.setLong(7, vo.getUsuario_id());
             ps.setString(8, vo.getTelefone());
+            ps.setBytes(9, vo.getFotoPerfil());
+            ps.setBytes(10, vo.getBannerPerfil());
+            ps.setString(11, vo.getDescricaoPerfil());
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -405,7 +416,10 @@ public class AlunoDao {
             ps.setString(6, vo.getPeriodo());
             ps.setLong(7, vo.getUsuario_id());
             ps.setString(8, vo.getTelefone());
-            ps.setLong(9, vo.getId());
+            ps.setBytes(9, vo.getFotoPerfil());
+            ps.setBytes(10, vo.getBannerPerfil());
+            ps.setString(11, vo.getDescricaoPerfil());
+            ps.setLong(12, vo.getId());
             int count = ps.executeUpdate();
             if (count == 0 ){ throw new NotFoundException("Object not found ["+ vo.getId()+"] ."); }
             //SEM COMMIT 
@@ -509,6 +523,55 @@ public class AlunoDao {
         catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
         finally{closeResource(ps); ps = null; }
     }
+    
+    public static void updateForDescricaoPerfil(Connection conn, long id, String descricaoPerfil)
+            throws NotFoundException, SQLException
+        {
+            PreparedStatement ps = null;
+            try {
+                ps = conn.prepareStatement(updateForDescricaoPerfilSql);
+                ps.setString(1, descricaoPerfil);
+                ps.setLong(2, id);
+                int count = ps.executeUpdate();
+                if (count == 0 ){ throw new NotFoundException("Object not found ["+ id + "] ."); }
+                //SEM COMMIT 
+            }
+            catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
+            finally{closeResource(ps); ps = null; }
+        }
+    
+    public static void updateForFotoPerfil(Connection conn, long id, byte[] fotoPerfil)
+        throws NotFoundException, SQLException
+    {
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(updateForFotoPerfilSql);
+            ps.setBytes(1, fotoPerfil);
+            ps.setLong(2, id);
+            int count = ps.executeUpdate();
+            if (count == 0 ){ throw new NotFoundException("Object not found ["+ id + "] ."); }
+            //SEM COMMIT 
+        }
+        catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
+        finally{closeResource(ps); ps = null; }
+    }
+    
+    public static void updateForBannerPerfil(Connection conn, long id, byte[] bannerPerfil)
+        throws NotFoundException, SQLException
+    {
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(updateForBannerPerfilSql);
+            ps.setBytes(1, bannerPerfil);
+            ps.setLong(2, id);
+            int count = ps.executeUpdate();
+            if (count == 0 ){ throw new NotFoundException("Object not found ["+ id + "] ."); }
+            //SEM COMMIT 
+        }
+        catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
+        finally{closeResource(ps); ps = null; }
+    }
+
 
     public static void updateForPeriodo(Connection conn, long id, String periodo)
         throws NotFoundException, SQLException
@@ -551,8 +614,8 @@ public class AlunoDao {
     	String sql2 = "delete from aluno_has_estagio where aluno_id = ? ";
     	String sql3 = "delete from candidatura where candidato_id = ? ";
     	String sql4 = "delete from aluno where id = ? ";
-    	String sql5 = "delete from seguidores where seguindo_id = ? ";
-    	String sql6 = "delete from seguidores where seguidor_id = ? ";
+    	String sql5 = "delete from seguidores where seguidor_id = ? ";
+    	String sql6 = "delete from seguidores where seguindo_id = ? ";
     	String sql7 = "delete from usuario where id = ? ";
     	
     	
@@ -634,5 +697,15 @@ public class AlunoDao {
 			ps = null;
 			rs = null;
 		}
+	}
+	
+	public static void updateImagens(Connection conn, Aluno a) throws SQLException {
+	    String sql = "UPDATE aluno SET foto_perfil = ?, banner_perfil = ? WHERE id = ?";
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setBytes(1, a.getFotoPerfil());  // Foto de perfil
+	        ps.setBytes(2, a.getBannerPerfil()); // Banner
+	        ps.setLong(3, a.getId());            // ID do aluno
+	        ps.executeUpdate();                  // Executa o update
+	    }
 	}
 }
