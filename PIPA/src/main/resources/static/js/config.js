@@ -221,6 +221,12 @@ let ordem = 0;
 
 //ARRUMAR
 
+//VOU TER QUE LIMITAR CRIAÇÃO DE SEÇÕES E FAZER UM GRID DE QUADRADINHOS PRA FOTO VIDEO E DESENHO COM A FUNÇÃO DE MOSTRAR MAIS!
+//AO CLICA NO QUADRADINHO ABRE MODAL DA FOTO OU VÍDEO COM COMENTARIOS LÁ!
+//OBS: NA SEÇÃO DE FOTO QUERO FAZER IGUAL O INSTAGRAM COM VARIAS FOTOS EM UMA PUBLICAÇÃO SÓ COM SETA PRO LADO E EDIÇÃO PERMITE MUDAR DESCRIÇÃO SÓ. VíDEo mESMA COISA SÓ DESCRIÇÃO
+//RESOLVER CSS DA SEÇÃO NÃO RENDERIZAR HEIGHT CERTO!!!
+
+
 function criarSecao(tipo) {
     let overlay = document.createElement('div');
     overlay.id = 'overlay';
@@ -260,10 +266,12 @@ function criarSecao(tipo) {
         tituloPersonalizado = true;
         criarTopico = false;
     }
+	
     if (tipo === 'Licenças e Certificados') {
         tituloPersonalizado = false;
         criarTopico = true;
     }
+	
     if (tipo === 'Projetos Concluídos') {
         tituloPersonalizado = false;
         criarTopico = false;
@@ -307,7 +315,7 @@ function criarSecao(tipo) {
 		editorContainer.style.height = '100px';
 		editorContainer.style.maxHeight = '100vh';
 		
-		let larguraInicial = window.innerWidth * 0.66 - 55.4;
+		let larguraInicial = window.innerWidth * 0.66 - 56.4;
 		editorContainer.style.maxWidth = `${Math.max(larguraInicial, 0)}px`;
 		
 		editorContainer.style.backgroundColor = '#fff';
@@ -1046,248 +1054,269 @@ function editarSecao(tipo, secao) {
 }*/
 
 
-//renderizar minhas secoes
-secoes.forEach(secao => {
-	let tituloPersonalizado = false;
+//USAR ISSO SÓ PRA RENDERIZAR PUBLICAÇÕES NO GRID QUE SERA FEITO. DEPOIS MUDO
+let indiceAtual = 0;
+const quantidadePorPagina = 15;
+const botaoCarregarMais = document.createElement('button');
+botaoCarregarMais.id = 'botao-carregar-mais';
+botaoCarregarMais.innerText = 'Carregar Mais';
+botaoCarregarMais.style.display = 'none';
 
-    let seccao = document.createElement('section');
-    seccao.className = 'seccao';
-    seccao.style.userSelect = 'text';
-	
-	if (secao.tipo === "Texto Livre") {
-        tituloPersonalizado = true;
-		criarTopico = true;
-	}
-	if (secao.tipo === "Licenças e Certificados") {
-	   	tituloPersonalizado = false;
-		criarTopico = true;
-	}
-	if (secao.tipo === "Projetos Concluídos") {
-		tituloPersonalizado = false;
-		criarTopico = false;
-	}
+function carregarSecoes() {
+    let limite = Math.min(indiceAtual + quantidadePorPagina, secoes.length);
 
-	if (tituloPersonalizado) {
-		let titulo = document.createElement('h3');
-		titulo.innerText = secao.titulo;
-		titulo.className = 'titulo-seccao';
-		seccao.appendChild(titulo);
-	}
-	else {
-		let titulo2 = document.createElement('h3');
-		titulo2.innerText = secao.tipo;
-		titulo2.className = 'titulo-seccao-texto';
-		seccao.appendChild(titulo2);
-	}
-	
-	//criações
-
-	if (secao.tipo === "Projetos Concluídos") {
-	    let tabela = document.createElement('table');
-	    tabela.className = 'table';
-	    
-	    let thead = document.createElement('thead');
-	    let th1 = document.createElement('th');
-	    th1.innerText = 'Natureza';
-	    let th2 = document.createElement('th');
-	    th2.innerText = 'Empresa/Título';
-	    let th3 = document.createElement('th');
-	    th3.innerText = 'Descrição';
-	    let th4 = document.createElement('th');
-	    th4.innerText = 'Requisitos';
-	    let th5 = document.createElement('th');
-	    th5.innerText = 'Carga Horária';
-	    let th6 = document.createElement('th');
-	    th6.innerText = 'Ver certificado';
-
-	    let trHeader = document.createElement('tr');
-	    trHeader.appendChild(th1);
-	    trHeader.appendChild(th2);
-	    trHeader.appendChild(th3);
-	    trHeader.appendChild(th4);
-	    trHeader.appendChild(th5);
-	    trHeader.appendChild(th6);
-	    thead.appendChild(trHeader);
-	    tabela.appendChild(thead);
-
-	    let tbody = document.createElement('tbody');
+    for (let i = indiceAtual; i < limite; i++) {
+		secao = secoes[i];
 		
-	    projetos.forEach(projeto => {
-	        let tr = document.createElement('tr');
-	        
-	        let td1 = document.createElement('td');
-	        td1.innerText = 'Pesquisa/extensão';
-	        let td2 = document.createElement('td');
-	        td2.innerText = projeto.nome;
-	        let td3 = document.createElement('td');
-	        td3.innerText = projeto.descricao;
-	        let td4 = document.createElement('td');
-	        td4.innerText = projeto.requisito;
-	        let td5 = document.createElement('td');
-	        td5.innerText = projeto.cargaHoraria;
-	        let td6 = document.createElement('td');
-	        let a = document.createElement('a');
-	        a.href = `/aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
-	        let button = document.createElement('button');
-	        button.id = 'botao-certificado';
-	        button.innerText = 'Ver certificado';
-	        a.appendChild(button);
-	        td6.appendChild(a);
+		let tituloPersonalizado = false;
 
-	        tr.appendChild(td1);
-	        tr.appendChild(td2);
-	        tr.appendChild(td3);
-	        tr.appendChild(td4);
-	        tr.appendChild(td5);
-	        tr.appendChild(td6);
-	        tbody.appendChild(tr);
-	    });
-
-	    estagios.forEach(estagio => {
-	        let tr = document.createElement('tr');
-	        
-	        let td1 = document.createElement('td');
-	        td1.innerText = 'Pesquisa/extensão';
-	        let td2 = document.createElement('td');
-	        td2.innerText = estagio.empresa;
-	        let td3 = document.createElement('td');
-	        td3.innerText = estagio.descricao;
-	        let td4 = document.createElement('td');
-	        td4.innerText = estagio.requisito;
-	        let td5 = document.createElement('td');
-	        td5.innerText = estagio.cargaHoraria;
-	        let td6 = document.createElement('td');
-	        let a = document.createElement('a');
-	        a.href = `/aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
-	        let button = document.createElement('button');
-	        button.id = 'botao-certificado';
-	        button.innerText = 'Ver certificado';
-	        a.appendChild(button);
-	        td6.appendChild(a);
-
-	        tr.appendChild(td1);
-	        tr.appendChild(td2);
-	        tr.appendChild(td3);
-	        tr.appendChild(td4);
-	        tr.appendChild(td5);
-	        tr.appendChild(td6);
-	        tbody.appendChild(tr);
-	    });
-
-	    tabela.appendChild(tbody);
-	    seccao.appendChild(tabela);
-	}
-	
-	let botaoApagar = document.createElement('button');
-    botaoApagar.className = 'seccao-botao-apagar';
-	
-	let formApagarSecao = document.createElement('form');
-	formApagarSecao.id = 'form-apagar-secao';
-	formApagarSecao.action = "/perfil-aluno/apagar-secao"; 
-	formApagarSecao.method = "POST"; 
-	formApagarSecao.enctype = "multipart/form-data";
-	formApagarSecao.type = 'hidden';
-	formApagarSecao.style.display = 'none';
-	
-	seccao.appendChild(formApagarSecao);
-	
-	let idSecaoInput = document.createElement('input');
-	idSecaoInput.type = 'hidden';
-	idSecaoInput.name = 'idSecao';
-	idSecaoInput.value = secao.id;
-	
-	let idUsuarioInput = document.createElement('input');
-	idUsuarioInput.type = 'hidden';
-	idUsuarioInput.name = 'idUsuario';
-	idUsuarioInput.value = secao.usuarioId;
-	
-	formApagarSecao.appendChild(idUsuarioInput);
-	formApagarSecao.appendChild(idSecaoInput);
-	
-    seccao.appendChild(botaoApagar);
-	
-	botaoApagar.addEventListener('click', function () {
+	    let seccao = document.createElement('section');
+	    seccao.className = 'seccao';
+	    seccao.style.userSelect = 'text';
 		
-		/*
-	    if (contadorTextoLivre != 0 && tipo === "Texto Livre") {
-	        contadorTextoLivre--;
-	    }
-	    
-	    if (contadorProjetosConcluidos != 0 && tipo === "Projetos Concluídos") {
-	        contadorProjetosConcluidos = 0;
-	    }
-	
-	    if (contadorLicencasCertificados != 0 && tipo === "Licenças e Certificados") {
-	        contadorLicencasCertificados = 0;
-	    }*/
-	
-	    if (confirm('Você tem certeza que deseja excluir esta seção?')) {
-			formApagarSecao.submit();
-	        seccao.remove();
-	    }
-	});
+		if (secao.tipo === "Texto Livre") {
+	        tituloPersonalizado = true;
+			criarTopico = true;
+		}
+		if (secao.tipo === "Licenças e Certificados") {
+		   	tituloPersonalizado = false;
+			criarTopico = true;
+		}
+		if (secao.tipo === "Projetos Concluídos") {
+			tituloPersonalizado = false;
+			criarTopico = false;
+		}
+
+		if (tituloPersonalizado) {
+			let titulo = document.createElement('h3');
+			titulo.innerText = secao.titulo;
+			titulo.className = 'titulo-seccao';
+			seccao.appendChild(titulo);
+		}
+		else {
+			let titulo2 = document.createElement('h3');
+			titulo2.innerText = secao.tipo;
+			titulo2.className = 'titulo-seccao-texto';
+			seccao.appendChild(titulo2);
+		}
 		
-	if (secao.tipo === "Texto Livre") {
-	    let editorContainer = document.createElement('div');
-	    editorContainer.className = 'editor-container';
-	    editorContainer.style.resize = 'none';
-	    editorContainer.style.width = secao.comprimentoConteudoTexto + 'px';
-	    editorContainer.style.height = secao.alturaConteudoTexto + 'px';
-	    editorContainer.style.position = 'absolute';  // A posição é absoluta para controlar os valores de left/top
-	    editorContainer.style.left = secao.leftConteudoTexto + 'px';  // Usando parseInt para garantir que o valor seja numérico
-	    editorContainer.style.top = secao.topConteudoTexto + 'px';    // Usando parseInt para garantir que o valor seja numérico
-	    editorContainer.style.fontSize = '16px';
-	    editorContainer.style.border = '1px solid #ff0000';
-	    editorContainer.style.overflow = 'auto';
-	    editorContainer.style.marginBottom = '20px';
+		//criações
 
-	    seccao.appendChild(editorContainer);
+		if (secao.tipo === "Projetos Concluídos") {
+		    let tabela = document.createElement('table');
+		    tabela.className = 'table';
+		    
+		    let thead = document.createElement('thead');
+		    let th1 = document.createElement('th');
+		    th1.innerText = 'Natureza';
+		    let th2 = document.createElement('th');
+		    th2.innerText = 'Empresa/Título';
+		    let th3 = document.createElement('th');
+		    th3.innerText = 'Descrição';
+		    let th4 = document.createElement('th');
+		    th4.innerText = 'Requisitos';
+		    let th5 = document.createElement('th');
+		    th5.innerText = 'Carga Horária';
+		    let th6 = document.createElement('th');
+		    th6.innerText = 'Ver certificado';
 
-	    const quill = new Quill(editorContainer, {
-	        theme: 'bubble',
-	        readOnly: true,
-	        modules: {
-	            toolbar: false,
-	        },
-	    });
+		    let trHeader = document.createElement('tr');
+		    trHeader.appendChild(th1);
+		    trHeader.appendChild(th2);
+		    trHeader.appendChild(th3);
+		    trHeader.appendChild(th4);
+		    trHeader.appendChild(th5);
+		    trHeader.appendChild(th6);
+		    thead.appendChild(trHeader);
+		    tabela.appendChild(thead);
 
-	    quill.root.innerHTML = secao.conteudoTexto;
-	}
+		    let tbody = document.createElement('tbody');
 			
-	else if(secao.tipo === "Licenças e Certificados") {
-	    let conteinerLogoTexto = document.createElement('div');
-	    conteinerLogoTexto.className = "form-logo-texto-container";
-	
-	    let logoPreview = document.createElement('img');
-	    logoPreview.className = "logo-preview";
-	    logoPreview.style.width = '50px';
-	    logoPreview.style.height = '50px';
-	
-	    let caixaTexto = document.createElement('p');
-	    caixaTexto.className = 'caixa-texto-topico2';
-		caixaTexto.innerText = secao.conteudoTexto;
+		    projetos.forEach(projeto => {
+		        let tr = document.createElement('tr');
+		        
+		        let td1 = document.createElement('td');
+		        td1.innerText = 'Pesquisa/extensão';
+		        let td2 = document.createElement('td');
+		        td2.innerText = projeto.nome;
+		        let td3 = document.createElement('td');
+		        td3.innerText = projeto.descricao;
+		        let td4 = document.createElement('td');
+		        td4.innerText = projeto.requisito;
+		        let td5 = document.createElement('td');
+		        td5.innerText = projeto.cargaHoraria;
+		        let td6 = document.createElement('td');
+		        let a = document.createElement('a');
+		        a.href = `/aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
+		        let button = document.createElement('button');
+		        button.id = 'botao-certificado';
+		        button.innerText = 'Ver certificado';
+		        a.appendChild(button);
+		        td6.appendChild(a);
+
+		        tr.appendChild(td1);
+		        tr.appendChild(td2);
+		        tr.appendChild(td3);
+		        tr.appendChild(td4);
+		        tr.appendChild(td5);
+		        tr.appendChild(td6);
+		        tbody.appendChild(tr);
+		    });
+
+		    estagios.forEach(estagio => {
+		        let tr = document.createElement('tr');
+		        
+		        let td1 = document.createElement('td');
+		        td1.innerText = 'Pesquisa/extensão';
+		        let td2 = document.createElement('td');
+		        td2.innerText = estagio.empresa;
+		        let td3 = document.createElement('td');
+		        td3.innerText = estagio.descricao;
+		        let td4 = document.createElement('td');
+		        td4.innerText = estagio.requisito;
+		        let td5 = document.createElement('td');
+		        td5.innerText = estagio.cargaHoraria;
+		        let td6 = document.createElement('td');
+		        let a = document.createElement('a');
+		        a.href = `/aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
+		        let button = document.createElement('button');
+		        button.id = 'botao-certificado';
+		        button.innerText = 'Ver certificado';
+		        a.appendChild(button);
+		        td6.appendChild(a);
+
+		        tr.appendChild(td1);
+		        tr.appendChild(td2);
+		        tr.appendChild(td3);
+		        tr.appendChild(td4);
+		        tr.appendChild(td5);
+		        tr.appendChild(td6);
+		        tbody.appendChild(tr);
+		    });
+
+		    tabela.appendChild(tbody);
+		    seccao.appendChild(tabela);
+		}
 		
-		conteinerLogoTexto.appendChild(logoPreview);
-		conteinerLogoTexto.appendChild(caixaTexto);
-	    seccao.appendChild(conteinerLogoTexto);
-	
-	    logoPreview.addEventListener('click', function () {
-	        inputLogo.click();
-	    });
-	
-		inputLogo.addEventListener('change', function (e) {
-		    let file = e.target.files[0];
-		    if (file) {
-		        let reader = new FileReader();
-		        reader.onload = function (e) {
-		            logoPreview.src = e.target.result;
-		        };
-		        reader.readAsDataURL(file);
+		let botaoApagar = document.createElement('button');
+	    botaoApagar.className = 'seccao-botao-apagar';
+		
+		let formApagarSecao = document.createElement('form');
+		formApagarSecao.id = 'form-apagar-secao';
+		formApagarSecao.action = "/perfil-aluno/apagar-secao"; 
+		formApagarSecao.method = "POST"; 
+		formApagarSecao.enctype = "multipart/form-data";
+		formApagarSecao.type = 'hidden';
+		formApagarSecao.style.display = 'none';
+		
+		seccao.appendChild(formApagarSecao);
+		
+		let idSecaoInput = document.createElement('input');
+		idSecaoInput.type = 'hidden';
+		idSecaoInput.name = 'idSecao';
+		idSecaoInput.value = secao.id;
+		
+		let idUsuarioInput = document.createElement('input');
+		idUsuarioInput.type = 'hidden';
+		idUsuarioInput.name = 'idUsuario';
+		idUsuarioInput.value = secao.usuarioId;
+		
+		formApagarSecao.appendChild(idUsuarioInput);
+		formApagarSecao.appendChild(idSecaoInput);
+		
+	    seccao.appendChild(botaoApagar);
+		
+		botaoApagar.addEventListener('click', function () {
+			
+			/*
+		    if (contadorTextoLivre != 0 && tipo === "Texto Livre") {
+		        contadorTextoLivre--;
+		    }
+		    
+		    if (contadorProjetosConcluidos != 0 && tipo === "Projetos Concluídos") {
+		        contadorProjetosConcluidos = 0;
+		    }
+		
+		    if (contadorLicencasCertificados != 0 && tipo === "Licenças e Certificados") {
+		        contadorLicencasCertificados = 0;
+		    }*/
+		
+		    if (confirm('Você tem certeza que deseja excluir esta seção?')) {
+				formApagarSecao.submit();
+		        seccao.remove();
 		    }
 		});
-	}
-	containerSeccoes.appendChild(seccao);
-});
+			
+		if (secao.tipo === "Texto Livre") {
+		    let editorContainer = document.createElement('div');
+		    editorContainer.className = 'editor-container';
+		    editorContainer.style.resize = 'none';
+		    editorContainer.style.width = secao.comprimentoConteudoTexto + 'px';
+		    editorContainer.style.height = secao.alturaConteudoTexto + 'px';
+		    editorContainer.style.position = 'absolute'; 
+		    editorContainer.style.left = secao.leftConteudoTexto + 'px'; 
+		    editorContainer.style.top = secao.topConteudoTexto + 'px';
+		    editorContainer.style.fontSize = '16px';
+		    editorContainer.style.overflow = 'auto';
+		    editorContainer.style.marginBottom = '20px';
+
+		    seccao.appendChild(editorContainer);
+
+		    const quill = new Quill(editorContainer, {
+		        theme: 'bubble',
+		        readOnly: true,
+		        modules: {
+		            toolbar: false,
+		        },
+		    });
+
+		    quill.root.innerHTML = secao.conteudoTexto;
+		}
+				
+		else if(secao.tipo === "Licenças e Certificados") {
+		    let conteinerLogoTexto = document.createElement('div');
+		    conteinerLogoTexto.className = "form-logo-texto-container";
+		
+		    let logoPreview = document.createElement('img');
+		    logoPreview.className = "logo-preview";
+		    logoPreview.style.width = '50px';
+		    logoPreview.style.height = '50px';
+		
+		    let caixaTexto = document.createElement('p');
+		    caixaTexto.className = 'caixa-texto-topico2';
+			caixaTexto.innerText = secao.conteudoTexto;
+			
+			conteinerLogoTexto.appendChild(logoPreview);
+			conteinerLogoTexto.appendChild(caixaTexto);
+		    seccao.appendChild(conteinerLogoTexto);
+		
+		    logoPreview.addEventListener('click', function () {
+		        inputLogo.click();
+		    });
+		
+			inputLogo.addEventListener('change', function (e) {
+			    let file = e.target.files[0];
+			    if (file) {
+			        let reader = new FileReader();
+			        reader.onload = function (e) {
+			            logoPreview.src = e.target.result;
+			        };
+			        reader.readAsDataURL(file);
+			    }
+			});
+		}
+		containerSeccoes.appendChild(seccao);
+		containerSeccoes.appendChild(botaoCarregarMais);
+    }
+
+	indiceAtual = limite;
+	
+    botaoCarregarMais.style.display = indiceAtual < secoes.length ? 'block' : 'none';
+}
+
+botaoCarregarMais.addEventListener('click', carregarSecoes);
+
+carregarSecoes();
 
 //CROPPEP
 

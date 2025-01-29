@@ -77,7 +77,7 @@
 		
 		<a th:href="@{/configPerfil/contaConfigPerfil(id=${aluno.id})}" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:if="${idDoUsuario == aluno.id}"></a>
 		<button type="submit" class="botoes-perfil" id="botao-edicao" th:if="${idDoUsuario == aluno.id}"></button>
-		<button type="submit" class="botoes-perfil" id="botao-seguir" th:href="@{/relacoes/toggle?id=aluno.id}" th:if="${idDoUsuario != aluno.id}">SEGUIR</button>
+		<a th:if="${idDoUsuario != aluno.id}" class="botoes-perfil" id="botao-seguir" th:href="@{/relacoes/toggle?id=aluno.id}">Seguir</a>
 		
 		<!--   PARA VERIFICAR!!!
 		<p>Visitante ID: <span th:text="${idDoUsuario}"></span></p>
