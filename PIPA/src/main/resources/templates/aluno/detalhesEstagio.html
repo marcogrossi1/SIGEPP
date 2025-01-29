@@ -21,13 +21,13 @@
             <p th:text="'Salário: R$' + ${estagio.salario}"></p>
             <p th:text="${documentos != null}?'Documentos necessários:' : 'Nenhum documento necessário.'"></p>
             <ul if="${documentos != null && documentos != ''}">
-                <li th:each="doc : ${documentos}" th:text="${doc}"></li>
+             <li th:each="doc : ${documentos}" th:text="${doc}"></li>
             </ul>
             <hr>
             <p th:text="${descricao}"></p>
              <a th:href="@{/aluno/upload(estagioId=${estagio.id})}">
-    		<button type = " submit" href = "aluno/upload">Enviar Documentos</button>
-        	</a>
+    			<button type="button">Enviar Documentos</button>
+			</a>
         </section>
         
     </main>
