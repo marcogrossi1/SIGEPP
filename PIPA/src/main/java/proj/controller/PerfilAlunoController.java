@@ -258,14 +258,17 @@ public class PerfilAlunoController {
         @RequestParam(value = "ordem", required = true) Integer ordem,
         @RequestParam(value = "comprimentoConteudoTexto", required = false) Integer comprimentoConteudoTexto,
         @RequestParam(value = "alturaConteudoTexto", required = false) Integer alturaConteudoTexto,
+        @RequestParam(value = "leftConteudoTexto", required = false) Integer leftConteudoTexto,
+        @RequestParam(value = "topConteudoTexto", required = false) Integer topConteudoTexto,
 	    Model model) {
 
 	    try (Connection conn = ds.getConnection()) {
 	        if (ordem == null) 
 	        	ordem = 0;
 	        
-	        //VERIFICAR SE TÁ DANDO LARGURA E ALTURA MESMO DO CONTEUDO TEXTO
+	        //VERIFICAR SE TÁ DANDO LARGURA E ALTURA MESMO DO CONTEUDO TEXTO E TOP E LEFT
 	        System.out.println("Largura: " + comprimentoConteudoTexto + ", Altura: " + alturaConteudoTexto);
+	        System.out.println("Top: " + comprimentoConteudoTexto + ", Left: " + alturaConteudoTexto);
 	        
             Secao sec = new Secao();
             sec.setUsuarioId(usuarioId);
@@ -281,6 +284,8 @@ public class PerfilAlunoController {
             sec.setOrdem(ordem);
             sec.setComprimentoConteudoTexto(comprimentoConteudoTexto);
             sec.setAlturaConteudoTexto(alturaConteudoTexto);
+            sec.setTopConteudoTexto(topConteudoTexto);
+            sec.setLeftConteudoTexto(leftConteudoTexto);
             
             SecaoDao.salvarSecao(conn, sec);
 	       

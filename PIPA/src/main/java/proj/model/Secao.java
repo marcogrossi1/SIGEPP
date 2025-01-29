@@ -10,6 +10,8 @@ public class Secao {
     private Integer alturaConteudoTexto;
     private byte[] conteudoImagem;
     private int ordem;
+	private Integer topConteudoTexto;
+	private Integer leftConteudoTexto;
 
     public Long getId() {
         return id;
@@ -82,4 +84,20 @@ public class Secao {
     public void setAlturaConteudoTexto(Integer alturaConteudoTexto) {
         this.alturaConteudoTexto = alturaConteudoTexto;
     }
+
+	public void setTopConteudoTexto(Integer topConteudoTexto) {
+		this.topConteudoTexto = topConteudoTexto;
+	}
+	
+	public Integer getTopConteudoTexto() {
+		return topConteudoTexto;
+	}
+
+	public void setLeftConteudoTexto(Integer leftConteudoTexto) {
+		this.leftConteudoTexto = leftConteudoTexto;
+	}
+	
+	public Integer getLeftConteudoTexto() {
+		return leftConteudoTexto;
+	}
 }

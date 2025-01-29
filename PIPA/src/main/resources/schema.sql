@@ -281,6 +281,8 @@ CREATE TABLE secoes (
     conteudoTexto LONGTEXT,
     comprimentoConteudoTexto INT NULL,
     alturaConteudoTexto INT NULL,
+    leftConteudoTexto INT NULL,
+    topConteudoTexto INT NULL,
     conteudoImagem LONGBLOB NULL,
     ordem INT,
   	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
