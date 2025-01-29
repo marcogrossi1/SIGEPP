@@ -33,8 +33,8 @@ public class AlunoDao {
     private final static String listCursosSql = "SELECT DISTINCT curso FROM aluno ORDER BY curso";
     private final static String listCampusSql = "SELECT DISTINCT campus FROM aluno ORDER BY campus";
     private final static String listPeriodosSql = "SELECT DISTINCT periodo FROM aluno ORDER BY periodo";
-    private final static String insertsql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id) VALUES( ?, ?, ?, ?, ?, ?, ?) ";
-    private final static String updatesql = "UPDATE aluno SET cpf = ?, nome = ?, curso = ?, campus = ?, email = ?, periodo = ?, usuario_id = ?, telefone = ? WHERE id = ? ";
+    private final static String insertsql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id, telefone, fotoPerfil, bannerPerfil, descricaoPerfil) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+    private final static String updatesql = "UPDATE aluno SET cpf = ?, nome = ?, curso = ?, campus = ?, email = ?, periodo = ?, usuario_id = ?, telefone = ?, fotoPerfil = ?, bannerPerfil = ?, descricaoPerfil = ? WHERE id = ? ";
     private final static String updateForCpfSql = "UPDATE aluno SET cpf = ?  WHERE id = ? ";
     private final static String updateForNomeSql = "UPDATE aluno SET nome = ?  WHERE id = ? ";
     private final static String updateForCursoSql = "UPDATE aluno SET curso = ?  WHERE id = ? ";
@@ -60,7 +60,6 @@ public class AlunoDao {
         throws SQLException
     {
         Aluno vo = new Aluno();
-        vo.setId(rs.getLong("id"));
         vo.setId(rs.getLong("id"));
         vo.setCpf(rs.getString("cpf"));
         vo.setNome(rs.getString("nome"));

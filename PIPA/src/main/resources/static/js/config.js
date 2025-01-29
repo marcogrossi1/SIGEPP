@@ -268,6 +268,11 @@ function criarSecao(tipo) {
         tituloPersonalizado = false;
         criarTopico = false;
     }
+	
+	if (tipo === 'Desenho') {
+        tituloPersonalizado = true;
+        criarTopico = false;
+    }
 
     // Título personalizado ou fixo
     if (tituloPersonalizado) {
@@ -294,14 +299,17 @@ function criarSecao(tipo) {
 	    editorContainer.className = 'editor-container';
 		editorContainer.innerHTML = 'Escreva seu texto...';
 
-		editorContainer.style.fontSize = '16px'; // Corrigido
+		editorContainer.style.fontSize = '16px';
 		editorContainer.style.position = 'absolute';
-		editorContainer.style.left = '20px';
+		editorContainer.style.left = '50px';
 		editorContainer.style.top = '70px';
 		editorContainer.style.width = '400px';
 		editorContainer.style.height = '100px';
 		editorContainer.style.maxHeight = '100vh';
-		editorContainer.style.maxWidth = '66vw';
+		
+		let larguraInicial = window.innerWidth * 0.66 - 55.4;
+		editorContainer.style.maxWidth = `${Math.max(larguraInicial, 0)}px`;
+		
 		editorContainer.style.backgroundColor = '#fff';
 		editorContainer.style.cursor = 'text';
 		editorContainer.style.border = '1px solid #ccc';
@@ -315,19 +323,19 @@ function criarSecao(tipo) {
 		    theme: 'snow',
 		    modules: {
 		        toolbar: [
-		            [{ 'header': '1' }, { 'header': '2' }, { 'header': [3, 4, 5, 6, false] }, { 'font': [] }], // Cabeçalhos e fontes
-		            [{ 'size': ['small', false, 'large', 'huge'] }], // Tamanhos do texto
-		            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }], // Listas (ordenada, com marcadores, checklist)
-		            [{ 'align': [] }], // Alinhamento
-		            ['bold', 'italic', 'underline', 'strike', 'blockquote'], // Formatação (negrito, itálico, sublinhado, tachado, citação)
-		            [{ 'color': [] }, { 'background': [] }], // Cores do texto e fundo
-		            ['link', 'video', 'formula'], // Links, imagens, vídeos e fórmulas matemáticas
+		            [{ 'header': '1' }, { 'header': '2' }, { 'header': [3, 4, 5, 6, false] }, { 'font': [] }],
+		            [{ 'size': ['small', false, 'large', 'huge'] }],
+		            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+		            [{ 'align': [] }],
+		            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+		            [{ 'color': [] }, { 'background': [] }],
+		            ['link', 'video', 'formula'],
 					['move-video-up', 'move-video-left', 'move-video-right']
-		            [{ 'script': 'sub' }, { 'script': 'super' }], // Subscrito e sobrescrito
-		            [{ 'indent': '-1' }, { 'indent': '+1' }], // Indentação
-		            [{ 'direction': 'rtl' }], // Direção do texto (da direita para esquerda)
-		            ['code-block'], // Bloco de código
-		            ['clean'] // Limpar formatação
+		            [{ 'script': 'sub' }, { 'script': 'super' }],
+		            [{ 'indent': '-1' }, { 'indent': '+1' }],
+		            [{ 'direction': 'rtl' }],
+		            ['code-block'],
+		            ['clean']
 		        ]
 		    }
 		});
@@ -370,15 +378,28 @@ function criarSecao(tipo) {
 	    alturaConteudoTextoInput.type = 'hidden';
 	    alturaConteudoTextoInput.name = 'alturaConteudoTexto';
 	    seccao.appendChild(alturaConteudoTextoInput);
+		
+		let leftConteudoTextoInput = document.createElement('input');
+	    leftConteudoTextoInput.type = 'hidden';
+	    leftConteudoTextoInput.name = 'leftConteudoTexto';
+	    seccao.appendChild(leftConteudoTextoInput);
 
-		let atualizarDimensoes = () => {
-	        comprimentoConteudoTextoInput.value = editorContainer.offsetWidth;
-	        alturaConteudoTextoInput.value = editorContainer.offsetHeight;
-	    };
+		let topConteudoTextoInput = document.createElement('input');
+	    topConteudoTextoInput.type = 'hidden';
+	    topConteudoTextoInput.name = 'topConteudoTexto';
+	    seccao.appendChild(topConteudoTextoInput);
 
-	    editorContainer.addEventListener('input', atualizarDimensoes);
-	    editorContainer.addEventListener('mouseup', atualizarDimensoes);
-	    atualizarDimensoes();
+		let atualizar = () => {
+		    comprimentoConteudoTextoInput.value = editorContainer.offsetWidth;
+		    alturaConteudoTextoInput.value = editorContainer.offsetHeight;
+		    leftConteudoTextoInput.value = editorContainer.offsetLeft;
+		    topConteudoTextoInput.value = editorContainer.offsetTop;
+		};
+
+		editorContainer.addEventListener('input', atualizar);
+		editorContainer.addEventListener('mouseup', atualizar);
+		editorContainer.addEventListener('mousemove', atualizar);
+		atualizar();
 
 	    // Lógica de arraste
 	    let isDragging = false;
@@ -415,13 +436,13 @@ function criarSecao(tipo) {
 	            let newTop = startTop + deltaY;
 
 	            let espacoDelimitado = {
-	                left: 0,
+	                left: 50,
 	                top: 70,
-	                right: seccao.offsetWidth - editorContainer.offsetWidth,
+	                right: seccao.offsetWidth - editorContainer.offsetWidth - 50,
 	                bottom: seccao.offsetHeight - editorContainer.offsetHeight
 	            };
 				
-				let maxWidth = seccao.offsetWidth - newLeft;
+				let maxWidth = seccao.offsetWidth - newLeft - 50;
 				
 	            newLeft = Math.max(espacoDelimitado.left, Math.min(newLeft, espacoDelimitado.right));
 	            newTop = Math.max(espacoDelimitado.top, Math.min(newTop, espacoDelimitado.bottom));
@@ -434,8 +455,9 @@ function criarSecao(tipo) {
 	    document.addEventListener('mouseup', () => {
 	        isDragging = false;
 			
-			let maxWidth = seccao.offsetWidth - editorContainer.offsetLeft;
+			let maxWidth = seccao.offsetWidth - editorContainer.offsetLeft - 50;
 		   	editorContainer.style.maxWidth = `${Math.max(maxWidth, 0)}px`;
+			
 			quill.enable();
 			
 			editorContainer.style.border = '1px solid #ccc';
@@ -509,7 +531,106 @@ function criarSecao(tipo) {
 	        quill.format('color', color);
 	    });
 	}
+	
+	if (tipo === "Desenho") {
+		let desenhoContainer = document.createElement('div');
 
+		// Criação da barra de ferramentas
+		let toolbar = document.createElement('div');
+		toolbar.id = 'toolbar';
+		
+		
+		//TIRAR BOTÕES DE CORES E BOTAR COLOR PICKER
+		
+		// Função para criar os botões
+		function criarButtonGeral(color, text) {
+		    let button = document.createElement('button');
+		    button.textContent = text;
+			button.type = 'button';
+		    button.onclick = () => changeColor(color);
+		    return button;
+		}
+		
+		function criarButtonLimpar(text) {
+		    let button = document.createElement('button');
+		    button.textContent = text;
+			button.type = 'button';
+		    button.onclick = () => clearAreaDesenho();
+		    return button;
+		}
+		
+		// Adicionando os botões à toolbar
+		toolbar.appendChild(criarButtonGeral('black', 'Preto'));
+		toolbar.appendChild(criarButtonGeral('red', 'Vermelho'));
+		toolbar.appendChild(criarButtonGeral('green', 'Verde'));
+		toolbar.appendChild(criarButtonGeral('blue', 'Azul'));
+		toolbar.appendChild(criarButtonLimpar(null, 'Limpar')); // O botão Limpar vai usar uma função diferente
+		
+		// Adicionando a toolbar à div principal
+		desenhoContainer.appendChild(toolbar);
+		
+		// Criação do canvas
+		let areaDesenho = document.createElement('canvas');
+		areaDesenho.id = 'paintCanvas';
+		areaDesenho.width = 500;
+		areaDesenho.height = 500;
+		desenhoContainer.appendChild(areaDesenho);
+		
+		seccao.appendChild(desenhoContainer);
+		
+		
+		
+        let ctx = areaDesenho.getContext('2d');
+
+        let painting = false;
+        let color = 'black';
+
+        // Função para começar a desenhar
+        function startPosition(e) {
+            painting = true;
+            draw(e);
+        }
+
+        // Função para parar de desenhar
+        function endPosition() {
+            painting = false;
+            ctx.beginPath();
+        }
+
+        // Função para desenhar
+        function draw(e) {
+            if (!painting) return;
+
+            const rect = areaDesenho.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = color;
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        // Mudar cor
+        function changeColor(newColor) {
+            color = newColor;
+        }
+
+        // Limpar o canvas
+        function clearAreaDesenho() {
+            ctx.clearRect(0, 0, canvas.areaDesenho, areaDesenho.height);
+        }
+
+        // Eventos de mouse
+        areaDesenho.addEventListener('mousedown', startPosition);
+        areaDesenho.addEventListener('mouseup', endPosition);
+        areaDesenho.addEventListener('mousemove', draw);
+        areaDesenho.addEventListener('mouseleave', endPosition);
+	}
 	
     // Caso Projetos Concluídos
     if (tipo === 'Projetos Concluídos') {
@@ -946,13 +1067,18 @@ secoes.forEach(secao => {
 		criarTopico = false;
 	}
 
-	let titulo = document.createElement('h3');
-	if (tituloPersonalizado)
+	if (tituloPersonalizado) {
+		let titulo = document.createElement('h3');
 		titulo.innerText = secao.titulo;
-	else
-		titulo.innerText = secao.tipo;
-	titulo.className = 'titulo-seccao-texto';
-	seccao.appendChild(titulo);
+		titulo.className = 'titulo-seccao';
+		seccao.appendChild(titulo);
+	}
+	else {
+		let titulo2 = document.createElement('h3');
+		titulo2.innerText = secao.tipo;
+		titulo2.className = 'titulo-seccao-texto';
+		seccao.appendChild(titulo2);
+	}
 	
 	//criações
 
@@ -1101,27 +1227,33 @@ secoes.forEach(secao => {
 	    }
 	});
 		
-	if(secao.tipo === "Texto Livre") {
+	if (secao.tipo === "Texto Livre") {
 	    let editorContainer = document.createElement('div');
-	    editorContainer.className = 'caixa-texto-topico'; 
+	    editorContainer.className = 'editor-container';
 	    editorContainer.style.resize = 'none';
 	    editorContainer.style.width = secao.comprimentoConteudoTexto + 'px';
 	    editorContainer.style.height = secao.alturaConteudoTexto + 'px';
-		editorContainer.style.fontSize = '16px';
+	    editorContainer.style.position = 'absolute';  // A posição é absoluta para controlar os valores de left/top
+	    editorContainer.style.left = secao.leftConteudoTexto + 'px';  // Usando parseInt para garantir que o valor seja numérico
+	    editorContainer.style.top = secao.topConteudoTexto + 'px';    // Usando parseInt para garantir que o valor seja numérico
+	    editorContainer.style.fontSize = '16px';
+	    editorContainer.style.border = '1px solid #ff0000';
+	    editorContainer.style.overflow = 'auto';
+	    editorContainer.style.marginBottom = '20px';
 
 	    seccao.appendChild(editorContainer);
 
 	    const quill = new Quill(editorContainer, {
-	        theme: 'bubble', // Use o tema de leitura simples
-	        readOnly: true, // Torna o conteúdo apenas leitura
+	        theme: 'bubble',
+	        readOnly: true,
 	        modules: {
-	            toolbar: false, // Sem ferramentas de edição
+	            toolbar: false,
 	        },
 	    });
 
 	    quill.root.innerHTML = secao.conteudoTexto;
-    }
-					
+	}
+			
 	else if(secao.tipo === "Licenças e Certificados") {
 	    let conteinerLogoTexto = document.createElement('div');
 	    conteinerLogoTexto.className = "form-logo-texto-container";
