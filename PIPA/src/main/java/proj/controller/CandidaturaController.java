@@ -1,6 +1,6 @@
 package proj.controller;
 
-import proj.model.Candidatura; 
+import proj.model.Candidatura;
 import proj.model.Aluno;
 import proj.model.Professor;
 import proj.model.Projeto;
@@ -10,6 +10,7 @@ import proj.dao.HDataSource;
 import proj.dao.AlunoDao;
 import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
+import proj.service.NotificacaoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -95,6 +96,10 @@ public class CandidaturaController {
 	 * @param principal      Objeto que representa o aluno logado
 	 * @return O nome da view a ser exibida
 	 */
+
+	@Autowired
+	private NotificacaoService notificacaoService;
+
 	@PostMapping("/aplicacao")
 	public String enviarCandidatura(@RequestParam("mensagem") String mensagem,
 			@RequestParam("IDoportunidade") Long oportunidadeId, Model model, Principal principal) {
@@ -136,6 +141,9 @@ public class CandidaturaController {
 			model.addAttribute("projeto", projeto);
 			model.addAttribute("aluno", alunoLogado);
 
+			notificacaoService.salvarNotificacao(alunoLogado.getUsuario_id(),
+					"Candidatura em " + projeto.getNome() + " feita com sucesso!");
+			
 			return "conclusao";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -156,43 +164,42 @@ public class CandidaturaController {
 	 */
 	@GetMapping("/professor/candidatos/{id}")
 	public String exibirCandidaturas(@PathVariable Long id, Model model, Principal principal) {
-	    try (Connection conn = dataSource.getConnection()) {
-	        Projeto projeto = ProjetoDao.get(conn, id);
+		try (Connection conn = dataSource.getConnection()) {
+			Projeto projeto = ProjetoDao.get(conn, id);
 
-	        if (projeto == null) {
-	            model.addAttribute("erro", "Projeto não encontrado.");
-	            return "error";
-	        }
+			if (projeto == null) {
+				model.addAttribute("erro", "Projeto não encontrado.");
+				return "error";
+			}
 
-	        // Verifica o professor logado
-	        try {
-	            Professor professorLogado = ProfessorDao.getByUsuario_id(conn, Long.parseLong(principal.getName()));
-	            if (professorLogado != null) {
-	                model.addAttribute("professor", professorLogado);
-	            }
-	        } catch (NumberFormatException e) {
-	            model.addAttribute("erro", "Erro ao identificar o professor logado.");
-	            return "error";
-	        }
+			// Verifica o professor logado
+			try {
+				Professor professorLogado = ProfessorDao.getByUsuario_id(conn, Long.parseLong(principal.getName()));
+				if (professorLogado != null) {
+					model.addAttribute("professor", professorLogado);
+				}
+			} catch (NumberFormatException e) {
+				model.addAttribute("erro", "Erro ao identificar o professor logado.");
+				return "error";
+			}
 
-	        // Recupera as candidaturas do projeto
-	        List<Candidatura> candidaturas = candidaturaDao.listarPorProjeto(id);
+			// Recupera as candidaturas do projeto
+			List<Candidatura> candidaturas = candidaturaDao.listarPorProjeto(id);
 
-	        if (candidaturas == null || candidaturas.isEmpty()) {
-	            model.addAttribute("info", "Ainda não há candidaturas para este projeto.");
-	        }
+			if (candidaturas == null || candidaturas.isEmpty()) {
+				model.addAttribute("info", "Ainda não há candidaturas para este projeto.");
+			}
 
-	        model.addAttribute("candidaturas", candidaturas);
-	        model.addAttribute("projeto", projeto);
+			model.addAttribute("candidaturas", candidaturas);
+			model.addAttribute("projeto", projeto);
 
-	        return "professor/candidatos";
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        model.addAttribute("erro", "Erro ao carregar as candidaturas.");
-	        return "error";
-	    }
+			return "professor/candidatos";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("erro", "Erro ao carregar as candidaturas.");
+			return "error";
+		}
 	}
-
 
 	/**
 	 * Exibe a tela de validação de candidatura para um professor.
@@ -296,7 +303,7 @@ public class CandidaturaController {
 
 			// Adiciona a candidatura no modelo para exibir na página
 			model.addAttribute("candidatura", candidatura);
-			
+
 			return "professor/verCandidatura"; // Nome da view para exibir detalhes
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -304,32 +311,27 @@ public class CandidaturaController {
 			return "error";
 		}
 	}
-	
+
 	@GetMapping("/professor/fotoAluno/{alunoId}")
 	@ResponseBody
 	public ResponseEntity<byte[]> obterFotoAluno(@PathVariable Long alunoId) {
-	    try (Connection conn = ds.getConnection()) {
-	        // Busca o aluno pelo ID
-	        Aluno aluno = AlunoDao.get(conn, alunoId);
+		try (Connection conn = ds.getConnection()) {
+			// Busca o aluno pelo ID
+			Aluno aluno = AlunoDao.get(conn, alunoId);
 
-	        if (aluno == null || aluno.getFotoPerfil() == null) {
-	            // Carrega a imagem padrão se o aluno não possuir uma foto
-	            InputStream fotoPadrao = getClass().getResourceAsStream("/static/img/foto-perfil-padrao.png");
-	            byte[] imagemPadrao = fotoPadrao.readAllBytes();
-	            return ResponseEntity.ok()
-	                    .header("Content-Type", "image/png")
-	                    .body(imagemPadrao);
-	        }
+			if (aluno == null || aluno.getFotoPerfil() == null) {
+				// Carrega a imagem padrão se o aluno não possuir uma foto
+				InputStream fotoPadrao = getClass().getResourceAsStream("/static/img/foto-perfil-padrao.png");
+				byte[] imagemPadrao = fotoPadrao.readAllBytes();
+				return ResponseEntity.ok().header("Content-Type", "image/png").body(imagemPadrao);
+			}
 
-	        // Retorna a foto do aluno armazenada no banco
-	        return ResponseEntity.ok()
-	                .header("Content-Type", "image/jpeg")
-	                .body(aluno.getFotoPerfil());
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-	    }
+			// Retorna a foto do aluno armazenada no banco
+			return ResponseEntity.ok().header("Content-Type", "image/jpeg").body(aluno.getFotoPerfil());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
-
 
 }
