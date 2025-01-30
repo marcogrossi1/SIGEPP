@@ -9,9 +9,11 @@
 </head>
 <body>
 	<header>
-            <a href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <h1 id="titulo-plataforma" >PIPA | Portal</h1>
-        </header>
+
+	        <a href="/aluno"><img id="logo" th:src="@{/img/logo.png}"></a> <!--Cpque na logo para retornar à página inicial-->
+	        <h1 id="titulo-plataforma" >PIPA | Estágios</h1>
+	</header>
+
     <main>
         <section id="detalhes-estagio">
             <a id='redirect-empresa-perfil' th:href="@{${'/encontra-empresa?nome='+empresa}}"><h3 th:text="${empresa}"></h3></a>
@@ -21,7 +23,7 @@
             <p th:text="'Salário: R$' + ${estagio.salario}"></p>
             <p th:text="${documentos != null}?'Documentos necessários:' : 'Nenhum documento necessário.'"></p>
             <ul if="${documentos != null && documentos != ''}">
-                <li th:each="doc : ${documentos}" th:text="${doc}"></li>
+             <li th:each="doc : ${documentos}" th:text="${doc}"></li>
             </ul>
             <hr>
             <p th:text="${descricao}"></p>
@@ -33,7 +35,7 @@
                 <p th:if="${progresso.name() == 'CONCLUIDO'}">Você concluiu este estágio.</p>       
             </div>
             <p th:id="${warning}" th:text="${status}"></p>
-            <a th:if="${progresso == null}" th:href="@{/aluno/inscrever-estagio(n=${estagio.id})}">
+            <a th:if="${progresso == null}" th:href=" ${documentos != null } ? @{/aluno/upload(estagioId=${estagio.id})} : @{/aluno/inscrever-estagio(n=${estagio.id})}">
                 <button>Inscrever-se</button>
             </a>
             <a th:if="${progresso != null}" th:href="@{/aluno/desinscrever-estagio(n=${estagio.id})}">

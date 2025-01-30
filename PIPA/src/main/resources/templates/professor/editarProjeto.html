@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" th:href="@{/img/icon.png}">
+    <title>Professor - Home</title>
+</head>
+
+<body>
+    <header>
+        <a href="/professor"><img id="logo" th:src="@{/img/logo.png}"></a>
+        <h1 id="titulo-plataforma">PIPA | Home</h1>
+    </header>
+
+    <nav>
+        <p th:text="${professor.nome}"></p>
+        <a href="link" class="icone">
+            <img th:src="@{/img/icone-perfil.png}">
+            <label>Perfil</label>
+        </a>
+        <a th:href="@{/professor/projetos?id={id}(id=${professor.id})}" class="icone">
+            <img th:src="@{/img/icone-maleta.png}">
+            <label>Projetos</label>
+        </a>
+    </nav>
+      
+    <main>
+        <form th:action="@{/professor/projetos/editarProjeto}" th:object="${projeto}" method="post">
+            <label for="nome">Nome:</label>
+            <input type="text" th:field="*{nome}" id="nome" /><br/><br/>
+    
+            <label for="descricao">Descrição:</label>
+            <textarea th:field="*{descricao}" id="descricao"></textarea><br/><br/>
+    
+            <label for="carga_horaria">Carga Horária:</label>
+            <input type="number" th:field="*{cargaHoraria}" id="cargaHoraria" /><br/><br/>
+    
+            <label for="carga_horaria">Vagas:</label>
+            <input type="number" th:field="*{vagas}" id="vagas" /><br/><br/>
+
+            <label for="carga_horaria">Requisitos:</label>
+            <textarea th:field="*{requisito}" id="requisito"></textarea><br/><br/>
+
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{responsavel}" />
+            
+            <button type="submit">Salvar</button>
+        </form>
+    </main> 
+    
+</body>
+</html>

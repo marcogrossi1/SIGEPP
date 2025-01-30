@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../img/icon.png">
+    <title>Portal</title>
+</head>
+<body>
+    <header class="header">
+		<a href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma" >PIPA | Documentos</h1>
+    </header>
+    <div class="container">
+     <h1>Enviar Documento</h1>
+   <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+   	<input type="hidden" name="nomeEstagio" th:value="${nomeEstagio}">
+    <input type="hidden" name="idAluno"  th:value="${alunoId}" required><br>
+    <input type="hidden" name="idProjeto" th:value="${estagioId}">
+    <input type="hidden" name="usuarioId" th:value="${usuarioId}">
+    <label for="file">Arquivo:</label>
+    <input type="file" id="file" name="file" required><br>
+    <button type="submit">Enviar</button>
+</form>
+    <p th:if="${mensagem}" th:text="${mensagem}"></p>
+    </div>
+</body>
+</html>

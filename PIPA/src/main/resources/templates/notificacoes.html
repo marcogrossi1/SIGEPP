@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Notificações</title>
+</head>
+<body>
+    <header>
+        <a href=""><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma">PIPA | Notificações</h1>
+    </header>
+    <main>
+        <div>
+            <th:block th:each="notificacao : ${notificacoes}">
+                <div class="notificacao" th:data-id="${notificacao.id}" th:classappend="${notificacao.lida} ? 'lida' : ''">
+                    <p th:text="${notificacao.notificacao}"></p>
+                </div>
+            </th:block>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const notificacoes = document.querySelectorAll('.notificacao');
+
+            notificacoes.forEach(notificacao => {
+                if (notificacao.classList.contains('lida')) {
+                    notificacao.classList.add('lida');
+                }
+                notificacao.addEventListener('click', () => {
+                    notificacao.classList.add('lida');
+                    const notificacaoId = notificacao.getAttribute('data-id');
+                    fetch(`/notificacoes/mark-as-read/${notificacaoId}`, {
+                        method: 'POST'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            notificacao.classList.add('lida');
+                        } else {
+                            console.error("Erro ao marcar a notificação como lida");
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

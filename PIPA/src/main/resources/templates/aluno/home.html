@@ -15,11 +15,14 @@
     </header>
 
     <nav>
-	<p id="nome-no-portal" th:text="${aluno.nome}"></p>
-        <a href="/aluno/perfil" class="icone" id="icone-portal">
+		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+        <a th:href="@{/perfil-aluno(id=${aluno.id})}" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
-        </a>
+        <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacaoNaoLida} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+</a>
     </nav>    
     
     <main>
@@ -36,7 +39,7 @@
             <img src="../img/not-tres-select.png" class="select-not-img" id="not-tres-select">
         </div>
         <br>
-		<a href="/aluno/projetos">
+		<a href="/aluno/explorarProjetos">
         <button class="botoes-portal" id="botao-projeto" type="submit">
             <img src="img/botao-projetos-de-pesquisa.png" class="imgs-botoes-portal">
         </button>

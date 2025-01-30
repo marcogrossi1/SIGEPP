@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import java.util.ArrayList;
 import java.util.List;
 import proj.model.Aluno;
@@ -171,11 +170,9 @@ public class EstagioDao extends AbstractDaoBase {
 			ps.setInt(3, vo.getCargaHoraria());
 			ps.setInt(4, vo.getVagas());
 			ps.setString(5, vo.getRequisito());
-                        ps.setString(6, vo.getSalario());
+			ps.setString(6, vo.getSalario());
                         ps.setString(7, vo.getDocumentos());
 			ps.setLong(8, vo.getId());
-			
-
 			int count = ps.executeUpdate();
                         System.out.printf("Count == %d", count);
 			if (count == 0) {
@@ -200,12 +197,16 @@ public class EstagioDao extends AbstractDaoBase {
                         ps = conn.prepareStatement("DELETE FROM empresa_has_estagio WHERE estagio_id = ?");
                         ps.setLong(1, id);
 			int count = ps.executeUpdate();
+                        if (count == 0)
+                            throw new NotFoundException("Object not found [" + id + "] .");
+                        ps = conn.prepareStatement("DELETE FROM aluno_has_estagio WHERE estagio_id = ?");
+                        ps.setLong(1, id);
+			count = ps.executeUpdate();
 			if (count == 0)
                             throw new NotFoundException("Object not found [" + id + "] .");
 			ps = conn.prepareStatement(deletesql);
 			ps.setLong(1, id);
 			count = ps.executeUpdate();	
-			conn.commit();
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + id + "] .");
 			}
@@ -287,4 +288,4 @@ public class EstagioDao extends AbstractDaoBase {
         }
     
 }
-    
+
