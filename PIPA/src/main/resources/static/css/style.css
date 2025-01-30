@@ -414,9 +414,12 @@ label {
 	}
 }
 
-.estagio-section {
+.estagio-section{
 	text-decoration: none;
 	color: black;
+}
+.estagio-section a{
+    color: black;
 }
 
 .estagio-section section {

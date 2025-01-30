@@ -38,9 +38,11 @@
                         <a th:href="'/perfil-aluno?id='+ ${aluno.id}">
                         <h3 th:text="${aluno.nome}"></h3></a>
                         <p th:text="${progresso[iterStat.index]}"></p>
-                        <a th:if="${progresso[iterStat.index].name() == 'PENDENTE'}" th:href="'/empresa/aprovar?a_id='+${aluno.id} + '&e_id=' + ${estagioId}"><button th:text='Aprovar'></button></a>
-                        <a th:if="${progresso[iterStat.index].name() == 'APROVADO'}" th:href="'/empresa/concluir?a_id='+${aluno.id} + '&e_id=' + ${estagioId}"><button th:text='Finalizar'></button></a>
-                        <a th:href="'/empresa/remover?a_id='+${aluno.id}+ '&e_id=' + ${estagioId}"><button th:text='Remover'></a>
+                        <a th:if="${estagio.documentos != null}" th:href="@{/}"><button>Emitir documentos</button></a>
+                        <!--TODO: implementar a opção de emitir documentos-->
+                        <a th:if="${progresso[iterStat.index].name() == 'PENDENTE'}" th:href="'/empresa/aprovar?a_id='+${aluno.id} + '&e_id=' + ${estagio.id}"><button th:text='Aprovar'></button></a>
+                        <a th:if="${progresso[iterStat.index].name() == 'APROVADO'}" th:href="'/empresa/concluir?a_id='+${aluno.id} + '&e_id=' + ${estagio.id}"><button th:text='Finalizar'></button></a>
+                        <a th:href="'/empresa/remover?a_id='+${aluno.id}+ '&e_id=' + ${estagio.id}"><button th:text='Remover'></a>
                     </section>
                 </div>
                 <hr>
@@ -52,13 +54,13 @@
                         <a th:href="'/perfil-aluno?id='+ ${aluno.id}">
                         <h3 th:text="${aluno.nome}"></h3></a>
                         <p th:text="${progresso[iterStat.index]}"></p>
-                        <a th:if="${progresso[iterStat.index].name() == 'PENDENTE'}" th:href="'/empresa/aprovar?a_id='+${aluno.id} + '&e_id=' + ${estagioId}"><button th:text='Aprovar'></button></a>
-                        <a th:if="${progresso[iterStat.index].name() == 'APROVADO'}" th:href="'/empresa/concluir?a_id='+${aluno.id} + '&e_id=' + ${estagioId}"><button th:text='Finalizar'></button></a>
-                        <!--<a th:href="'/empresa/remover?a_id='+${aluno.id}+ '&e_id=' + ${estagioId}"><button th:text='Remover'></a>-->
+                        <a th:if="${progresso[iterStat.index].name() == 'PENDENTE'}" th:href="'/empresa/aprovar?a_id='+${aluno.id} + '&e_id=' + ${estagio.id}"><button th:text='Aprovar'></button></a>
+                        <a th:if="${progresso[iterStat.index].name() == 'APROVADO'}" th:href="'/empresa/concluir?a_id='+${aluno.id} + '&e_id=' + ${estagio.id}"><button th:text='Finalizar'></button></a>
+                        <!--<a th:href="'/empresa/remover?a_id='+${aluno.id}+ '&e_id=' + ${estagio.id}"><button th:text='Remover'></a>-->
                     </section>
                 </div>
                 
-                <a id="voltar" th:href="'/empresa/detalhes-estagio?n='+ ${estagioId}">
+                <a id="voltar" th:href="'/empresa/detalhes-estagio?n='+ ${estagio.id}">
                     <button>Voltar</button>
                 </a>
 	</main>
@@ -70,8 +72,10 @@
     faderInEl.addEventListener('click', function() {
         if (fadeInEl.style.display === 'none') {
             fadeInEl.style.display = 'inline-flex'; // Show the element
+            faderInEl.innerHTML = '/\\';
         } else {
             fadeInEl.style.display = 'none'; // Hide the element
+            faderInEl.innerHTML = '\\/';
         }
     });
 

@@ -121,7 +121,8 @@ public class AlunoController {
                     return getDetalhesEstagio(model, principal, id);
                 }
                 AlunoDao.setProgresso(conn, al.getId() , es.getId() , Progresso.PENDENTE);
-                model.addAttribute("status", "Estágio inscrito com sucesso!");
+                if(model.getAttribute("status") == null)
+                    model.addAttribute("status", "Estágio inscrito com sucesso!");
                 model.addAttribute("warning", "good");
                 conn.commit();
                 return getDetalhesEstagio(model, principal, id);

@@ -25,13 +25,15 @@ import proj.model.Progresso;
 import proj.model.Estagio;
 
 import proj.model.Usuario;
+import proj.service.NotificacaoService;
 
 @Controller
 @RequestMapping("/empresa")
 public class EmpresaController {
 	@Autowired
         private HDataSource ds;
-		
+	@Autowired
+        private NotificacaoService notificacaoService;
 		
 	
     @GetMapping
@@ -107,7 +109,7 @@ public class EmpresaController {
                 model.addAttribute("empresa", emp);
                 model.addAttribute("candidatos", aluno);
                 model.addAttribute("progresso", progresso);
-                model.addAttribute("estagioId", id);
+                model.addAttribute("estagio", est);
                 return "empresa/candidaturas";
             }catch(Exception ex){
                 return mostraPaginaDeErro(model, ex.getMessage());
@@ -128,6 +130,7 @@ public class EmpresaController {
                     return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
                 AlunoDao.setProgresso(conn, alunoId, estagioId, Progresso.APROVADO);
                 conn.commit();
+                notificacaoService.salvarNotificacao(AlunoDao.get(conn, alunoId).getUsuario_id(), "Inscrição aprovada no estágio da empresa " + est.getEmpresa());
                 return "redirect:/empresa/candidatos-estagio?n=" + estagioId;
             }catch(Exception ex){
                 return mostraPaginaDeErro(model, ex.getMessage());
@@ -147,6 +150,8 @@ public class EmpresaController {
                     return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
                 AlunoDao.setProgresso(conn, alunoId, estagioId, Progresso.CONCLUIDO);
                 conn.commit();
+                notificacaoService.salvarNotificacao(AlunoDao.get(conn, alunoId).getUsuario_id(), "Estágio da empresa " + est.getEmpresa() + " concluído.");
+
                 return "redirect:/empresa/candidatos-estagio?n=" + estagioId;
             }catch(Exception ex){
                 return mostraPaginaDeErro(model, ex.getMessage());
@@ -167,6 +172,7 @@ public class EmpresaController {
                     return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
                 AlunoDao.desinscreverEstagio(conn, alunoId, estagioId);
                 conn.commit();
+                notificacaoService.salvarNotificacao(AlunoDao.get(conn, alunoId).getUsuario_id(), "Você foi desinscrito de um estágio pela empresa " + est.getEmpresa());
                 return "redirect:/empresa/candidatos-estagio?n=" + estagioId;
             }catch(Exception ex){
                 return mostraPaginaDeErro(model, ex.getMessage());

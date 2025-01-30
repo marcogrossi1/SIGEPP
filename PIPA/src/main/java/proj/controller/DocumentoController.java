@@ -55,8 +55,8 @@ public class DocumentoController {
             documentoRepository.save(documento);
             String mensagemNotificacao = "Os documentos para o estágio " + nomeEmpresa + " foram enviados.";
             notificacaoService.salvarNotificacao(usuarioId, mensagemNotificacao);
-            model.addAttribute("mensagem", "Upload realizado com sucesso!");
-            
+            model.addAttribute("status", "Upload realizado com sucesso!");
+            return "redirect:/aluno/inscrever-estagio?n=" + idProjeto;
         } catch (IOException e) {
             model.addAttribute("mensagem", "Erro ao realizar upload: " + e.getMessage());
             e.printStackTrace();
