@@ -1,4 +1,3 @@
-
 package proj.dao;
 
 import java.sql.Connection;
@@ -12,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import proj.model.Aluno;
 import proj.model.Estagio;
+import proj.model.Progresso;
 import proj.model.Projeto;
 import proj.model.Usuario;
 
@@ -46,6 +46,10 @@ public class AlunoDao {
     private final static String updateForBannerPerfilSql = "UPDATE aluno SET bannerPerfil = ?  WHERE id = ? ";
     private final static String updateForDescricaoPerfilSql = "UPDATE aluno SET descricaoPerfil = ?  WHERE id = ? ";
     private final static String updateForUsuario_idSql = "UPDATE aluno SET usuario_id = ?  WHERE id = ? ";
+    private final static String deletesql = "DELETE FROM aluno WHERE id = ?";
+    private final static String getProgressoEstagioSql = "SELECT progresso FROM aluno_has_estagio WHERE aluno_id = ? AND estagio_id = ?";
+    private final static String setProgressoEstagioSql = "INSERT INTO aluno_has_estagio (aluno_id, estagio_id, progresso) VALUES (?, ?, ?) AS upd_row ON DUPLICATE KEY UPDATE progresso = upd_row.progresso;";
+    private final static String deleteHasEstagioSql = "DELETE FROM aluno_has_estagio WHERE aluno_id = ? AND estagio_id = ?";
 
     private static void closeResource(Statement ps) {
         try{if (ps != null) ps.close();}catch (Exception e){ps = null;}
@@ -707,4 +711,53 @@ public class AlunoDao {
 	        ps.executeUpdate();                  // Executa o update
 	    }
 	}
+        public static Progresso getProgressoEstagio(Connection conn, long id_aluno, long id_estagio)
+        throws NotFoundException, SQLException{
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            try {
+                ps = conn.prepareStatement(getProgressoEstagioSql);
+                ps.setLong(1, id_aluno);
+                ps.setLong(2, id_estagio);
+                rs = ps.executeQuery();
+                if (!rs.next())
+                    return null;
+                Progresso pro = Progresso.valueOf(rs.getString("progresso").toUpperCase());
+                return pro;
+            }catch (SQLException e){throw e;}
+            finally{closeResource(ps,rs); ps = null;rs = null; }
+            }
+            
+        public static void setProgresso(Connection conn, long aluno_id, long estagio_id, Progresso progresso)
+        throws SQLException{
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            try {
+                ps = conn.prepareStatement(setProgressoEstagioSql, PreparedStatement.RETURN_GENERATED_KEYS);
+                ps.setLong(1, aluno_id);
+                ps.setLong(2, estagio_id);
+                ps.setString(3, progresso.toString().toUpperCase());
+                ps.executeUpdate();
+                rs = ps.getGeneratedKeys();
+              
+            }catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
+            finally{closeResource(ps,rs); ps = null;rs = null; }
+        }
+    
+        public static boolean desinscreverEstagio(Connection conn, long id_aluno, long id_estagio)
+        throws NotFoundException, SQLException{
+            PreparedStatement ps = null;
+            try {
+                ps = conn.prepareStatement(deleteHasEstagioSql);
+                ps.setLong(1,id_aluno);
+                ps.setLong(2, id_estagio);
+                int count = ps.executeUpdate();
+                if (count == 0 ){
+                    return false;
+                }
+                return true;
+            }catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
+            finally{closeResource(ps); ps = null; }
+        }
+        
 }
