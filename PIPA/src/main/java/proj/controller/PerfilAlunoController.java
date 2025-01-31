@@ -88,19 +88,11 @@ public class PerfilAlunoController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
-<<<<<<< HEAD
-            model.addAttribute("visitante", u.getRole());
-			//if (u.getRole().equals("Aluno") || u.getRole().equals("Professor")) {
-            return "perfilAluno";
-            //}
-			/*else {
-=======
 
 			if (u.getRole().equals("Aluno") || u.getRole().equals("Professor")) {
                 return "perfilAluno";
             }
 			else {
->>>>>>> parent of b988494 (Merge branch 'dev' into gabriel_hctV2)
 				return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
 			}
 		}
