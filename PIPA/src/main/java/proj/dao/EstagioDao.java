@@ -6,19 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
-import proj.model.Aluno;
 import proj.model.Estagio;
-import proj.model.Progresso;
-import proj.dao.AlunoDao;
+
 public class EstagioDao extends AbstractDaoBase {
 	private final static String getsql = "SELECT * FROM Estagio WHERE id = ?";
 	private final static String listsql = "SELECT * FROM Estagio";
-	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE empresa like %?%";
-	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario, documentos) VALUES( ?, ?, ?, ?, ?, ?, ?)";
-	private final static String updatesql = "UPDATE Estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, documentos = ? WHERE id = ? ";
-	private final static String deletesql = "DELETE FROM Estagio WHERE id = ?";
-
+	private final static String listByNomeSql = "SELECT * FROM Estagio WHERE empresa like %?% ";
+	private final static String insertsql = "INSERT INTO Estagio (empresa, descricao, carga_horaria, vagas, requisito, salario) VALUES( ?, ?, ?, ?, ?, ?) ";
+	private final static String updatesql = "UPDATE estagio SET empresa = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ?, salario = ?, WHERE id = ? ";
+	private final static String deletesql = "DELETE FROM estagio WHERE id = ?";
 
 	static Estagio set(ResultSet rs) throws SQLException {
 		Estagio vo = new Estagio();
@@ -29,7 +25,6 @@ public class EstagioDao extends AbstractDaoBase {
 		vo.setVagas(rs.getInt("vagas"));
 		vo.setRequisito(rs.getString("requisito"));
 		vo.setSalario(rs.getString("salario"));
-                vo.setDocumentos(rs.getString("documentos"));
 		return vo;
 	}
 
@@ -115,14 +110,13 @@ public class EstagioDao extends AbstractDaoBase {
 		ResultSet rs = null;
                 long id;
 		try {
-			ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement(insertsql);
 			ps.setString(1, vo.getEmpresa());
 			ps.setString(2, vo.getDescricao());
 			ps.setInt(3, vo.getCargaHoraria());
 			ps.setInt(4, vo.getVagas());
 			ps.setString(5, vo.getRequisito());
 			ps.setString(6, vo.getSalario());
-                        ps.setString(7, vo.getDocumentos());
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
 			if (rs.next()) {
@@ -171,8 +165,7 @@ public class EstagioDao extends AbstractDaoBase {
 			ps.setInt(4, vo.getVagas());
 			ps.setString(5, vo.getRequisito());
 			ps.setString(6, vo.getSalario());
-                        ps.setString(7, vo.getDocumentos());
-			ps.setLong(8, vo.getId());
+			ps.setLong(7, vo.getId());
 			int count = ps.executeUpdate();
                         System.out.printf("Count == %d", count);
 			if (count == 0) {
@@ -194,19 +187,10 @@ public class EstagioDao extends AbstractDaoBase {
 	{
 		PreparedStatement ps = null;
 		try {
-                        ps = conn.prepareStatement("DELETE FROM empresa_has_estagio WHERE estagio_id = ?");
-                        ps.setLong(1, id);
-			int count = ps.executeUpdate();
-                        if (count == 0)
-                            throw new NotFoundException("Object not found [" + id + "] .");
-                        ps = conn.prepareStatement("DELETE FROM aluno_has_estagio WHERE estagio_id = ?");
-                        ps.setLong(1, id);
-			count = ps.executeUpdate();
-			if (count == 0)
-                            throw new NotFoundException("Object not found [" + id + "] .");
 			ps = conn.prepareStatement(deletesql);
 			ps.setLong(1, id);
-			count = ps.executeUpdate();	
+			int count = ps.executeUpdate();	
+			conn.commit();
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + id + "] .");
 			}
@@ -263,29 +247,5 @@ public class EstagioDao extends AbstractDaoBase {
 	            ps = null;
 	        }
 	    }
-        public static void listCandidatos(Connection conn, Long id_estagio, ArrayList<Aluno> aluno, List<Progresso> progressoAlunos)
-        throws SQLException, NotFoundException{
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            try {
-                ps = conn.prepareStatement("SELECT * FROM aluno_has_estagio WHERE estagio_id = ?");
-                ps.setLong(1, id_estagio);
-                rs = ps.executeQuery();
-                if (!rs.next()){
-                    aluno = new ArrayList<>();
-                    progressoAlunos = new ArrayList<>();
-                    return;
-                }
-                do{    
-                    Long id = rs.getLong("aluno_id");
-                    Progresso pro = Progresso.valueOf(rs.getString("progresso").toUpperCase());
-                    Aluno al = AlunoDao.get(conn, id);
-                    aluno.add(al);
-                    progressoAlunos.add(pro);
-                }while(rs.next());
-            }catch (SQLException e){throw e;}
-            finally{closeResource(ps,rs); ps = null;rs = null; }
-        }
-    
 }
 

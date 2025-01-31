@@ -9,11 +9,9 @@
 </head>
 <body>
 	<header>
-
 	        <a href="/aluno"><img id="logo" th:src="@{/img/logo.png}"></a> <!--Cpque na logo para retornar à página inicial-->
 	        <h1 id="titulo-plataforma" >PIPA | Estágios</h1>
 	</header>
-
     <main>
         <section id="detalhes-estagio">
             <a id='redirect-empresa-perfil' th:href="@{${'/encontra-empresa?nome='+empresa}}"><h3 th:text="${empresa}"></h3></a>
@@ -27,20 +25,10 @@
             </ul>
             <hr>
             <p th:text="${descricao}"></p>
+             <a th:href="@{/aluno/upload(estagioId=${estagio.id})}">
+    			<button type="button">Enviar Documentos</button>
+			</a>
         </section>
-        <section>
-            <div th:unless='${progresso == null}'>    
-                <p th:if="${progresso.name() == 'PENDENTE'}">Aguardando aprovação da empresa.</p>
-                <p th:if="${progresso.name() == 'APROVADO'}">Você é inscrito neste estágio.</p>
-                <p th:if="${progresso.name() == 'CONCLUIDO'}">Você concluiu este estágio.</p>       
-            </div>
-            <p th:id="${warning}" th:text="${status}"></p>
-            <a th:if="${progresso == null}" th:href=" ${documentos != null } ? @{/aluno/upload(estagioId=${estagio.id})} : @{/aluno/inscrever-estagio(n=${estagio.id})}">
-                <button>Inscrever-se</button>
-            </a>
-            <a th:if="${progresso != null}" th:href="@{/aluno/desinscrever-estagio(n=${estagio.id})}">
-                <button>Desinscrever-se</button>
-            </a>
-        </section>
+        
     </main>
 </html>

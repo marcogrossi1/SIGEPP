@@ -414,12 +414,9 @@ label {
 	}
 }
 
-.estagio-section{
+.estagio-section {
 	text-decoration: none;
 	color: black;
-}
-.estagio-section a{
-    color: black;
 }
 
 .estagio-section section {
@@ -585,13 +582,4 @@ label {
 .seguidor:hover {
 	color: rgb(0, 128, 255);
 }
-
-}
-
-#good{color: green; }
-#bad{color: red;}
-.flexbox-center{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
