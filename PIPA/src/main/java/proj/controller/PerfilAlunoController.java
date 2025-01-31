@@ -88,9 +88,9 @@ public class PerfilAlunoController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
-                        model.addAttribute("visitante", u.getRole());
+            model.addAttribute("visitante", u.getRole());
 			//if (u.getRole().equals("Aluno") || u.getRole().equals("Professor")) {
-                return "perfilAluno";
+            return "perfilAluno";
             //}
 			/*else {
 				return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
