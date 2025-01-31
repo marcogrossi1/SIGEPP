@@ -1,6 +1,8 @@
 package proj.controller;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.security.Principal;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ import proj.dao.HDataSource;
 import proj.dao.ProjetoDao;
 import proj.dao.SecaoDao;
 import proj.dao.SeguidoresDao;
+import proj.dao.TopicoDao;
 import proj.dao.UsuarioDao;
 import proj.model.Administrador;
 import proj.model.Aluno;
@@ -39,6 +42,7 @@ import proj.model.Empresa;
 import proj.model.Estagio;
 import proj.model.Projeto;
 import proj.model.Secao;
+import proj.model.Topico;
 import proj.model.Usuario;
 
 @Controller
@@ -97,17 +101,14 @@ public class PerfilAlunoController {
 			return "erro";
 		}
 	}
-
+	
 	@GetMapping("/emite")
 	public String emiteCertificado(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, @RequestParam("aluno") Long alunoId,Model model, Principal principal) throws Exception {
         try(Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
         	model.addAttribute("usuario", u);
-
-			if (u.getRole().equals("Aluno")) {
-            }
     
-            else if (u.getRole().equals("Administrador")) {
+            if (u.getRole().equals("Administrador")) {
                 Administrador adm = AdministradorDao.getByCpf(conn, principal.getName());
                 ArrayList<Empresa> empresas = AdministradorDao.listEmpresas(conn);
 
@@ -115,13 +116,9 @@ public class PerfilAlunoController {
                 model.addAttribute("listaEmpresas", empresas);
             }
     
-            else if (u.getRole().equals("Empresa")) {
+			if (u.getRole().equals("Empresa")) {
 				Empresa e = EmpresaDao.getByNome(conn, principal.getName());
 				model.addAttribute("empresa", e);
-			}
-
-			else {
-				return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
 			}
 
 	    	Aluno a = AlunoDao.get(conn, alunoId);
@@ -143,8 +140,9 @@ public class PerfilAlunoController {
             Paragraph title = new Paragraph("Certificado", font);
             Paragraph p;
             
-            String imagePath = "PIPA/src/main/resources/static/img/logo-cefet.png";
-            Image img = Image.getInstance(imagePath);
+            InputStream imageStream = getClass().getClassLoader().getResourceAsStream("static/img/logo-cefet.png");
+
+            Image img = Image.getInstance(imageStream.readAllBytes());
             img.scalePercent(10);
             img.setAbsolutePosition(100f, 100f);
 
@@ -176,9 +174,10 @@ public class PerfilAlunoController {
 
             try{
                 Document document = new Document();
-
-                String outputFilePath = "PIPA/src/main/resources/static/pdf/CertificadoPadrao.pdf";
-                PdfWriter.getInstance(document, new FileOutputStream(outputFilePath));
+                
+                String outputFilePath = "src/main/resources/static/pdf/CertificadoPadrao.pdf";
+                File outputFile = new File(outputFilePath);
+                PdfWriter.getInstance(document, new FileOutputStream(outputFile));
 
                 document.open();
                 
@@ -200,7 +199,7 @@ public class PerfilAlunoController {
         catch (Exception e) {
             return "erro";
         } 	
-    }	
+    }
 
 	public String mostraPaginaDeErro(Model model, String message) {
 		model.addAttribute("message",message);
@@ -256,6 +255,10 @@ public class PerfilAlunoController {
 		@RequestParam(value = "id", required = true) Long usuarioId,
         @RequestParam(value = "titulo", required = false, defaultValue = "") String titulo,
         @RequestParam(value = "conteudoTexto", required = false, defaultValue = "Escreva seu texto...") String conteudoTexto,
+        @RequestParam(value = "conteudoTextoTopico", required = false) List<String> conteudosTextoTopico,
+        @RequestParam(value = "conteudoArquivo", required = false) List<MultipartFile> conteudoArquivos,
+        @RequestParam(value = "conteudoImagem", required = false) List<MultipartFile> conteudoImagens,
+        @RequestParam(value = "qtdTopicos", required = false) Long qtdTopicos,
         @RequestParam(value = "tipo", required = true) String tipo,
         @RequestParam(value = "ordem", required = true) Integer ordem,
         @RequestParam(value = "comprimentoConteudoTexto", required = false) Integer comprimentoConteudoTexto,
@@ -275,19 +278,51 @@ public class PerfilAlunoController {
             Secao sec = new Secao();
             sec.setUsuarioId(usuarioId);
             sec.setTipo(tipo);
-            sec.setTitulo(titulo);
-            
-            if (conteudoTexto == null || conteudoTexto.isEmpty())
-            	sec.setConteudoTexto("Escreva seu texto..."); 
-            else {
-            	sec.setConteudoTexto(conteudoTexto); 
-            }            
-            
+            sec.setTitulo(titulo); 
             sec.setOrdem(ordem);
             sec.setComprimentoConteudoTexto(comprimentoConteudoTexto);
             sec.setAlturaConteudoTexto(alturaConteudoTexto);
             sec.setTopConteudoTexto(topConteudoTexto);
             sec.setLeftConteudoTexto(leftConteudoTexto);
+            
+            System.out.println("qtdTopicos recebido no backend: " + qtdTopicos);
+            
+            if (tipo.equals("Licenças e Certificados")) {
+                for (int i = 0; i < qtdTopicos; i++) {
+                    Topico topico = new Topico();
+                    topico.setSecaoId(sec.getId());
+
+                    if (conteudosTextoTopico != null && !conteudosTextoTopico.isEmpty() && i < conteudosTextoTopico.size()) {
+                        topico.setConteudoTexto(conteudosTextoTopico.get(i));
+                    } else {
+                        topico.setConteudoTexto("Escreva seu texto...");
+                    }
+                    
+                    System.out.println("Topico Texto " + i + ":" + conteudosTextoTopico.get(i));
+
+                    if (conteudoArquivos != null && i < conteudoArquivos.size()) {
+                        MultipartFile arquivo = conteudoArquivos.get(i);
+                        if (!arquivo.isEmpty()) {
+                            topico.setConteudoArquivo(arquivo.getBytes());
+                        }
+                    }
+
+                    if (conteudoImagens != null && i < conteudoImagens.size()) {
+                        MultipartFile imagem = conteudoImagens.get(i);
+                        if (!imagem.isEmpty()) {
+                            topico.setConteudoImagem(imagem.getBytes());
+                        }
+                    }
+
+                    TopicoDao.salvarTopico(conn, topico);
+                }
+            }
+            	
+            if (conteudoTexto == null || conteudoTexto.isEmpty() && !tipo.equals("Licenças e Certificados"))
+            	sec.setConteudoTexto("Escreva seu texto..."); 
+            else if (!tipo.equals("Licenças e Certificados")) {
+            	sec.setConteudoTexto(conteudoTexto); 
+            }   
             
             SecaoDao.salvarSecao(conn, sec);
 	       
@@ -301,6 +336,7 @@ public class PerfilAlunoController {
 	    }
 	}
 	
+	//ARRUMAR PRA APAGAR TODOS OS TOPICOS RELACIONADOS A SEÇÃO
 	@PostMapping("/apagar-secao")
 	public String apagarSecao(
 		@RequestParam("idSecao") Long secaoId,
