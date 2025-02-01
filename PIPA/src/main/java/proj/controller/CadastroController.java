@@ -1,0 +1,103 @@
+package proj.controller;
+
+import java.sql.Connection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import proj.dao.HDataSource;
+import proj.dao.AlunoDao;
+import proj.dao.ProfessorDao;
+import proj.dao.EmpresaDao;
+import proj.model.Aluno;
+import proj.model.Professor;
+import proj.model.Empresa;
+
+
+@Controller
+@RequestMapping("/cadastro")
+public class CadastroController {
+
+    @Autowired
+    private HDataSource ds;
+
+    @GetMapping("/aluno")
+    public String mostraFormularioCadastroAluno(Model model) {
+        model.addAttribute("aluno", new Aluno());
+        return "aluno/cadastro";
+    }
+
+    @PostMapping("/aluno")
+     public String criaNovoAluno(@ModelAttribute Aluno aluno, 
+                                @RequestParam("fotoPerfil") MultipartFile fotoPerfil,
+                                @RequestParam("bannerPerfil") MultipartFile bannerPerfil,
+                                Model model) {
+        try (Connection conn = ds.getConnection()) {
+            if (!fotoPerfil.isEmpty()) {
+                aluno.setFotoPerfil(fotoPerfil.getBytes());
+            } else {
+                aluno.setFotoPerfil(null);
+            }
+            if (!bannerPerfil.isEmpty()) {
+                aluno.setBannerPerfil(bannerPerfil.getBytes());
+            } else {
+                aluno.setBannerPerfil(null);
+            }
+            if (aluno.getDescricaoPerfil() == null || aluno.getDescricaoPerfil().isEmpty()) {
+                aluno.setDescricaoPerfil(null);
+            }
+            AlunoDao.insert(conn, aluno);
+            return "redirect:/aluno";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("erro", e.getMessage());
+            return "aluno/home";
+        }
+    }
+
+
+    @GetMapping("/professor")
+    public String mostraFormularioCadastroProfessor(Model model) {
+        model.addAttribute("professor", new Professor());
+        return "professor/cadastroProfessor";
+    }
+    
+    @PostMapping("/professor")
+    public String criaNovoProfessor(@ModelAttribute Professor professor, Model model) {
+        try (Connection conn = ds.getConnection()) {
+            ProfessorDao.insert(conn, professor);
+            return "redirect:/professor";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("erro", e.getMessage());
+            return "professor/home";
+        }
+    }
+
+    @GetMapping("/empresa")
+    public String mostraFormularioCadastroEmpresa(Model model) {
+        model.addAttribute("empresa", new Empresa());
+        return "empresa/cadastroEmpresa";
+    }
+
+    @PostMapping("/empresa")
+    public String criaNovaEmpresa(@ModelAttribute Empresa empresa, Model model) {
+        try (Connection conn = ds.getConnection()) {
+            EmpresaDao.insert(conn, empresa);
+            return "redirect:/empresa";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("erro", e.getMessage());
+            return "empresa/home";
+        }
+    }
+
+  
+  
+}

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Relatório de Estágio</title>
+    <style>
+        body, html {
+            margin: 0;
+        }
+        h1{
+            font-family: Arial, Helvetica, sans-serif;
+            color:#ffffff;
+        }
+
+        body {
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: #f4f2ee;
+        }
+
+        header {
+    width: 100vw;
+    height: 10vh;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+
+    background-color: #003869;
+}
+
+nav {
+    width: 100vw;
+    height: 5vh;
+    padding: 0 1vw 0 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+
+    background-color: #ffffff;
+    border: 0.00001vh solid #c5c5c5;
+}
+
+        main {
+            margin-top: 5vh;
+            width: 64vw;
+            min-height: calc(100vh - 26vh);
+            padding: 3vh;
+            border-radius: 1% 1% 0 0;
+            background-color: #ffffff;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        main > :first-child {
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            margin: 1vh 0;
+            min-width: 10vw;
+            height: 2cap;
+            border: 1px solid #c4c0bf;
+            border-radius: 5%;
+            background-color: #fefafa;
+        }
+        
+
+        button {
+            min-width: 10vw;
+            height: 3vh;
+            border: 1px solid #c4c0bf;
+            border-radius: 5%;
+            background-color: #2e6890;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        .download-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .download-link a {
+            color: #2e6890;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .download-link a:hover {
+            text-decoration: underline;
+        }
+        .icone {        /*os botões de navegação*/
+    height: 4vh;
+    margin: 0 1vw 0 1vw;
+
+    display: grid;
+    grid-template-rows: 3vh auto;
+
+    color: black;
+    text-decoration: none;
+}
+
+.icone img {
+    height: 3vh;
+    grid-row: 1;
+    justify-self: center;
+}
+
+.icone label {
+    justify-self: center;
+    font-size: 0.75em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.icone:hover {
+    transform: scale(1.1);
+}
+
+#logo {
+    padding-left: 1vw;
+    height: 8vh;
+    padding-right: 5vw;
+}
+
+#titulo-plataforma {
+    margin: 1.15vh 0 0 0;
+    color: #ffffff;
+    font-size: 3em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input {
+    margin: 1vh 0 1vh 0;
+
+    min-width: 10vw;
+    height: 2vh;
+
+    border: 1px solid #c4c0bf;
+    border-radius: 5%;
+    background-color: #fefafa;
+}
+
+button {
+    min-width: 10vw;
+    height: 3vh;
+
+    border: 1px solid #c4c0bf;
+    border-radius: 5%;
+    background-color: #2e6890;
+    color: white;
+    cursor: pointer;
+}
+
+.botoes-portal {
+    background-color: red;
+    all: unset;
+    cursor: pointer;
+    outline: revert;
+    height: 180px;
+    width: 252px;
+}
+
+.botoes-portal:hover {
+    transform: scale(1.1);
+}
+
+#botao-projeto {
+    margin-left: 100px;
+}
+
+#botao-estagio {
+    margin-left: 170px;
+}
+
+.imgs-botoes-portal {
+    height: 180px;
+    width: 252px;
+    padding: 0px;
+}
+
+#subtitulo-portal {
+    text-align: center;
+}
+
+#icone-portal {
+    margin-left: 100px;
+}
+
+#notificacoes-portal {
+    background-color: #2e6890;
+    text-align: center;
+}
+
+#notificacoes-portal p {
+    color:white;
+    text-align: center;
+}
+
+#not-um {
+    display: inline;
+}
+
+#not-dois, #not-tres,  #not-dois-select, #not-tres-select{
+    display: none;
+}
+
+#avancar-notificacao, #voltar-notificacao {
+    font-size: 40px;
+    background-color: #2e6890;
+    border-color: #2e6890;
+
+}
+
+#avancar-notificacao {
+    margin-left: 500px;
+}
+
+.select-not-img {
+    width: 4%;
+    height: 4%;
+}
+
+#section-meus-trabalhos {
+    margin-top: 5vh; 
+    margin-left: 100px;
+    padding: 3vh;  
+    
+    max-height: calc(100vh - 40vh);
+
+    border-radius: 1%;
+    background-color: #2e6890;
+    color: white;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#section-meus-trabalhos ul {
+    padding-left: 4px;
+    font-size: 75%;
+}
+
+#nome-no-portal {
+	font-family: Arial, Helvetica, sans-serif;
+	max-height: 100%;
+	max-width: 100%;
+	overflow: hidden;
+	width: 1000px;
+	margin-left: 100px;
+}
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html"><img id="logo" src="logo.png"></a> 
+        <h1 id="titulo-plataforma" >PIPA | Aluno</h1>
+</header>
+<nav>
+    <a href="link" class="icone">
+        <img src="icone-user.png">
+        <label>Perfil</label>
+    </a>
+    <a href="link" class="icone">
+        <img src="maleta.png">
+        <label>Aplicações</label>
+    </a>
+</nav>
+    <main>
+        <h2>Enviar Relatório de Estágio</h2>
+        <p>Utilize o formulário abaixo para enviar o relatório de estágio ao seu orientador para aprovação. Caso precise, você pode baixar o modelo de relatório para preenchimento.</p>
+
+        <div class="form-group">
+            <form action="/enviar-relatorio" method="post" enctype="multipart/form-data">
+                <label for="relatorio">Selecione o arquivo do relatório:</label>
+                <input type="file" id="relatorio" name="relatorio" required>
+                <button type="submit">Enviar Relatório</button>
+            </form>
+        </div>
+
+        <div class="download-link">
+            <p>Precisa do modelo? <a href="docs/modelo-relatorio.doc" download>Baixe aqui o modelo de relatório de estágio</a>.</p>
+        </div>
+    </main>
+</body>
+</html>
