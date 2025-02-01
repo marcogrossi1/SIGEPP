@@ -530,7 +530,6 @@ public class AdministradorController {
     	 try(Connection conn = ds.getConnection())
          {
     		 
-    		 
     		 long id_conv = Long.parseLong(id);
     		 
     		 Professor p = ProfessorDao.get(conn, id_conv);
@@ -540,7 +539,7 @@ public class AdministradorController {
     		 }
     		 
     		 if (cpf != null && !cpf.isEmpty()) {    		 
-    			 p.setCpf(cpf);    	
+    			 p.getCpf();
     			 UsuarioDao.updateForNome(conn, p.getUsuario_id(), cpf);
     		 }
     		    		 
