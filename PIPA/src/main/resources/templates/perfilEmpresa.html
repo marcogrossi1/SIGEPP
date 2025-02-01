@@ -51,12 +51,15 @@
 
     <main>
         <h2 id="subtitulo-portal" th:text="${empresa.nome}"></h2>
-        <section id="descricao-empresa">
+        <section id="descricao-empresa" style="display: flex; justify-content: space-between; align-items: center;">
             <h3>Visão geral</h3>
             <p>
                 A <b><span th:text="${empresa.nome}"></span></b> é uma empresa que trabalha na área de 
                 <b><span th:text="${empresa.area}"></span></b>.
             </p>
+			<a th:href="@{/empresa/perfil-editar-dados(id=${empresa.id})}">
+				<button id="botao-editar-perfil">Editar Perfil</button>
+			</a>
         </section>
         
         <section id="contato-empresa">
