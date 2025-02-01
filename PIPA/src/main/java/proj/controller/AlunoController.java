@@ -38,24 +38,7 @@ public class AlunoController {
 	
 	@Autowired
 	private HDataSource ds;
-	    @GetMapping("/cadastro")
-    public String mostraFormularioCadastroAluno(Model model) {
-        model.addAttribute("aluno", new Aluno());
-        return "aluno/cadastroAluno";
-    }
-
-  
-    @PostMapping("/cadastro")
-    public String criaNovoAluno(@ModelAttribute Aluno aluno, Model model) {
-        try (Connection conn = ds.getConnection()) {
-            AlunoDao.criar(conn, aluno);
-            return "redirect:/aluno";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return mostraPaginaDeErro(model, "Erro ao criar novo aluno.");
-        }
-    }
-	
+ 
 	@GetMapping
 	public String mostraPortal(Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
@@ -64,16 +47,17 @@ public class AlunoController {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
 			
-			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+			Aluno a = AlunoDao.getByUsuario_id(conn, u.getId());
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 			
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			return mostraPaginaDeErro(model, "Erro interno na aplicação!.");
+			return mostraPaginaDeErro(model, e.getMessage());
 		}
 
 		return "aluno/home";
@@ -145,30 +129,11 @@ public class AlunoController {
 			model.addAttribute("estagios", estagios);
 
 			return "aluno/projetos";
+
 		} catch (Exception e) {
+
 			return "erro";
 		}
-	}
-	
-	@GetMapping("/perfil")
-	public String mostraPerfilPessoal(Model model, Principal principal) throws Exception {
-		try (Connection conn = ds.getConnection()) {
-			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-			model.addAttribute("usuario", u);
-			return "aluno/perfil";
-		} catch (Exception e) {
-			return "erro";
-		}
-	}
-	
-	@GetMapping("/contaConfigPerfil")
-	public String mostraContaConfigPerfil(Model model, Principal principal) {
-			return "aluno/contaConfigPerfil";
-	}
-	
-	@GetMapping("/notificacaoConfigPerfil")
-	public String mostraNotificacaoConfigPerfil(Model model, Principal principal) {
-			return "aluno/notificacaoConfigPerfil";
 	}
 
 	@GetMapping("/certificados")			
@@ -188,7 +153,9 @@ public class AlunoController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
+
 		} catch (Exception e) {
+
 			return "erro";
 		}
 
@@ -196,6 +163,7 @@ public class AlunoController {
 	}
 
 	@GetMapping("/emite")
+
 	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());

@@ -165,6 +165,14 @@ button, input[type='submit'] {
 	margin-left: 50px;
 }
 
+#botao-buscar-aluno {
+	margin-left: 150px;
+}
+
+#botao-projeto-professor, #botao-estagios-empresa {
+	margin-left: 105px;
+}
+
 .imgs-botoes-portal {
     height: 180px;
     width: 252px;
@@ -522,4 +530,33 @@ label {
 #redirect-empresa-perfil:hover{
     text-decoration: underline;
     color: purple;
+}
+
+/* Botão Ver Candidatos */
+.botao-ver-candidatos {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  background-color: #007bff; /* Azul padrão */
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  margin-right: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.botao-ver-candidatos:hover {
+  background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+  cursor: pointer;
+}
+
+.seguidor {
+	color: black;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.seguidor:hover {
+	color: rgb(0, 128, 255);
 }
