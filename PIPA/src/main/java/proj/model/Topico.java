@@ -6,6 +6,8 @@ public class Topico {
     private String conteudoTexto;
     private byte[] conteudoImagem;
     private byte[] conteudoArquivo;
+    private Integer comprimentoConteudoTexto;
+    private Integer alturaConteudoTexto;
 
     public Long getId() {
         return id;
@@ -45,5 +47,21 @@ public class Topico {
 
     public void setConteudoArquivo(byte[] conteudoArquivo) {
         this.conteudoArquivo = conteudoArquivo;
+    }
+    
+    public Integer getComprimentoConteudoTexto() {
+        return comprimentoConteudoTexto;
+    }
+
+    public void setComprimentoConteudoTexto(Integer comprimentoConteudoTexto) {
+        this.comprimentoConteudoTexto = comprimentoConteudoTexto;
+    }
+
+    public Integer getAlturaConteudoTexto() {
+        return alturaConteudoTexto;
+    }
+
+    public void setAlturaConteudoTexto(Integer alturaConteudoTexto) {
+        this.alturaConteudoTexto = alturaConteudoTexto;
     }
 }

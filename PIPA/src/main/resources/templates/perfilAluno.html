@@ -101,83 +101,24 @@
 				
 	</div>
 	
-	<!--
-	<div>
-        <div id="toolbar">
-            <button onclick="changeColor('black')">Preto</button>
-            <button onclick="changeColor('red')">Vermelho</button>
-            <button onclick="changeColor('green')">Verde</button>
-            <button onclick="changeColor('blue')">Azul</button>
-            <button onclick="clearCanvas()">Limpar</button>
-        </div>
-        <canvas id="paintCanvas" width="500" height="500"></canvas>
-    </div>
-	
-	<script>
-        const canvas = document.getElementById('paintCanvas');
-        const ctx = canvas.getContext('2d');
-
-        let painting = false;
-        let color = 'black';
-
-        // Função para começar a desenhar
-        function startPosition(e) {
-            painting = true;
-            draw(e);
-        }
-
-        // Função para parar de desenhar
-        function endPosition() {
-            painting = false;
-            ctx.beginPath();
-        }
-
-        // Função para desenhar
-        function draw(e) {
-            if (!painting) return;
-
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            ctx.lineWidth = 5;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = color;
-
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        }
-
-        // Mudar cor
-        function changeColor(newColor) {
-            color = newColor;
-        }
-
-        // Limpar o canvas
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        // Eventos de mouse
-        canvas.addEventListener('mousedown', startPosition);
-        canvas.addEventListener('mouseup', endPosition);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseleave', endPosition);
-    </script>
-	
-	-->
-	
 	<script th:inline="javascript">
 		let aluno = /*[[${aluno}]]*/ {};
 		let alunoId = /*[[${aluno.id}]]*/ {};
 		
+		let qtdSecoesTextoLivre = /*[[${qtdSecoesTextoLivre} ?: 0]]*/ 0;
+		let qtdSecoesProjetosConcluidos = /*[[${qtdSecoesProjetosConcluidos} ?: 0]]*/ 0;
+		let qtdSecoesLicencasECertificados = /*[[${qtdSecoesLicencasECertificados} ?: 0]]*/ 0;
+		
+		let qtdTopicos = /*[[${qtdTopicos} ?: 0]]*/ 0;
+		
 		let secoes = /*[[${secoes}]]*/ '[]';
+		let topicos = /*[[${topicos}]]*/ '[]';
 		
         let projetos = /*[[${projetos}]]*/ '[]';
         let estagios = /*[[${estagios}]]*/ '[]';
 
+		secoes = JSON.parse(secoes);
+	    topicos = JSON.parse(topicos);
         projetos = JSON.parse(projetos);
         estagios = JSON.parse(estagios);
 	</script>
@@ -186,6 +127,7 @@
 		
 	</script>
 	
+	<crip
 	
 </body>
 </html>

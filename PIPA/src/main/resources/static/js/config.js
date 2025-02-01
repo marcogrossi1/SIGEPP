@@ -145,14 +145,6 @@ concluirEdicao.addEventListener('click', function() {
     esconderEditaveis();
 });
 
-// Contadores para limitar o número de seções
-
-//TERMINAR preciso criar metodo no secao dao de contar numeros de seções de certo tipo! Depois adicionar no modelAtribute pra colocar aqui os valores
-let contadorTextoLivre = 0;
-let contadorProjetosConcluidos = 0;
-let contadorLicencasCertificados = 0;
-//TERMINAR
-
 let cont = true;
 
 botaoSeccao.addEventListener('click', function() {
@@ -163,9 +155,9 @@ botaoSeccao.addEventListener('click', function() {
         catalogoSeccao.id = 'catalogo-seccao';
         catalogoSeccao.innerHTML = `
             <button id="fecharCatalogo">X</button>
-            <button id="adicionar-texto-livre">Texto Livre ${contadorTextoLivre} / 10</button>
-            <button id="adicionar-projetos-concluidos">Projetos Concluídos ${contadorProjetosConcluidos} / 1</button>
-            <button id="adicionar-licencas-certificados">Licenças e Certificados ${contadorLicencasCertificados} / 1</button>
+            <button id="adicionar-texto-livre">Texto Livre ${qtdSecoesTextoLivre} / 10</button>
+            <button id="adicionar-projetos-concluidos">Projetos Concluídos ${qtdSecoesProjetosConcluidos} / 1</button>
+            <button id="adicionar-licencas-certificados">Licenças e Certificados ${qtdSecoesLicencasECertificados} / 1</button>
             <button id="adicionar-desenho">Desenho</button>
             <button id="adicionar-foto">Foto</button>
             <button id="adicionar-video">Vídeo</button>
@@ -177,22 +169,36 @@ botaoSeccao.addEventListener('click', function() {
             catalogoSeccao.remove();
         });
 
-        document.getElementById('adicionar-texto-livre').addEventListener('click', function() {
-            catalogoSeccao.remove();
-            cont = true;
-            criarSecao('Texto Livre');
-        });
-
-        document.getElementById('adicionar-projetos-concluidos').addEventListener('click', function() {
-            catalogoSeccao.remove();
-            cont = true;
-            criarSecao('Projetos Concluídos');
-        });
-
+	    document.getElementById('adicionar-texto-livre').addEventListener('click', function() {
+	        cont = true;
+			if(qtdSecoesTextoLivre < 10) {
+        		criarSecao('Texto Livre');
+				catalogoSeccao.remove();
+			}
+			else
+				alert("Quantidade máxima atingida!");
+	    });
+	
+	
+	    document.getElementById('adicionar-projetos-concluidos').addEventListener('click', function() {
+	        cont = true;
+			if(qtdSecoesProjetosConcluidos < 1) {
+				criarSecao('Projetos Concluídos');
+				catalogoSeccao.remove();
+			}
+	        	
+			else
+				alert("Quantidade máxima atingida!");
+	    });
+		
         document.getElementById('adicionar-licencas-certificados').addEventListener('click', function() {
-            catalogoSeccao.remove();
             cont = true;
-            criarSecao('Licenças e Certificados');
+			if(qtdSecoesLicencasECertificados < 1) {
+        		criarSecao('Licenças e Certificados');
+				catalogoSeccao.remove();
+			}
+			else
+				alert("Quantidade máxima atingida!");
         });
 
         document.getElementById('adicionar-desenho').addEventListener('click', function() {
@@ -215,17 +221,19 @@ botaoSeccao.addEventListener('click', function() {
     }
 });
 
-
-
 let ordem = 0;
 
 //ARRUMAR
 
-//VOU TER QUE LIMITAR CRIAÇÃO DE SEÇÕES E FAZER UM GRID DE QUADRADINHOS PRA FOTO VIDEO E DESENHO COM A FUNÇÃO DE MOSTRAR MAIS!
+//FAZER UM GRID DE QUADRADINHOS PRA FOTO VIDEO E DESENHO COM A FUNÇÃO DE MOSTRAR MAIS!
 //AO CLICA NO QUADRADINHO ABRE MODAL DA FOTO OU VÍDEO COM COMENTARIOS LÁ!
 //OBS: NA SEÇÃO DE FOTO QUERO FAZER IGUAL O INSTAGRAM COM VARIAS FOTOS EM UMA PUBLICAÇÃO SÓ COM SETA PRO LADO E EDIÇÃO PERMITE MUDAR DESCRIÇÃO SÓ. VíDEo mESMA COISA SÓ DESCRIÇÃO
-//RESOLVER CSS DA SEÇÃO NÃO RENDERIZAR HEIGHT CERTO!!!
 
+
+/*ARRUMAR SISTEMA DE ORDEM, CRIAR UM METODO NO SECAO DAO PRA LISTAR SEÇÕES DE ACORDO COM A ORDEM 
+E NÃO ID DA SECAO PRA USAR NA RENDERIZAÇÃO!!! USAR SISTEMA DE DRAG QUE SÓ É HABILITADO AO CLICAR NO BOTAO EDITAR*/
+
+//FAZER COM QUE BOTÔES DE EDITAR SECAO APARACE APÓS CLICAR EM BOTÃO DE EDITAR
 
 function criarSecao(tipo) {
     let overlay = document.createElement('div');
@@ -239,7 +247,6 @@ function criarSecao(tipo) {
 
     let tituloPersonalizado = false;
     let criarTopico = false;
-    let limitador = 0;
 	
 	// Id Aluno input
 	let idInput = document.createElement('input');
@@ -315,7 +322,6 @@ function criarSecao(tipo) {
 		editorContainer.style.height = '50px';
 		editorContainer.style.maxHeight = '67.9vh';
 		editorContainer.style.maxWidth = '58.9vw';
-		
 		editorContainer.style.backgroundColor = '#fff';
 		editorContainer.style.cursor = 'text';
 		editorContainer.style.border = '1px solid #ccc';
@@ -544,6 +550,39 @@ function criarSecao(tipo) {
 	    });
 	}
 	
+	// Botões para Fechar e Salvar
+    let botoesContainer = document.createElement('div');
+    botoesContainer.id = 'botoes-container';
+
+	let fecharBotao = document.createElement('button');
+	fecharBotao.innerText = 'Fechar';
+	fecharBotao.style.marginRight = '10px';
+	fecharBotao.addEventListener('click', function () {
+	    seccao.remove();
+		overlay.remove();
+	    botoesContainer.remove();
+		if (toolbarContainer) toolbarContainer.remove();
+	    if (colorPicker) colorPicker.remove();
+		if (toolbar) toolbar.remove();
+	});
+
+	let salvarBotao = document.createElement('button');
+	salvarBotao.innerText = 'Salvar';
+	salvarBotao.type = 'submit';
+	salvarBotao.addEventListener('click', function () {
+	    seccao.submit();
+		seccao.remove();
+		overlay.remove();
+	    botoesContainer.remove();
+	    if (toolbarContainer) toolbarContainer.remove();
+	    if (colorPicker) colorPicker.remove();
+		if (toolbar) toolbar.remove();
+	});
+
+    botoesContainer.appendChild(fecharBotao);
+    botoesContainer.appendChild(salvarBotao);
+    document.body.appendChild(botoesContainer);
+	
 	//MUDAR ISSO AQUI!
 	if (tipo === "Desenho") {
 		let desenhoContainer = document.createElement('div');
@@ -742,47 +781,51 @@ function criarSecao(tipo) {
 	    tabela.appendChild(tbody);
 	    seccao.appendChild(tabela);
     }
-	
+
     // Adicionando Tópicos caso seja necessário
-	let qtdTopicos = 0;
-	
-	let inputQtdTopicos = document.createElement('input');
-	inputQtdTopicos.type = 'hidden';
-	inputQtdTopicos.name = 'qtdTopicos'; 
-	inputQtdTopicos.value = qtdTopicos;
-	seccao.appendChild(inputQtdTopicos);
-	
     if (criarTopico) {
 		let botaoCriarTopico = document.createElement('button');
 		botaoCriarTopico.className = 'seccao-botao-criar-topico';
 		botaoCriarTopico.type = "button";
         seccao.appendChild(botaoCriarTopico);
-
+		
+		let qtdTopicos = 0;
+			
+		let inputQtdTopicos = document.createElement('input');
+		inputQtdTopicos.type = 'hidden';
+		inputQtdTopicos.name = 'qtdTopicos'; 
+		inputQtdTopicos.value = qtdTopicos;
+		seccao.appendChild(inputQtdTopicos);
+	
         botaoCriarTopico.addEventListener('click', function () {
 			qtdTopicos++;
 			inputQtdTopicos.value = qtdTopicos;
-            if (tipo === 'Licenças e Certificados') {
+            if (tipo === 'Licenças e Certificados' && qtdTopicos <= 100) {
                 let caixaTexto = document.createElement('textarea');
                 caixaTexto.className = 'caixa-texto-topico2';
                 caixaTexto.placeholder = "Escreva seu texto...";
-                caixaTexto.maxLength = 126;
+                caixaTexto.maxLength = 122;
 				
 				let inputConteudoTextoTopico = document.createElement('input');
                 inputConteudoTextoTopico.type = 'hidden';
 				inputConteudoTextoTopico.name = 'conteudoTextoTopico';
 				inputConteudoTextoTopico.value = '';
-				containerLogoTexto.appendChild(inputConteudoTextoTopico);
 				
-				caixaTexto.addEventListener('input', function () {
-				    inputConteudoTextoTopico.value = caixaTexto.value;
-				});
+				let comprimentoConteudoTextoInput = document.createElement('input');
+			    comprimentoConteudoTextoInput.type = 'hidden';
+			    comprimentoConteudoTextoInput.name = 'comprimentoConteudoTextoTopico';
+			    seccao.appendChild(comprimentoConteudoTextoInput);
+
+			    let alturaConteudoTextoInput = document.createElement('input');
+			    alturaConteudoTextoInput.type = 'hidden';
+			    alturaConteudoTextoInput.name = 'alturaConteudoTextoTopico';
+			    seccao.appendChild(alturaConteudoTextoInput);
 				
                 let inputLogo = document.createElement('input');
                 inputLogo.type = 'file';
 				inputLogo.name = 'conteudoImagem';
 				inputLogo.hidden = true;
                 inputLogo.accept = 'image/*';
-				containerLogoTexto.appendChild(inputLogo);
 				
                 let logoPreview = document.createElement('img');
                 logoPreview.className = 'logo-preview';
@@ -791,10 +834,24 @@ function criarSecao(tipo) {
 
                 let containerLogoTexto = document.createElement('div');
 				containerLogoTexto.className = 'container-logo-texto';
+				
+				//atualizar dados aqui!!!!
+				let atualizar = () => {
+					inputConteudoTextoTopico.value = caixaTexto.value;
+				    comprimentoConteudoTextoInput.value = caixaTexto.offsetWidth;
+				    alturaConteudoTextoInput.value = caixaTexto.offsetHeight;
+				};
+	
+				caixaTexto.addEventListener('input', atualizar);
+				caixaTexto.addEventListener('mouseup', atualizar);
+				caixaTexto.addEventListener('mousemove', atualizar);
+				atualizar();
 
                 let botaoApagarTopico = document.createElement('button');
                 botaoApagarTopico.className = 'seccao-botao-apagar-topico';
 				
+				containerLogoTexto.appendChild(inputConteudoTextoTopico);
+				containerLogoTexto.appendChild(inputLogo);
 				containerLogoTexto.appendChild(botaoApagarTopico);
 		        containerLogoTexto.appendChild(logoPreview);
 		        containerLogoTexto.appendChild(caixaTexto);
@@ -841,39 +898,6 @@ function criarSecao(tipo) {
             }
         });
     }
-	
-	// Botões para Fechar e Salvar
-    let botoesContainer = document.createElement('div');
-    botoesContainer.id = 'botoes-container';
-
-	let fecharBotao = document.createElement('button');
-	fecharBotao.innerText = 'Fechar';
-	fecharBotao.style.marginRight = '10px';
-	fecharBotao.addEventListener('click', function () {
-	    seccao.remove();
-		overlay.remove();
-	    botoesContainer.remove();
-		if (toolbarContainer) toolbarContainer.remove();
-	    if (colorPicker) colorPicker.remove();
-		if (toolbar) toolbar.remove();
-	});
-
-	let salvarBotao = document.createElement('button');
-	salvarBotao.innerText = 'Salvar';
-	salvarBotao.type = 'submit';
-	salvarBotao.addEventListener('click', function () {
-	    seccao.submit();
-		seccao.remove();
-		overlay.remove();
-	    botoesContainer.remove();
-	    if (toolbarContainer) toolbarContainer.remove();
-	    if (colorPicker) colorPicker.remove();
-		if (toolbar) toolbar.remove();
-	});
-
-    botoesContainer.appendChild(fecharBotao);
-    botoesContainer.appendChild(salvarBotao);
-    document.body.appendChild(botoesContainer);
 	
 	seccao.style.display = 'block';
 	document.body.appendChild(seccao);
@@ -1105,13 +1129,19 @@ function editarSecao(tipo, secao) {
 
 
 //USAR ISSO SÓ PRA RENDERIZAR PUBLICAÇÕES NO GRID QUE SERA FEITO. DEPOIS MUDO
+
 let indiceAtual = 0;
-const quantidadePorPagina = 15;
+const quantidadePorPagina = 12;
 const botaoCarregarMais = document.createElement('button');
 botaoCarregarMais.id = 'botao-carregar-mais';
 botaoCarregarMais.innerText = 'Carregar Mais';
 botaoCarregarMais.style.display = 'none';
 
+//let limite = Math.min(indiceAtual + quantidadePorPagina, secoes.length);
+
+/*for (let i = indiceAtual; i < limite; i++) {
+	REPETIÇÃO
+}*/
 function carregarSecoes() {
     let limite = Math.min(indiceAtual + quantidadePorPagina, secoes.length);
 
@@ -1153,6 +1183,8 @@ function carregarSecoes() {
 		//criações
 
 		if (secao.tipo === "Projetos Concluídos") {
+			seccao.style.height = '72vh';
+			
 		    let tabela = document.createElement('table');
 		    tabela.className = 'table';
 		    
@@ -1277,20 +1309,6 @@ function carregarSecoes() {
 	    seccao.appendChild(botaoApagar);
 		
 		botaoApagar.addEventListener('click', function () {
-			
-			/*
-		    if (contadorTextoLivre != 0 && tipo === "Texto Livre") {
-		        contadorTextoLivre--;
-		    }
-		    
-		    if (contadorProjetosConcluidos != 0 && tipo === "Projetos Concluídos") {
-		        contadorProjetosConcluidos = 0;
-		    }
-		
-		    if (contadorLicencasCertificados != 0 && tipo === "Licenças e Certificados") {
-		        contadorLicencasCertificados = 0;
-		    }*/
-		
 		    if (confirm('Você tem certeza que deseja excluir esta seção?')) {
 				formApagarSecao.submit();
 		        seccao.remove();
@@ -1311,8 +1329,14 @@ function carregarSecoes() {
 		    editorContainer.style.marginBottom = '20px';
 			editorContainer.style.display = 'block';
 			/*pra teste da posição
-			editorContainer.style.border = '#ff0000 1px solid'
-			*/
+			editorContainer.style.border = '#ff0000 1px solid'*/
+			
+			if (secao.topConteudoTexto === 0 && secao.leftConteudoTexto === 0 && secao.comprimentoConteudoTexto === 0 && secao.alturaConteudoTexto === 0) {
+		        editorContainer.style.width = '200px';
+		        editorContainer.style.height = '50px';
+		        editorContainer.style.left = '50px';
+		        editorContainer.style.top = '45px';
+		    }
 			
 		    seccao.appendChild(editorContainer);
 			
@@ -1330,37 +1354,118 @@ function carregarSecoes() {
 		    quill.root.innerHTML = secao.conteudoTexto;
 		}
 				
-		else if(secao.tipo === "Licenças e Certificados") {
-		    let conteinerLogoTexto = document.createElement('div');
-		    conteinerLogoTexto.className = "form-logo-texto-container";
+		/*
 		
-		    let logoPreview = document.createElement('img');
-		    logoPreview.className = "logo-preview";
-		    logoPreview.style.width = '50px';
-		    logoPreview.style.height = '50px';
 		
-		    let caixaTexto = document.createElement('p');
-		    caixaTexto.className = 'caixa-texto-topico2';
-			caixaTexto.innerText = secao.conteudoTexto;
+		FAZER SISTEMA ONDE ADMINISTRADOR PODE VERIFICAR CERTIFICADO, 
+		FAZER PAGINA ONDE APARECE TODOS OS ARQUIVOS E O ADMINISTRADOR VAI APROVANDO DE UM EM UM, 
+		CRIAR NA TABELA TOPICO CADA TOPIICO TER UM BOOLEAN (VERICICADO/NÂO VERIFICADO) E UMA COLUNA DATA DE VERIFICAÇÃO.
+		
+
+		
+		
+		
+		
+		
+		
+		
+		*/
+		
+		if (secao.tipo === 'Licenças e Certificados') {
+			let indiceAtualLC = 0;
+			let quantidadePorPaginaLC = 4;
+			let botaoCarregarMaisLC = document.createElement('button');
+			botaoCarregarMaisLC.className = 'botao-carregar-mais-LC';
+			botaoCarregarMaisLC.innerText = 'Carregar Mais';
+			botaoCarregarMaisLC.style.display = 'none';
 			
-			conteinerLogoTexto.appendChild(logoPreview);
-			conteinerLogoTexto.appendChild(caixaTexto);
-		    seccao.appendChild(conteinerLogoTexto);
-		
-		    logoPreview.addEventListener('click', function () {
-		        inputLogo.click();
-		    });
-		
-			inputLogo.addEventListener('change', function (e) {
-			    let file = e.target.files[0];
-			    if (file) {
-			        let reader = new FileReader();
-			        reader.onload = function (e) {
-			            logoPreview.src = e.target.result;
-			        };
-			        reader.readAsDataURL(file);
-			    }
-			});
+			let carregarSecaoLicencaCertificado = () => {
+				seccao.style.height = '72vh';
+
+				let limiteLC = Math.min(indiceAtualLC + quantidadePorPaginaLC, topicos.length);
+				
+			    for (let i = indiceAtualLC; i < limiteLC; i++) {
+					topico = topicos[i];
+					if(topico.secaoId == secao.id) {
+			            let arquivoTopico = topico.conteudoArquivo;
+			        
+				        let caixaTexto = document.createElement('textarea');
+				        caixaTexto.className = 'caixa-texto-topico2';
+						caixaTexto.style.cursor = 'text';
+				        caixaTexto.disabled = true;
+						caixaTexto.style.resize = 'none';
+				        caixaTexto.innerText = topico.conteudoTexto;
+						caixaTexto.style.border = '#ccc 1px solid';
+						caixaTexto.style.width = topico.comprimentoConteudoTexto + 'px';
+						caixaTexto.style.height = '35px';
+						
+						if (topico.comprimentoConteudoTexto === 0) {
+					        caixaTexto.style.width = '100px';
+					    }
+			
+				        let logoPreview = document.createElement('img');
+						if (topico.conteudoImagem)
+						    logoPreview.src = 'data:image/jpeg;base64,' + topico.conteudoImagem;
+						 else 
+						    logoPreview.src = '../img/fundo-branco.png';
+						    
+				        logoPreview.className = 'logo-preview';
+				        logoPreview.style.width = '50px';
+				        logoPreview.style.height = '50px';
+			
+				        let containerLogoTexto = document.createElement('div');
+				        containerLogoTexto.className = 'container-logo-texto';
+			
+				        containerLogoTexto.appendChild(logoPreview);
+				        containerLogoTexto.appendChild(caixaTexto);
+			
+				        let buttonAbrirArquivo = document.createElement('button');
+				        buttonAbrirArquivo.type = 'button';
+				        buttonAbrirArquivo.innerText = 'Ver certificado / licença';
+				        buttonAbrirArquivo.classList.add('upload-label');
+			
+				        containerLogoTexto.appendChild(buttonAbrirArquivo);
+			
+						buttonAbrirArquivo.addEventListener('click', function() {
+						    if (arquivoTopico) {
+						        let byteCharacters = atob(arquivoTopico);
+						        let byteNumbers = new Array(byteCharacters.length);
+						        for (let i = 0; i < byteCharacters.length; i++) {
+						            byteNumbers[i] = byteCharacters.charCodeAt(i);
+						        }
+						        let byteArray = new Uint8Array(byteNumbers);
+
+						        let mimeType = "application/pdf";
+						        if (arquivoTopico.startsWith('/9j/')) {
+						            mimeType = "image/jpeg";
+						        } else if (arquivoTopico.startsWith('iVBOR')) {
+						            mimeType = "image/png";
+						        }
+
+						        let blob = new Blob([byteArray], { type: mimeType });
+						        let url = URL.createObjectURL(blob);
+
+						        let novaAba = window.open(url);
+						        if (!novaAba) {
+						            alert("Pop-up bloqueado! Permita pop-ups para visualizar o arquivo.");
+						        }
+						    } else {
+						        alert("Arquivo não disponível!");
+						    }
+						});
+				        seccao.appendChild(containerLogoTexto);
+						seccao.appendChild(botaoCarregarMaisLC);
+					}
+			    };
+				
+				indiceAtualLC = limiteLC;
+				
+				botaoCarregarMaisLC.style.display = indiceAtualLC < topicos.length ? 'block' : 'none';
+				
+				botaoCarregarMaisLC.addEventListener('click', carregarSecaoLicencaCertificado);
+			};
+			
+			carregarSecaoLicencaCertificado();
 		}
 		containerSeccoes.appendChild(seccao);
 		containerSeccoes.appendChild(botaoCarregarMais);

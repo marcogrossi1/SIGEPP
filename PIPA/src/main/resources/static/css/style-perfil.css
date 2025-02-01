@@ -68,10 +68,9 @@ body {
     border: 2px rgb(219, 219, 219) solid;
 	width: 63vw;
 	max-width: 63vw;
-	min-height: calc(100vh - 28vh);
-	height: auto;
+	min-height: 72vh;
 	padding: 20px;
-    overflow: visible;
+	overflow: auto;
     transition: height 0.3s ease;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
@@ -319,7 +318,7 @@ body {
 
 .caixa-texto-topico2 {
     height: 35px;
-	max-width: 489px;
+	max-width: 470px;
     padding: 10px;
     border: 1px solid #ccc;
     background: none;
@@ -905,6 +904,22 @@ label {
     text-align: center;
 }
 
+.botao-carregar-mais-LC {
+	top: 10px;
+	width: 100px;
+    height: 20px;
+	background: none;
+	background-color: rgb(0, 64, 128);
+	color: white;
+	font-weight: bold;
+	font-size: 14px;
+	border: none;
+    border-radius: 5px;
+	cursor: pointer;
+    margin: 10px auto;
+    text-align: center;
+}
+
 .container-logo-texto {
     display: flex;
     align-items: center;
@@ -922,6 +937,7 @@ label {
     font-size: 16px;
     transition: background-color 0.3s;
     text-align: center;
+	font-weight: bold;
 }
 
 .upload-label:hover {

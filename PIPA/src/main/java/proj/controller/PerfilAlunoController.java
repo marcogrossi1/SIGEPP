@@ -65,6 +65,19 @@ public class PerfilAlunoController {
 			List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, alunoId);
 			model.addAttribute("secoes", secoes);
 			
+			List<Topico> topicos = TopicoDao.listarTodosTopicos(conn);
+	        model.addAttribute("topicos", topicos);
+	        
+	        model.addAttribute("qtdTopicos", TopicoDao.contarTodosTopicos(conn));
+	        
+	        long qtdSecoesTextoLivre = SecaoDao.contarSecoesPorTipo(conn, "Texto Livre");
+	        long qtdSecoesProjetosConcluidos = SecaoDao.contarSecoesPorTipo(conn, "Projetos Concluídos");
+	        long qtdSecoesLicencasECertificados = SecaoDao.contarSecoesPorTipo(conn, "Licenças e Certificados");
+
+	        model.addAttribute("qtdSecoesTextoLivre", qtdSecoesTextoLivre);
+	        model.addAttribute("qtdSecoesProjetosConcluidos", qtdSecoesProjetosConcluidos);
+	        model.addAttribute("qtdSecoesLicencasECertificados", qtdSecoesLicencasECertificados);
+			
 			if (a.getFotoPerfil() != null) {
 			    String fotoPerfilBase64 = Base64.getEncoder().encodeToString(a.getFotoPerfil());
 			    model.addAttribute("fotoPerfil", fotoPerfilBase64);
@@ -263,6 +276,8 @@ public class PerfilAlunoController {
         @RequestParam(value = "ordem", required = true) Integer ordem,
         @RequestParam(value = "comprimentoConteudoTexto", required = false) Integer comprimentoConteudoTexto,
         @RequestParam(value = "alturaConteudoTexto", required = false) Integer alturaConteudoTexto,
+        @RequestParam(value = "comprimentoConteudoTextoTopico", required = false) List<Integer> comprimentosConteudoTextoTopico,
+        @RequestParam(value = "alturaConteudoTextoTopico", required = false) List<Integer> alturasConteudoTextoTopico,
         @RequestParam(value = "leftConteudoTexto", required = false) Integer leftConteudoTexto,
         @RequestParam(value = "topConteudoTexto", required = false) Integer topConteudoTexto,
 	    Model model) {
@@ -276,6 +291,7 @@ public class PerfilAlunoController {
 	        System.out.println("Top: " + comprimentoConteudoTexto + ", Left: " + alturaConteudoTexto);
 	        
             Secao sec = new Secao();
+            
             sec.setUsuarioId(usuarioId);
             sec.setTipo(tipo);
             sec.setTitulo(titulo); 
@@ -286,46 +302,56 @@ public class PerfilAlunoController {
             sec.setLeftConteudoTexto(leftConteudoTexto);
             
             System.out.println("qtdTopicos recebido no backend: " + qtdTopicos);
-            
-            if (tipo.equals("Licenças e Certificados")) {
-                for (int i = 0; i < qtdTopicos; i++) {
-                    Topico topico = new Topico();
-                    topico.setSecaoId(sec.getId());
-
-                    if (conteudosTextoTopico != null && !conteudosTextoTopico.isEmpty() && i < conteudosTextoTopico.size()) {
-                        topico.setConteudoTexto(conteudosTextoTopico.get(i));
-                    } else {
-                        topico.setConteudoTexto("Escreva seu texto...");
-                    }
-                    
-                    System.out.println("Topico Texto " + i + ":" + conteudosTextoTopico.get(i));
-
-                    if (conteudoArquivos != null && i < conteudoArquivos.size()) {
-                        MultipartFile arquivo = conteudoArquivos.get(i);
-                        if (!arquivo.isEmpty()) {
-                            topico.setConteudoArquivo(arquivo.getBytes());
-                        }
-                    }
-
-                    if (conteudoImagens != null && i < conteudoImagens.size()) {
-                        MultipartFile imagem = conteudoImagens.get(i);
-                        if (!imagem.isEmpty()) {
-                            topico.setConteudoImagem(imagem.getBytes());
-                        }
-                    }
-
-                    TopicoDao.salvarTopico(conn, topico);
-                }
-            }
             	
-            if (conteudoTexto == null || conteudoTexto.isEmpty() && !tipo.equals("Licenças e Certificados"))
+            if (conteudoTexto == null || conteudoTexto.isEmpty())
             	sec.setConteudoTexto("Escreva seu texto..."); 
-            else if (!tipo.equals("Licenças e Certificados")) {
+            else {
             	sec.setConteudoTexto(conteudoTexto); 
             }   
             
             SecaoDao.salvarSecao(conn, sec);
-	       
+            System.out.println("SecaoId " + sec.getId());
+            
+            if (tipo.equals("Licenças e Certificados")) {
+		        for (int i = 0; i < qtdTopicos; i++) {
+		            Topico topico = new Topico();
+		            topico.setSecaoId(sec.getId());
+		            
+		            /*verificar id secao do topico*/
+		            System.out.println("SecaoId do Topico" + topico.getSecaoId());
+		
+		            if (conteudosTextoTopico != null && !conteudosTextoTopico.isEmpty() && i < conteudosTextoTopico.size()) {
+		                topico.setConteudoTexto(conteudosTextoTopico.get(i));
+		            } else {
+		                topico.setConteudoTexto("Escreva seu texto...");
+		            }
+		            
+		            //System.out.println("Topico Texto " + i + ":" + conteudosTextoTopico.get(i));
+		
+		            if (conteudoArquivos != null && i < conteudoArquivos.size()) {
+		                MultipartFile arquivo = conteudoArquivos.get(i);
+		                if (!arquivo.isEmpty()) {
+		                    topico.setConteudoArquivo(arquivo.getBytes());
+		                }
+		            }
+		
+		            if (conteudoImagens != null && i < conteudoImagens.size()) {
+		                MultipartFile imagem = conteudoImagens.get(i);
+		                if (!imagem.isEmpty()) {
+		                    topico.setConteudoImagem(imagem.getBytes());
+		                }
+		            }
+		            
+		            if (comprimentosConteudoTextoTopico != null && !comprimentosConteudoTextoTopico.isEmpty() && i < comprimentosConteudoTextoTopico.size())
+		            	topico.setComprimentoConteudoTexto(comprimentosConteudoTextoTopico.get(i));
+		            
+		            if (alturasConteudoTextoTopico != null && !alturasConteudoTextoTopico.isEmpty() && i < alturasConteudoTextoTopico.size())
+		            	topico.setAlturaConteudoTexto(alturasConteudoTextoTopico.get(i));
+		
+		            TopicoDao.salvarTopico(conn, topico);
+		        }
+		    }
+            
 	        conn.commit();
 
 	        return "redirect:/perfil-aluno?id=" + usuarioId;
@@ -336,7 +362,6 @@ public class PerfilAlunoController {
 	    }
 	}
 	
-	//ARRUMAR PRA APAGAR TODOS OS TOPICOS RELACIONADOS A SEÇÃO
 	@PostMapping("/apagar-secao")
 	public String apagarSecao(
 		@RequestParam("idSecao") Long secaoId,
