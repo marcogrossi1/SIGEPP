@@ -25,6 +25,9 @@
 			            </ul>
             <hr>
             <p th:text="${descricao}"></p>
+            <a th:if="${estagio.empresa} == ${empresa.nome}" th:href="@{/empresa/candidatos-estagio(n=${estagio.id})}">
+                <button>Visualizar candidatos</button>
+            </a>
             <a th:if="${estagio.empresa} == ${empresa.nome}" th:href="@{http://localhost:8080/empresa/editar(n=${estagio.id})}">
                 <button>Editar</button>
             </a>

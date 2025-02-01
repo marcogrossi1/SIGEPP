@@ -142,6 +142,7 @@ ENGINE = InnoDB default character set = utf8;
 CREATE TABLE Aluno_has_Estagio (
   aluno_id BIGINT NOT NULL,
   estagio_id BIGINT NOT NULL,
+  progresso VARCHAR(255) NOT NULL,
   PRIMARY KEY (aluno_id, estagio_id),
   INDEX fk_Aluno_has_Estagio_Estagio1_idx (estagio_id ASC) ,
   INDEX fk_Aluno_has_Estagio_Aluno1_idx (aluno_id ASC) ,
@@ -281,6 +282,8 @@ CREATE TABLE secoes (
     conteudoTexto LONGTEXT,
     comprimentoConteudoTexto INT NULL,
     alturaConteudoTexto INT NULL,
+    leftConteudoTexto INT NULL,
+    topConteudoTexto INT NULL,
     conteudoImagem LONGBLOB NULL,
     ordem INT,
   	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
