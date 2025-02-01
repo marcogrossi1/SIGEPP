@@ -1,19 +1,3 @@
-SET foreign_key_checks = 0;
-
-TRUNCATE TABLE aluno_has_estagio;
-TRUNCATE TABLE aluno_has_projeto;
-TRUNCATE TABLE empresa_has_estagio;
-TRUNCATE TABLE estagio;
-TRUNCATE TABLE projeto;
-TRUNCATE TABLE aluno;
-TRUNCATE TABLE professor;
-TRUNCATE TABLE administrador;
-TRUNCATE TABLE empresa;
-TRUNCATE TABLE usuario;
-TRUNCATE TABLE professor_has_projeto;
-
-SET foreign_key_checks = 1;
-
 INSERT INTO usuario (id, nome, senha, role) 
 VALUES 
 (1, "00000000001", sha2('123', 512), "Aluno"),
@@ -88,7 +72,7 @@ VALUES
 (2,1, "APROVADO"),
 (2,2, "CONCLUIDO");
 
-INSERT INTO aluno_has_projeto (aluno_id, projeto_id, progresso) 
+INSERT INTO aluno_has_projeto (aluno_id, projeto_id) 
 VALUES 
 (1,1),
 (1,2),

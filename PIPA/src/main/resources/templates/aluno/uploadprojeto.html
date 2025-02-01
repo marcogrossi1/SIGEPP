@@ -13,12 +13,14 @@
         <h1 id="titulo-plataforma" >PIPA | Documentos</h1>
     </header>
     <div class="container">
+ 
      <h1>Enviar Documento</h1>
-   <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
-   	<input type="hidden" name="nomeEstagio" th:value="${nomeEstagio}">
-    <input type="hidden" name="idAluno"  th:value="${alunoId}" required><br>
-    <input type="hidden" name="idProjeto" th:value="${estagioId}">
-    <input type="hidden" name="usuarioId" th:value="${usuarioId}">
+   <form th:action="@{/uploadprojeto}" method="post" enctype="multipart/form-data">
+   	<input type="text" name="nomeprojeto">
+    <input type="text" name="idAluno"><br>
+    <input type="text" name="idProjeto">
+    <input type="text" name="usuarioId">
+    
     <label for="file">Arquivo:</label>
     <input type="file" id="file" name="file" required><br>
     <button type="submit">Enviar</button>

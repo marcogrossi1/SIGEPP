@@ -60,6 +60,7 @@ public class PesquisaAlunoController {
 			System.out.println("NOME: "+nome);
 			
 			model.addAttribute("nome", nome);
+			model.addAttribute("usuario", u);
 			
 			model.addAttribute("listaCursos", listaCursos);
 			model.addAttribute("listaCampus", listaCampus);
@@ -94,6 +95,7 @@ public class PesquisaAlunoController {
 			System.out.println("NOME: "+nome);
 			
 			model.addAttribute("nome", nome);
+			model.addAttribute("usuario", u);
 			
 			
 			ArrayList<String> listaCursos = AlunoDao.listCursos(conn);
@@ -151,6 +153,8 @@ public class PesquisaAlunoController {
 				nome = x.getNome();
 			}
 			System.out.println("NOME: "+nome);
+			
+			model.addAttribute("usuario", u);
 			
 			model.addAttribute("nome", nome);
 			model.addAttribute("listaCursos", listaCursos);

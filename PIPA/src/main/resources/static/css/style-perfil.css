@@ -61,6 +61,7 @@ body {
 }
 
 .seccao {
+	position: relative;
     margin-bottom: 5vh;
     background-color: #ffffff;
     border: 2px rgb(219, 219, 219) solid;
@@ -69,7 +70,8 @@ body {
 	min-height: calc(100vh - 28vh);
 	height: auto;
 	padding: 20px;
-	overflow: visible;
+    overflow: visible;
+    transition: height 0.3s ease;
 }
    
 #foto-perfil {
@@ -763,6 +765,7 @@ label {
 	right: 12%;
 	bottom: 10px;
 	box-shadow: 2px 2px 9px #333;
+	z-index: 1500;
 }
 
 #cropModal {
@@ -811,7 +814,7 @@ label {
 #secao-edicao {
     position: fixed;
     border: 2px rgb(219, 219, 219) solid;
-    min-width: 66vw;
+    min-width: 63vw;
     min-height: calc(100vh - 28vh);
     height: auto;
     max-height: 80vh;
@@ -824,6 +827,7 @@ label {
     padding: 20px;
     display: none;
     overflow-y: auto;
+	overflow-x: hidden;
 }
 
 #overlay {
@@ -861,4 +865,17 @@ label {
 
 .ql-toolbar .ql-color {
     visibility: hidden;
+}
+
+.ql-editor iframe {
+	width: 50%;
+    height: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	border: 3px solid #007bff;
+}
+
+.ql-editor iframe {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
 }

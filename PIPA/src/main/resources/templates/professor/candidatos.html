@@ -28,7 +28,10 @@
 		<div class="candidaturas">
 			<div class="candidatura" th:each="candidatura : ${candidaturas}">
 				<div class="info">
-					<img src="/img/foto-perfil-padrao.png" alt="Ícone de usuário">
+					<img
+						th:src="'/projeto/professor/fotoAluno/' + ${candidatura.candidato.id}"
+						alt="Foto de Perfil">
+
 					<p class="nome" th:text="${candidatura.candidato.nome}"></p>
 
 					<p class="status"

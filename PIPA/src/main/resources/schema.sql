@@ -1,3 +1,23 @@
+set foreign_key_checks = 0;
+
+drop table IF EXISTS Administrador;
+drop table IF EXISTS Aluno;
+drop table IF EXISTS Aluno_has_Estagio;
+drop table IF EXISTS Aluno_has_Projeto;
+drop table IF EXISTS candidatura;
+drop table IF EXISTS Empresa;
+drop table IF EXISTS Empresa_has_Estagio;
+drop table IF EXISTS Estagio;
+drop table IF EXISTS Professor;
+drop table IF EXISTS Professor_has_Projeto;
+drop table IF EXISTS Projeto;
+drop table IF EXISTS secoes;
+drop table IF EXISTS Seguidores;
+drop table IF EXISTS Usuario;
+
+set foreign_key_checks = 1;
+
+
 -- -----------------------------------------------------
 -- Table Usuario
 -- -----------------------------------------------------
@@ -262,6 +282,8 @@ CREATE TABLE secoes (
     conteudoTexto LONGTEXT,
     comprimentoConteudoTexto INT NULL,
     alturaConteudoTexto INT NULL,
+    leftConteudoTexto INT NULL,
+    topConteudoTexto INT NULL,
     conteudoImagem LONGBLOB NULL,
     ordem INT,
   	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
