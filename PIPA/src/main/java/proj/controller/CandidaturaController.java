@@ -11,6 +11,9 @@ import proj.dao.AlunoDao;
 import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
 import proj.service.NotificacaoService;
+import proj.dao.DocumentoPDao;
+import proj.model.DocumentoP;
+import proj.model.DocumentoId;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,6 +42,9 @@ public class CandidaturaController {
 
     @Autowired
     private DataSource dataSource; // Fonte de dados para conexão com o banco
+    
+    @Autowired
+    private DocumentoPDao documentoPDao;
 
     /**
      * Exibe o formulário de candidatura para um projeto específico.
@@ -270,6 +276,9 @@ public class CandidaturaController {
                 model.addAttribute("erro", "Ação desconhecida.");
                 return "error";
             }
+            
+                DocumentoId documentoId = new DocumentoId(candidatura.getAlunoId(), candidatura.getIDoportunidade());
+                documentoPDao.deletarPorId(documentoId);
 
             // Atualiza o status da candidatura
             candidaturaDao.atualizarStatus(candidaturaId, status);

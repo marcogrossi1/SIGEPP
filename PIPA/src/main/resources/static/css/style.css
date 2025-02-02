@@ -582,7 +582,7 @@ label {
     padding: 15px;
     margin-bottom: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.5s ease;
 }
 
 .notificacao:hover {
@@ -597,26 +597,20 @@ label {
 }
 
 .notificacao.lida {
-    background-color: #d3d3d3; /* Cor mais escura ou qualquer que você queira */
+    background-color: #d3d3d3;
     color: gray;
-    text-decoration: line-through; /* Opcional: Para dar um efeito de "leitura" */
-  
+    text-decoration: line-through;
+}
+.notificacao.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease; 
+}
 .seguidor {
-	color: black;
-	cursor: pointer;
-	text-decoration: none;
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .seguidor:hover {
-	color: rgb(0, 128, 255);
-}
-
-}
-
-#good{color: green; }
-#bad{color: red;}
-.flexbox-center{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    color: rgb(0, 128, 255);
 }

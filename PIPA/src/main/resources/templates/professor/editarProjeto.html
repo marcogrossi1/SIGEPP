@@ -16,6 +16,10 @@
 
     <nav>
         <p th:text="${professor.nome}"></p>
+        <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
         <a href="link" class="icone">
             <img th:src="@{/img/icone-perfil.png}">
             <label>Perfil</label>

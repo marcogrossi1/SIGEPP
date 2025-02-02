@@ -2,25 +2,24 @@ package proj.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import proj.model.DocumentoP;
+import proj.model.Documento;
 import proj.model.DocumentoId;
 
 import javax.sql.DataSource;
 import java.sql.*;
 
 @Repository
-public class DocumentoPDao {
-	
-	@Autowired
+public class DocumentoDao {
+
     private final DataSource dataSource;
 
-    
-    public DocumentoPDao(DataSource dataSource) {
+    @Autowired
+    public DocumentoDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public DocumentoP buscarPorId(DocumentoId id) {
-        String sql = "SELECT nome_arquivo, conteudo FROM documentop WHERE id_aluno = ? AND id_projeto = ?";
+    public Documento buscarPorId(DocumentoId id) {
+        String sql = "SELECT nome_arquivo, conteudo FROM documento WHERE id_aluno = ? AND id_projeto = ?";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -30,7 +29,7 @@ public class DocumentoPDao {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    DocumentoP documento = new DocumentoP();
+                    Documento documento = new Documento();
                     documento.setId(id);
                     documento.setNomeArquivo(rs.getString("nome_arquivo"));
                     documento.setConteudo(rs.getBytes("conteudo"));
@@ -43,8 +42,10 @@ public class DocumentoPDao {
         }
         return null;
     }
+    
     public void deletarPorId(DocumentoId id) {
-        String sql = "DELETE FROM documentop WHERE id_aluno = ? AND id_projeto = ?";
+        String sql = "DELETE FROM documento WHERE id_aluno = ? AND id_projeto = ?";
+
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -55,18 +56,17 @@ public class DocumentoPDao {
             if (rowsAffected == 0) {
                 throw new RuntimeException("Nenhum documento encontrado para exclusão.");
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao excluir documento por ID", e);
         }
     }
     public void deletarTodosPorProjetoId(long idProjeto) {
-        String sql = "DELETE FROM documentop WHERE id_projeto = ?";
+        String sql = "DELETE FROM documento WHERE id_projeto = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setLong(1, idProjeto);
-
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected == 0) {
                 throw new RuntimeException("Nenhum documento encontrado para exclusão neste projeto.");

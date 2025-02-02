@@ -28,6 +28,11 @@
             <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
             <p id="nome-no-portal" th:case="'*'"></p>
         </div>
+           <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
+        
         <a href="perfil" class="icone" id="icone-portal">
             <img src="/img/icone-perfil.png">
             <label>Perfil</label>

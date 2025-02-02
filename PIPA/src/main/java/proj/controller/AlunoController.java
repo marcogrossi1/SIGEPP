@@ -356,7 +356,7 @@ public class AlunoController {
 			e.printStackTrace();
 			return mostraPaginaDeErro(model , "Erro interno na aplicação!.");
 		}
-
+		
 		return "aluno/explorarProjetos";
 	}	
 }

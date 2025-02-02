@@ -6,17 +6,19 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
-import proj.dao.DocumentoDao;
+import proj.dao.DocumentoPDao;
 import proj.model.DocumentoId;
-import proj.model.Documento;
+import proj.model.DocumentoP;
 
 @RestController
 
-@RequestMapping("/downloade")
-public class DocumentoDownloadController {
-    private final DocumentoDao documentoDao;
-    public DocumentoDownloadController(DocumentoDao documentoPDao) {
-        this.documentoDao = documentoPDao;
+@RequestMapping("/download")
+public class DocumentoPDownloadController {
+
+    private final DocumentoPDao documentoPDao;
+
+    public DocumentoPDownloadController(DocumentoPDao documentoPDao) {
+        this.documentoPDao = documentoPDao;
     }
     @GetMapping
     public void downloadDocumento(
@@ -24,7 +26,7 @@ public class DocumentoDownloadController {
             @RequestParam("projetoId") long projetoId,
             HttpServletResponse response) throws IOException {
         DocumentoId documentoId = new DocumentoId(alunoId, projetoId);
-        Documento documento = documentoDao.buscarPorId(documentoId);
+        DocumentoP documento = documentoPDao.buscarPorId(documentoId);
 
         if (documento == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Documento não encontrado");
@@ -32,10 +34,10 @@ public class DocumentoDownloadController {
         }
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + documento.getNomeArquivo() + "\"");
-
         try (ServletOutputStream out = response.getOutputStream()) {
             out.write(documento.getConteudo());
             out.flush();
         }
     }
 }
+

@@ -13,7 +13,11 @@
 	        <a href="/aluno"><img id="logo" th:src="@{/img/logo.png}"></a> <!--Cpque na logo para retornar à página inicial-->
 	        <h1 id="titulo-plataforma" >PIPA | Estágios</h1>
 	</header>
-
+	<nav>
+	  <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+	</nav>
     <main>
         <section id="detalhes-estagio">
             <a id='redirect-empresa-perfil' th:href="@{${'/encontra-empresa?nome='+empresa}}"><h3 th:text="${empresa}"></h3></a>

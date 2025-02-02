@@ -18,6 +18,9 @@
 
     <nav>
 		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+		  <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
         <a href="../perfil-aluno" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
