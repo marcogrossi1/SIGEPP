@@ -9,10 +9,15 @@
 </head>
 <body>
 	<header>
-	        <a href="http://localhost:8080"><img id="logo" th:src="@{/img/logo.png}"></a> <!--Clique na logo para retornar à página inicial-->
+
+	        <a href="/aluno"><img id="logo" th:src="@{/img/logo.png}"></a> <!--Clique na logo para retornar à página inicial-->
 	        <h1 id="titulo-plataforma" >PIPA | Estágios</h1>
 	</header>
-	
+	<nav>
+	 <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+	</nav>
 	<main>
 		<h2>Seus estágios</h2>
                 <a class="estagio-section" th:each="estagio : ${estagioList}" th:href="@{http://localhost:8080/aluno/detalhes-estagio(n=${estagio.id})}">

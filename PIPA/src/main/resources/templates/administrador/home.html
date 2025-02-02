@@ -14,6 +14,11 @@
 
     <nav>
         <p id="nome-no-portal" th:text="${administrador.nome}"></p>
+        <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
+        
         <a href="perfil" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
@@ -43,6 +48,11 @@
             <img src="../img/botao-aluno.png" class="imgs-botoes-portal">
             </button>
         </a>
+		<a href="/administrador/listar-professores">
+		    <button class="botoes-portal" id="botao-professor-adm" type="submit">
+		     <img src="../img/botao-professor.png" class="imgs-botoes-portal">
+		     </button>
+		</a>
 	</main>
 
 </body>

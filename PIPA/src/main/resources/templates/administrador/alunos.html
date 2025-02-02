@@ -28,6 +28,11 @@
             <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
             <p id="nome-no-portal" th:case="'*'"></p>
         </div>
+           <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
+        
         <a href="perfil" class="icone" id="icone-portal">
             <img src="/img/icone-perfil.png">
             <label>Perfil</label>
@@ -44,6 +49,7 @@
 					<th>Curso</th>
 					<th>Campus</th>
                     <th>Ver mais</th>
+					<th>Editar</th>
 					<th>Deletar</th>
 				</tr>
 			</thead>
@@ -56,10 +62,16 @@
                     <td><a th:href="'/perfil-aluno?id=' + ${alunos.id}">
                         <button id="botao-certificado">Ver mais</button>
                     </a></td>
+					<td>
+						<a th:href="@{/administrador/listar-alunos/editar(id=${alunos.id})}">
+						 <button id="botao-certificado">Editar</button>
+						</a>
+					</td>
 					<td>						
 						<form   class="f-form" 
 						        th:action="@{/administrador/deletar-aluno}" 
-						        method="post" >
+						        method="post"
+								onsubmit="return confirm('Tem certeza que deseja deletar este aluno?');" >
 
 								<input type="hidden"  name="n" th:value=" ${alunos.id}" />
 								<input  id="botao-deletar" type="submit" value="Deletar" />  
@@ -71,12 +83,6 @@
         </table>
     </main>
 
-	<script>
-	     let botaoDeletarEstagioEl = document.querySelector("#botao-deletar");
-	     botaoDeletarEstagioEl.addEventListener("click", function() {
-	         alert("Tem certeza que deseja deletar o aluno?");
-	     });
-	 </script>
 
 </body>
 </html>

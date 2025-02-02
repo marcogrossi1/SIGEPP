@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Safelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,13 +82,13 @@ public class PerfilAlunoController {
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
-
-			if (u.getRole().equals("Aluno")) {
+                        model.addAttribute("visitante", u.getRole());
+			//if (u.getRole().equals("Aluno") || u.getRole().equals("Professor")) {
                 return "perfilAluno";
-            }
-			else {
+            //}
+			/*else {
 				return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
-			}
+			}*/
 		}
 		
 		catch(Exception e) {
@@ -260,14 +258,17 @@ public class PerfilAlunoController {
         @RequestParam(value = "ordem", required = true) Integer ordem,
         @RequestParam(value = "comprimentoConteudoTexto", required = false) Integer comprimentoConteudoTexto,
         @RequestParam(value = "alturaConteudoTexto", required = false) Integer alturaConteudoTexto,
+        @RequestParam(value = "leftConteudoTexto", required = false) Integer leftConteudoTexto,
+        @RequestParam(value = "topConteudoTexto", required = false) Integer topConteudoTexto,
 	    Model model) {
 
 	    try (Connection conn = ds.getConnection()) {
 	        if (ordem == null) 
 	        	ordem = 0;
 	        
-	        //VERIFICAR SE TÁ DANDO LARGURA E ALTURA MESMO DO CONTEUDO TEXTO
+	        //VERIFICAR SE TÁ DANDO LARGURA E ALTURA MESMO DO CONTEUDO TEXTO E TOP E LEFT
 	        System.out.println("Largura: " + comprimentoConteudoTexto + ", Altura: " + alturaConteudoTexto);
+	        System.out.println("Top: " + comprimentoConteudoTexto + ", Left: " + alturaConteudoTexto);
 	        
             Secao sec = new Secao();
             sec.setUsuarioId(usuarioId);
@@ -283,6 +284,8 @@ public class PerfilAlunoController {
             sec.setOrdem(ordem);
             sec.setComprimentoConteudoTexto(comprimentoConteudoTexto);
             sec.setAlturaConteudoTexto(alturaConteudoTexto);
+            sec.setTopConteudoTexto(topConteudoTexto);
+            sec.setLeftConteudoTexto(leftConteudoTexto);
             
             SecaoDao.salvarSecao(conn, sec);
 	       

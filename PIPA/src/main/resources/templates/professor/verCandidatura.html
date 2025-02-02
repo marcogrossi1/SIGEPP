@@ -14,7 +14,13 @@
 			alt="Logo"></a>
 		<h1 id="titulo-plataforma">PIPA | Detalhes da Candidatura</h1>
 	</header>
-
+	<nav>
+	<a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
+	
+	</nav>
 	<main>
 		<a id="voltar"
 			th:href="@{/projeto/professor/candidatos/{id}(id=${candidatura.IDoportunidade})}">&larr;
@@ -22,13 +28,18 @@
 
 
 		<div class="card">
-			<img src="/img/default-avatar.png" alt="Foto do Aluno">
+					<img
+						th:src="'/projeto/professor/fotoAluno/' + ${candidatura.candidato.id}"
+						alt="Foto de Perfil">
 			<div>
-				<a th:text="${candidatura.candidato.nome}" href="#"></a>
+				<a th:if="${candidatura.candidato != null}"
+					th:text="${candidatura.candidato.nome}"
+					th:href="@{/perfil-aluno(id=${candidatura.candidato.id})}">
+					Nome do Aluno </a>
 				<p th:text="${candidatura.candidato.email}"></p>
 			</div>
 			<button th:onclick="'/curriculo/' + ${candidatura.candidato.id}"
-				class="botao">Baixar currículo</button>
+				class="botao">Baixar Documentos</button>
 		</div>
 
 		<h2>Detalhes da Candidatura</h2>

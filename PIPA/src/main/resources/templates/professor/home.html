@@ -10,12 +10,16 @@
 </head>
 <body>
     <header>
-        <a href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <a href="/professor"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
         <h1 id="titulo-plataforma" >PIPA | Professor</h1>
     </header>
 
     <nav>
 		<p id="nome-no-portal" th:text="${professor.nome}"></p>
+		<a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
         <a th:href="@{/perfil-professor(id=${professor.id})}" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
