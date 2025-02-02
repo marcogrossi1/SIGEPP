@@ -3,7 +3,7 @@ package proj.model;
 import java.time.LocalDateTime;
 
 public class Candidatura {
-    
+
     private Long id;
     private Aluno candidato;
     private Long IDoportunidade;
@@ -57,5 +57,9 @@ public class Candidatura {
 
     public void setStatus(StatusCandidatura status) {
         this.status = status;
+    }
+
+    public void setStatusFromDescricao(String descricao) {
+        this.status = StatusCandidatura.fromDescricao(descricao); 
     }
 }

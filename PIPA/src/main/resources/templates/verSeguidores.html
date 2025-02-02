@@ -58,22 +58,22 @@
         <h2 th:text="${content}"></h2>
         <div class="followers-list" th:each="aluno : ${Alunos}">
             <div class="follower">
-                <img src="https://via.placeholder.com/40" alt="Renato Costela">
-                <span th:text="${aluno.nome}"></span>
+                <img src="https://via.placeholder.com/40" alt="Foto Perfil">
+                <span><a class="seguidor" th:text="${aluno.nome}" th:href="@{/perfil-aluno(id=${aluno.id})}"></a></span>
             </div>
         </div>
 
         <div class="followers-list" th:each="empresa : ${Empresas}">
             <div class="follower">
-                <img src="https://via.placeholder.com/40" alt="Renato Costela">
-                <span th:text="${empresa.nome}"></span>
+                <img src="https://via.placeholder.com/40" alt="Foto Perfil">
+				<span><a class="seguidor" th:text="${empresa.nome}" th:href="https://via.placeholder.com/40"></a></span>
             </div>
         </div>
 
         <div class="followers-list" th:each="professor : ${Professores}">
             <div class="follower">
-                <img src="https://via.placeholder.com/40" alt="Renato Costela">
-                <span th:text="${professor.nome}"></span>
+                <img src="https://via.placeholder.com/40" alt="Foto Perfil">
+				<span><a class="seguidor" th:text="${professor.nome}" th:href="https://via.placeholder.com/40"></a></span>
             </div>
         </div>
     </main>

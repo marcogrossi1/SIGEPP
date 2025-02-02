@@ -59,7 +59,7 @@ main {
     text-align: center;
 }
 
-#botao-concluir-config {
+#botao-concluir-config-conta {
     color: white;
     white-space: nowrap;
     background-color: rgb(128, 128, 128);
@@ -82,7 +82,7 @@ main {
     cursor: pointer;
 }
 
-#botao-concluir-config:hover {
+#botao-concluir-config-conta:hover {
     transform: translateX(-50%) scale(1.1);
 }
 
@@ -120,6 +120,11 @@ main {
     margin: 1vh 0;
     background-color: #fefafa;
 	border: rgb(192, 192, 192) 2px solid;
+}
+
+.conta-config::placeholder {
+    color: rgb(0, 0, 0);
+	font-weight: bold;
 }
 
 .conta-config input {

@@ -1,0 +1,105 @@
+@charset "UTF-8";
+
+/* Título */
+main h2 {
+  font-size: 1.8rem;
+  color: #003366;
+  margin-bottom: 20px;
+}
+
+/* Candidaturas */
+.candidaturas {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.candidatura {
+  padding: 20px;
+  border: 2px solid #003366;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.candidatura .info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%; /* Garante que ocupe todo o espaço disponível */
+  justify-content: space-between; /* Espaço entre nome e status */
+}
+
+.candidatura .info img {
+  width: 40px;
+  height: 40px;
+}
+
+.candidatura .nome, .candidatura .status {
+  text-align: center;   /* Centraliza o texto */
+  flex: 1;               /* Faz o nome e status ocuparem a mesma quantidade de espaço */
+}
+
+.candidatura .status {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* Status */
+.status.pending {
+    color: silver;
+}
+
+.status.valid {
+    color: green;
+}
+
+.status.invalid {
+    color: red;
+}
+
+/* Botões */
+.candidatura .acoes {
+  display: flex;          /* Adiciona flex aqui para garantir que os botões fiquem lado a lado */
+  gap: 15px;              /* Espaço entre os botões */
+}
+
+.candidatura .acoes a,
+.candidatura .acoes button {
+  display: flex;          /* Flexbox para centralizar o texto */
+  justify-content: center; /* Centraliza o texto horizontalmente */
+  align-items: center;     /* Centraliza o texto verticalmente */
+  text-decoration: none;
+  color: white;
+  background-color: #003366;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  /* Definindo o tamanho fixo para os botões */
+  width: 160px;           /* Largura fixa para todos os botões */
+  height: 45px;           /* Altura fixa para todos os botões */
+  text-align: center;     /* Centraliza o texto dentro do botão */
+}
+
+.candidatura .acoes a:hover,
+.candidatura .acoes button:hover {
+  background-color: #00509e;
+}
+
+/* Estilizando o nome do candidato */
+.candidatura .nome {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  margin: 0;
+}
