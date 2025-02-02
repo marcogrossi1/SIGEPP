@@ -88,7 +88,7 @@ VALUES
 (2,1, "APROVADO"),
 (2,2, "CONCLUIDO");
 
-INSERT INTO aluno_has_projeto (aluno_id, projeto_id, progresso) 
+INSERT INTO aluno_has_projeto (aluno_id, projeto_id) 
 VALUES 
 (1,1),
 (1,2),
