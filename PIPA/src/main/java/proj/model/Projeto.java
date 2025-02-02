@@ -1,6 +1,8 @@
 package proj.model;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+
+import proj.model.Curso;
 
 public class Projeto {
 
@@ -13,30 +15,15 @@ public class Projeto {
 	private String valorBolsa;
 	private int vagasVoluntarias;
 	private String requisito;
-	private TipoProjeto tipoProjeto;
+	private String tipoProjeto;
 	private String campus;
-
-	public enum TipoProjeto {
-		EXTENSAO("Extensão"),
-		MONITORIA("Monitoria"),
-		PESQUISA("Pesquisa");
-
-		private final String nomeTipo;
-
-		TipoProjeto(String nomeTipo) {
-			this.nomeTipo = nomeTipo;
-		}
-
-		public String getnomeTipo() {
-			return nomeTipo;
-		}
-	}
+	private HashSet<Curso> cursos = new HashSet<>();
 
 	@Override
     public String toString() {
         return "Projeto [id=" + id + ", nome=" + nome + ", responsavel=" + responsavel + ", descricao=" + descricao
                 + ", cargaHoraria=" + cargaHoraria + ", vagasRemuneradas=" + vagasRemuneradas + ", vagasVoluntarias=" + vagasVoluntarias
-                + ", requisito=" + requisito + ", tipoProjeto=" + tipoProjeto.getnomeTipo() + "]";
+                + ", requisito=" + requisito + ", tipoProjeto=" + tipoProjeto + ", campus=" + campus + ", cursos=" + cursosToString() + "]";
     }
 
 	public long getId() {
@@ -119,11 +106,27 @@ public class Projeto {
 		this.campus = campus;
 	}
 
-	public TipoProjeto getTipoProjeto() {
+	public String getTipoProjeto() {
 		return tipoProjeto;
 	}
 	
-	public void setTipoProjeto(TipoProjeto tipoProjeto) {
+	public void setTipoProjeto(String tipoProjeto) {
 		this.tipoProjeto = tipoProjeto;
 	}
+
+	public void setCursos(HashSet<Curso> cursos) {
+		this.cursos = cursos;
+	}
+
+	public HashSet<Curso> getCursos() {
+		return cursos;
+	}
+
+    private String cursosToString() {
+          StringBuilder sb = new StringBuilder();
+          for (Curso curso : cursos) {
+              sb.append(curso.getNomeCurso()).append(", ");
+          }
+          return sb.length() > 0 ? sb.substring(0, sb.length() - 2) : "Nenhum curso";
+      }
 }

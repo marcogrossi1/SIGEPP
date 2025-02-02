@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.security.Principal;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import proj.dao.HDataSource;
 import proj.dao.ProjetoDao;
 import proj.dao.UsuarioDao;
 import proj.model.Aluno;
+import proj.model.Curso;
 import proj.model.Estagio;
 import proj.model.Projeto;
 import proj.model.Usuario;
@@ -33,10 +35,10 @@ import proj.model.Usuario;
 @Controller
 @RequestMapping("/aluno")
 public class AlunoController {
-	
+
 	@Autowired
 	private HDataSource ds;
-	
+
 	@GetMapping
 	public String mostraPortal(Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
@@ -44,11 +46,11 @@ public class AlunoController {
 			if (!u.getRole().equals("Aluno")) {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
-			
+
 			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
-			
+
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
@@ -58,8 +60,8 @@ public class AlunoController {
 		}
 
 		return "aluno/home";
-	}	
-	
+	}
+
 	public String mostraPaginaDeErro(Model model, String message) {
 		model.addAttribute("message", message);
 		return "erro";
@@ -72,7 +74,7 @@ public class AlunoController {
 			if (!u.getRole().equals("Aluno")) {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
-			
+
 			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 			ArrayList<Estagio> estagioList = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagioDispList = EstagioDao.list(conn);
@@ -95,12 +97,13 @@ public class AlunoController {
 			model.addAttribute("requisito", es.getRequisito());
 			model.addAttribute("salario", es.getSalario());
 			String docArr[] = null;
-			if (es.getDocumentos() != null){ 
-                            docArr = es.getDocumentos().split(",");
-                            if(docArr.length == 1 && docArr[0].equals("")) docArr = null;
-                        }
-                        model.addAttribute("documentos", docArr);
-                        
+			if (es.getDocumentos() != null) {
+				docArr = es.getDocumentos().split(",");
+				if (docArr.length == 1 && docArr[0].equals(""))
+					docArr = null;
+			}
+			model.addAttribute("documentos", docArr);
+
 			return "aluno/detalhesEstagio";
 		} catch (Exception e) {
 			return mostraPaginaDeErro(model, e.getMessage());
@@ -116,11 +119,11 @@ public class AlunoController {
 			if (!u.getRole().equals("Aluno")) {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
-			
+
 			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
-			
+
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
@@ -130,7 +133,7 @@ public class AlunoController {
 			return "erro";
 		}
 	}
-	
+
 	@GetMapping("/perfil")
 	public String mostraPerfilPessoal(Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
@@ -141,23 +144,23 @@ public class AlunoController {
 			return "erro";
 		}
 	}
-	
+
 	@GetMapping("/contaConfigPerfil")
 	public String mostraContaConfigPerfil(Model model, Principal principal) {
-			return "aluno/contaConfigPerfil";
-	}
-	
-	@GetMapping("/notificacaoConfigPerfil")
-	public String mostraNotificacaoConfigPerfil(Model model, Principal principal) {
-			return "aluno/notificacaoConfigPerfil";
+		return "aluno/contaConfigPerfil";
 	}
 
-	@GetMapping("/certificados")			
+	@GetMapping("/notificacaoConfigPerfil")
+	public String mostraNotificacaoConfigPerfil(Model model, Principal principal) {
+		return "aluno/notificacaoConfigPerfil";
+	}
+
+	@GetMapping("/certificados")
 	public String listaCertificados(Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			model.addAttribute("usuario", u);
-			
+
 			if (!u.getRole().equals("Aluno")) {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
@@ -165,7 +168,7 @@ public class AlunoController {
 			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
-			
+
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
@@ -177,11 +180,12 @@ public class AlunoController {
 	}
 
 	@GetMapping("/emite")
-	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, Model model, Principal principal) throws Exception {
+	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo,
+			Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			model.addAttribute("usuario", u);
-			
+
 			if (!u.getRole().equals("Aluno")) {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
@@ -191,18 +195,18 @@ public class AlunoController {
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 			Projeto projetoRealizado = ProjetoDao.get(conn, projetoId);
 			Estagio estagioRealizado = EstagioDao.get(conn, projetoId);
-			
+
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
 
 			String nomeAluno = a.getNome();
 			String cursoAluno = a.getCurso();
-			
+
 			Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
 			Paragraph title = new Paragraph("Certificado", font);
 			Paragraph p;
-			
+
 			String imagePath = "PIPA/src/main/resources/static/img/logo-cefet.png";
 			Image img = Image.getInstance(imagePath);
 			img.scalePercent(10);
@@ -212,20 +216,21 @@ public class AlunoController {
 				String projetoNome = projetoRealizado.getNome();
 				Integer projetoCargaHoraria = projetoRealizado.getCargaHoraria();
 				String nomeOrientador = projetoRealizado.getResponsavel();
-				
+
 				p = new Paragraph(
-					"Certificamos que o aluno " + nomeAluno + " do curso Técnico em " + cursoAluno + 
-					" concluiu o projeto " + projetoNome + " com carga horária de " + projetoCargaHoraria + 
-					 " horas, sob orientação do Prof." + nomeOrientador + ".",
-					font);
+						"Certificamos que o aluno " + nomeAluno + " do curso Técnico em " + cursoAluno +
+								" concluiu o projeto " + projetoNome + " com carga horária de " + projetoCargaHoraria +
+								" horas, sob orientação do Prof." + nomeOrientador + ".",
+						font);
 			} else if (projetoTipo.equals("estagio")) {
 				String empresaNome = estagioRealizado.getEmpresa();
 				Integer estagioCargaHoraria = estagioRealizado.getCargaHoraria();
 
 				p = new Paragraph(
-					"Certificamos que o aluno " + nomeAluno + " do curso Técnico em " + cursoAluno + 
-					" concluiu o estágio na empresa " + empresaNome + " com carga horária de " + estagioCargaHoraria + " horas.",
-					font);
+						"Certificamos que o aluno " + nomeAluno + " do curso Técnico em " + cursoAluno +
+								" concluiu o estágio na empresa " + empresaNome + " com carga horária de "
+								+ estagioCargaHoraria + " horas.",
+						font);
 			} else {
 				return "erro";
 			}
@@ -240,7 +245,7 @@ public class AlunoController {
 				document.add(p);
 				document.add(img);
 				document.close();
-				
+
 				return "aluno/emites";
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -248,8 +253,8 @@ public class AlunoController {
 			}
 		} catch (Exception e) {
 			return "erro";
-		} 	
-	}	
+		}
+	}
 
 	private void deslistarEstagioJaInscrito(ArrayList<Estagio> el, ArrayList<Estagio> edl) {
 		for (int i = 0; i < edl.size(); i++) {
@@ -264,9 +269,10 @@ public class AlunoController {
 	private boolean estagioIsEqual(Estagio e1, Estagio e2) {
 		return e1.getId() == e2.getId();
 	}
-	
+
 	@GetMapping("/upload")
-	public String mostraUploadDocumentos(@RequestParam("estagioId") Long estagioId, Model model, Principal principal) throws Exception {	    
+	public String mostraUploadDocumentos(@RequestParam("estagioId") Long estagioId, Model model, Principal principal)
+			throws Exception {
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			if (!u.getRole().equals("Aluno")) {
@@ -281,25 +287,29 @@ public class AlunoController {
 	}
 
 	@GetMapping("/explorarProjetos")
-	public String explorarProjetos(Principal principal, Model model) throws Exception{
-		
-		try(Connection conn = ds.getConnection()) {
+	public String explorarProjetos(Principal principal, Model model) throws Exception {
+
+		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			if (u.getRole().equals("Aluno") == false) {
-				return mostraPaginaDeErro(model , "Usuário não é um Aluno!.");
+				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
-			
+
 			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
 			ArrayList<Projeto> projetos = ProjetoDao.list(conn);
-			
+
+			for (Projeto projeto : projetos) {
+				HashSet<Curso> cursos = ProjetoDao.getCursos(conn, projeto.getId());
+				projeto.setCursos(cursos);
+			}
+
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			return mostraPaginaDeErro(model , "Erro interno na aplicação!.");
+			return mostraPaginaDeErro(model, "Erro interno na aplicação!.");
 		}
 
 		return "aluno/explorarProjetos";
-	}	
+	}
 }
