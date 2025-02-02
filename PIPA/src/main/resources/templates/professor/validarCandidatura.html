@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/style-validar-candidato.css">
+<link rel="icon" href="../img/icon.png">
+<title>Validar Candidatura</title>
+</head>
+<body>
+	<header>
+		<a href="/" th:href="@{/}"><img id="logo" src="/img/logo.png"
+			alt="Logo"></a>
+		<h1 id="titulo-plataforma">PIPA | Validar Candidatura</h1>
+	</header>
+
+	<main>
+		<a id="voltar"
+			th:href="@{/projeto/professor/candidatos/{id}(id=${candidatura.IDoportunidade})}">&larr;
+			Voltar</a>
+
+		<div class="card">
+					<img
+						th:src="'/projeto/professor/fotoAluno/' + ${candidatura.candidato.id}"
+						alt="Foto de Perfil">
+			<div>
+				<a th:if="${candidatura.candidato != null}"
+					th:text="${candidatura.candidato.nome}"
+					th:href="@{/perfil-aluno(id=${candidatura.candidato.id})}">
+					Nome do Aluno </a>
+				<p th:text="${candidatura.candidato.email}"></p>
+			</div>
+			<button th:onclick="'/curriculo/' + ${candidatura.candidato.id}"
+				class="botao">Baixar Documentos</button>
+		</div>
+
+		<h2>Detalhes da Candidatura</h2>
+		<p>
+			<strong>Mensagem:</strong> <span th:text="${candidatura.mensagem}"></span>
+		</p>
+		<p>
+			<strong>Curso:</strong> <span
+				th:text="${candidatura.candidato.curso}"></span>
+		</p>
+		<p>
+			<strong>Data:</strong> <span th:text="${candidatura.dataAplicacao}"></span>
+		</p>
+
+		<form
+			th:action="@{/projeto/professor/validarCandidatura/{candidaturaId}(candidaturaId=${candidatura.id})}"
+			method="POST">
+			<button type="submit" name="acao" value="VALIDAR"
+				onclick="return confirmarAcao('validar')">Validar</button>
+			<button type="submit" name="acao" value="INVALIDAR"
+				onclick="return confirmarAcao('invalidar')">Invalidar</button>
+		</form>
+
+	</main>
+</body>
+<script>
+    function confirmarAcao(acao) {
+        const mensagem = acao === 'validar'
+            ? 'Tem certeza de que deseja validar esta candidatura?'
+            : 'Tem certeza de que deseja invalidar esta candidatura?';
+        return confirm(mensagem); 
+    }
+</script>
+</html>
+

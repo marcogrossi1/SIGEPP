@@ -33,14 +33,14 @@ VALUES
 (15, "20000000000001", sha2('123', 512), "Administrador"),
 (16, "20000000000002", sha2('123', 512), "Administrador");
 
-INSERT INTO professor (id, nome, Usuario_id) 
+INSERT INTO professor (id, nome, Usuario_id, telefone, email, cpf, fotoPerfil, bannerPerfil) 
 VALUES 
-(1, "Cristiano", 7);
+(1, "CristianoPicasso", 7, "99999-8586", "cristiano@gmail.com", '00000000081', NULL, NULL);
 
-INSERT INTO administrador (id, cpf, nome, campus, email, Usuario_id)
+INSERT INTO administrador (id, cpf, nome, campus, email, Usuario_id, telefone, fotoPerfil, bannerPerfil)
 VALUES
-(1, "20000000000001", "Marco Mestre", "Nova Gameleira", "marco@gmail.com", 15),
-(2, "20000000000002", "Buzz Fraco", "Nova Gameleira", "buzz@gmail.com", 16);
+(1, "20000000000001", "Marco Mestre", "Nova Gameleira", "marco@gmail.com", 15, "99999-8365", NULL, NULL),
+(2, "20000000000002", "Buzz Fraco", "Nova Gameleira", "buzz@gmail.com", 16, "99999-8888", NULL, NULL);
 
 INSERT INTO empresa (id, cnpj, nome, endereco, website, area, telefone, email, Usuario_id) 
 VALUES 
@@ -52,14 +52,14 @@ VALUES
 (6, "10000000000006", "Copasa", "Avenida do Contorno", "www.copasa.com.br", "Saneamento", "0800 000 0005", "contato@copasa.com.br", 13),
 (7, "10000000000007", "Santa Clara", "Rua das Flores", "www.santaclara.com.br", "Alimentos", "0800 000 0006", "contato@santaclara.com.br", 14);
 
-INSERT INTO aluno (id, cpf, nome, curso, campus, email, periodo, usuario_id) 
+INSERT INTO aluno (id, cpf, nome, curso, campus, email, periodo, usuario_id, telefone, fotoPerfil, bannerPerfil) 
 VALUES 
-(1, "00000000001", "Thiago Figueiredo", "Eletrônica", "Nova Gameleira", "thiago@gmail.com", "serie 1", 1),
-(2, "00000000002", "Caio Figueiredo", "Informática", "Nova Gameleira", "caio@gmail.com", "serie 2", 2),
-(3, "00000000003", "Matheus Silva", "Mecânica", "Nova Suiça", "matheus@gmail.com", "serie 3", 3),
-(4, "00000000004", "Gabriel Tavares", "Informática", "Nova Gameleira", "gabriel@gmail.com", "serie 2", 4),
-(5, "00000000005", "Marco Grossi", "Edificações", "Nova Gameleira", "marco@gmail.com", "serie 2", 5),
-(6, "00000000006", "Nicolas Chagas", "Eletrônica", "Araxá", "nicolas@gmail.com", "serie 2", 6);
+(1, "00000000001", "Thiago Figueiredo", "Eletrônica", "Nova Gameleira", "thiago@gmail.com", "serie 1", 1, '00000-0016', NULL, NULL),
+(2, "00000000002", "Caio Figueiredo", "Informática", "Nova Gameleira", "caio@gmail.com", "serie 2", 2, '00000-0015', NULL, NULL),
+(3, "00000000003", "Matheus Silva", "Mecânica", "Nova Suíça", "matheus@gmail.com", "serie 3", 3, '00000-0014', NULL, NULL),
+(4, "00000000004", "Gabriel Tavares", "Informática", "Nova Gameleira", "gabriel@gmail.com", "serie 2", 4, '00000-0013', NULL, NULL),
+(5, "00000000005", "Marco Grossi", "Edificações", "Nova Gameleira", "marco@gmail.com", "serie 2", 5, '00000-0012', NULL, NULL),
+(6, "00000000006", "Nicolas Chagas", "Eletrônica", "Araxá", "nicolas@gmail.com", "serie 2", 6, '00000-0011', NULL, NULL);
 
 INSERT INTO estagio (id, empresa, descricao, carga_horaria, vagas, requisito, salario, documentos) 
 VALUES 
@@ -119,33 +119,49 @@ VALUES
 (4, 12), -- Técnico em Meio Ambiente
 (4, 13); -- Técnico em Trânsito
 
-INSERT INTO aluno_has_estagio (aluno_id, estagio_id) 
+INSERT INTO aluno_has_estagio (aluno_id, estagio_id, progresso) 
 VALUES 
-(1, 1),
-(2, 1),
-(2, 2);
+(1,1, "PENDENTE"),
+(1,2, "APROVADO"),
+(1,3, "CONCLUIDO"),
+(2,1, "APROVADO"),
+(2,2, "CONCLUIDO");
 
-INSERT INTO aluno_has_projeto (aluno_id, projeto_id) 
+INSERT INTO aluno_has_projeto (aluno_id, projeto_id, progresso) 
 VALUES 
-(1, 1),
-(3, 1),
-(4, 2);
+(1,1),
+(1,2),
+(1,3),
+(3,1),
+(4,2);
 
 INSERT INTO empresa_has_estagio (empresa_id, estagio_id) 
 VALUES 
-(1, 1),
-(4, 2),
-(6, 3),
-(2, 4),
+
+(2, 1),
+(6, 2),
+(7, 3),
+(1, 4),
 (3, 5),
 (4, 6),
-(4, 7);
+(5, 7),
+(5, 8);
 
 INSERT INTO professor_has_projeto (professor_id, projeto_id) 
 VALUES 
 (1,1),
 (1,3),
 (1,4);
+
+
+insert into Seguidores (seguindo_id, seguidor_id)
+values 
+(1, 2),
+(1, 3),
+(1, 4),
+(2, 1),
+(3, 1),
+(4, 1);
 
 INSERT INTO candidatura (candidato_id, oportunidade_id, mensagem, data_aplicacao, status) 
 VALUES 

@@ -1,0 +1,115 @@
+@charset "UTF-8";
+
+/* Títulos */
+main h2 {
+    font-size: 18px;
+    color: #012c71;
+    margin-bottom: 10px;
+}
+
+/* Informações de candidatura */
+p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+p strong {
+    color: #012c71;
+}
+
+/* Botões */
+form {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+form button {
+    display: flex;
+    
+    justify-content: center; 
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px; 
+    font-size: 18px; 
+    cursor: pointer;
+    text-align: center; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* Botão VALIDAR */
+form button[name="acao"][value="VALIDAR"] {
+    background-color: #0056b3; 
+    color: #f0f0f0; 
+}
+
+form button[name="acao"][value="VALIDAR"]:hover {
+    background-color: #004494; 
+    color: #f0f0f0; 
+}
+
+/* Botão INVALIDAR */
+form button[name="acao"][value="INVALIDAR"] {
+    background-color: #f0f0f0;
+    color: #0056b3;
+}
+
+form button[name="acao"][value="INVALIDAR"]:hover {
+    background-color: #b0b0b0; 
+    color: #003d82; 
+}
+
+/* Botão Voltar */
+#voltar {
+    display: inline-block;
+    margin-bottom: 15px;
+    background-color: #f0f0f0;
+    color: #012c71;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center; 
+    transition: background-color 0.3s ease;
+}
+
+#voltar:hover {
+    background-color: #e0e0e0;
+}
+
+/* Card do aluno */
+.card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+.card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.card div {
+    flex-grow: 1;
+}
+
+.card a {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}

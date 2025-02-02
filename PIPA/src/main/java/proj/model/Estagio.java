@@ -1,7 +1,11 @@
 package proj.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Estagio {
-
+	
+	@Id
 	private long id;
 	private String empresa;
 	private String descricao;
@@ -79,3 +83,4 @@ public class Estagio {
             this.documentos = documentos;
         }
 }
+

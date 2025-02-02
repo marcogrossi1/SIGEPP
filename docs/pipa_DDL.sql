@@ -7,7 +7,8 @@ CREATE TABLE Usuario (
   senha VARCHAR(255) NOT NULL,
   role VARCHAR(45) NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE INDEX nome_UNIQUE (nome ASC) )
+  UNIQUE INDEX nome_UNIQUE (nome ASC) 
+)
 ENGINE = InnoDB default character set = utf8;
   
 -- -----------------------------------------------------
@@ -21,17 +22,22 @@ CREATE TABLE Aluno (
   campus VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   periodo VARCHAR(255) NOT NULL,
+  telefone VARCHAR(20) NOT NULL,
+  fotoPerfil LONGBLOB NULL,
+  bannerPerfil LONGBLOB NULL,
+  descricaoPerfil VARCHAR(550) DEFAULT "Sem descrição.",
   Usuario_id BIGINT NULL,
   PRIMARY KEY (id),
-  UNIQUE INDEX cpf_UNIQUE (cpf ASC) ,
-  INDEX nome_INDEX (nome ASC) ,
-  UNIQUE INDEX email_UNIQUE (email ASC) ,
-  INDEX fk_Aluno_Usuario1_idx (Usuario_id ASC) ,
+  UNIQUE INDEX cpf_UNIQUE (cpf ASC),
+  INDEX nome_INDEX (nome ASC),
+  UNIQUE INDEX email_UNIQUE (email ASC),
+  INDEX fk_Aluno_Usuario1_idx (Usuario_id ASC),
   CONSTRAINT fk_Aluno_Usuario1
     FOREIGN KEY (Usuario_id)
     REFERENCES Usuario (id)
-    )
-ENGINE = InnoDB default character set = utf8;
+)
+ENGINE = InnoDB 
+DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table Administrador
@@ -43,6 +49,10 @@ CREATE TABLE Administrador (
   campus VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NOT NULL,
+  telefone VARCHAR(20) NOT NULL,
+  fotoPerfil LONGBLOB NULL,
+  bannerPerfil LONGBLOB NULL,
+  descricaoPerfil VARCHAR(550) DEFAULT "Sem descrição.",
   PRIMARY KEY (id),
   UNIQUE INDEX cpf_UNIQUE (cpf ASC),
   UNIQUE INDEX email_UNIQUE (email ASC),
@@ -136,6 +146,7 @@ ENGINE = InnoDB default character set = utf8;
 CREATE TABLE Aluno_has_Estagio (
   aluno_id BIGINT NOT NULL,
   estagio_id BIGINT NOT NULL,
+  progresso VARCHAR(255) NOT NULL,
   PRIMARY KEY (aluno_id, estagio_id),
   INDEX fk_Aluno_has_Estagio_Estagio1_idx (estagio_id ASC) ,
   INDEX fk_Aluno_has_Estagio_Aluno1_idx (aluno_id ASC) ,
@@ -156,6 +167,12 @@ CREATE TABLE Professor (
   id BIGINT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NULL,
+  telefone VARCHAR(20) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  cpf VARCHAR(20) NOT NULL,
+  fotoPerfil LONGBLOB NULL,
+  bannerPerfil LONGBLOB NULL,
+  descricaoPerfil VARCHAR(550) DEFAULT "Sem descrição.",
   PRIMARY KEY (id),
   INDEX fk_Professor_Usuario1_idx (Usuario_id ASC) ,
   CONSTRAINT fk_Professor_Usuario1
@@ -235,6 +252,41 @@ CREATE TABLE
     INDEX fk_Professor_has_Projeto_Prodessor1_idx (professor_id ASC),
     CONSTRAINT fk_Professor_has_Projeto_Professor FOREIGN KEY (professor_id) REFERENCES Professor (id),
     CONSTRAINT fk_Professor_has_Projeto_Projeto1 FOREIGN KEY (projeto_id) REFERENCES Projeto (id)
-  ) ENGINE = InnoDB default character
-set
-  = utf8;
+  ) ENGINE = InnoDB default character set = utf8;
+  
+  
+  
+  -- -----------------------------------------------------
+-- Table Seguidores
+-- -----------------------------------------------------
+CREATE TABLE Seguidores (
+    seguindo_id BIGINT NOT NULL,
+    seguidor_id BIGINT NOT NULL,
+    INDEX fk_Seguidores_Seguindo1_idx (seguindo_id ASC) ,
+  	INDEX fk_Seguidores_Seguidor1_idx (seguidor_id ASC) ,
+  CONSTRAINT fk_Seguidores_Seguindo1
+    FOREIGN KEY (seguindo_id)
+    REFERENCES Usuario (id)
+    ,
+  CONSTRAINT fk_Seguidores_Seguidor1
+    FOREIGN KEY (seguidor_id)
+    REFERENCES Usuario (id)
+    )
+ENGINE = InnoDB default character set = utf8;
+
+  -- -----------------------------------------------------
+-- Table SEÇÕES COLOCAR conteudoVideo, e outras coisas necesariasssssssssssssssssssssssssss
+-- -----------------------------------------------------
+
+CREATE TABLE secoes (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Usuario_id BIGINT NULL,
+    titulo VARCHAR(255) DEFAULT "Sem título",
+    tipo VARCHAR(255) NOT NULL,
+    conteudoTexto LONGTEXT,
+    comprimentoConteudoTexto INT NULL,
+    alturaConteudoTexto INT NULL,
+    conteudoImagem LONGBLOB NULL,
+    ordem INT,
+  	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
+)

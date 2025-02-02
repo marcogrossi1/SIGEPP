@@ -2,16 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="icon" href="img/icon.png">
-    <title>Professor - Home</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="icon" href="img/icon.png">
+<title>Professor - Home</title>
 </head>
 
 <body>
+
     <header>
-        <a href="http://localhost:8080"><img id="logo" th:src="@{/img/logo.png}"></a>
+        <a href="/professor"><img id="logo" th:src="@{/img/logo.png}"></a>
         <h1 id="titulo-plataforma">PIPA | Home</h1>
     </header>
 
@@ -55,10 +56,11 @@
             <a th:href="@{/professor/projetos/criarProjeto}" id="botao-criar" class="botao-editar">+ Criar projeto</a>
             <br><br>
         </div>
-    
-        <div th:if="${projetos == null || projetos.isEmpty()}">
-            <p>Nenhum projeto encontrado.</p>
-        </div>
-    </main>
+    </div>
+
+    <div th:if="${projetos == null || projetos.isEmpty()}">
+        <p>Nenhum projeto encontrado.</p>
+    </div>
+</main>
 </body>
 </html>

@@ -21,13 +21,13 @@ body {
     border: none;
     position: absolute;
     left: 76.5%;
-    top: 41%;
+    top: 54.5%;
 }
 
 #icone-config {
     position: absolute;
     left: 80%;
-    top: 41%;
+    top: 54.5%;
 }
 
 .botoes-perfil {
@@ -44,31 +44,36 @@ body {
 }
 
 #banner {
-    height: 24vh;
+    height: 35vh;
     width: 100%;
     object-fit: cover;
     border-bottom: 2px rgb(219, 219, 219) solid;
-    cursor: pointer;
 }
 
 #seccao-principal {
-    margin-top: 5vh;
+    margin-top: 7vh;
     margin-bottom: 5vh;
     min-width: 66vw;
-    min-height: 95vh;
+    min-height: 105vh;
     border: 2px rgb(219, 219, 219) solid;
     background-color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .seccao {
+	position: relative;
     margin-bottom: 5vh;
     background-color: #ffffff;
     border: 2px rgb(219, 219, 219) solid;
-    min-width: 66vw;
-    min-height: calc(100vh - 28vh);
+	width: 63vw;
+	max-width: 63vw;
+	min-height: calc(100vh - 28vh);
+	height: auto;
+	padding: 20px;
+    overflow: visible;
+    transition: height 0.3s ease;
 }
-
+   
 #foto-perfil {
     margin: 0;
     padding: 0;
@@ -76,17 +81,16 @@ body {
     width: 170px;
     position: relative;
     left: 30px;
-    top: -85px;
-    cursor: pointer;
+    top: -15%;
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid rgb(128, 128, 128);
 }
 
 /* Formulário de descrição */
-#form-descricao {
+#parte-descricao {
     position: absolute;
-    top: 65%;
+    top: 75%;
     left: 21%;
     border: none;
     font-family: Arial, Helvetica, sans-serif;
@@ -106,9 +110,11 @@ body {
     font-size: 20px;
     padding-bottom: 20px;
     font-weight: bold;
+	text-transform: uppercase;
 }
 
 #campo-descricao {
+	color: #000;
     position: absolute;
     top: 55px;
     border: none;
@@ -117,13 +123,13 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     text-align: justify;
-    line-height: 1.5;
-    min-height: 120px;
+    line-height: 1.7;
+    min-height: 150px;
     min-width: calc(66vw - 116px);
 }
 
 #botao-add-seccao {
-    display: none;
+    display: block;
     color: white;
     white-space: nowrap;
     background-color: #003869;
@@ -137,9 +143,9 @@ body {
     width: 120px;
     height: 15px;
     padding: 5px;
-    bottom: -6%;
+    bottom: -18%;
     position: absolute;
-    left: 70%;
+    left: 69.8%;
     transform-origin: center;
     cursor: pointer;
 }
@@ -171,72 +177,6 @@ body {
     transform: translateX(-50%) scale(1.1);
 }
 
-/* Ajustes para responsividade */
-@media (max-width: 768px) {
-    #botao-edicao, #icone-config {
-        left: 70%;
-        top: 35%;
-    }
-
-    #form-descricao {
-        top: 320px;
-        left: 20px;
-    }
-
-    #campo-descricao {
-        min-width: calc(100% - 40px);
-    }
-
-    #foto-perfil {
-        left: 20px;
-        top: -60px;
-        width: 150px;
-        height: 150px;
-    }
-
-    #botao-add-seccao {
-        left: 20px;
-        bottom: -10px;
-    }
-
-    #seccao-principal {
-        min-width: 90vw;
-    }
-
-    .seccao {
-        min-width: 90vw;
-    }
-}
-
-@media (max-width: 480px) {
-    #botao-edicao, #icone-config {
-        left: 60%;
-        top: 30%;
-    }
-
-    #form-descricao {
-        top: 280px;
-        left: 10px;
-    }
-
-    #campo-descricao {
-        min-width: calc(100% - 20px);
-    }
-
-    #foto-perfil {
-        left: 10px;
-        top: -50px;
-        width: 130px;
-        height: 130px;
-    }
-
-    #botao-add-seccao {
-        left: 10px;
-        bottom: -5px;
-    }
-}
-
-/* Responsividade para os botões de ação dentro das seções */
 .seccao-botao-apagar {
     display: block;
     background-image: url('../img/apagarSimbolo.png');
@@ -286,24 +226,43 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    border: 2px solid rgb(128, 128, 128);
+    border: 2px solid rgb(0, 0, 0);
     padding: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     z-index: 999;
 }
 
-#catalogo-seccao button {
+#catalogo-seccao button:not(#fecharCatalogo) {
     display: block;
     margin: 10px;
-    background-color: rgb(128, 128, 128);
-    color: white;
+    background: none;
+    color: rgb(0, 0, 0);
     border: none;
     cursor: pointer;
-    font-size: 16px;
+	font-weight: bold;
+    font-size: 18px;
 }
 
-#catalogo-seccao button:hover {
-    background-color: #2196F3;
+#catalogo-seccao button:not(#fecharCatalogo):hover {
+    color: #2196F3;
+}
+
+#fecharCatalogo{
+	border: none;
+	display: block;
+	margin: 10px;
+    background: none;
+	font-weight: bold;
+    color: rgb(255, 0, 0);
+	cursor: pointer;
+	font-size: 18px;
+	position: absolute;
+	top: -1%;
+	left: 83%;
+}
+
+#fecharCatalogo:hover {
+    color: rgb(33, 150, 243);
 }
 
 .titulo-seccao {
@@ -333,15 +292,8 @@ body {
 	padding: 10px 0;
 }
 
-.caixa-texto-topico {
-    width: 95%;
-    height: 60px;
-    margin-top: 10px;
-    padding: 10px;
-    border: none;
-    background: none;
-    resize: none;
-    font-size: 16px;
+.caixa-texto-topico:focus {
+  border: 2px solid #007BFF;
 }
 
 .input-logo {
@@ -417,7 +369,7 @@ main:not(#seccao-principal, #form-banner, #form-foto-perfil) {
     padding: 3vh; /*     + mainPadding = 18vh */
     border-radius: 1%;
     background-color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, ns-serif;
     overflow-y: auto;
     max-height: 80vh;
 }
@@ -511,16 +463,6 @@ input:not(.inputLogo, #descricao, .titulo-seccao, .conta-config, #input-banner, 
     margin-left: 100px;
 }
 
-#notificacoes-portal {
-    background-color: #2e6890;
-    text-align: center;
-}
-
-#notificacoes-portal p {
-    color: white;
-    text-align: center;
-}
-
 #not-um {
     display: inline;
 }
@@ -555,11 +497,6 @@ input:not(.inputLogo, #descricao, .titulo-seccao, .conta-config, #input-banner, 
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#section-meus-trabalhos ul {
-    padding-left: 4px;
-    font-size: 75%;
-}
-
 #nome-no-portal {
     font-family: Arial, Helvetica, sans-serif;
     max-height: 100%;
@@ -577,20 +514,25 @@ input:not(.inputLogo, #descricao, .titulo-seccao, .conta-config, #input-banner, 
 
 .table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse; 
     margin: 20px 0;
     font-size: 18px;
     text-align: left;
+    table-layout: fixed;
+    overflow: hidden;
 }
 
 .table th, .table td {
     padding: 12px 15px;
     border: 1px solid #ddd;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .table th {
     background-color: #f2f2f2;
     color: #333;
+    font-weight: bold;
 }
 
 .table tr:nth-child(even) {
@@ -609,11 +551,6 @@ input:not(.inputLogo, #descricao, .titulo-seccao, .conta-config, #input-banner, 
 .estagio-section section {
     background-color: #EEEEEE;
     margin: 20px;
-}
-
-.estagio-section h3, .estagio-section p {
-    margin: 5px;
-    border: 5px;
 }
 
 .botao-aplicar {
@@ -693,8 +630,8 @@ label {
 
 .informacoes-contato {
     position: relative;
-	top: 25%;
-	left: 7%;
+	top: 21%;
+	left: 6.6%;
     display: inline-block;
 }
 
@@ -733,20 +670,212 @@ label {
     text-align: center;
     margin: 0 0 0 0;
 	position: relative;
-	top: -30%;
-	left: -8%;
+	top: -27.8%;
+	left: -15%;
 }
 
 .botao-seguidores, .botao-seguindo {
     background: none;
     color: rgb(0, 0, 0);
     border: none;
-    margin: 0 0 0 0;
-    font-size: 16px;
-	cursor: pointer;
-	font-weight: bold;
+    margin: 0;
+    font-size: 18px;
 }
 
-.botao-seguidores:hover, .botao-seguindo:hover {
+.botao-seguidores-text {
+    background: none;
+    color: rgb(46, 46, 46);
+    border: none;
+    margin: 0;
+    padding: 1%;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.botao-seguidores-text:hover {
     color: rgb(0, 128, 255);
+}
+
+.seguidores p {
+    display: inline-block;
+    margin: 0;
+}
+
+#botao-seguir {
+	display: block;
+    color: white;
+    white-space: nowrap;
+    background-color: #003869;
+    background-size: cover;
+    background-position: center;
+    word-spacing: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: justify;
+    width: 55px;
+    height: 15px;
+    padding: 5px;
+	position: absolute;
+	top: 55.7%;
+	left: 48%;
+    transform-origin: center;
+    cursor: pointer;
+	border-radius: 10px;
+}
+
+#botao-seguir:hover {
+    background: rgb(0, 128, 255);
+}
+
+.dados-campus {
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+	color:#000;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+#container-campus {
+	position: absolute;
+	top: 55%;
+	left: 60%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+#container-campus .dados-campus {
+    margin: 0;
+    padding: 0;
+}
+
+.dados-campus:hover {
+	color: rgb(0, 128, 255);
+}
+
+.link-topo {
+	text-decoration: none;
+	color: white;
+	background-color: #003869;
+	padding: 10px;
+	position: fixed;
+	right: 12%;
+	bottom: 10px;
+	box-shadow: 2px 2px 9px #333;
+	z-index: 1500;
+}
+
+#cropModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#imageToCrop {
+    max-width: 90%;
+    max-height: 80%;
+    border: 2px solid white;
+    border-radius: 10px;
+}
+
+#cropButton, #closeModalButton {
+    margin: 10px;
+}
+
+/*PINTURA*/
+
+#paintCanvas {
+    border: 2px solid #000;
+    cursor: crosshair;
+}
+#toolbar {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+#toolbar button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+/*modal de criar seção*/
+
+#secao-edicao {
+    position: fixed;
+    border: 2px rgb(219, 219, 219) solid;
+    min-width: 63vw;
+    min-height: calc(100vh - 28vh);
+    height: auto;
+    max-height: 80vh;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    padding: 20px;
+    display: none;
+    overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Abaixo do modal */
+}
+
+
+#botoes-container {
+    position: fixed;
+    top: 13%;
+    left: 92%;
+    transform: translate(-50%, 0);
+    z-index: 1100; /* Acima do overlay */
+}
+
+#botoes-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgb(0, 64, 128);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#botoes-container button:hover {
+    background-color: rgb(0, 128, 255);
+}
+
+.ql-toolbar .ql-color {
+    visibility: hidden;
+}
+
+.ql-editor iframe {
+	width: 50%;
+    height: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	border: 3px solid #007bff;
+}
+
+.ql-editor iframe {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
 }

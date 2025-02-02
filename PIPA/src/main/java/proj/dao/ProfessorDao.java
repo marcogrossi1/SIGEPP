@@ -8,7 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import proj.model.Aluno;
+import proj.model.Empresa;
 import proj.model.Professor;
+import proj.model.Usuario;
 
 public class ProfessorDao {
 
@@ -17,7 +20,7 @@ public class ProfessorDao {
     private final static String listsql = "SELECT * FROM Professor";
     private final static String listByNomeSql = "SELECT * FROM Professor WHERE nome = ? ";
     private final static String insertsql = "INSERT INTO Professor (nome, usuario_id) VALUES( ?, ?) ";
-    private final static String updatesql = "UPDATE Professor SET nome = ?, usuario_id = ? WHERE id = ? ";
+    private final static String updatesql = "UPDATE Professor SET nome = ?, cpf = ?, email = ?, telefone = ?, usuario_id = ? WHERE id = ? ";
     private final static String updateForNomeSql = "UPDATE Professor SET nome = ?  WHERE id = ? ";
     private final static String updateForUsuario_idSql = "UPDATE Professor SET usuario_id = ?  WHERE id = ? ";
     private final static String deletesql = "DELETE FROM Professor WHERE id = ?";
@@ -37,6 +40,9 @@ public class ProfessorDao {
         Professor vo = new Professor();
         vo.setId(rs.getLong("id"));
         vo.setNome(rs.getString("nome"));
+        vo.setTelefone(rs.getString("telefone"));
+        vo.setEmail(rs.getString("email"));
+        vo.setCpf(rs.getString("cpf"));
         vo.setUsuario_id(rs.getLong("usuario_id"));
         return vo;
     }
@@ -57,6 +63,8 @@ public class ProfessorDao {
         catch (SQLException e){throw e;}
         finally{closeResource(ps,rs); ps = null;rs = null; }
     }
+    
+   
 
     public static Professor getByUsuario_id(Connection conn, long usuario_id)
         throws NotFoundException, SQLException
@@ -141,8 +149,11 @@ public class ProfessorDao {
         try {
             ps = conn.prepareStatement(updatesql);
             ps.setString(1, vo.getNome());
-            ps.setLong(2, vo.getUsuario_id());
-            ps.setLong(3, vo.getId());
+            ps.setString(2, vo.getCpf());
+            ps.setString(3, vo.getEmail());
+            ps.setString(4, vo.getTelefone());
+            ps.setLong(5, vo.getUsuario_id());
+            ps.setLong(6, vo.getId());
             int count = ps.executeUpdate();
             if (count == 0 ){ throw new NotFoundException("Object not found ["+ vo.getId()+"] ."); }
             //SEM COMMIT 
@@ -183,7 +194,7 @@ public class ProfessorDao {
         finally{closeResource(ps); ps = null; }
     }
 
-    public static void delete(Connection conn, long id)
+   /* public static void delete(Connection conn, long id)
         throws NotFoundException, SQLException
     {
         PreparedStatement ps = null;
@@ -195,6 +206,45 @@ public class ProfessorDao {
         }
         catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
         finally{closeResource(ps); ps = null; }
-    }
+    }*/
+    
+    public static void delete(Connection conn, long id)
+	        throws NotFoundException, SQLException
+	    {
+	    	Professor p = new Professor();
+	    	Usuario u = new Usuario();
+	    	String sql1 = "delete from professor_has_projeto where professor_id = ? ";
+	    	String sql2 = "delete from professor where id = ? ";
+	    	String sql3 = "delete from seguidores where seguidor_id = ? ";
+	    	String sql4 = "delete from seguidores where seguindo_id = ? ";
+	    	String sql5 = "delete from usuario where id = ? ";
+	    	
+	    	
+	    	p = ProfessorDao.get(conn, id);
+	    	
+	    	System.out.println(p);
+	    	
+	    	u = UsuarioDao.get(conn, p.getUsuario_id());
+
+
+	    	deleteRelation(conn, sql1, id);	
+	    	deleteRelation(conn, sql2, id);	
+	    	deleteRelation(conn, sql3, u.getId());
+	    	deleteRelation(conn, sql4, u.getId());
+	    	deleteRelation(conn, sql5, u.getId());
+	    }
+
+	    private static void deleteRelation(Connection conn, String sql, long id)
+	    throws NotFoundException, SQLException
+	    {
+	        PreparedStatement ps = null;
+	        try {
+	            ps = conn.prepareStatement(sql);
+	            ps.setLong(1,id);
+	            ps.executeUpdate();
+	        }
+	        catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
+	        finally{closeResource(ps); ps = null; }
+	    }
 
 }
