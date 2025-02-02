@@ -6,10 +6,15 @@ import proj.model.Professor;
 import proj.model.Projeto;
 import proj.model.StatusCandidatura;
 import proj.dao.CandidaturaDao;
+import proj.dao.HDataSource;
 import proj.dao.AlunoDao;
 import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
+import proj.service.NotificacaoService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +22,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.util.List;
+import java.io.InputStream;
 import java.security.Principal;
 
 /**
- * Controlador responsável pelas operações relacionadas às candidaturas.
- * Este controlador lida com as interações entre alunos, professores e candidaturas para projetos.
+ * Controlador responsável pelas operações relacionadas às candidaturas. Este
+ * controlador lida com as interações entre alunos, professores e candidaturas
+ * para projetos.
  */
 @Controller
 @RequestMapping("/projeto")
@@ -51,7 +58,6 @@ public class CandidaturaController {
                 return "error";
             }
 
-            // Obtém o aluno logado
             Aluno alunoLogado = AlunoDao.getByCpf(conn, principal.getName());
 
             if (alunoLogado == null) {
@@ -89,9 +95,12 @@ public class CandidaturaController {
      * @param principal      Objeto que representa o aluno logado
      * @return O nome da view a ser exibida
      */
+    @Autowired
+    private NotificacaoService notificacaoService;
+
     @PostMapping("/aplicacao")
     public String enviarCandidatura(@RequestParam("mensagem") String mensagem,
-                                    @RequestParam("IDoportunidade") Long oportunidadeId, Model model, Principal principal) {
+                                     @RequestParam("IDoportunidade") Long oportunidadeId, Model model, Principal principal) {
         try (Connection conn = dataSource.getConnection()) {
             Aluno alunoLogado = AlunoDao.getByCpf(conn, principal.getName());
 
@@ -129,6 +138,9 @@ public class CandidaturaController {
             model.addAttribute("sucesso", "Candidatura enviada com sucesso!");
             model.addAttribute("projeto", projeto);
             model.addAttribute("aluno", alunoLogado);
+
+            notificacaoService.salvarNotificacao(alunoLogado.getUsuario_id(),
+                    "Candidatura em " + projeto.getNome() + " feita com sucesso!");
 
             return "conclusao";
         } catch (Exception e) {
@@ -171,6 +183,7 @@ public class CandidaturaController {
 
             // Recupera as candidaturas do projeto
             List<Candidatura> candidaturas = candidaturaDao.listarPorProjeto(id);
+
             if (candidaturas == null || candidaturas.isEmpty()) {
                 model.addAttribute("info", "Ainda não há candidaturas para este projeto.");
             }
@@ -193,16 +206,22 @@ public class CandidaturaController {
      * @param model         Modelo para passar dados à view
      * @return O nome da view a ser exibida
      */
+    @Autowired
+    private HDataSource ds;
+
     @GetMapping("/professor/validarCandidatura/{candidaturaId}")
     public String exibirTelaValidacao(@PathVariable Long candidaturaId, Model model) {
-        try {
-            // Obtém a candidatura pelo ID
+        try (Connection conn = ds.getConnection()) {
+
+            // Busca a candidatura pelo ID
             Candidatura candidatura = candidaturaDao.get(candidaturaId);
+
             if (candidatura == null) {
                 model.addAttribute("erro", "Candidatura não encontrada.");
                 return "error";
             }
 
+            // Adiciona a candidatura no modelo
             model.addAttribute("candidatura", candidatura);
             return "professor/validarCandidatura";
         } catch (Exception e) {
@@ -213,7 +232,8 @@ public class CandidaturaController {
     }
 
     /**
-     * Processa a validação ou invalidação de uma candidatura após a escolha do professor.
+     * Processa a validação ou invalidação de uma candidatura após a escolha do
+     * professor.
      *
      * @param candidaturaId ID da candidatura
      * @param acao          Ação de validação ou invalidação
@@ -222,8 +242,8 @@ public class CandidaturaController {
      */
     @PostMapping("/professor/validarCandidatura/{candidaturaId}")
     public String processarCandidatura(@PathVariable Long candidaturaId, @RequestParam("acao") String acao,
-                                       Model model) {
-        try {
+                                        Model model) {
+        try (Connection conn = ds.getConnection()) {
             // Obtém a candidatura usando o ID da candidatura
             Candidatura candidatura = candidaturaDao.get(candidaturaId);
 
@@ -239,8 +259,14 @@ public class CandidaturaController {
             StatusCandidatura status = null;
             if ("VALIDAR".equals(acao)) {
                 status = StatusCandidatura.VALIDADA;
+                notificacaoService.salvarNotificacao(candidatura.getCandidato().getUsuario_id(), "Sua candidatura em "
+                        + ProjetoDao.get(conn, candidatura.getIDoportunidade()).getNome() + " foi validada!!!");
+                model.addAttribute("sucesso", "Candidatura aprovada com sucesso!");
             } else if ("INVALIDAR".equals(acao)) {
                 status = StatusCandidatura.INVALIDADA;
+                notificacaoService.salvarNotificacao(candidatura.getCandidato().getUsuario_id(), "Sua candidatura em "
+                        + ProjetoDao.get(conn, candidatura.getIDoportunidade()).getNome() + " foi invalidada!!!");
+                model.addAttribute("sucesso", "Candidatura invalidada com sucesso!");
             } else {
                 model.addAttribute("erro", "Ação desconhecida.");
                 return "error";
@@ -248,13 +274,6 @@ public class CandidaturaController {
 
             // Atualiza o status da candidatura
             candidaturaDao.atualizarStatus(candidaturaId, status);
-
-            // Define a mensagem de sucesso
-            if ("VALIDAR".equals(acao)) {
-                model.addAttribute("sucesso", "Candidatura aprovada com sucesso!");
-            } else {
-                model.addAttribute("sucesso", "Candidatura invalidada com sucesso!");
-            }
 
             // Retorna para a lista de candidaturas do projeto
             return "redirect:/projeto/professor/candidatos/" + candidatura.getIDoportunidade();
@@ -274,16 +293,13 @@ public class CandidaturaController {
      */
     @GetMapping("/professor/verCandidatura/{candidaturaId}")
     public String exibirDetalhesCandidatura(@PathVariable Long candidaturaId, Model model) {
-        try {
+        try (Connection conn = ds.getConnection()) {
             // Busca a candidatura pelo ID
             Candidatura candidatura = candidaturaDao.get(candidaturaId);
-            if (candidatura == null) {
-                model.addAttribute("erro", "Candidatura não encontrada.");
-                return "error";
-            }
 
             // Adiciona a candidatura no modelo para exibir na página
             model.addAttribute("candidatura", candidatura);
+
             return "professor/verCandidatura"; // Nome da view para exibir detalhes
         } catch (Exception e) {
             e.printStackTrace();
@@ -292,4 +308,31 @@ public class CandidaturaController {
         }
     }
 
+    /**
+     * Obtém a foto de perfil de um aluno.
+     *
+     * @param alunoId ID do aluno
+     * @return A foto do aluno ou uma imagem padrão se não houver foto
+     */
+    @GetMapping("/professor/fotoAluno/{alunoId}")
+    @ResponseBody
+    public ResponseEntity<byte[]> obterFotoAluno(@PathVariable Long alunoId) {
+        try (Connection conn = ds.getConnection()) {
+            // Busca o aluno pelo ID
+            Aluno aluno = AlunoDao.get(conn, alunoId);
+
+            if (aluno == null || aluno.getFotoPerfil() == null) {
+                // Carrega a imagem padrão se o aluno não possuir uma foto
+                InputStream fotoPadrao = getClass().getResourceAsStream("/static/img/foto-perfil-padrao.png");
+                byte[] imagemPadrao = fotoPadrao.readAllBytes();
+                return ResponseEntity.ok().header("Content-Type", "image/png").body(imagemPadrao);
+            }
+
+            // Retorna a foto do aluno armazenada no banco
+            return ResponseEntity.ok().header("Content-Type", "image/jpeg").body(aluno.getFotoPerfil());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
