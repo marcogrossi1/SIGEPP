@@ -26,7 +26,6 @@ header {
 nav {
     width: 100vw;
     height: 6vh;
-    padding: 0 1vw 0 0;
     display: flex;
     flex-direction: row;
     justify-content: end;
@@ -38,14 +37,14 @@ nav {
 main {
     margin-top: 5vh;
     width: 64vw;
-    min-height: calc(100vh - 29vh); /* nav + header + navMargin */
+    min-height: calc(100vh - 19vh); /* nav + header + navMargin */
     padding: 3vh;                   /*     + mainPadding = 28vh */
     border-radius: 1% 1% 0 0;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     background-color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
-    overflow-y: auto;
     max-height: 80vh;
+    overflow-y: auto;
 }
 
 #main-adm {
@@ -56,12 +55,8 @@ main {
 main>:first-child {
     margin-top: 0;
 }
-
-nav> :first-child {
-    position: absolute;
-    top: 9vh;
-    left: 0vw;
-    font-size: 1.5em;
+main>:last-child {
+    margin-bottom: 1vh;
 }
 
 .icone {
@@ -70,6 +65,7 @@ nav> :first-child {
     grid-template-rows: 4vh 2vh;
     color: black;
     text-decoration: none;
+    margin-right: 1vw;
 }
 
 .icone img {
@@ -101,12 +97,11 @@ nav> :first-child {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-input {
+.input, select {
     margin: 1vh 0 1vh 0;
     min-width: 10vw;
     height: 2vh;
     border: 1px solid #c4c0bf;
-    border-radius: 5%;
     background-color: #fefafa;
 }
 
@@ -118,6 +113,60 @@ button, input[type='submit'] {
     background-color: #2e6890;
     color: white;
     cursor: pointer;
+}
+
+.checkbox-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.checkbox input {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #555;
+    border-radius: 4px;
+    display: grid;
+    place-content: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.checkbox input::before {
+    content: "✔";
+    font-size: 14px;
+    color: white;
+    transform: scale(0);
+    transition: transform 0.2s ease-in-out;
+}
+
+.checkbox input:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.checkbox input:checked::before {
+    transform: scale(1);
+}
+
+.checkbox:hover input {
+    border-color: #007bff;
 }
 
 .botoes-portal, .botoes-inicio {
@@ -135,7 +184,7 @@ button, input[type='submit'] {
 	color: black;
 }
 
-.botoes-portal:hover, .botoes-inicio:hover, #icone-portal:hover {
+.botoes-portal:hover, .botoes-inicio:hover {
     transform: scale(1.1);
 }
 
@@ -175,10 +224,6 @@ button, input[type='submit'] {
 
 #subtitulo-portal {
     text-align: center;
-}
-
-#icone-portal {
-    margin-left: 100px;
 }
 
 #notificacoes-portal {
@@ -231,12 +276,12 @@ button, input[type='submit'] {
 }
 
 #nome-no-portal {
+    position: absolute;
+    top: 9vh;
+    left: 2vw;
+    font-size: 1.5em;
     font-family: Arial, Helvetica, sans-serif;
-    max-height: 100%;
-    max-width: 100%;
     overflow: hidden;
-    width: 1000px;
-    margin-left: 100px;
 }
 
 #pdfView {
@@ -446,7 +491,24 @@ label {
     font-size: 1rem;
     color: #555;
     line-height: 1.6;
-    margin-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 1vh;
+}
+
+.tag {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.85em;
+    height: auto;
+    width: min-content;
+    padding: 0.3em 0.6em;
+    background-color: #f9f9f9;
+    border: solid 0.1vh darkgray;
+    border-radius: 13px;
+    line-height: 1;
+    white-space: nowrap;
+    margin-bottom: 1vh;
 }
 
 /*para o professor gerenciar os projetos dele*/
@@ -455,6 +517,11 @@ label {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+#botao-criar {
+    position: absolute;
+    top: 92vh;
+    left: 71vw;
 }
 .botao-editar {      
     height: 2vh;               
@@ -524,4 +591,8 @@ label {
 #redirect-empresa-perfil:hover{
     text-decoration: underline;
     color: purple;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
 }
