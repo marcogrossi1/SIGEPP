@@ -53,66 +53,80 @@ public class PerfilAlunoController {
     private HDataSource ds;
 
 	@GetMapping
-	public String mostraPerfilAluno(@RequestParam("id") Long alunoId, Model model, Principal principal) 
-	throws Exception {
-		try(Connection conn = ds.getConnection()) {
-			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-        	model.addAttribute("usuario", u);
+	public String mostraPerfilAluno(@RequestParam("id") Long alunoId, Model model, Principal principal) throws Exception {
+	    try(Connection conn = ds.getConnection()) {
+	    	//System.out.println("Método chamado! ID: " + alunoId);
+	    	
+	        Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+	        model.addAttribute("usuario", u);
 
-			Aluno a = AlunoDao.get(conn, alunoId);
-			model.addAttribute("alunoId", alunoId);
-			
-			List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, alunoId);
-			model.addAttribute("secoes", secoes);
-			
-			List<Topico> topicos = TopicoDao.listarTodosTopicos(conn);
-	        model.addAttribute("topicos", topicos);
+	        Aluno a = AlunoDao.getByUsuario_id(conn, alunoId);
+	        model.addAttribute("alunoId", alunoId);
+
+	        boolean isDonoDoPerfil = u.getId() == (a.getUsuario_id()) || u.getRole().equals("Administrador");
+
+	        List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, alunoId);
+	        model.addAttribute("secoes", secoes);
+
+	        Secao secaoLicencas = null;
 	        
-	        model.addAttribute("qtdTopicos", TopicoDao.contarTodosTopicos(conn));
+	        for (Secao secao : secoes) {
+	            if (secao.getTipo().equals("Licenças e Certificados")) {
+	                secaoLicencas = secao;
+	                break;
+	            }
+	        }
+
+	        if (secaoLicencas != null) {
+	            List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, secaoLicencas.getId());
+	            model.addAttribute("topicos", topicos);
+	            model.addAttribute("qtdTopicos", TopicoDao.contarTopicosPorSecao(conn, secaoLicencas.getId()));
+	        } else {
+	            model.addAttribute("topicos", new ArrayList<>());
+	            model.addAttribute("qtdTopicos", 0);
+	        }
 	        
-	        long qtdSecoesTextoLivre = SecaoDao.contarSecoesPorTipo(conn, "Texto Livre");
-	        long qtdSecoesProjetosConcluidos = SecaoDao.contarSecoesPorTipo(conn, "Projetos Concluídos");
-	        long qtdSecoesLicencasECertificados = SecaoDao.contarSecoesPorTipo(conn, "Licenças e Certificados");
+	        long qtdSecoesTextoLivre = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Texto Livre", a.getId());
+	        long qtdSecoesProjetosConcluidos = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Projetos Concluídos", a.getId());
+	        long qtdSecoesLicencasECertificados = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Licenças e Certificados", a.getId());
 
 	        model.addAttribute("qtdSecoesTextoLivre", qtdSecoesTextoLivre);
 	        model.addAttribute("qtdSecoesProjetosConcluidos", qtdSecoesProjetosConcluidos);
 	        model.addAttribute("qtdSecoesLicencasECertificados", qtdSecoesLicencasECertificados);
-			
-			if (a.getFotoPerfil() != null) {
-			    String fotoPerfilBase64 = Base64.getEncoder().encodeToString(a.getFotoPerfil());
-			    model.addAttribute("fotoPerfil", fotoPerfilBase64);
-			}
 
-			if (a.getBannerPerfil() != null) {
-			    String bannerBase64 = Base64.getEncoder().encodeToString(a.getBannerPerfil());
-			    model.addAttribute("banner", bannerBase64);
-			}
+	        if (a.getFotoPerfil() != null) {
+	            String fotoPerfilBase64 = Base64.getEncoder().encodeToString(a.getFotoPerfil());
+	            model.addAttribute("fotoPerfil", fotoPerfilBase64);
+	        }
 
-			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
-			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
-			int n_seguidores = SeguidoresDao.listSeguidores(conn, a.getUsuario_id()).getNumeroSeguidores();
-			int n_seguidos = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
-			
-			long idDoUsuarioVisitante = u.getId();
-			
-			model.addAttribute("seguidores", n_seguidores);
-			model.addAttribute("idDoUsuario", idDoUsuarioVisitante);
-			model.addAttribute("seguidos", n_seguidos);
-			model.addAttribute("aluno", a);
-			model.addAttribute("projetos", projetos);
-			model.addAttribute("estagios", estagios);
+	        if (a.getBannerPerfil() != null) {
+	            String bannerBase64 = Base64.getEncoder().encodeToString(a.getBannerPerfil());
+	            model.addAttribute("banner", bannerBase64);
+	        }
 
-			if (u.getRole().equals("Aluno") || u.getRole().equals("Professor")) {
-                return "perfilAluno";
-            }
-			else {
-				return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
-			}
-		}
-		
-		catch(Exception e) {
-			return "erro";
-		}
+	        ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
+	        ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
+	        int n_seguidores = SeguidoresDao.listSeguidores(conn, a.getUsuario_id()).getNumeroSeguidores();
+	        int n_seguidos = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
+
+	        long idDoUsuarioVisitante = u.getId();
+
+	        model.addAttribute("seguidores", n_seguidores);
+	        model.addAttribute("idDoUsuario", idDoUsuarioVisitante);
+	        model.addAttribute("seguidos", n_seguidos);
+	        model.addAttribute("aluno", a);
+	        model.addAttribute("projetos", projetos);
+	        model.addAttribute("estagios", estagios);
+	        model.addAttribute("isDonoDoPerfil", isDonoDoPerfil);
+
+	        if (u.getRole().equals("Aluno") || u.getRole().equals("Professor") || u.getRole().equals("Administrador") || u.getRole().equals("Empresa")) {
+	            return "perfilAluno";
+	        } else {
+	            return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
+	        }
+	    } catch (Exception e) {
+	        return "erro";
+	    }
 	}
 	
 	@GetMapping("/emite")
@@ -310,12 +324,13 @@ public class PerfilAlunoController {
             }   
             
             SecaoDao.salvarSecao(conn, sec);
-            System.out.println("SecaoId " + sec.getId());
+            //System.out.println("SecaoId " + sec.getId());
             
             if (tipo.equals("Licenças e Certificados")) {
 		        for (int i = 0; i < qtdTopicos; i++) {
 		            Topico topico = new Topico();
 		            topico.setSecaoId(sec.getId());
+		            topico.setEstado(false);
 		            
 		            /*verificar id secao do topico*/
 		            System.out.println("SecaoId do Topico" + topico.getSecaoId());
@@ -342,15 +357,125 @@ public class PerfilAlunoController {
 		                }
 		            }
 		            
-		            if (comprimentosConteudoTextoTopico != null && !comprimentosConteudoTextoTopico.isEmpty() && i < comprimentosConteudoTextoTopico.size())
-		            	topico.setComprimentoConteudoTexto(comprimentosConteudoTextoTopico.get(i));
-		            
-		            if (alturasConteudoTextoTopico != null && !alturasConteudoTextoTopico.isEmpty() && i < alturasConteudoTextoTopico.size())
-		            	topico.setAlturaConteudoTexto(alturasConteudoTextoTopico.get(i));
+		            if (comprimentosConteudoTextoTopico != null && i < comprimentosConteudoTextoTopico.size()) {
+		                System.out.println("Salvando Tópico " + i + " - Largura: " + comprimentosConteudoTextoTopico.get(i));
+		                topico.setComprimentoConteudoTexto(comprimentosConteudoTextoTopico.get(i));
+		            }
+
+		            if (alturasConteudoTextoTopico != null && i < alturasConteudoTextoTopico.size()) {
+		                System.out.println("Salvando Tópico " + i + " - Altura: " + alturasConteudoTextoTopico.get(i));
+		                topico.setAlturaConteudoTexto(alturasConteudoTextoTopico.get(i));
+		            }
 		
 		            TopicoDao.salvarTopico(conn, topico);
 		        }
 		    }
+            
+	        conn.commit();
+
+	        return "redirect:/perfil-aluno?id=" + usuarioId;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("message", "Erro ao salvar as seções: " + e.getMessage());
+	        return "erro";
+	    }
+	}
+	
+	@PostMapping("/atualizar-secoes-editadas")
+	public String atualizarSecoesEditadas(
+		@RequestParam(value = "id", required = true) Long usuarioId,
+		@RequestParam(value = "idSecao", required = true) Long idSecao,
+        @RequestParam(value = "titulo", required = false, defaultValue = "") String titulo,
+        @RequestParam(value = "conteudoTexto", required = false, defaultValue = "Escreva seu texto...") String conteudoTexto,
+        @RequestParam(value = "conteudoTextoTopico", required = false) List<String> conteudosTextoTopico,
+        @RequestParam(value = "conteudoArquivo", required = false) List<MultipartFile> conteudoArquivos,
+        @RequestParam(value = "conteudoImagem", required = false) List<MultipartFile> conteudoImagens,
+        @RequestParam(value = "qtdTopicos", required = false) Long qtdTopicos,
+        @RequestParam(value = "tipo", required = true) String tipo,
+        @RequestParam(value = "ordem", required = true) Integer ordem,
+        @RequestParam(value = "comprimentoConteudoTexto", required = false) Integer comprimentoConteudoTexto,
+        @RequestParam(value = "alturaConteudoTexto", required = false) Integer alturaConteudoTexto,
+        @RequestParam(value = "comprimentoConteudoTextoTopico", required = false) List<Integer> comprimentosConteudoTextoTopico,
+        @RequestParam(value = "alturaConteudoTextoTopico", required = false) List<Integer> alturasConteudoTextoTopico,
+        @RequestParam(value = "leftConteudoTexto", required = false) Integer leftConteudoTexto,
+        @RequestParam(value = "topConteudoTexto", required = false) Integer topConteudoTexto,
+        @RequestParam(value = "estado", required = false) Boolean estado,
+	    Model model) {
+
+	    try (Connection conn = ds.getConnection()) {
+	        if (ordem == null) 
+	        	ordem = 0;
+	        
+	        //VERIFICAR SE TÁ DANDO LARGURA E ALTURA MESMO DO CONTEUDO TEXTO E TOP E LEFT
+	        System.out.println("Largura: " + comprimentoConteudoTexto + ", Altura: " + alturaConteudoTexto);
+	        System.out.println("Top: " + comprimentoConteudoTexto + ", Left: " + alturaConteudoTexto);
+	        
+            Secao sec = SecaoDao.getSecaoPorId(conn, idSecao);
+            
+            sec.setUsuarioId(usuarioId);
+            sec.setTipo(tipo);
+            sec.setTitulo(titulo); 
+            sec.setOrdem(ordem);
+            sec.setComprimentoConteudoTexto(comprimentoConteudoTexto);
+            sec.setAlturaConteudoTexto(alturaConteudoTexto);
+            sec.setTopConteudoTexto(topConteudoTexto);
+            sec.setLeftConteudoTexto(leftConteudoTexto);
+            
+            System.out.println("qtdTopicos recebido no backend: " + qtdTopicos);
+            	
+            if (conteudoTexto == null || conteudoTexto.isEmpty())
+            	sec.setConteudoTexto("Escreva seu texto..."); 
+            else {
+            	sec.setConteudoTexto(conteudoTexto); 
+            }   
+            
+            SecaoDao.atualizarSecao(conn, sec);
+            //System.out.println("SecaoId " + sec.getId());
+            /*
+            if (tipo.equals("Licenças e Certificados")) {
+		        for (int i = 0; i < qtdTopicos; i++) {
+		            Topico topico = new Topico();
+		            topico.setSecaoId(sec.getId());
+		            topico.setEstado(false);
+		            
+		            /*verificar id secao do topico
+		            System.out.println("SecaoId do Topico" + topico.getSecaoId());
+		
+		            if (conteudosTextoTopico != null && !conteudosTextoTopico.isEmpty() && i < conteudosTextoTopico.size()) {
+		                topico.setConteudoTexto(conteudosTextoTopico.get(i));
+		            } else {
+		                topico.setConteudoTexto("Escreva seu texto...");
+		            }
+		            
+		            //System.out.println("Topico Texto " + i + ":" + conteudosTextoTopico.get(i));
+		
+		            if (conteudoArquivos != null && i < conteudoArquivos.size()) {
+		                MultipartFile arquivo = conteudoArquivos.get(i);
+		                if (!arquivo.isEmpty()) {
+		                    topico.setConteudoArquivo(arquivo.getBytes());
+		                }
+		            }
+		
+		            if (conteudoImagens != null && i < conteudoImagens.size()) {
+		                MultipartFile imagem = conteudoImagens.get(i);
+		                if (!imagem.isEmpty()) {
+		                    topico.setConteudoImagem(imagem.getBytes());
+		                }
+		            }
+		            
+		            if (comprimentosConteudoTextoTopico != null && i < comprimentosConteudoTextoTopico.size()) {
+		                System.out.println("Salvando Tópico " + i + " - Largura: " + comprimentosConteudoTextoTopico.get(i));
+		                topico.setComprimentoConteudoTexto(comprimentosConteudoTextoTopico.get(i));
+		            }
+
+		            if (alturasConteudoTextoTopico != null && i < alturasConteudoTextoTopico.size()) {
+		                System.out.println("Salvando Tópico " + i + " - Altura: " + alturasConteudoTextoTopico.get(i));
+		                topico.setAlturaConteudoTexto(alturasConteudoTextoTopico.get(i));
+		            }
+		
+		            TopicoDao.salvarTopico(conn, topico);
+		        }
+		    }*/
             
 	        conn.commit();
 

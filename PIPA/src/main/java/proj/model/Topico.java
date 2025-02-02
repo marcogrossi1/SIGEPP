@@ -8,6 +8,7 @@ public class Topico {
     private byte[] conteudoArquivo;
     private Integer comprimentoConteudoTexto;
     private Integer alturaConteudoTexto;
+    private boolean estado;
 
     public Long getId() {
         return id;
@@ -20,9 +21,17 @@ public class Topico {
     public Long getSecaoId() {
         return secao_id;
     }
-
+    
     public void setSecaoId(Long secao_id) {
         this.secao_id = secao_id;
+    }
+    
+    public boolean getEstado() {
+        return estado;
+    }
+    
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     public String getConteudoTexto() {

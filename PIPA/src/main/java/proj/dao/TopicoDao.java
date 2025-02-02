@@ -11,26 +11,24 @@ import proj.model.Topico;
 
 public class TopicoDao {
 
-    private static final String INSERT_TOPICO_SQL = "INSERT INTO topicos (secao_id, conteudoTexto, conteudoImagem, conteudoArquivo, comprimentoConteudoTexto, alturaConteudoTexto) " + "VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_TOPICO_SQL = "INSERT INTO topicos (secao_id, conteudoTexto, conteudoImagem, conteudoArquivo, comprimentoConteudoTexto, alturaConteudoTexto, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_TOPICOS_BY_SECAO_SQL = "SELECT * FROM topicos WHERE secao_id = ?";
     private static final String DELETE_TOPICO_SQL = "DELETE FROM topicos WHERE id = ?";
-    private static final String UPDATE_TOPICO_SQL = "UPDATE topicos SET secao_id = ?, conteudoTexto = ?, conteudoImagem = ?, conteudoArquivo = ?, comprimentoConteudoTexto = ?, alturaConteudoTexto = ? WHERE id = ?";
+    private static final String UPDATE_TOPICO_SQL = "UPDATE topicos SET secao_id = ?, conteudoTexto = ?, conteudoImagem = ?, conteudoArquivo = ?, comprimentoConteudoTexto = ?, alturaConteudoTexto = ?, estado = ? WHERE id = ?";
     private static final String SELECT_TOPICO_BY_ID_SQL = "SELECT * FROM topicos WHERE id = ?";
-    private static final String SELECT_TOPICOS_SQL = "SELECT id, secao_id, conteudoTexto, conteudoImagem, conteudoArquivo, comprimentoConteudoTexto, alturaConteudoTexto FROM topicos";
+    private static final String SELECT_TOPICOS_SQL = "SELECT id, secao_id, conteudoTexto, conteudoImagem, conteudoArquivo, comprimentoConteudoTexto, alturaConteudoTexto, estado FROM topicos";
     private static final String CONTAR_TOPICOS_BY_SECAO_SQL = "SELECT COUNT(*) FROM topicos WHERE secao_id = ?";
     private static final String CONTAR_TOPICOS_SQL = "SELECT COUNT(*) FROM topicos"; 
 
     public static void salvarTopico(Connection conn, Topico topico) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(INSERT_TOPICO_SQL)) {
-            if (topico.getSecaoId() == null) {
-                throw new SQLException("O secao_id não pode ser nulo");
-            }
             stmt.setLong(1, topico.getSecaoId());  
             stmt.setString(2, topico.getConteudoTexto()); 
             stmt.setBytes(3, topico.getConteudoImagem()); 
             stmt.setBytes(4, topico.getConteudoArquivo()); 
             stmt.setObject(5, topico.getComprimentoConteudoTexto());
             stmt.setObject(6, topico.getAlturaConteudoTexto());
+            stmt.setBoolean(7, topico.getEstado());
             stmt.executeUpdate();  
         }
     }
@@ -49,6 +47,7 @@ public class TopicoDao {
                     topico.setConteudoArquivo(rs.getBytes("conteudoArquivo"));
                     topico.setComprimentoConteudoTexto(rs.getInt("comprimentoConteudoTexto"));
                     topico.setAlturaConteudoTexto(rs.getInt("alturaConteudoTexto"));
+                    topico.setEstado(rs.getBoolean("estado"));
                     topicos.add(topico);
                 }
             }
@@ -69,6 +68,7 @@ public class TopicoDao {
                     topico.setConteudoArquivo(rs.getBytes("conteudoArquivo"));
                     topico.setComprimentoConteudoTexto(rs.getInt("comprimentoConteudoTexto"));
                     topico.setAlturaConteudoTexto(rs.getInt("alturaConteudoTexto"));
+                    topico.setEstado(rs.getBoolean("estado"));
                     topicos.add(topico);
                 }
             }
@@ -85,16 +85,14 @@ public class TopicoDao {
 
     public static void atualizarTopico(Connection conn, Topico topico) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(UPDATE_TOPICO_SQL)) {
-            if (topico.getSecaoId() == null) {
-                throw new SQLException("O secao_id não pode ser nulo");
-            }
             stmt.setLong(1, topico.getSecaoId()); 
             stmt.setString(2, topico.getConteudoTexto()); 
             stmt.setBytes(3, topico.getConteudoImagem()); 
             stmt.setBytes(4, topico.getConteudoArquivo()); 
             stmt.setObject(5, topico.getComprimentoConteudoTexto());
             stmt.setObject(6, topico.getAlturaConteudoTexto());
-            stmt.setLong(7, topico.getId());
+            stmt.setBoolean(7, topico.getEstado());
+            stmt.setLong(8, topico.getId());
             stmt.executeUpdate();
         }
     }
@@ -112,6 +110,7 @@ public class TopicoDao {
                     topico.setConteudoArquivo(rs.getBytes("conteudoArquivo"));
                     topico.setComprimentoConteudoTexto(rs.getInt("comprimentoConteudoTexto"));
                     topico.setAlturaConteudoTexto(rs.getInt("alturaConteudoTexto"));
+                    topico.setEstado(rs.getBoolean("estado"));
                     return topico;
                 }
             }
@@ -122,7 +121,6 @@ public class TopicoDao {
     public static long contarTopicosPorSecao(Connection conn, Long secao_id) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(CONTAR_TOPICOS_BY_SECAO_SQL)) {
             stmt.setLong(1, secao_id);
-            
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getLong(1);

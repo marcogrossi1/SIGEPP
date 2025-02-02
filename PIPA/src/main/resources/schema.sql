@@ -270,7 +270,7 @@ CREATE TABLE Seguidores (
     )
 ENGINE = InnoDB default character set = utf8;
 
-  -- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Table SEÇÕES COLOCAR conteudoVideo, e outras coisas necesariasssssssssssssssssssssssssss
 -- -----------------------------------------------------
 
@@ -301,5 +301,6 @@ CREATE TABLE topicos (
     conteudoArquivo LONGBLOB NULL,
     comprimentoConteudoTexto INT NULL,
     alturaConteudoTexto INT NULL,
+    estado boolean DEFAULT false,
     FOREIGN KEY (secao_id) REFERENCES secoes(id) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;

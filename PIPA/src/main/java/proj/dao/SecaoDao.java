@@ -17,7 +17,7 @@ public class SecaoDao {
     private static final String DELETE_SECAO_SQL = "DELETE FROM secoes WHERE id = ?";
     private static final String UPDATE_SECAO_SQL = "UPDATE secoes SET titulo = ?, tipo = ?, conteudoTexto = ?, comprimentoConteudoTexto = ?, alturaConteudoTexto = ?, leftConteudoTexto = ?, topConteudoTexto = ?, conteudoImagem = ?, ordem = ? WHERE id = ?";
     private static final String SELECT_SECAO_BY_ID_SQL = "SELECT * FROM secoes WHERE id = ?";
-    private static final String CONTAR_SECOES_BY_TIPO = "SELECT COUNT(*) FROM secoes WHERE tipo = ?";
+    private static final String CONTAR_SECOES_BY_TIPO_E_USUARIO = "SELECT COUNT(*) FROM secoes WHERE tipo = ? AND usuario_id = ?";
     
     public static void salvarSecao(Connection conn, Secao secao) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(INSERT_SECAO_SQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -45,11 +45,16 @@ public class SecaoDao {
 
     public static List<Secao> listarSecoesPorUsuarioId(Connection conn, Long usuarioId) throws SQLException {
         List<Secao> secoes = new ArrayList<>();
+
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_SECOES_BY_USUARIO_SQL)) {
+
             stmt.setLong(1, usuarioId);
+
             try (ResultSet rs = stmt.executeQuery()) {
+
                 while (rs.next()) {
                     Secao secao = new Secao();
+
                     secao.setId(rs.getLong("id"));
                     secao.setUsuarioId(rs.getLong("usuario_id"));
                     secao.setTitulo(rs.getString("titulo"));
@@ -61,10 +66,12 @@ public class SecaoDao {
                     secao.setTopConteudoTexto(rs.getInt("topConteudoTexto"));
                     secao.setConteudoImagem(rs.getBytes("conteudoImagem"));
                     secao.setOrdem(rs.getInt("ordem"));
+
                     secoes.add(secao);
                 }
             }
         }
+       
         return secoes;
     }
 
@@ -115,9 +122,11 @@ public class SecaoDao {
         return null;
     }
     
-    public static long contarSecoesPorTipo(Connection conn, String tipo) throws SQLException {
-        try (PreparedStatement stmt = conn.prepareStatement(CONTAR_SECOES_BY_TIPO)) {
+    public static long contarSecoesPorTipoEUsuario(Connection conn, String tipo, Long usuarioId) throws SQLException {
+        
+        try (PreparedStatement stmt = conn.prepareStatement(CONTAR_SECOES_BY_TIPO_E_USUARIO)) {
             stmt.setString(1, tipo);
+            stmt.setLong(2, usuarioId);
             
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {

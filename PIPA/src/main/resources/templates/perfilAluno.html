@@ -75,17 +75,38 @@
 		</div>
 		
 		
-		<a th:href="@{/configPerfil/contaConfigPerfil(id=${aluno.id})}" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:if="${idDoUsuario == aluno.id}"></a>
-		<button type="submit" class="botoes-perfil" id="botao-edicao" th:if="${idDoUsuario == aluno.id}"></button>
-		<a th:if="${idDoUsuario != aluno.id}" class="botoes-perfil" id="botao-seguir" th:href="@{/relacoes/toggle?id=aluno.id}">Seguir</a>
+		<a th:href="@{/configPerfil/contaConfigPerfil(id=${aluno.id})}" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:if="${isDonoDoPerfil}"></a>
+		<button type="submit" class="botoes-perfil" id="botao-edicao" th:if="${isDonoDoPerfil}"></button>
+		<a th:if="${!isDonoDoPerfil}" class="botoes-perfil" id="botao-seguir" th:href="@{/relacoes/toggle?id=aluno.id}">Seguir</a>
 		
 		<!--   PARA VERIFICAR!!!
 		<p>Visitante ID: <span th:text="${idDoUsuario}"></span></p>
 		<p>Dono do perfil ID: <span th:text="${aluno.id}"></span></p>
-		-->
+
+		<p>Aluno: <span th:text="${aluno}"></span></p>
+		<p>Quantidade de Seções Texto Livre: <span th:text="${qtdSecoesTextoLivre}"></span></p>
+		<p>Quantidade de Seções Projetos Concluídos: <span th:text="${qtdSecoesProjetosConcluidos}"></span></p>
+		<p>Quantidade de Seções Licenças e Certificados: <span th:text="${qtdSecoesLicencasECertificados}"></span></p>
+		<p>Quantidade de Tópicos: <span th:text="${qtdTopicos}"></span></p>
+
+		<p>Seções: <span th:text="${secoes}"></span></p>
+		<p>Tópicos: <span th:text="${topicos}"></span></p>
+		<p>Projetos: <span th:text="${projetos}"></span></p>
+		<p>Estágios: <span th:text="${estagios}"></span></p>
 		
-		<button type="button" class="botoes-perfil" id="botao-add-seccao" th:if="${idDoUsuario == aluno.id}">ADICIONAR</button>
-		<button type="button" class="botoes-perfil" id="botao-concluir-edicao">SALVAR ALTERAÇÕES</button>
+		<p>Seções ID</p>
+		<ul>
+		    <li th:each="secao : ${secoes}" th:text="${secao.id}"></li>
+		</ul>
+		
+		<p>Topicos ID</p>
+		<ul>
+		    <li th:each="topico : ${topicos}" th:text="${topico.id}"></li>
+		</ul>-->
+
+		
+		<button type="button" class="botoes-perfil" id="botao-add-seccao" th:if="${isDonoDoPerfil}">ADICIONAR</button>
+		<button type="button" class="botoes-perfil" id="botao-concluir-edicao" th:if="${isDonoDoPerfil}">SALVAR ALTERAÇÕES</button>
 		
 		<div class="informacoes-contato">
 		  <p class="titulo-contato">Informações de contato</p>
@@ -103,7 +124,7 @@
 	
 	<script th:inline="javascript">
 		let aluno = /*[[${aluno}]]*/ {};
-		let alunoId = /*[[${aluno.id}]]*/ {};
+		let alunoId = /*[[${alunoId}]]*/ {};
 		
 		let qtdSecoesTextoLivre = /*[[${qtdSecoesTextoLivre} ?: 0]]*/ 0;
 		let qtdSecoesProjetosConcluidos = /*[[${qtdSecoesProjetosConcluidos} ?: 0]]*/ 0;
@@ -112,6 +133,7 @@
 		let qtdTopicos = /*[[${qtdTopicos} ?: 0]]*/ 0;
 		
 		let secoes = /*[[${secoes}]]*/ '[]';
+		
 		let topicos = /*[[${topicos}]]*/ '[]';
 		
         let projetos = /*[[${projetos}]]*/ '[]';
@@ -123,11 +145,9 @@
         estagios = JSON.parse(estagios);
 	</script>
 			
-    <script src="../js/config.js" th:inline="javascript" type="text/javascript">
+    <script src="js/config.js" th:inline="javascript" type="text/javascript">
 		
 	</script>
-	
-	<crip
 	
 </body>
 </html>

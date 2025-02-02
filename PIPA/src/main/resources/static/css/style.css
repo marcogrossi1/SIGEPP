@@ -179,6 +179,11 @@ button, input[type='submit'] {
 	padding: 0px;
 }
 
+#img-certificados-licencas{
+	height: 360px;
+	width: 504px;
+}
+
 #subtitulo-portal {
 	text-align: center;
 }
@@ -594,4 +599,9 @@ label {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.main-certificados-licencas {
+	margin-bottom: 30px;
+	overflow: auto;
 }
