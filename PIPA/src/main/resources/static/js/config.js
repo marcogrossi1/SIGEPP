@@ -145,14 +145,6 @@ concluirEdicao.addEventListener('click', function() {
     esconderEditaveis();
 });
 
-// Contadores para limitar o número de seções
-
-//TERMINAR preciso criar metodo no secao dao de contar numeros de seções de certo tipo! Depois adicionar no modelAtribute pra colocar aqui os valores
-let contadorTextoLivre = 0;
-let contadorProjetosConcluidos = 0;
-let contadorLicencasCertificados = 0;
-//TERMINAR
-
 let cont = true;
 
 botaoSeccao.addEventListener('click', function() {
@@ -163,9 +155,9 @@ botaoSeccao.addEventListener('click', function() {
         catalogoSeccao.id = 'catalogo-seccao';
         catalogoSeccao.innerHTML = `
             <button id="fecharCatalogo">X</button>
-            <button id="adicionar-texto-livre">Texto Livre ${contadorTextoLivre} / 10</button>
-            <button id="adicionar-projetos-concluidos">Projetos Concluídos ${contadorProjetosConcluidos} / 1</button>
-            <button id="adicionar-licencas-certificados">Licenças e Certificados ${contadorLicencasCertificados} / 1</button>
+            <button id="adicionar-texto-livre">Texto Livre ${qtdSecoesTextoLivre} / 10</button>
+            <button id="adicionar-projetos-concluidos">Projetos Concluídos ${qtdSecoesProjetosConcluidos} / 1</button>
+            <button id="adicionar-licencas-certificados">Licenças e Certificados ${qtdSecoesLicencasECertificados} / 1</button>
             <button id="adicionar-desenho">Desenho</button>
             <button id="adicionar-foto">Foto</button>
             <button id="adicionar-video">Vídeo</button>
@@ -177,22 +169,36 @@ botaoSeccao.addEventListener('click', function() {
             catalogoSeccao.remove();
         });
 
-        document.getElementById('adicionar-texto-livre').addEventListener('click', function() {
-            catalogoSeccao.remove();
-            cont = true;
-            criarSecao('Texto Livre');
-        });
-
-        document.getElementById('adicionar-projetos-concluidos').addEventListener('click', function() {
-            catalogoSeccao.remove();
-            cont = true;
-            criarSecao('Projetos Concluídos');
-        });
-
+	    document.getElementById('adicionar-texto-livre').addEventListener('click', function() {
+	        cont = true;
+			if(qtdSecoesTextoLivre < 10) {
+        		criarSecao('Texto Livre');
+				catalogoSeccao.remove();
+			}
+			else
+				alert("Quantidade máxima atingida!");
+	    });
+	
+	
+	    document.getElementById('adicionar-projetos-concluidos').addEventListener('click', function() {
+	        cont = true;
+			if(qtdSecoesProjetosConcluidos < 1) {
+				criarSecao('Projetos Concluídos');
+				catalogoSeccao.remove();
+			}
+	        	
+			else
+				alert("Quantidade máxima atingida!");
+	    });
+		
         document.getElementById('adicionar-licencas-certificados').addEventListener('click', function() {
-            catalogoSeccao.remove();
             cont = true;
-            criarSecao('Licenças e Certificados');
+			if(qtdSecoesLicencasECertificados < 1) {
+        		criarSecao('Licenças e Certificados');
+				catalogoSeccao.remove();
+			}
+			else
+				alert("Quantidade máxima atingida!");
         });
 
         document.getElementById('adicionar-desenho').addEventListener('click', function() {
@@ -215,11 +221,19 @@ botaoSeccao.addEventListener('click', function() {
     }
 });
 
-
-
 let ordem = 0;
 
 //ARRUMAR
+
+//FAZER UM GRID DE QUADRADINHOS PRA FOTO VIDEO E DESENHO COM A FUNÇÃO DE MOSTRAR MAIS!
+//AO CLICA NO QUADRADINHO ABRE MODAL DA FOTO OU VÍDEO COM COMENTARIOS LÁ!
+//OBS: NA SEÇÃO DE FOTO QUERO FAZER IGUAL O INSTAGRAM COM VARIAS FOTOS EM UMA PUBLICAÇÃO SÓ COM SETA PRO LADO E EDIÇÃO PERMITE MUDAR DESCRIÇÃO SÓ. VíDEo mESMA COISA SÓ DESCRIÇÃO
+
+
+/*ARRUMAR SISTEMA DE ORDEM, CRIAR UM METODO NO SECAO DAO PRA LISTAR SEÇÕES DE ACORDO COM A ORDEM 
+E NÃO ID DA SECAO PRA USAR NA RENDERIZAÇÃO!!! USAR SISTEMA DE DRAG QUE SÓ É HABILITADO AO CLICAR NO BOTAO EDITAR*/
+
+//FAZER COM QUE BOTÔES DE EDITAR SECAO APARACE APÓS CLICAR EM BOTÃO DE EDITAR
 
 function criarSecao(tipo) {
     let overlay = document.createElement('div');
@@ -233,7 +247,6 @@ function criarSecao(tipo) {
 
     let tituloPersonalizado = false;
     let criarTopico = false;
-    let limitador = 0;
 	
 	// Id Aluno input
 	let idInput = document.createElement('input');
@@ -260,10 +273,12 @@ function criarSecao(tipo) {
         tituloPersonalizado = true;
         criarTopico = false;
     }
+	
     if (tipo === 'Licenças e Certificados') {
         tituloPersonalizado = false;
         criarTopico = true;
     }
+	
     if (tipo === 'Projetos Concluídos') {
         tituloPersonalizado = false;
         criarTopico = false;
@@ -279,7 +294,7 @@ function criarSecao(tipo) {
         let texto = document.createElement('input');
         texto.className = 'titulo-seccao';
         texto.name = 'titulo';
-        texto.maxLength = 36;
+        texto.maxLength = 35;
         texto.placeholder = 'Digite o título da seção ou deixe sem...';
         seccao.appendChild(texto);
     } else if (tipo !== 'Texto Livre') {
@@ -302,14 +317,11 @@ function criarSecao(tipo) {
 		editorContainer.style.fontSize = '16px';
 		editorContainer.style.position = 'absolute';
 		editorContainer.style.left = '50px';
-		editorContainer.style.top = '70px';
-		editorContainer.style.width = '400px';
-		editorContainer.style.height = '100px';
-		editorContainer.style.maxHeight = '100vh';
-		
-		let larguraInicial = window.innerWidth * 0.66 - 55.4;
-		editorContainer.style.maxWidth = `${Math.max(larguraInicial, 0)}px`;
-		
+		editorContainer.style.top = '45px';
+		editorContainer.style.width = '200px';
+		editorContainer.style.height = '50px';
+		editorContainer.style.maxHeight = '67.9vh';
+		editorContainer.style.maxWidth = '58.9vw';
 		editorContainer.style.backgroundColor = '#fff';
 		editorContainer.style.cursor = 'text';
 		editorContainer.style.border = '1px solid #ccc';
@@ -323,22 +335,19 @@ function criarSecao(tipo) {
 		    theme: 'snow',
 		    modules: {
 		        toolbar: [
-		            [{ 'header': '1' }, { 'header': '2' }, { 'header': [3, 4, 5, 6, false] }, { 'font': [] }],
-		            [{ 'size': ['small', false, 'large', 'huge'] }],
-		            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-		            [{ 'align': [] }],
-		            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-		            [{ 'color': [] }, { 'background': [] }],
-		            ['link', 'video', 'formula'],
-					['move-video-up', 'move-video-left', 'move-video-right']
-		            [{ 'script': 'sub' }, { 'script': 'super' }],
-		            [{ 'indent': '-1' }, { 'indent': '+1' }],
-		            [{ 'direction': 'rtl' }],
-		            ['code-block'],
-		            ['clean']
+		            [{ 'header': '1' }, { 'header': '2' }, { 'header': [3, 4, 5, 6, false] }, { 'font': [] },
+		            { 'size': ['small', false, 'large', 'huge'] },
+		            { 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' },
+		            { 'align': [] }, { 'indent': '-1' }, { 'indent': '+1' }, { 'direction': 'rtl' },
+		            'bold', 'italic', 'underline', 'strike',
+		            { 'color': [] }, { 'background': [] },
+		            'link', 'video', 'image',
+		            'clean']
 		        ]
 		    }
 		});
+		
+		//BOTAR FUNDO NA DIV E TROCAR SIMBOLO DO FONT
 
 		quill.getModule('toolbar').addHandler('video', function() {
 		    let range = quill.getSelection();
@@ -352,6 +361,11 @@ function criarSecao(tipo) {
 		        } else if (value.includes('vimeo.com')) {
 		            let videoId = value.split('vimeo.com/')[1];
 		            iframeSrc = `https://player.vimeo.com/video/${videoId}`;
+		        } else if (value.includes('drive.google.com')) {
+		            let fileId = value.match(/[-\w]{25,}/); // Extrai o ID do arquivo
+		            if (fileId) {
+		                iframeSrc = `https://drive.google.com/file/d/${fileId[0]}/preview`;
+		            }
 		        }
 
 		        if (iframeSrc)
@@ -437,12 +451,13 @@ function criarSecao(tipo) {
 
 	            let espacoDelimitado = {
 	                left: 50,
-	                top: 70,
+	                top: 45,
 	                right: seccao.offsetWidth - editorContainer.offsetWidth - 50,
-	                bottom: seccao.offsetHeight - editorContainer.offsetHeight
+	                bottom: seccao.offsetHeight - editorContainer.offsetHeight - 20
 	            };
 				
 				let maxWidth = seccao.offsetWidth - newLeft - 50;
+				let maxHeight = seccao.offsetHeight - newTop - 20;
 				
 	            newLeft = Math.max(espacoDelimitado.left, Math.min(newLeft, espacoDelimitado.right));
 	            newTop = Math.max(espacoDelimitado.top, Math.min(newTop, espacoDelimitado.bottom));
@@ -456,7 +471,10 @@ function criarSecao(tipo) {
 	        isDragging = false;
 			
 			let maxWidth = seccao.offsetWidth - editorContainer.offsetLeft - 50;
-		   	editorContainer.style.maxWidth = `${Math.max(maxWidth, 0)}px`;
+		    let maxHeight = seccao.offsetHeight - editorContainer.offsetTop - 20;
+
+		    editorContainer.style.maxWidth = `${Math.max(maxWidth, 0)}px`;
+		    editorContainer.style.maxHeight = `${Math.max(maxHeight, 0)}px`;
 			
 			quill.enable();
 			
@@ -505,14 +523,14 @@ function criarSecao(tipo) {
 
 	    toolbarContainer.appendChild(botaoColorPicker);
 
-    	botaoColorPicker.style.width = '18px';
-    	botaoColorPicker.style.height = '18px';
+    	botaoColorPicker.style.width = '16px';
+    	botaoColorPicker.style.height = '16px';
      	botaoColorPicker.style.padding = '0';
      	botaoColorPicker.style.border = 'none';
      	botaoColorPicker.style.cursor = 'pointer';
      	botaoColorPicker.style.position = 'fixed';
-     	botaoColorPicker.style.bottom = '28%';
-     	botaoColorPicker.style.left = '63.5%';
+     	botaoColorPicker.style.bottom = '30%';
+     	botaoColorPicker.style.left = '76.6%';
 
 	    // Criar o seletor de cor
 	    colorPicker = document.createElement('input');
@@ -532,6 +550,40 @@ function criarSecao(tipo) {
 	    });
 	}
 	
+	// Botões para Fechar e Salvar
+    let botoesContainer = document.createElement('div');
+    botoesContainer.id = 'botoes-container';
+
+	let fecharBotao = document.createElement('button');
+	fecharBotao.innerText = 'Fechar';
+	fecharBotao.style.marginRight = '10px';
+	fecharBotao.addEventListener('click', function () {
+	    seccao.remove();
+		overlay.remove();
+	    botoesContainer.remove();
+		if (toolbarContainer) toolbarContainer.remove();
+	    if (colorPicker) colorPicker.remove();
+		if (toolbar) toolbar.remove();
+	});
+
+	let salvarBotao = document.createElement('button');
+	salvarBotao.innerText = 'Salvar';
+	salvarBotao.type = 'submit';
+	salvarBotao.addEventListener('click', function () {
+	    seccao.submit();
+		seccao.remove();
+		overlay.remove();
+	    botoesContainer.remove();
+	    if (toolbarContainer) toolbarContainer.remove();
+	    if (colorPicker) colorPicker.remove();
+		if (toolbar) toolbar.remove();
+	});
+
+    botoesContainer.appendChild(fecharBotao);
+    botoesContainer.appendChild(salvarBotao);
+    document.body.appendChild(botoesContainer);
+	
+	//MUDAR ISSO AQUI!
 	if (tipo === "Desenho") {
 		let desenhoContainer = document.createElement('div');
 
@@ -678,7 +730,7 @@ function criarSecao(tipo) {
 	        td5.innerText = projeto.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
+	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 			button.type = 'button';
@@ -710,7 +762,7 @@ function criarSecao(tipo) {
 	        td5.innerText = estagio.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
+	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
@@ -730,73 +782,102 @@ function criarSecao(tipo) {
 	    seccao.appendChild(tabela);
     }
 
-    // Botões para Fechar e Salvar
-    let botoesContainer = document.createElement('div');
-    botoesContainer.id = 'botoes-container';
-
-	let fecharBotao = document.createElement('button');
-	fecharBotao.innerText = 'Fechar';
-	fecharBotao.style.marginRight = '10px';
-	fecharBotao.addEventListener('click', function () {
-	    seccao.remove();
-		overlay.remove();
-	    botoesContainer.remove();
-		if (toolbarContainer) toolbarContainer.remove();
-	    if (colorPicker) colorPicker.remove();
-		if (toolbar) toolbar.remove();
-	});
-
-	let salvarBotao = document.createElement('button');
-	salvarBotao.innerText = 'Salvar';
-	salvarBotao.type = 'submit';
-	salvarBotao.addEventListener('click', function () {
-	    seccao.submit();
-		seccao.remove();
-		overlay.remove();
-	    botoesContainer.remove();
-	    if (toolbarContainer) toolbarContainer.remove();
-	    if (colorPicker) colorPicker.remove();
-		if (toolbar) toolbar.remove();
-	});
-
-    botoesContainer.appendChild(fecharBotao);
-    botoesContainer.appendChild(salvarBotao);
-    document.body.appendChild(botoesContainer);
-
     // Adicionando Tópicos caso seja necessário
     if (criarTopico) {
 		let botaoCriarTopico = document.createElement('button');
 		botaoCriarTopico.className = 'seccao-botao-criar-topico';
 		botaoCriarTopico.type = "button";
         seccao.appendChild(botaoCriarTopico);
-
+		
+		let qtdTopicos = 0;
+			
+		let inputQtdTopicos = document.createElement('input');
+		inputQtdTopicos.type = 'hidden';
+		inputQtdTopicos.name = 'qtdTopicos'; 
+		inputQtdTopicos.value = qtdTopicos;
+		seccao.appendChild(inputQtdTopicos);
+	
         botaoCriarTopico.addEventListener('click', function () {
-            if (tipo === 'Licenças e Certificados') {
+			qtdTopicos++;
+			inputQtdTopicos.value = qtdTopicos;
+            if (tipo === 'Licenças e Certificados' && qtdTopicos <= 100) {
                 let caixaTexto = document.createElement('textarea');
                 caixaTexto.className = 'caixa-texto-topico2';
                 caixaTexto.placeholder = "Escreva seu texto...";
-                caixaTexto.maxLength = 108;
-                caixaTexto.rows = "3";
-                caixaTexto.cols = "50";
+                caixaTexto.maxLength = 122;
+				
+				let inputConteudoTextoTopico = document.createElement('input');
+                inputConteudoTextoTopico.type = 'hidden';
+				inputConteudoTextoTopico.name = 'conteudoTextoTopico';
+				inputConteudoTextoTopico.value = '';
+				
+				let comprimentoConteudoTextoInput = document.createElement('input');
+			    comprimentoConteudoTextoInput.type = 'hidden';
+			    comprimentoConteudoTextoInput.name = 'comprimentoConteudoTextoTopico';
+			    seccao.appendChild(comprimentoConteudoTextoInput);
 
+			    let alturaConteudoTextoInput = document.createElement('input');
+			    alturaConteudoTextoInput.type = 'hidden';
+			    alturaConteudoTextoInput.name = 'alturaConteudoTextoTopico';
+			    seccao.appendChild(alturaConteudoTextoInput);
+				
                 let inputLogo = document.createElement('input');
                 inputLogo.type = 'file';
+				inputLogo.name = 'conteudoImagem';
+				inputLogo.hidden = true;
                 inputLogo.accept = 'image/*';
+				
                 let logoPreview = document.createElement('img');
                 logoPreview.className = 'logo-preview';
                 logoPreview.style.width = '50px';
                 logoPreview.style.height = '50px';
 
                 let containerLogoTexto = document.createElement('div');
-                containerLogoTexto.appendChild(inputLogo);
-                containerLogoTexto.appendChild(logoPreview);
-                containerLogoTexto.appendChild(caixaTexto);
+				containerLogoTexto.className = 'container-logo-texto';
+				
+				//atualizar dados aqui!!!!
+				let atualizar = () => {
+					inputConteudoTextoTopico.value = caixaTexto.value;
+				    comprimentoConteudoTextoInput.value = caixaTexto.offsetWidth;
+				    alturaConteudoTextoInput.value = caixaTexto.offsetHeight;
+				};
+	
+				caixaTexto.addEventListener('input', atualizar);
+				caixaTexto.addEventListener('mouseup', atualizar);
+				caixaTexto.addEventListener('mousemove', atualizar);
+				atualizar();
 
                 let botaoApagarTopico = document.createElement('button');
-                botaoApagarTopico.innerText = 'Apagar Tópico';
-                containerLogoTexto.appendChild(botaoApagarTopico);
+                botaoApagarTopico.className = 'seccao-botao-apagar-topico';
+				
+				containerLogoTexto.appendChild(inputConteudoTextoTopico);
+				containerLogoTexto.appendChild(inputLogo);
+				containerLogoTexto.appendChild(botaoApagarTopico);
+		        containerLogoTexto.appendChild(logoPreview);
+		        containerLogoTexto.appendChild(caixaTexto);
 
-                seccao.appendChild(containerLogoTexto);
+		        let inputArquivo = document.createElement('input');
+		        inputArquivo.type = 'file';
+		        inputArquivo.hidden = true; 
+				inputArquivo.name = 'conteudoArquivo';
+		        inputArquivo.accept = 'image/*,.pdf';
+
+		        let labelUpload = document.createElement('label');
+		        labelUpload.innerText = 'Anexar certificado/licença';
+		        labelUpload.classList.add('upload-label');
+
+		        containerLogoTexto.appendChild(inputArquivo);
+		        containerLogoTexto.appendChild(labelUpload);
+
+		        seccao.appendChild(containerLogoTexto);
+
+				labelUpload.addEventListener('click', () => {
+				    inputArquivo.click();
+				});
+				
+				logoPreview.addEventListener('click', function() {
+				    inputLogo.click();
+				});
 
                 inputLogo.addEventListener('change', function (e) {
                     let file = e.target.files[0];
@@ -810,8 +891,9 @@ function criarSecao(tipo) {
                 });
 
                 botaoApagarTopico.addEventListener('click', function () {
+					qtdTopicos--;
+					inputQtdTopicos.value = qtdTopicos;
                     containerLogoTexto.remove();
-                    limitador--;
                 });
             }
         });
@@ -1046,248 +1128,357 @@ function editarSecao(tipo, secao) {
 }*/
 
 
-//renderizar minhas secoes
-secoes.forEach(secao => {
-	let tituloPersonalizado = false;
+//USAR ISSO SÓ PRA RENDERIZAR PUBLICAÇÕES NO GRID QUE SERA FEITO. DEPOIS MUDO
 
-    let seccao = document.createElement('section');
-    seccao.className = 'seccao';
-    seccao.style.userSelect = 'text';
-	
-	if (secao.tipo === "Texto Livre") {
-        tituloPersonalizado = true;
-		criarTopico = true;
-	}
-	if (secao.tipo === "Licenças e Certificados") {
-	   	tituloPersonalizado = false;
-		criarTopico = true;
-	}
-	if (secao.tipo === "Projetos Concluídos") {
-		tituloPersonalizado = false;
-		criarTopico = false;
-	}
+let indiceAtual = 0;
+const quantidadePorPagina = 12;
+const botaoCarregarMais = document.createElement('button');
+botaoCarregarMais.id = 'botao-carregar-mais';
+botaoCarregarMais.innerText = 'Carregar Mais';
+botaoCarregarMais.style.display = 'none';
 
-	if (tituloPersonalizado) {
-		let titulo = document.createElement('h3');
-		titulo.innerText = secao.titulo;
-		titulo.className = 'titulo-seccao';
-		seccao.appendChild(titulo);
-	}
-	else {
-		let titulo2 = document.createElement('h3');
-		titulo2.innerText = secao.tipo;
-		titulo2.className = 'titulo-seccao-texto';
-		seccao.appendChild(titulo2);
-	}
-	
-	//criações
+//let limite = Math.min(indiceAtual + quantidadePorPagina, secoes.length);
 
-	if (secao.tipo === "Projetos Concluídos") {
-	    let tabela = document.createElement('table');
-	    tabela.className = 'table';
-	    
-	    let thead = document.createElement('thead');
-	    let th1 = document.createElement('th');
-	    th1.innerText = 'Natureza';
-	    let th2 = document.createElement('th');
-	    th2.innerText = 'Empresa/Título';
-	    let th3 = document.createElement('th');
-	    th3.innerText = 'Descrição';
-	    let th4 = document.createElement('th');
-	    th4.innerText = 'Requisitos';
-	    let th5 = document.createElement('th');
-	    th5.innerText = 'Carga Horária';
-	    let th6 = document.createElement('th');
-	    th6.innerText = 'Ver certificado';
+/*for (let i = indiceAtual; i < limite; i++) {
+	REPETIÇÃO
+}*/
+function carregarSecoes() {
+    let limite = Math.min(indiceAtual + quantidadePorPagina, secoes.length);
 
-	    let trHeader = document.createElement('tr');
-	    trHeader.appendChild(th1);
-	    trHeader.appendChild(th2);
-	    trHeader.appendChild(th3);
-	    trHeader.appendChild(th4);
-	    trHeader.appendChild(th5);
-	    trHeader.appendChild(th6);
-	    thead.appendChild(trHeader);
-	    tabela.appendChild(thead);
-
-	    let tbody = document.createElement('tbody');
+    for (let i = indiceAtual; i < limite; i++) {
+		secao = secoes[i];
 		
-	    projetos.forEach(projeto => {
-	        let tr = document.createElement('tr');
-	        
-	        let td1 = document.createElement('td');
-	        td1.innerText = 'Pesquisa/extensão';
-	        let td2 = document.createElement('td');
-	        td2.innerText = projeto.nome;
-	        let td3 = document.createElement('td');
-	        td3.innerText = projeto.descricao;
-	        let td4 = document.createElement('td');
-	        td4.innerText = projeto.requisito;
-	        let td5 = document.createElement('td');
-	        td5.innerText = projeto.cargaHoraria;
-	        let td6 = document.createElement('td');
-	        let a = document.createElement('a');
-	        a.href = `/aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
-	        let button = document.createElement('button');
-	        button.id = 'botao-certificado';
-	        button.innerText = 'Ver certificado';
-	        a.appendChild(button);
-	        td6.appendChild(a);
+		let tituloPersonalizado = false;
 
-	        tr.appendChild(td1);
-	        tr.appendChild(td2);
-	        tr.appendChild(td3);
-	        tr.appendChild(td4);
-	        tr.appendChild(td5);
-	        tr.appendChild(td6);
-	        tbody.appendChild(tr);
-	    });
-
-	    estagios.forEach(estagio => {
-	        let tr = document.createElement('tr');
-	        
-	        let td1 = document.createElement('td');
-	        td1.innerText = 'Pesquisa/extensão';
-	        let td2 = document.createElement('td');
-	        td2.innerText = estagio.empresa;
-	        let td3 = document.createElement('td');
-	        td3.innerText = estagio.descricao;
-	        let td4 = document.createElement('td');
-	        td4.innerText = estagio.requisito;
-	        let td5 = document.createElement('td');
-	        td5.innerText = estagio.cargaHoraria;
-	        let td6 = document.createElement('td');
-	        let a = document.createElement('a');
-	        a.href = `/aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
-	        let button = document.createElement('button');
-	        button.id = 'botao-certificado';
-	        button.innerText = 'Ver certificado';
-	        a.appendChild(button);
-	        td6.appendChild(a);
-
-	        tr.appendChild(td1);
-	        tr.appendChild(td2);
-	        tr.appendChild(td3);
-	        tr.appendChild(td4);
-	        tr.appendChild(td5);
-	        tr.appendChild(td6);
-	        tbody.appendChild(tr);
-	    });
-
-	    tabela.appendChild(tbody);
-	    seccao.appendChild(tabela);
-	}
-	
-	let botaoApagar = document.createElement('button');
-    botaoApagar.className = 'seccao-botao-apagar';
-	
-	let formApagarSecao = document.createElement('form');
-	formApagarSecao.id = 'form-apagar-secao';
-	formApagarSecao.action = "/perfil-aluno/apagar-secao"; 
-	formApagarSecao.method = "POST"; 
-	formApagarSecao.enctype = "multipart/form-data";
-	formApagarSecao.type = 'hidden';
-	formApagarSecao.style.display = 'none';
-	
-	seccao.appendChild(formApagarSecao);
-	
-	let idSecaoInput = document.createElement('input');
-	idSecaoInput.type = 'hidden';
-	idSecaoInput.name = 'idSecao';
-	idSecaoInput.value = secao.id;
-	
-	let idUsuarioInput = document.createElement('input');
-	idUsuarioInput.type = 'hidden';
-	idUsuarioInput.name = 'idUsuario';
-	idUsuarioInput.value = secao.usuarioId;
-	
-	formApagarSecao.appendChild(idUsuarioInput);
-	formApagarSecao.appendChild(idSecaoInput);
-	
-    seccao.appendChild(botaoApagar);
-	
-	botaoApagar.addEventListener('click', function () {
+	    let seccao = document.createElement('section');
+	    seccao.className = 'seccao';
+	    seccao.style.userSelect = 'text';
 		
-		/*
-	    if (contadorTextoLivre != 0 && tipo === "Texto Livre") {
-	        contadorTextoLivre--;
-	    }
-	    
-	    if (contadorProjetosConcluidos != 0 && tipo === "Projetos Concluídos") {
-	        contadorProjetosConcluidos = 0;
-	    }
-	
-	    if (contadorLicencasCertificados != 0 && tipo === "Licenças e Certificados") {
-	        contadorLicencasCertificados = 0;
-	    }*/
-	
-	    if (confirm('Você tem certeza que deseja excluir esta seção?')) {
-			formApagarSecao.submit();
-	        seccao.remove();
-	    }
-	});
+		if (secao.tipo === "Texto Livre") {
+	        tituloPersonalizado = true;
+			criarTopico = true;
+		}
+		if (secao.tipo === "Licenças e Certificados") {
+		   	tituloPersonalizado = false;
+			criarTopico = true;
+		}
+		if (secao.tipo === "Projetos Concluídos") {
+			tituloPersonalizado = false;
+			criarTopico = false;
+		}
+
+		if (tituloPersonalizado) {
+			let titulo = document.createElement('h3');
+			titulo.innerText = secao.titulo;
+			titulo.className = 'titulo-seccao';
+			seccao.appendChild(titulo);
+		}
+		else {
+			let titulo2 = document.createElement('h3');
+			titulo2.innerText = secao.tipo;
+			titulo2.className = 'titulo-seccao-texto';
+			seccao.appendChild(titulo2);
+		}
 		
-	if (secao.tipo === "Texto Livre") {
-	    let editorContainer = document.createElement('div');
-	    editorContainer.className = 'editor-container';
-	    editorContainer.style.resize = 'none';
-	    editorContainer.style.width = secao.comprimentoConteudoTexto + 'px';
-	    editorContainer.style.height = secao.alturaConteudoTexto + 'px';
-	    editorContainer.style.position = 'absolute';  // A posição é absoluta para controlar os valores de left/top
-	    editorContainer.style.left = secao.leftConteudoTexto + 'px';  // Usando parseInt para garantir que o valor seja numérico
-	    editorContainer.style.top = secao.topConteudoTexto + 'px';    // Usando parseInt para garantir que o valor seja numérico
-	    editorContainer.style.fontSize = '16px';
-	    editorContainer.style.border = '1px solid #ff0000';
-	    editorContainer.style.overflow = 'auto';
-	    editorContainer.style.marginBottom = '20px';
+		//criações
 
-	    seccao.appendChild(editorContainer);
-
-	    const quill = new Quill(editorContainer, {
-	        theme: 'bubble',
-	        readOnly: true,
-	        modules: {
-	            toolbar: false,
-	        },
-	    });
-
-	    quill.root.innerHTML = secao.conteudoTexto;
-	}
+		if (secao.tipo === "Projetos Concluídos") {
+			seccao.style.height = '72vh';
 			
-	else if(secao.tipo === "Licenças e Certificados") {
-	    let conteinerLogoTexto = document.createElement('div');
-	    conteinerLogoTexto.className = "form-logo-texto-container";
-	
-	    let logoPreview = document.createElement('img');
-	    logoPreview.className = "logo-preview";
-	    logoPreview.style.width = '50px';
-	    logoPreview.style.height = '50px';
-	
-	    let caixaTexto = document.createElement('p');
-	    caixaTexto.className = 'caixa-texto-topico2';
-		caixaTexto.innerText = secao.conteudoTexto;
+		    let tabela = document.createElement('table');
+		    tabela.className = 'table';
+		    
+		    let thead = document.createElement('thead');
+		    let th1 = document.createElement('th');
+		    th1.innerText = 'Natureza';
+		    let th2 = document.createElement('th');
+		    th2.innerText = 'Empresa/Título';
+		    let th3 = document.createElement('th');
+		    th3.innerText = 'Descrição';
+		    let th4 = document.createElement('th');
+		    th4.innerText = 'Requisitos';
+		    let th5 = document.createElement('th');
+		    th5.innerText = 'Carga Horária';
+		    let th6 = document.createElement('th');
+		    th6.innerText = 'Ver certificado';
+
+		    let trHeader = document.createElement('tr');
+		    trHeader.appendChild(th1);
+		    trHeader.appendChild(th2);
+		    trHeader.appendChild(th3);
+		    trHeader.appendChild(th4);
+		    trHeader.appendChild(th5);
+		    trHeader.appendChild(th6);
+		    thead.appendChild(trHeader);
+		    tabela.appendChild(thead);
+
+		    let tbody = document.createElement('tbody');
+			
+		    projetos.forEach(projeto => {
+		        let tr = document.createElement('tr');
+		        
+		        let td1 = document.createElement('td');
+		        td1.innerText = 'Pesquisa/extensão';
+		        let td2 = document.createElement('td');
+		        td2.innerText = projeto.nome;
+		        let td3 = document.createElement('td');
+		        td3.innerText = projeto.descricao;
+		        let td4 = document.createElement('td');
+		        td4.innerText = projeto.requisito;
+		        let td5 = document.createElement('td');
+		        td5.innerText = projeto.cargaHoraria;
+		        let td6 = document.createElement('td');
+		        let a = document.createElement('a');
+				a.href = `/perfil-aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
+		        let button = document.createElement('button');
+		        button.id = 'botao-certificado';
+		        button.innerText = 'Ver certificado';
+		        a.appendChild(button);
+		        td6.appendChild(a);
+
+		        tr.appendChild(td1);
+		        tr.appendChild(td2);
+		        tr.appendChild(td3);
+		        tr.appendChild(td4);
+		        tr.appendChild(td5);
+		        tr.appendChild(td6);
+		        tbody.appendChild(tr);
+		    });
+
+		    estagios.forEach(estagio => {
+		        let tr = document.createElement('tr');
+		        
+		        let td1 = document.createElement('td');
+		        td1.innerText = 'Pesquisa/extensão';
+		        let td2 = document.createElement('td');
+		        td2.innerText = estagio.empresa;
+		        let td3 = document.createElement('td');
+		        td3.innerText = estagio.descricao;
+		        let td4 = document.createElement('td');
+		        td4.innerText = estagio.requisito;
+		        let td5 = document.createElement('td');
+		        td5.innerText = estagio.cargaHoraria;
+		        let td6 = document.createElement('td');
+		        let a = document.createElement('a');
+				a.href = `/perfil-aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
+		        let button = document.createElement('button');
+		        button.id = 'botao-certificado';
+		        button.innerText = 'Ver certificado';
+		        a.appendChild(button);
+		        td6.appendChild(a);
+
+		        tr.appendChild(td1);
+		        tr.appendChild(td2);
+		        tr.appendChild(td3);
+		        tr.appendChild(td4);
+		        tr.appendChild(td5);
+		        tr.appendChild(td6);
+		        tbody.appendChild(tr);
+		    });
+
+		    tabela.appendChild(tbody);
+		    seccao.appendChild(tabela);
+		}
 		
-		conteinerLogoTexto.appendChild(logoPreview);
-		conteinerLogoTexto.appendChild(caixaTexto);
-	    seccao.appendChild(conteinerLogoTexto);
-	
-	    logoPreview.addEventListener('click', function () {
-	        inputLogo.click();
-	    });
-	
-		inputLogo.addEventListener('change', function (e) {
-		    let file = e.target.files[0];
-		    if (file) {
-		        let reader = new FileReader();
-		        reader.onload = function (e) {
-		            logoPreview.src = e.target.result;
-		        };
-		        reader.readAsDataURL(file);
+		let botaoApagar = document.createElement('button');
+	    botaoApagar.className = 'seccao-botao-apagar';
+		
+		let formApagarSecao = document.createElement('form');
+		formApagarSecao.id = 'form-apagar-secao';
+		formApagarSecao.action = "/perfil-aluno/apagar-secao"; 
+		formApagarSecao.method = "POST"; 
+		formApagarSecao.enctype = "multipart/form-data";
+		formApagarSecao.type = 'hidden';
+		formApagarSecao.style.display = 'none';
+		
+		seccao.appendChild(formApagarSecao);
+		
+		let idSecaoInput = document.createElement('input');
+		idSecaoInput.type = 'hidden';
+		idSecaoInput.name = 'idSecao';
+		idSecaoInput.value = secao.id;
+		
+		let idUsuarioInput = document.createElement('input');
+		idUsuarioInput.type = 'hidden';
+		idUsuarioInput.name = 'idUsuario';
+		idUsuarioInput.value = secao.usuarioId;
+		
+		formApagarSecao.appendChild(idUsuarioInput);
+		formApagarSecao.appendChild(idSecaoInput);
+		
+	    seccao.appendChild(botaoApagar);
+		
+		botaoApagar.addEventListener('click', function () {
+		    if (confirm('Você tem certeza que deseja excluir esta seção?')) {
+				formApagarSecao.submit();
+		        seccao.remove();
 		    }
 		});
-	}
-	containerSeccoes.appendChild(seccao);
-});
+			
+		if (secao.tipo === "Texto Livre") {
+		    let editorContainer = document.createElement('div');
+		    editorContainer.className = 'editor-container';
+		    editorContainer.style.resize = 'none';
+		    editorContainer.style.width = secao.comprimentoConteudoTexto + 'px';
+		    editorContainer.style.height = secao.alturaConteudoTexto + 'px';
+		    editorContainer.style.position = 'absolute'; 
+		    editorContainer.style.left = secao.leftConteudoTexto + 'px'; 
+		    editorContainer.style.top = secao.topConteudoTexto + 'px';
+		    editorContainer.style.fontSize = '16px';
+		    editorContainer.style.overflow = 'auto';
+		    editorContainer.style.marginBottom = '20px';
+			editorContainer.style.display = 'block';
+			/*pra teste da posição
+			editorContainer.style.border = '#ff0000 1px solid'*/
+			
+			if (secao.topConteudoTexto === 0 && secao.leftConteudoTexto === 0 && secao.comprimentoConteudoTexto === 0 && secao.alturaConteudoTexto === 0) {
+		        editorContainer.style.width = '200px';
+		        editorContainer.style.height = '50px';
+		        editorContainer.style.left = '50px';
+		        editorContainer.style.top = '45px';
+		    }
+			
+		    seccao.appendChild(editorContainer);
+			
+		    let alturaNecessaria = editorContainer.offsetTop + editorContainer.offsetHeight + 20;
+		    seccao.style.height = Math.max(seccao.scrollHeight, alturaNecessaria) + 'px';
+
+		    const quill = new Quill(editorContainer, {
+		        theme: 'bubble',
+		        readOnly: true,
+		        modules: {
+		            toolbar: false,
+		        },
+		    });
+
+		    quill.root.innerHTML = secao.conteudoTexto;
+		}
+				
+		/*
+		
+		
+		FAZER SISTEMA ONDE ADMINISTRADOR PODE VERIFICAR CERTIFICADO, 
+		FAZER PAGINA ONDE APARECE TODOS OS ARQUIVOS E O ADMINISTRADOR VAI APROVANDO DE UM EM UM, 
+		CRIAR NA TABELA TOPICO CADA TOPIICO TER UM BOOLEAN (VERICICADO/NÂO VERIFICADO) E UMA COLUNA DATA DE VERIFICAÇÃO.
+		
+
+		
+		
+		
+		
+		
+		
+		
+		*/
+		
+		if (secao.tipo === 'Licenças e Certificados') {
+			let indiceAtualLC = 0;
+			let quantidadePorPaginaLC = 4;
+			let botaoCarregarMaisLC = document.createElement('button');
+			botaoCarregarMaisLC.className = 'botao-carregar-mais-LC';
+			botaoCarregarMaisLC.innerText = 'Carregar Mais';
+			botaoCarregarMaisLC.style.display = 'none';
+			
+			let carregarSecaoLicencaCertificado = () => {
+				seccao.style.height = '72vh';
+
+				let limiteLC = Math.min(indiceAtualLC + quantidadePorPaginaLC, topicos.length);
+				
+			    for (let i = indiceAtualLC; i < limiteLC; i++) {
+					topico = topicos[i];
+					if(topico.secaoId == secao.id) {
+			            let arquivoTopico = topico.conteudoArquivo;
+			        
+				        let caixaTexto = document.createElement('textarea');
+				        caixaTexto.className = 'caixa-texto-topico2';
+						caixaTexto.style.cursor = 'text';
+				        caixaTexto.disabled = true;
+						caixaTexto.style.resize = 'none';
+				        caixaTexto.innerText = topico.conteudoTexto;
+						caixaTexto.style.border = '#ccc 1px solid';
+						caixaTexto.style.width = topico.comprimentoConteudoTexto + 'px';
+						caixaTexto.style.height = '35px';
+						
+						if (topico.comprimentoConteudoTexto === 0) {
+					        caixaTexto.style.width = '100px';
+					    }
+			
+				        let logoPreview = document.createElement('img');
+						if (topico.conteudoImagem)
+						    logoPreview.src = 'data:image/jpeg;base64,' + topico.conteudoImagem;
+						 else 
+						    logoPreview.src = '../img/fundo-branco.png';
+						    
+				        logoPreview.className = 'logo-preview';
+				        logoPreview.style.width = '50px';
+				        logoPreview.style.height = '50px';
+			
+				        let containerLogoTexto = document.createElement('div');
+				        containerLogoTexto.className = 'container-logo-texto';
+			
+				        containerLogoTexto.appendChild(logoPreview);
+				        containerLogoTexto.appendChild(caixaTexto);
+			
+				        let buttonAbrirArquivo = document.createElement('button');
+				        buttonAbrirArquivo.type = 'button';
+				        buttonAbrirArquivo.innerText = 'Ver certificado / licença';
+				        buttonAbrirArquivo.classList.add('upload-label');
+			
+				        containerLogoTexto.appendChild(buttonAbrirArquivo);
+			
+						buttonAbrirArquivo.addEventListener('click', function() {
+						    if (arquivoTopico) {
+						        let byteCharacters = atob(arquivoTopico);
+						        let byteNumbers = new Array(byteCharacters.length);
+						        for (let i = 0; i < byteCharacters.length; i++) {
+						            byteNumbers[i] = byteCharacters.charCodeAt(i);
+						        }
+						        let byteArray = new Uint8Array(byteNumbers);
+
+						        let mimeType = "application/pdf";
+						        if (arquivoTopico.startsWith('/9j/')) {
+						            mimeType = "image/jpeg";
+						        } else if (arquivoTopico.startsWith('iVBOR')) {
+						            mimeType = "image/png";
+						        }
+
+						        let blob = new Blob([byteArray], { type: mimeType });
+						        let url = URL.createObjectURL(blob);
+
+						        let novaAba = window.open(url);
+						        if (!novaAba) {
+						            alert("Pop-up bloqueado! Permita pop-ups para visualizar o arquivo.");
+						        }
+						    } else {
+						        alert("Arquivo não disponível!");
+						    }
+						});
+				        seccao.appendChild(containerLogoTexto);
+						seccao.appendChild(botaoCarregarMaisLC);
+					}
+			    };
+				
+				indiceAtualLC = limiteLC;
+				
+				botaoCarregarMaisLC.style.display = indiceAtualLC < topicos.length ? 'block' : 'none';
+				
+				botaoCarregarMaisLC.addEventListener('click', carregarSecaoLicencaCertificado);
+			};
+			
+			carregarSecaoLicencaCertificado();
+		}
+		containerSeccoes.appendChild(seccao);
+		containerSeccoes.appendChild(botaoCarregarMais);
+    }
+
+	indiceAtual = limite;
+	
+    botaoCarregarMais.style.display = indiceAtual < secoes.length ? 'block' : 'none';
+}
+
+botaoCarregarMais.addEventListener('click', carregarSecoes);
+
+carregarSecoes();
 
 //CROPPEP
 
