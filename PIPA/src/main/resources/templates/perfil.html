@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html class="perfil-html" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../css/style-perfil.css">
+	
+	<link href="https://fonts.googleapis.com/css2?family=Arial&family=Times+New+Roman&family=Courier+New&display=swap" rel="stylesheet">
+	
+	<!-- Cropper.js JS -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+	
+	<!-- Quill -->
+	<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+	<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+	
+    <title>Perfil</title>
+</head>
+<body>
+	<header>
+	        <a href="javascript:void(0);" onclick="window.history.back();"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
+	        <h1 id="titulo-plataforma" th:text="'PIPA | ' + ${u.nome}">PIPA | Meu Perfil</h1>
+	</header>
+	
+	
+	<a class="link-topo" href="#">&#9650;</a>
+	
+	<main id="seccao-principal">
+		<img id="banner" th:src="'data:image/jpeg;base64,' + ${banner}" alt="Banner" onerror="this.src='../img/banner.png'">
+		<img id="foto-perfil" th:src="'data:image/jpeg;base64,' + ${fotoPerfil}" alt="Foto de Perfil" onerror="this.src='../img/foto-perfil-padrao.png'">
+		
+		
+		<div id="cropModal" style="display: none;">
+		    <div style="width: 100%; text-align: center;">
+		        <img id="imageToCrop" style="max-width: 100%; max-height: 80vh; display: block; margin: auto;" />
+			</div>
+		    <div style="text-align: center; margin-top: 20px;">
+		        <button id="cropButton" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Cortar</button>
+		        <button id="closeModalButton" style="padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancelar</button>
+		    </div>
+		</div>
+	
+		<button id="botao-avaliacao" style="position: absolute; top: 55%; left: 52.5%;">AVALIAÇÕES</button>
+		
+		<form action="/perfil/atualizar" method="POST" enctype="multipart/form-data" id="form-atualizar">
+		    <input type="hidden" name="id" th:value="${u.id}">
+		    <input type="file" name="fotoPerfil" id="input-foto-perfil" style="display: none;" accept="image/*" disabled>
+		    <input type="file" name="banner" id="input-banner" style="display: none;" accept="image/*" disabled>
+			
+			<div id="parte-descricao">
+				<p id="nome-descricao" th:text="${u.nome}" style="white-space: nowrap;">Sem nome</p>
+				<p id="dados-descricao" th:if="${usuario.role == 'Aluno'}" th:text="'Estudante do Curso ' + ${u.curso} + ' - ' + ${u.periodo}">Estudante do Curso X - Xº Ano</p>
+		        <textarea id="campo-descricao" disabled name="descricao" rows="5" cols="78" maxlength="435" th:text="${u.descricaoPerfil}">Sem descrição</textarea><br><br>
+			</div>
+		</form>
+		
+		<div class="seguidores">
+		    <button class="botao-seguidores"><p th:text="${seguidores}"></p><br><a class="botao-seguidores-text" th:href="@{/relacoes/seguidores?id=u.id}">Seguidores</a></button>
+		    <button class="botao-seguindo"><p th:text="${seguidos}"></p><br><a class="botao-seguidores-text" th:href="@{/relacoes/seguidos?id=u.id}">Seguindo</a></button>
+		</div>
+		<div id="container-campus" th:if="${usuario.role == 'Aluno'}">
+		    <a class="dados-campus" id="campus-aluno" th:utext="${'ALUNO DO CAMPUS' + '<br>' + u.campus}"
+		       th:href="${(u.campus == 'Araxá' ? 'https://www.araxa.cefetmg.br/' : 
+		                   u.campus == 'Nova Suíça' ? 'https://www.ns.cefetmg.br/' : 
+		                   u.campus == 'Nova Gameleira' ? 'https://www.ng.cefetmg.br/' : 
+		                   u.campus == 'Gameleira' ? 'https://www.campus6.cefetmg.br/' : 
+		                   u.campus == 'Contagem' ? 'https://www.contagem.cefetmg.br/' : 
+		                   u.campus == 'Curvelo' ? 'https://www.curvelo.cefetmg.br/' : 
+		                   u.campus == 'Leopoldina' ? 'https://www.leopoldina.cefetmg.br/' : 
+		                   u.campus == 'Nepomuceno' ? 'https://www.nepomuceno.cefetmg.br/' : 
+		                   u.campus == 'Timóteo' ? 'https://www.timoteo.cefetmg.br/' : 
+		                   u.campus == 'Varginha' ? 'https://www.varginha.cefetmg.br/' : 
+		                   'https://www.cefetmg.br/')}">
+		        ALUNO DO CAMPUS X
+		    </a>
+
+		</div>
+
+		
+		<a th:href="@{/configPerfil/contaConfigPerfil(id=${u.id})}" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}"></a>
+		<button type="submit" class="botoes-perfil" id="botao-edicao" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}"></button>
+		<a class="botoes-perfil" id="botao-seguir" th:href="@{/relacoes/toggle?id=u.id}" th:attr="style=${idVisitante == usuarioId ? 'display:none;' : ''}">Seguir</a>
+		
+		<!--PARA VERIFICAR!!!
+		<p>Visitante ID: <span th:text="${idVisitante}"></span></p>
+		<p>Dono do perfil ID: <span th:text="${u.id}"></span></p>
+		<p>Dono do perfil Role: <span th:text="${usuario.role}"></span></p>
+		
+		<p>Usuario: <span th:text="${u}"></span></p>
+		<p>Quantidade de Seções Texto Livre: <span th:text="${qtdSecoesTextoLivre}"></span></p>
+		<p>Quantidade de Seções Projetos Concluídos: <span th:text="${qtdSecoesProjetosConcluidos}"></span></p>
+		<p>Quantidade de Seções Licenças e Certificados: <span th:text="${qtdSecoesLicencasECertificados}"></span></p>
+		<p>Quantidade de Tópicos: <span th:text="${qtdTopicos}"></span></p>
+
+		<p>Seções: <span th:text="${secoes}"></span></p>
+		<p>Tópicos: <span th:text="${topicos}"></span></p>
+		<p>Projetos: <span th:text="${projetos}"></span></p>
+		<p>Estágios: <span th:text="${estagios}"></span></p>
+		
+		<p>Seções ID</p>
+		<ul>
+		    <li th:each="secao : ${secoes}" th:text="${secao.id}"></li>
+		</ul>
+		
+		<p>Topicos ID</p>
+		<ul>
+		    <li th:each="topico : ${topicos}" th:text="${topico.id}"></li>
+		</ul>-->
+
+		
+		<button type="button" class="botoes-perfil" id="botao-add-seccao" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}">ADICIONAR</button>
+		<button type="button" class="botoes-perfil" id="botao-concluir-edicao" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}">SALVAR ALTERAÇÕES</button>
+		
+		<div class="informacoes-contato">
+		  <p class="titulo-contato">Informações de contato</p>
+		  <div class="contatos">
+		    <p class="email" th:text="${u.email}">Email</p>
+		    <p class="telefone" th:text="${u.telefone}">Telefone</p>
+		  </div>
+		</div>
+		
+	</main>
+	
+	<div id="container-seccoes">
+				
+	</div>
+
+	<div id="modal-avaliacao" class="modal">
+	    <div class="modal-conteudo">
+	        <span class="fechar">&times;</span>
+	        <h2>Avaliações</h2>
+
+	        <!-- Lista de Avaliações -->
+	        <div class="lista-avaliacoes">
+	            <ul>
+	                <li th:each="avaliacao : ${avaliacoes}">
+	                    <strong th:text="${avaliacao.nomeUsuario}"></strong>:
+	                    <span th:text="${avaliacao.comentario}"></span>
+	                </li>
+	            </ul>
+	        </div>
+
+	        <!-- Formulário de Avaliação - Só aparece se o usuário NÃO for o dono do perfil -->
+	        <form id="form-avaliacao" method="post" action="/perfil/avaliacao" th:if="${idVisitante != usuarioId}">
+	            <input type="hidden" name="perfilId" th:value="${usuarioId}">
+	            <textarea name="comentario" placeholder="Digite sua avaliação..." required></textarea>
+	            <button type="submit">Enviar</button>
+	        </form>
+	    </div>
+	</div>
+
+	
+	<style>
+		/* Estilização do Modal */
+		.modal {
+		    display: none;
+		    position: fixed;
+		    z-index: 1000;
+		    left: 0;
+		    top: 0;
+		    width: 100%;
+		    height: 100%;
+		    background-color: rgba(0, 0, 0, 0.6);
+		    justify-content: center;
+		    align-items: center;
+		}
+
+		.modal-conteudo {
+		    background: white;
+		    width: 40%;
+		    padding: 20px;
+		    border-radius: 10px;
+		    text-align: center;
+		    position: relative;
+		    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+		}
+
+		.modal-conteudo h2 {
+		    margin-bottom: 10px;
+		}
+
+		.lista-avaliacoes {
+		    max-height: 300px;
+		    overflow-y: auto;
+		    text-align: left;
+		    border-bottom: 1px solid #ddd;
+		    margin-bottom: 10px;
+		    padding: 10px;
+		}
+
+		.lista-avaliacoes ul {
+		    list-style-type: none;
+		    padding: 0;
+		}
+
+		.lista-avaliacoes li {
+		    padding: 8px;
+		    border-bottom: 1px solid #eee;
+		}
+
+		.lista-avaliacoes li:last-child {
+		    border-bottom: none;
+		}
+
+		textarea {
+		    width: 100%;
+		    height: 80px;
+		    padding: 10px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    margin-bottom: 10px;
+		}
+
+		button {
+		    background: #007BFF;
+		    color: white;
+		    border: none;
+		    padding: 10px 15px;
+		    cursor: pointer;
+		    border-radius: 5px;
+		}
+
+		button:hover {
+		    background: #0056b3;
+		}
+
+		.fechar {
+		    position: absolute;
+		    top: 10px;
+		    right: 15px;
+		    font-size: 20px;
+		    cursor: pointer;
+		}
+
+	</style>
+
+
+	
+	<script th:inline="javascript">
+		let u = /*[[${u}]]*/ {};
+		let usuarioId = /*[[${usuarioId}]]*/ {};
+		let usuario = /*[[${usuario}]]*/ {};
+		
+		let idVisitante = /*[[${idVisitante}]]*/ {};
+		
+		let qtdSecoesTextoLivre = /*[[${qtdSecoesTextoLivre} ?: 0]]*/ 0;
+		let qtdSecoesProjetosConcluidos = /*[[${qtdSecoesProjetosConcluidos} ?: 0]]*/ 0;
+		let qtdSecoesLicencasECertificados = /*[[${qtdSecoesLicencasECertificados} ?: 0]]*/ 0;
+		
+		let qtdTopicos = /*[[${qtdTopicos} ?: 0]]*/ 0;
+		
+		let secoes = /*[[${secoes}]]*/ '[]';
+		
+		let topicos = /*[[${topicos}]]*/ '[]';
+		
+        let projetos = /*[[${projetos}]]*/ '[]';
+        let estagios = /*[[${estagios}]]*/ '[]';
+
+		secoes = JSON.parse(secoes);
+	    topicos = JSON.parse(topicos);
+        projetos = JSON.parse(projetos);
+        estagios = JSON.parse(estagios);
+	</script>
+			
+    <script src="js/config.js" th:inline="javascript" type="text/javascript">
+		
+	</script>
+	
+	<script th:inline="javascript" type="text/javascript">
+		if (idVisitante !== usuarioId) {
+	    
+	    document.querySelectorAll('.seccao-botao-editar').forEach(function(button) {
+	      button.style.display = 'none';
+	    });
+
+	    document.querySelectorAll('.seccao-botao-apagar').forEach(function(button) {
+	      button.style.display = 'none';
+	    });
+	  } else {
+	    
+		document.querySelectorAll('.seccao-botao-editar').forEach(function(button) {
+	      button.style.display = 'block';
+	    });
+
+	    document.querySelectorAll('.seccao-botao-apagar').forEach(function(button) {
+	      button.style.display = 'block';
+	    });
+	  }
+	</script>
+	
+	<script>
+	document.getElementById("botao-avaliacao").addEventListener("click", function() {
+	    document.getElementById("modal-avaliacao").style.display = "flex";
+	});
+
+	document.querySelector(".fechar").addEventListener("click", function() {
+	    document.getElementById("modal-avaliacao").style.display = "none";
+	});
+
+	window.onclick = function(event) {
+	    if (event.target == document.getElementById("modal-avaliacao")) {
+	        document.getElementById("modal-avaliacao").style.display = "none";
+	    }
+	};
+	</script>
+
+
+		
+	
+</body>
+</html>

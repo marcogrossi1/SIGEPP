@@ -3,6 +3,7 @@ package proj.controller;
 import java.security.Principal;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
+import proj.dao.SecaoDao;
+import proj.dao.TopicoDao;
 import proj.dao.UsuarioDao;
 import proj.model.Administrador;
 import proj.model.Aluno;
@@ -26,6 +29,8 @@ import proj.model.Empresa;
 import proj.model.Estagio;
 import proj.model.Professor;
 import proj.model.Projeto;
+import proj.model.Secao;
+import proj.model.Topico;
 import proj.model.Usuario;
 
 @Controller
@@ -171,28 +176,6 @@ public class AdministradorController {
 		model.addAttribute("message",message);
 		return "erro";
 	}
-
-    @GetMapping("/perfil")
-    public String mostraPerfilPessoal(Model model, Principal principal) throws Exception {
-        try(Connection conn = ds.getConnection()) {
-            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-            Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
-            
-            ArrayList<Projeto> projetos = AdministradorDao.listProjetos(conn);
-            ArrayList<Estagio> estagios = AdministradorDao.listEstagios(conn);
-            
-            model.addAttribute("usuario", u);
-            model.addAttribute("administrador", a);
-            model.addAttribute("projetos", projetos);
-            model.addAttribute("estagios", estagios);
-
-            return "administrador/perfil";
-        }
-
-        catch(Exception e) {
-            return "erro";
-        }
-    }
     
     @RequestMapping("/estagios")
     public String listaEstagios(Model model, Principal principal) throws Exception {
@@ -256,6 +239,91 @@ public class AdministradorController {
         //    return "erro";
         //}
     }
+    
+    @GetMapping("/listar-certificados-licencas")
+    public String listarUsuariosComSecoes(Model model, Principal principal) throws Exception {
+        try (Connection conn = ds.getConnection()) {
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+            Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
+
+            ArrayList<Aluno> alunos = AdministradorDao.listAlunosComSecoes(conn);
+            ArrayList<Professor> professores = AdministradorDao.listProfessoresComSecoes(conn);
+
+            model.addAttribute("usuario", u);
+            model.addAttribute("administrador", a);
+            model.addAttribute("listaAlunos", alunos);
+            model.addAttribute("listaProfessores", professores);
+
+            return "administrador/certificadosLicencas";
+        } catch (Exception e) {
+            return "erro";
+        }
+    }
+
+    
+    @GetMapping("/listar-certificados-licencas/editar")
+    public String mostraTelaDeEdicaoCertificados(@RequestParam("id") Long id, Model model, Principal principal) {
+    	
+    	 try(Connection conn = ds.getConnection())
+         {
+    		 Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+             Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
+
+             Aluno aluno = AlunoDao.getByUsuario_id(conn, id);
+             List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, id);
+             
+             Long idSecao = null;
+             for (Secao secao : secoes) {
+            	  if(secao.getTipo().equals("Licenças e Certificados")) {
+		    		    idSecao = secao.getId();
+		    	  		break;
+            	  }
+             }
+             
+             List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, idSecao);
+             model.addAttribute("usuario", u);
+             model.addAttribute("administrador", a);
+             model.addAttribute("aluno", aluno);
+             model.addAttribute("listaTopicos", topicos);
+             model.addAttribute("idAluno", id);
+
+         }
+    	 
+    	 catch(Exception e) {
+             return mostraPaginaDeErro(model, "Erro");
+         }
+    	    	
+    	    	    	
+    	 return "administrador/certificadosLicencasEditar";
+    }
+    
+    @PostMapping("/listar-certificados-licencas/editado")
+    public String validarCertificados(
+            @RequestParam(value = "idAluno", required = false) long idAluno,
+            @RequestParam(value = "validacao", required = false, defaultValue = "false") Boolean validacao,
+            @RequestParam(value = "idTopico", required = false) Long idTopico,
+            Model model) {
+
+        if (idTopico == null) {
+            return mostraPaginaDeErro(model, "Tópico não encontrado");
+        }
+
+        try (Connection conn = ds.getConnection()) {
+            Topico topico = TopicoDao.getTopicoPorId(conn, idTopico);
+            if (topico != null) {
+                TopicoDao.validarTopico(conn, idTopico, validacao);
+                conn.commit();
+            } else {
+                return mostraPaginaDeErro(model, "Tópico não encontrado");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return mostraPaginaDeErro(model, "Erro ao atualizar no banco");
+        }
+
+        return "redirect:/administrador/listar-certificados-licencas/editar?id=" + idAluno;
+    }
+
     
     @GetMapping("/listar-professores")
     public String listaProfessores(Model model, Principal principal) throws Exception {
@@ -552,7 +620,6 @@ public class AdministradorController {
     	 try(Connection conn = ds.getConnection())
          {
     		 
-    		 
     		 long id_conv = Long.parseLong(id);
     		 
     		 Professor p = ProfessorDao.get(conn, id_conv);
@@ -562,7 +629,7 @@ public class AdministradorController {
     		 }
     		 
     		 if (cpf != null && !cpf.isEmpty()) {    		 
-    			 p.setCpf(cpf);    	
+    			 p.getCpf();
     			 UsuarioDao.updateForNome(conn, p.getUsuario_id(), cpf);
     		 }
     		    		 

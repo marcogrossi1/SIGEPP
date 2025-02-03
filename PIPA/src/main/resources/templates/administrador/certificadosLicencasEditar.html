@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/img/icon.png">
+    <title>Validar certificados</title>
+</head>
+<body>
+    <header>
+        <div th:switch="${usuario.role}">
+            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="/img/logo.png"></a>
+            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="/img/logo.png"></a>
+            <a th:case="'Professor'" href="/professor"><img id="logo" src="/img/logo.png"></a>
+            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="/img/logo.png"></a>
+        </div>
+        <h1 id="titulo-plataforma">PIPA | Validação Certificados</h1>
+    </header>
+
+    <nav>
+        <div th:switch="${usuario.role}">
+            <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Professor'"><span th:text="${professor.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
+        </div>
+        <a href="perfil" class="icone" id="icone-portal">
+            <img src="/img/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+    </nav>    
+
+    <form id="inputs" action="/administrador/listar-certificados-licencas/editado" method="post">
+        <main class="main-certificados-licencas">
+            <h2 id="subtitulo-portal">Lista de Certificados / Licenças</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Texto</th>
+                        <th>Imagem</th>
+                        <th>Arquivo</th>
+                        <th>Validar</th>
+						<th>Invalidar</th>
+						<th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="topico : ${listaTopicos}">
+                        <td th:text="${topico.id}"></td>
+                        <td th:text="${topico.conteudoTexto}"></td>
+                        <!-- Ajuste na exibição da imagem -->
+						<td>
+						    <img th:src="'data:image/jpeg;base64,' + ${topico.conteudoImagem}" style="width: 50px; height: 50px;">
+						    <span th:if="${topico.conteudoImagem == null}">Sem imagem</span>
+						</td>
+                        <!-- Ajuste no link do arquivo -->
+                        <td>
+                            <button type="button" class="abrir-arquivo" th:data-arquivo="${topico.conteudoArquivo}">
+                                Ver arquivo anexado
+                            </button>
+                        </td>
+                        <td>
+                            <form action="/administrador/listar-certificados-licencas/editado" method="post">
+								<input type="hidden" name="idAluno" th:value="${idAluno}">
+                                <input type="hidden" name="idTopico" th:value="${topico.id}">
+                                <input type="hidden" name="validacao" value="true">
+                                <button type="submit">Validar</button>
+                            </form>
+                        </td>
+						<td>
+                            <form action="/administrador/listar-certificados-licencas/editado" method="post">
+								<input type="hidden" name="idAluno" th:value="${idAluno}">
+                                <input type="hidden" name="idTopico" th:value="${topico.id}">
+                                <input type="hidden" name="validacao" value="false">
+                                <button type="submit">Invalidar</button>
+                            </form>
+                        </td>
+						<td>
+						    <span th:if="${topico.estado == true}" style="color: green;">Validado</span>
+						    <span th:if="${topico.estado == false}" style="color: red;">Invalidado</span>
+						</td>
+                    </tr>                
+                </tbody>
+            </table>
+        </main>
+    </form>
+
+    <script>
+		document.addEventListener("DOMContentLoaded", function () {
+		    let buttonsAbrirArquivo = document.querySelectorAll('.abrir-arquivo');
+
+		    buttonsAbrirArquivo.forEach(button => {
+		        button.addEventListener('click', function () {
+		            let arquivoTopico = this.getAttribute('data-arquivo');
+
+		            if (arquivoTopico && arquivoTopico.length > 10) {
+		                let mimeType = "application/pdf";  // Padrão
+		                if (arquivoTopico.startsWith("/9j/")) {
+		                    mimeType = "image/jpeg";
+		                } else if (arquivoTopico.startsWith("iVBOR")) {
+		                    mimeType = "image/png";
+		                }
+
+		                let byteCharacters = atob(arquivoTopico);
+		                let byteNumbers = new Array(byteCharacters.length);
+		                for (let i = 0; i < byteCharacters.length; i++) {
+		                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+		                }
+		                let byteArray = new Uint8Array(byteNumbers);
+		                let blob = new Blob([byteArray], { type: mimeType });
+
+		                let url = URL.createObjectURL(blob);
+		                window.open(url);
+		            } else {
+		                alert("Arquivo não disponível!");
+		            }
+		        });
+		    });
+		});
+    </script>
+</body>
+</html>

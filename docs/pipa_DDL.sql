@@ -291,18 +291,6 @@ CREATE TABLE secoes (
   	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
 )
 
-  -- -----------------------------------------------------
--- Table Avaliações
--- -----------------------------------------------------
-CREATE TABLE Avaliacao (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255),
-    texto TEXT,
-    data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 CREATE TABLE Novidade (
   id BIGINT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(255) NOT NULL,
@@ -313,4 +301,15 @@ CREATE TABLE Novidade (
   PRIMARY KEY (id),
   UNIQUE INDEX nome_UNIQUE (nome ASC)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE Avaliacao (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    usuario_id BIGINT NOT NULL,
+    perfil_id BIGINT NOT NULL,
+    comentario TEXT NOT NULL,
+    data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
+    FOREIGN KEY (perfil_id) REFERENCES Usuario(id)
+);
 
