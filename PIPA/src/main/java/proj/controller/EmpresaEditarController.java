@@ -19,7 +19,7 @@ public class EmpresaEditarController {
     @Autowired
     private Connection connection;
 
-    @GetMapping("/empresa/perfil-editar")
+    @GetMapping("/empresa/perfil-editar-dados")
     public String exibirPerfil(@RequestParam("id") Long id, HttpSession session, Model model) {
         session.setAttribute("empresaId", id);  
 
@@ -51,9 +51,8 @@ public class EmpresaEditarController {
 
 
 
-    @PostMapping("/empresa/perfil-editar")
-    public String editarPerfil(HttpSession session, String nome, String cnpj, String endereco, String website, String area, String telefone, String email) {
-        Long empresaId = (Long) session.getAttribute("empresaId");  
+    @PostMapping("/empresa/perfil-editar-dados")
+    public String editarPerfil(@RequestParam("id") Long empresaId, String nome, String cnpj, String endereco, String website, String area, String telefone, String email) { 
 
         try {
             String query = "UPDATE Empresa SET nome = ?, cnpj = ?, endereco = ?, website = ?, area = ?, telefone = ?, email = ? WHERE id = ?";
@@ -81,7 +80,8 @@ public class EmpresaEditarController {
             e.printStackTrace();
         }
 
-        return "PerfilEditar"; 
+        return "redirect:/empresa";  // Redirecionar para a página do perfil da empresa após editar
     }
+
 
 }

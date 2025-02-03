@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import proj.model.Aluno;
 import proj.model.Estagio;
+import proj.model.Novidade;
 import proj.model.Progresso;
 import proj.dao.AlunoDao;
 public class EstagioDao extends AbstractDaoBase {
@@ -124,6 +125,9 @@ public class EstagioDao extends AbstractDaoBase {
 			ps.setString(6, vo.getSalario());
                         ps.setString(7, vo.getDocumentos());
 			ps.executeUpdate();
+			// Criando novidade do projeto
+			Novidade n = new Novidade(vo.getEmpresa(), vo.getDescricao(), true, vo.getId());
+            NovidadeDao.adicionarNovidade(conn, n);
 			rs = ps.getGeneratedKeys();
 			if (rs.next()) {
 				id = rs.getLong(1);
@@ -207,6 +211,8 @@ public class EstagioDao extends AbstractDaoBase {
 			ps = conn.prepareStatement(deletesql);
 			ps.setLong(1, id);
 			count = ps.executeUpdate();	
+			Estagio e = get(conn, id);
+			NovidadeDao.removerNovidade(conn, e.getEmpresa());
 			if (count == 0) {
 				throw new NotFoundException("Object not found [" + id + "] .");
 			}

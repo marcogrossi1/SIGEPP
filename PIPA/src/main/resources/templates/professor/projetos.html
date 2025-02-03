@@ -16,40 +16,47 @@
         <h1 id="titulo-plataforma">PIPA | Home</h1>
     </header>
 
+    <nav>
+        <p id="nome-no-portal" th:text="${professor.nome}"></p>
+        <a href="link" class="icone">
+            <img th:src="@{/img/icone-perfil.png}">
+            <label>Perfil</label>
+        </a>
+        <a th:href="@{/professor/projetos?id={id}(id=${professor.id})}" class="icone">
+            <img th:src="@{/img/icone-maleta.png}">
+            <label>Projetos</label>
+        </a>
+    </nav>
 
-	<nav>
-		<p th:text="${professor.nome}"></p>
-		<a href="/notificacoes" class="icone" id="icone-portal">
-    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
-    <label>Notificações</label>
-    </a>
-		<a href="link" class="icone"> <img
-			th:src="@{/img/icone-perfil.png}"> <label>Perfil</label>
-		</a> <a th:href="@{/professor/projetos?id={id}(id=${professor.id})}"
-			class="icone"> <img th:src="@{/img/icone-maleta.png}"> <label>Projetos</label>
-		</a>
-	</nav>
+    <main>
+        <div th:if="${projetos != null && !projetos.isEmpty()}">
+            <div th:each="projeto : ${projetos}">
+                <section class="projeto">
+                    <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
+                    <p><strong>Tipo: </strong><span th:text="${projeto.tipoProjeto}"></span></p>
+                    <p><strong>Responsável: </strong><span th:text="${projeto.responsavel}"></span></p>
+                    <p><strong>Descrição: </strong><span th:text="${projeto.descricao}"></span></p>
+                    <p><strong>Vagas Remuneradas: </strong><span th:text="${projeto.vagasRemuneradas}"></span></p>
+                    <p><strong>Valor da Bolsa: </strong>R$<span th:text="${projeto.valorBolsa}"></span></p>
+                    <p><strong>Vagas Voluntarias: </strong><span th:text="${projeto.vagasVoluntarias}"></span></p>
+                    <p><strong>Carga Horária: </strong><span th:text="${projeto.cargaHoraria}"></span> horas</p>
+                    <p><strong>Requisitos: </strong><span th:text="${projeto.requisito}"></span></p>
+                    <p><strong>Campus: </strong><span th:text="${projeto.campus}"></span></p>
+                    <p><strong>Cursos: </strong></p>
+                    <div th:each="curso : ${projeto.cursos}" class="tag" ><span th:text="${curso.nomeCurso}"></span></div>
+                    <div class="opcoes">
+                        <a th:href="@{/professor/editarProjeto?id={id}(id=${projeto.id})}" class="botao-editar">Editar projeto</a>
+                        <form th:action="@{/professor/projetos/deletarProjeto?id={id}(id=${projeto.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja deletar este projeto?');">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button class="botao-excluir" type="submit">Deletar projeto</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+            <a th:href="@{/professor/projetos/criarProjeto}" id="botao-criar" class="botao-editar">+ Criar projeto</a>
+            <br><br>
 
-<main>
-    <a th:href="@{/professor/projetos/criarProjeto}" class="botao-projeto" id="botao-projeto-editar">Criar projeto</a>
-    <div th:if="${projetos != null && !projetos.isEmpty()}">
-        <div th:each="projeto : ${projetos}">
-            <section class="projeto">
-                <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
-                <p><strong>Responsável:</strong> <span th:text="${projeto.responsavel}"></span></p>
-                <p><strong>Descrição:</strong> <span th:text="${projeto.descricao}"></span></p>
-                <p><strong>Vagas:</strong> <span th:text="${projeto.vagas}"></span></p>
-                <p><strong>Carga Horária:</strong> <span th:text="${projeto.cargaHoraria}"></span></p>
-                <p><strong>Requisitos:</strong> <span th:text="${projeto.requisito}"></span></p>
-                <div class="opcoes">
-                    <a th:href="@{/projeto/professor/candidatos/{id}(id=${projeto.id})}" class="botao-projeto" id="botao-projeto-ver">Ver Candidatos</a>
-                    <a th:href="@{/professor/editarProjeto?id={id}(id=${projeto.id})}" class="botao-projeto" id="botao-projeto-editar">Editar projeto</a>
-                    <form th:action="@{/professor/projetos/deletarProjeto?id={id}(id=${projeto.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja deletar este projeto?');">
-                        <input type="hidden" name="_method" value="delete" />
-                        <button class="botao-projeto" id="botao-projeto-excluir" type="submit">Deletar projeto</button>
-                    </form>
-                </div>
-            </section>
+
         </div>
     </div>
 
