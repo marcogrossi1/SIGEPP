@@ -311,16 +311,6 @@ CREATE TABLE topicos (
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
 -- -----------------------------------------------------
--- Table Avaliações
--- -----------------------------------------------------
-CREATE TABLE Avaliacao (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255),
-    texto TEXT,
-    data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;  -- Removido o parêntese extra antes
-
--- -----------------------------------------------------
 -- Table Novidade
 -- -----------------------------------------------------
 CREATE TABLE Novidade (
@@ -333,8 +323,6 @@ CREATE TABLE Novidade (
     PRIMARY KEY (id),
     UNIQUE INDEX nome_UNIQUE (nome ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;  -- Corrigido o fechamento
-
-
 
 -- -----------------------------------------------------
 -- Table Curso
