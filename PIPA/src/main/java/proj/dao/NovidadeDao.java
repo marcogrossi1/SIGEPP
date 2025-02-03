@@ -9,10 +9,11 @@ public class NovidadeDao {
 
     public static void adicionarNovidade(Connection conn, Novidade novidade) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement(
-                "INSERT INTO novidade (nome, descricao, isEstagio) VALUES (?, ?, ?)")) {
+                "INSERT INTO novidade (nome, descricao, isEstagio, link) VALUES (?, ?, ?, ?)")) {
             ps.setString(1, novidade.getNome());
             ps.setString(2, novidade.getDescricao());
             ps.setBoolean(3, novidade.isEstagio());
+            ps.setString(4, novidade.getLink());
             ps.executeUpdate();
         }
     }

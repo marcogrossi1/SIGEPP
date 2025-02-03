@@ -80,7 +80,7 @@
         </ul>
 		<p>Projetos:</p>
 		<ul th:each="projeto : ${projetos}">
-            <li><a th:href="'/encontra-projeto?nome=' + ${projeto.nome}">
+            <li><a th:href="'/aluno/detalhes-projeto?id=' + ${projeto.id}">
                 <button type="submit" th:text="${projeto.nome}"></button>
             </a></li>
 		</ul>
