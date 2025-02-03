@@ -218,7 +218,7 @@ public class AdministradorController {
         }
     }
     
-    @GetMapping("/listar-usuarios-com-secoes")
+    @GetMapping("/listar-certificados-licencas")
     public String listarUsuariosComSecoes(Model model, Principal principal) throws Exception {
         try (Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
@@ -232,7 +232,7 @@ public class AdministradorController {
             model.addAttribute("listaAlunos", alunos);
             model.addAttribute("listaProfessores", professores);
 
-            return "administrador/listaUsuarios";
+            return "administrador/certificadosLicencas";
         } catch (Exception e) {
             return "erro";
         }

@@ -5,19 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import proj.dao.NovidadeDao;
-import proj.model.Projeto;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import proj.model.Curso;
 import proj.model.Novidade;
+import proj.model.Projeto;
 
 public class ProjetoDao {
+	
     private final static String getsql = "SELECT * FROM Projeto  WHERE id = ?";
     private final static String listsql = "SELECT * FROM Projeto";
     private final static String listByNomeSql = "SELECT * FROM Projeto WHERE nome like %?% ";
@@ -249,7 +251,7 @@ public class ProjetoDao {
                 removerCandidaturasdoProjeto(conn, id);
                 removerCursosdoProjeto(conn, id);
                 removerAlunodoProjeto(conn, id);
-
+		
                 Projeto p = ProjetoDao.get(conn, id);
 
                 NovidadeDao.removerNovidade(conn, p.getNome());

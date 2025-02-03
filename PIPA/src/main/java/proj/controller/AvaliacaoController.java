@@ -14,7 +14,7 @@ public class AvaliacaoController {
     @Autowired
     private AvaliacaoRepository avaliacaoRepository;
 
-    @GetMapping("/{alunoId}")
+    @GetMapping("/{usuarioId}")
     public List<Avaliacao> listarAvaliacoesPorAluno(@PathVariable Long alunoId) {
         return avaliacaoRepository.findByAlunoId(alunoId);
     }

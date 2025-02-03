@@ -70,6 +70,8 @@
 		                   'https://www.cefetmg.br/')}">
 		        ALUNO DO CAMPUS X
 		    </a>
+			<!-- Botão para abrir o modal -->
+							<button id="openModalBtn">AVALIAÇÕES</button>
 		</div>
 		
 		
@@ -194,19 +196,14 @@
 	  }
 	</script>
 	
-	<div id="avaliacaoModal" th:switch="${usuario.role}" class="modal">
+	<div id="avaliacaoModal" class="modal">
 		    <div class="modal-content">
 		        <span class="close" id="closeModalBtn">&times;</span>
-				<div th:case="'Professor'">
+				
 				<h2>Escreva sua avaliação</h2>
 		        <textarea id="novaAvaliacao" placeholder="Digite sua avaliação..."></textarea>
 		        <button id="enviarAvaliacao">Enviar</button>
-				</div>
-				<div th:case="'Empresa'">
-				<h2>Escreva sua avaliação</h2>
-				<textarea id="novaAvaliacao" placeholder="Digite sua avaliação..."></textarea>
-				<button id="enviarAvaliacao">Enviar</button>
-				</div>
+				>
 				<h2>Avaliações</h2>
 		        <!-- Lista de avaliações -->
 		        <div id="listaAvaliacoes">
@@ -215,63 +212,9 @@
 		    </div>
 		</div>
 
-		<!-- Estilos do modal -->
-		<style>
-			#openModalBtn {
-			    background-color: #007BFF; /* Azul vibrante */
-			    color: white;
-			    border: none;
-			    padding: 12px 24px;
-			    font-size: 16px;
-			    font-weight: bold;
-			    border-radius: 8px;
-			    cursor: pointer;
-			    transition: background-color 0.3s, transform 0.2s;
-			    display: inline-block; /* Garante que o botão não ocupe toda a largura */
-			    margin: 0 auto; /* Centraliza o botão */
-			    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
-			    text-align: center; /* Centraliza o texto dentro do botão */
-			    width: auto; /* Define uma largura automática */
-			    height: auto; /* Evita esticamento */
-			    position: relative; /* Mantém a posição controlada */
-			}
-
-			#openModalBtn:hover {
-			    background-color: #0056b3; /* Azul mais escuro */
-			    transform: scale(1.05);
-			}
-
-			#openModalBtn:active {
-			    background-color: #004080;
-			    transform: scale(1);
-			}
-
-
-		.modal {
-		    display: none;
-		    position: fixed;
-		    z-index: 1;
-		    left: 0;
-		    top: 0;
-		    width: 100%;
-		    height: 100%;
-		    background-color: rgba(0, 0, 0, 0.4);
-		}
-		.modal-content {
-		    background-color: white;
-		    margin: 10% auto;
-		    padding: 20px;
-		    border: 1px solid #888;
-		    width: 50%;
-		}
-		.close {
-		    float: right;
-		    font-size: 28px;
-		    cursor: pointer;
-		}
-		</style>
-
-		<script>
+		<script th:inline="javascript" type="text/javascript">
+			let nome = /*[[${nome}]]*/ {};
+			
 			document.getElementById("openModalBtn").addEventListener("click", function () {
 			    document.getElementById("avaliacaoModal").style.display = "block";
 			    carregarAvaliacoes();
@@ -283,10 +226,10 @@
 
 			document.getElementById("enviarAvaliacao").addEventListener("click", function () {
 			    let avaliacaoTexto = document.getElementById("novaAvaliacao").value;
-			    let nomeUsuario = "[[${nome}]]"; // Pegue dinamicamente se necessário
-			    let alunoId = new URLSearchParams(window.location.search).get("id"); // Obtém o ID do aluno da URL
+			    let nomeUsuario = nome; // Pegue dinamicamente se necessário
+			    let usuarioId = new URLSearchParams(window.location.search).get("id"); // Obtém o ID do aluno da URL
 
-			    if (avaliacaoTexto.trim() !== "" && alunoId) {
+			    if (avaliacaoTexto.trim() !== "" && usuarioId) {
 			        fetch("/avaliacoes", {
 			            method: "POST",
 			            headers: {
@@ -295,7 +238,7 @@
 			            body: JSON.stringify({
 			                nomeUsuario: nomeUsuario,
 			                comentario: avaliacaoTexto,
-			                alunoId: alunoId
+			                usuarioId: usuarioId
 			            })
 			        }).then(response => response.json())
 			          .then(data => {
@@ -306,10 +249,7 @@
 			});
 
 			function carregarAvaliacoes() {
-			    let alunoId = new URLSearchParams(window.location.search).get("id");
-			    if (!alunoId) return;
-
-			    fetch(`/avaliacoes/${alunoId}`)
+			    fetch(`/avaliacoes/${usuarioId}`)
 			        .then(response => response.json())
 			        .then(data => {
 			            let listaAvaliacoes = document.getElementById("listaAvaliacoes");

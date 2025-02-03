@@ -66,7 +66,8 @@
 	            </tr>
 	        </tbody>
 	    </table>
-
+		
+		<!--
 	    <h2 class="subtitulo-portal">Lista de Professores</h2>
 	    <table class="table">
 	        <thead>
@@ -76,22 +77,28 @@
 	                <th>Email</th>
 	                <th>Role</th>
 	                <th>Ver Perfil</th>
+					<th>Validação</th>
 	            </tr>
 	        </thead>
 	        <tbody>
-	            <tr th:each="usuario : ${listaUsuarios}">
-	                <td th:text="${usuario.id}"></td>
-	                <td th:text="${usuario.nome}"></td>
-	                <td th:text="${usuario.email}"></td>
-	                <td th:text="${usuario.role}"></td>
+	            <tr th:each="professor : ${listaProfessores}">
+	                <td th:text="${professor.id}"></td>
+	                <td th:text="${professor.nome}"></td>
+	                <td th:text="${professor.email}"></td>
+	                <td th:text="${professor.role}"></td>
 	                <td>
-	                    <a th:href="'/perfil?id=' + ${usuario.id}">
+	                    <a th:href="'/perfil?id=' + ${professor.id}">
 	                        <button id="botao-certificado">Ver Perfil</button>
+	                    </a>
+	                </td>
+					<td>
+	                    <a th:href="@{/administrador/listar-certificados-licencas/editar(id=${professor.id})}">
+	                        <button id="botao-certificado">Validar</button>
 	                    </a>
 	                </td>
 	            </tr>
 	        </tbody>
-	    </table>
+	    </table>-->
 	</main>
 
 

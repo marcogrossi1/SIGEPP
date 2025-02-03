@@ -920,7 +920,7 @@ function criarSecao(tipo) {
 	        td5.innerText = projeto.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${u.id}`;
+	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 			button.type = 'button';
@@ -952,7 +952,7 @@ function criarSecao(tipo) {
 	        td5.innerText = estagio.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${u.id}`;
+	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
@@ -1528,7 +1528,7 @@ function editarSecao(secao, topicos) {
 	        td5.innerText = projeto.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${u.id}`;
+	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 			button.type = 'button';
@@ -1560,7 +1560,7 @@ function editarSecao(secao, topicos) {
 	        td5.innerText = estagio.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${u.id}`;
+	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
@@ -1852,7 +1852,7 @@ secoes.forEach(secao => {
 	        td5.innerText = projeto.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-			a.href = `/perfil-aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${u.id}`;
+			a.href = `/perfil-aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
@@ -1883,7 +1883,7 @@ secoes.forEach(secao => {
 	        td5.innerText = estagio.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-			a.href = `/perfil-aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${u.id}`;
+			a.href = `/perfil-aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
