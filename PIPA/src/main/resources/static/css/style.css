@@ -235,6 +235,17 @@ input[type='submit'] {
 	display: flex;
 	justify-content: center;
 }
+
+#botoes-portal-adm {
+	display: grid;
+	grid-template-columns: auto auto;
+	gap: 3%;
+}
+
+#botoes-portal-adm a button {
+	display: flex;
+	justify-content: center;
+}
 /*
 #botao-professor,
 #botao-empresa {
@@ -259,14 +270,14 @@ input[type='submit'] {
 #botao-professor-adm {
 	margin-left: 105px;
 }
-*/
+
 
 #botao-estagio-adm,
 #botao-aluno-adm {
 	margin-left: 170px;
 }
 
-/*
+
 #botao-professor,
 #botao-empresa {
 	margin-left: 50px;
@@ -380,7 +391,7 @@ input[type='submit'] {
 
 .table th,
 .table td {
-	padding: 12px 15px;
+	padding: 6px 8px;
 	border: 1px solid #ddd;
 }
 
@@ -397,6 +408,10 @@ input[type='submit'] {
 	background-color: #f1f1f1;
 }
 
+#projetos-table, #alunos-table {
+	margin: 0;
+	font-size: 0.9em;
+}
 /* Atualização para Candidatura */
 #pagina-candidatura {
 	display: flex;

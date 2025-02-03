@@ -403,9 +403,10 @@ main:not(#seccao-principal)>:first-child {
 }
 
 #logo {
-    padding-left: 1vw;
-    height: 8vh;
-    padding-right: 5vw;
+	padding-left: 1vw;
+	height: 8vh;
+	padding-right: 1vw;
+	padding-top: 1vw;
 }
 
 #titulo-plataforma {

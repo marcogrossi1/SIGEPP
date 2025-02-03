@@ -58,7 +58,7 @@
                         <td th:text="${vagas.cargaHoraria}"></td>
                         <td th:text="${vagas.salario}"></td>
                         <td><a th:href="'/administrador/deletar-estagio?n=' + ${vagas.id}">
-                            <button id="botao-certificado">Deletar estágio</button>
+                            <button class="botao-excluir">Deletar estágio</button>
                         </a></td>
                     </tr>
                 </tbody>
@@ -68,7 +68,7 @@
 
     <script src="../js/portal.js"></script>
     <script>
-        let botaoDeletarEstagioEl = document.querySelector("#botao-certificado");
+        let botaoDeletarEstagioEl = document.querySelector(".botao-excluir");
         botaoDeletarEstagioEl.addEventListener("click", function() {
             alert("Tem certeza que deseja deletar o estágio?");
         });

@@ -36,7 +36,7 @@
 
     <main>
         <h2 id="subtitulo-portal">Lista de Empresas</h2>
-        <table class="table">
+        <table class="table" id="alunos-table">
 			<thead>
 				<tr>
 					<th>Id</th>
@@ -59,7 +59,7 @@
                     </a></td>
 					<td>
 						<a th:href="@{/administrador/listar-empresas/editar(id=${empresas.id})}">
-						<button id="botao-certificado">Editar</button>
+						<button class="botao-editar">Editar</button>
 						</a>
 					</td>
 					<td>						
@@ -69,7 +69,7 @@
 						onsubmit="return confirm('Tem certeza que deseja deletar esta empresa?');" >
 
 						<input type="hidden"  name="n" th:value=" ${empresas.id}" />
-						<input  id="botao-deletar" type="submit" value="Deletar" />  
+						<input class="botao-excluir" id="botao-deletar" type="submit" value="Deletar" />  
 						</form> 
 											
 					</td>

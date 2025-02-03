@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+	<link rel="icon" href="../img/icon.png">
+    <title>PIPA | Portal</title>
+</head>
+<body>
+    <header>
+        <a href="/administrador"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav>
+        <p id="nome-no-portal"><span th:text="${administrador.nome}"></span></p>
+        <a href="perfil" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png">
+            <label>Perfil</label>
+        </a>
+    </nav>    
+
+    <main>
+        <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
+        <section id="descricao-projeto">
+            
+        </section>
+
+        <section id="tabela-vagas-disponiveis">
+            <table class="table">
+                <thead>
+                    <th>Vagas Totais</th>
+                    <th>Descrição</th>
+                    <th>Requisitos</th>
+                    <th>Carga Horária</th>
+                    <th>Bolsa</th>
+                    <th>Editar</th>
+                </thead>
+                <tbody>
+                    <tr th:each="vagas : ${projeto}">
+                        <td th:text="${vagas.vagasRemuneradas + vagas.vagasVoluntarias}"></td>
+                        <td th:text="${vagas.descricao}"></td>
+                        <td th:text="${vagas.requisito}"></td>
+                        <td th:text="${vagas.cargaHoraria}"></td>
+                        <td th:text="${vagas.valorBolsa}"></td>
+                        <td><a th:href="'/administrador/deletar-projeto?n=' + ${vagas.id}">
+                            <button class="botao-excluir">Deletar estágio</button>
+                        </a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="../js/portal.js"></script>
+    <script>
+        let botaoDeletarEstagioEl = document.querySelector(".botao-excluir");
+        botaoDeletarEstagioEl.addEventListener("click", function() {
+            alert("Tem certeza que deseja deletar o projeto?");
+        });
+    </script>
+</body>
+</html>
