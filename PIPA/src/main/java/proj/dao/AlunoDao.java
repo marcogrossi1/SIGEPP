@@ -117,24 +117,7 @@ public class AlunoDao {
                 }
             }
         }
-
-    public static void criar(Connection conn, Aluno aluno) throws SQLException {
-        String sql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, aluno.getCpf());
-            stmt.setString(2, aluno.getNome());
-            stmt.setString(3, aluno.getCurso());
-            stmt.setString(4, aluno.getCampus());
-            stmt.setString(5, aluno.getEmail());
-            stmt.setString(6, aluno.getPeriodo());
-            stmt.setLong(7, aluno.getUsuario_id());
-            stmt.executeUpdate();
-        }
-    } 
-
-
-
-
+   
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
