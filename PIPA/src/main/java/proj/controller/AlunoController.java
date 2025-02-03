@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,15 +27,19 @@ import proj.dao.AlunoDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.NotFoundException;
+import proj.dao.NovidadeDao;
 import proj.dao.ProjetoDao;
 import proj.dao.UsuarioDao;
+import proj.dao.NovidadeDao;
 import proj.model.Aluno;
 import proj.model.Curso;
 import proj.model.Estagio;
+import proj.model.Novidade;
 import proj.model.Progresso;
 import proj.model.Projeto;
 import proj.model.Usuario;
 import proj.model.Projeto;
+
 @Controller
 @RequestMapping("/aluno")
 public class AlunoController {
@@ -49,14 +54,17 @@ public class AlunoController {
 			if (!u.getRole().equals("Aluno")) {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
-			
+
 			Aluno a = AlunoDao.getByUsuario_id(conn, u.getId());
 			ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
 			ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
 
+			List<Novidade> novidades = NovidadeDao.listarNovidades(conn);
+
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 			model.addAttribute("estagios", estagios);
+			model.addAttribute("novidades", novidades);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,71 +96,72 @@ public class AlunoController {
 		}
 		return "aluno/estagios";
 	}
-        @GetMapping("/detalhes-estagio")
-        public String getDetalhesEstagio(Model model, Principal principal, @RequestParam("n") long id) throws Exception{
-            try(Connection conn = ds.getConnection()){
-                Estagio es = EstagioDao.get(conn, id);
-                Aluno a = AlunoDao.getByCpf(conn, principal.getName());
-                Progresso pro = AlunoDao.getProgressoEstagio(conn, a.getId(), id);
-                model.addAttribute("estagio", es);
-                model.addAttribute("empresa", es.getEmpresa());
-                model.addAttribute("descricao", es.getDescricao());
-                model.addAttribute("cargaHoraria", es.getCargaHoraria());
-                model.addAttribute("vagas", es.getVagas());
-                model.addAttribute("requisito", es.getRequisito());
-                model.addAttribute("salario", es.getSalario());
-                model.addAttribute("progresso", pro);
-                System.out.println(pro);
-                String docArr[] = null;
-                if(es.getDocumentos() != null) docArr = es.getDocumentos().split(",");
-                model.addAttribute("documentos", docArr);
-                return "aluno/detalhesEstagio";
-            }catch(Exception e) {
-                return mostraPaginaDeErro(model, e.getMessage());
-            }
-        }
-        
-        @GetMapping("/inscrever-estagio")
-        public String inscreverEstagio(Model model, Principal principal, @RequestParam("n") long id){
-            try(Connection conn = ds.getConnection()){
-                Estagio es = EstagioDao.get(conn, id);
-                Aluno al = AlunoDao.getByCpf(conn, principal.getName());
-                if(AlunoDao.getProgressoEstagio(conn, al.getId(), es.getId()) != null){
-                    model.addAttribute("status", "Você já se inscreveu neste estágio.");
-                    model.addAttribute("warning", "bad");
-                    return getDetalhesEstagio(model, principal, id);
-                }
-                AlunoDao.setProgresso(conn, al.getId() , es.getId() , Progresso.PENDENTE);
-                if(model.getAttribute("status") == null)
-                    model.addAttribute("status", "Estágio inscrito com sucesso!");
-                model.addAttribute("warning", "good");
-                conn.commit();
-                return getDetalhesEstagio(model, principal, id);
-                     
-            }catch(Exception e){
-                return mostraPaginaDeErro(model, e.getMessage());
-            }
-        }
-        
-        @GetMapping("/desinscrever-estagio")
-        public String desinscreverEstagio(Model model, Principal principal, @RequestParam("n") long id){
-            try(Connection conn = ds.getConnection()){
-                Aluno a = AlunoDao.getByCpf(conn, principal.getName());
-                Estagio e = EstagioDao.get(conn, id);
-                if(AlunoDao.desinscreverEstagio(conn, a.getId(), e.getId())){
-                    model.addAttribute("status", "Estágio desinscrito com sucesso!");
-                    model.addAttribute("warning", "good");
-                }else{ 
-                    model.addAttribute("status", "Você não é inscrito no estágio.");
-                    model.addAttribute("warning", "bad");
-                }
-                conn.commit();
-                return getDetalhesEstagio(model, principal, id);
-            }catch(Exception ex){
-                return mostraPaginaDeErro(model, ex.getMessage());
-            }
-        }
-        
+
+	@GetMapping("/detalhes-estagio")
+	public String getDetalhesEstagio(Model model, Principal principal, @RequestParam("n") long id) throws Exception {
+		try (Connection conn = ds.getConnection()) {
+			Estagio es = EstagioDao.get(conn, id);
+			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+			Progresso pro = AlunoDao.getProgressoEstagio(conn, a.getId(), id);
+			model.addAttribute("estagio", es);
+			model.addAttribute("empresa", es.getEmpresa());
+			model.addAttribute("descricao", es.getDescricao());
+			model.addAttribute("cargaHoraria", es.getCargaHoraria());
+			model.addAttribute("vagas", es.getVagas());
+			model.addAttribute("requisito", es.getRequisito());
+			model.addAttribute("salario", es.getSalario());
+			model.addAttribute("progresso", pro);
+			System.out.println(pro);
+			String docArr[] = null;
+			if (es.getDocumentos() != null)
+				docArr = es.getDocumentos().split(",");
+			model.addAttribute("documentos", docArr);
+			return "aluno/detalhesEstagio";
+		} catch (Exception e) {
+			return mostraPaginaDeErro(model, e.getMessage());
+		}
+	}
+
+	@GetMapping("/inscrever-estagio")
+	public String inscreverEstagio(Model model, Principal principal, @RequestParam("n") long id) {
+		try (Connection conn = ds.getConnection()) {
+			Estagio es = EstagioDao.get(conn, id);
+			Aluno al = AlunoDao.getByCpf(conn, principal.getName());
+			if (AlunoDao.getProgressoEstagio(conn, al.getId(), es.getId()) != null) {
+				model.addAttribute("status", "Você já se inscreveu neste estágio.");
+				model.addAttribute("warning", "bad");
+				return getDetalhesEstagio(model, principal, id);
+			}
+			AlunoDao.setProgresso(conn, al.getId(), es.getId(), Progresso.PENDENTE);
+			if (model.getAttribute("status") == null)
+				model.addAttribute("status", "Estágio inscrito com sucesso!");
+			model.addAttribute("warning", "good");
+			conn.commit();
+			return getDetalhesEstagio(model, principal, id);
+
+		} catch (Exception e) {
+			return mostraPaginaDeErro(model, e.getMessage());
+		}
+	}
+
+	@GetMapping("/desinscrever-estagio")
+	public String desinscreverEstagio(Model model, Principal principal, @RequestParam("n") long id) {
+		try (Connection conn = ds.getConnection()) {
+			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+			Estagio e = EstagioDao.get(conn, id);
+			if (AlunoDao.desinscreverEstagio(conn, a.getId(), e.getId())) {
+				model.addAttribute("status", "Estágio desinscrito com sucesso!");
+				model.addAttribute("warning", "good");
+			} else {
+				model.addAttribute("status", "Você não é inscrito no estágio.");
+				model.addAttribute("warning", "bad");
+			}
+			conn.commit();
+			return getDetalhesEstagio(model, principal, id);
+		} catch (Exception ex) {
+			return mostraPaginaDeErro(model, ex.getMessage());
+		}
+	}
 
 	@GetMapping("/projetos")
 	public String mostraHomeProjetos(Model model, Principal principal) throws Exception {
@@ -179,18 +188,21 @@ public class AlunoController {
 			return "erro";
 		}
 	}
-	/* INATIVO
-	@GetMapping("/perfil")
-	public String mostraPerfilPessoal(Model model, Principal principal) throws Exception {
-		try (Connection conn = ds.getConnection()) {
-			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-			model.addAttribute("usuario", u);
-			return "aluno/perfil";
-		} catch (Exception e) {
-			return "erro";
-		}
-	}
-	*/
+	/*
+	 * INATIVO
+	 * 
+	 * @GetMapping("/perfil")
+	 * public String mostraPerfilPessoal(Model model, Principal principal) throws
+	 * Exception {
+	 * try (Connection conn = ds.getConnection()) {
+	 * Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+	 * model.addAttribute("usuario", u);
+	 * return "aluno/perfil";
+	 * } catch (Exception e) {
+	 * return "erro";
+	 * }
+	 * }
+	 */
 
 	@GetMapping("/contaConfigPerfil")
 	public String mostraContaConfigPerfil(Model model, Principal principal) {
@@ -230,7 +242,8 @@ public class AlunoController {
 
 	@GetMapping("/emite")
 
-	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, Model model, Principal principal) throws Exception {
+	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo,
+			Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			model.addAttribute("usuario", u);
@@ -320,31 +333,33 @@ public class AlunoController {
 	}
 
 	@GetMapping("/upload")
-	public String mostraUploadDocumentos(@RequestParam("estagioId") Long estagioId, Model model, Principal principal) throws Exception {    
-	    try (Connection conn = ds.getConnection()){
-	        Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-	        if (!u.getRole().equals("Aluno")) {
-	            return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
-	        }
-	        
-	        Aluno a = AlunoDao.getByCpf(conn, principal.getName());
-	        Estagio estagio = EstagioDao.get(conn, estagioId);
-	        model.addAttribute("usuarioId", a.getUsuario_id());
-	     	 model.addAttribute("alunoId", a.getId());
-	        model.addAttribute("alunoNome", a.getNome());
-	        model.addAttribute("estagioId", estagioId);
-	        model.addAttribute("nomeEstagio", estagio.getEmpresa());
-	        return "aluno/upload";
-	        } catch (Exception e) {
-	        e.printStackTrace();
-	        return mostraPaginaDeErro(model, "Erro ao carregar informações do estágio.");
-	    }
+	public String mostraUploadDocumentos(@RequestParam("estagioId") Long estagioId, Model model, Principal principal)
+			throws Exception {
+		try (Connection conn = ds.getConnection()) {
+			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+			if (!u.getRole().equals("Aluno")) {
+				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
+			}
+
+			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+			Estagio estagio = EstagioDao.get(conn, estagioId);
+			model.addAttribute("usuarioId", a.getUsuario_id());
+			model.addAttribute("alunoId", a.getId());
+			model.addAttribute("alunoNome", a.getNome());
+			model.addAttribute("estagioId", estagioId);
+			model.addAttribute("nomeEstagio", estagio.getEmpresa());
+			return "aluno/upload";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return mostraPaginaDeErro(model, "Erro ao carregar informações do estágio.");
+		}
 	}
+
 	@GetMapping("/uploadprojeto")
-	public String mostraUploadDocumentosProjeto(Model model, Principal principal) throws Exception {    
-	        return "aluno/uploadprojeto";
-	    }
-	
+	public String mostraUploadDocumentosProjeto(Model model, Principal principal) throws Exception {
+		return "aluno/uploadprojeto";
+	}
+
 	@GetMapping("/explorarProjetos")
 	public String explorarProjetos(Principal principal, Model model) throws Exception {
 

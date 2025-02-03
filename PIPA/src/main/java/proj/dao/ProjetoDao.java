@@ -12,10 +12,10 @@ import java.util.HashSet;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.sql.results.spi.ResultsConsumer;
-
+import proj.dao.NovidadeDao;
 import proj.model.Projeto;
 import proj.model.Curso;
+import proj.model.Novidade;
 
 public class ProjetoDao {
     private final static String getsql = "SELECT * FROM Projeto  WHERE id = ?";
@@ -173,6 +173,9 @@ public class ProjetoDao {
             inserirCursosProjeto(conn, vo);
             inserirProfessorProjeto(conn, professorId, vo.getId());
 
+            Novidade n = new Novidade(vo.getNome(), vo.getDescricao(), false, vo.getId());
+            NovidadeDao.adicionarNovidade(conn, n);
+
             conn.commit();
         } catch (SQLException e) {
             conn.rollback();
@@ -246,6 +249,10 @@ public class ProjetoDao {
                 removerCandidaturasdoProjeto(conn, id);
                 removerCursosdoProjeto(conn, id);
                 removerAlunodoProjeto(conn, id);
+
+                Projeto p = ProjetoDao.get(conn, id);
+
+                NovidadeDao.removerNovidade(conn, p.getNome());
 
                 ps.setInt(1, id);
                 int count = ps.executeUpdate();

@@ -127,7 +127,7 @@ VALUES
 (2,1, "APROVADO"),
 (2,2, "CONCLUIDO");
 
-INSERT INTO aluno_has_projeto (aluno_id, projeto_id, progresso) 
+INSERT INTO aluno_has_projeto (aluno_id, projeto_id) 
 VALUES 
 (1,1),
 (1,2),
@@ -137,7 +137,6 @@ VALUES
 
 INSERT INTO empresa_has_estagio (empresa_id, estagio_id) 
 VALUES 
-
 (2, 1),
 (6, 2),
 (7, 3),
@@ -168,3 +167,8 @@ VALUES
 (1, 2, "Estou muito interessado nesta oportunidade e acredito que posso contribuir muito.", NOW(), 'EM_ANDAMENTO'), 
 (2, 1, "Gostaria de me candidatar a esta vaga, pois tenho experiência na área.", NOW(), 'VALIDADA'), 
 (3, 3, "Acredito que este projeto é uma ótima oportunidade para aplicar meus conhecimentos.", NOW(), 'INVALIDADA');  
+
+INSERT INTO Novidade (nome, descricao, isEstagio, link)
+VALUES
+('Pipa', 'Trabalho em sistema de coordenação de oportunidades acadêmicas.', FALSE, "aluno/detalhes-projeto?id=1"),
+('Cemig', 'Vagas Setor Manutenção.', TRUE, "aluno/detalhes-estagio?n=1");

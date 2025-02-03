@@ -275,13 +275,13 @@ CREATE TABLE Seguidores (
 ENGINE = InnoDB default character set = utf8;
 
   -- -----------------------------------------------------
--- Table SEÇÕES COLOCAR conteudoVideo, e outras coisas necesariasssssssssssssssssssssssssss
+-- Table SEÇÕES COLOCAR conteudoVideo, e outras coisas necesarias
 -- -----------------------------------------------------
 
 CREATE TABLE secoes (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Usuario_id BIGINT NULL,
-    titulo VARCHAR(255) DEFAULT "Sem título",
+    titulo VARCHAR(255) DEFAULT 'Sem título',
     tipo VARCHAR(255) NOT NULL,
     conteudoTexto LONGTEXT,
     comprimentoConteudoTexto INT NULL,
@@ -289,4 +289,15 @@ CREATE TABLE secoes (
     conteudoImagem LONGBLOB NULL,
     ordem INT,
   	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE Novidade (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(255) NOT NULL,
+  descricao TEXT NOT NULL,
+  isEstagio BOOLEAN NOT NULL,
+  link VARCHAR(55) NOT NULL,
+  dataPublicacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE INDEX nome_UNIQUE (nome ASC)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
