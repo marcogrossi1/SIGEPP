@@ -702,7 +702,6 @@ label {
 	background: linear-gradient(90deg, #003869, #2e6890);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
-
 /* Classe comum para todos os botões de projeto */
 .botao-projeto {
 	display: inline-block;
@@ -719,7 +718,33 @@ label {
 	line-height: 1.5;
 }
 
+.notificacao {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.notificacao:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.notificacao p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.notificacao.lida {
+    background-color: #d3d3d3; /* Cor mais escura ou qualquer que você queira */
+    color: gray;
+    text-decoration: line-through; /* Opcional: Para dar um efeito de "leitura" */
 /* IDs específicos para cada botão */
+}
 #botao-projeto-editar {
 	background-color: #4CAF50;
 	/* Verde */
@@ -768,13 +793,13 @@ label {
 }
 
 .notificacao {
-	background-color: white;
-	border: 1px solid #ddd;
-	border-radius: 8px;
-	padding: 15px;
-	margin-bottom: 15px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	transition: transform 0.2s, box-shadow 0.2s;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.5s ease;
 }
 
 .notificacao:hover {
@@ -953,4 +978,8 @@ a {
 	border-radius: 0 0 0 8px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	font-weight: bold;
+
+.notificacao.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease; 
 }

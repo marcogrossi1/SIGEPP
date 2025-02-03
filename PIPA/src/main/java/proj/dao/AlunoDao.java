@@ -89,6 +89,7 @@ public class AlunoDao {
         return vo;
     }
 
+
     public static ArrayList<Aluno> listByCursoCampusPeriodo(Connection conn, String curso, String campus,
             String periodo)
             throws SQLException {
@@ -113,7 +114,7 @@ public class AlunoDao {
                 }
             }
         }
-
+   
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
@@ -434,7 +435,7 @@ public class AlunoDao {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement(insertsql);
             ps.setString(1, vo.getCpf());
             ps.setString(2, vo.getNome());
             ps.setString(3, vo.getCurso());
@@ -447,6 +448,7 @@ public class AlunoDao {
             ps.setBytes(10, vo.getBannerPerfil());
             ps.setString(11, vo.getDescricaoPerfil());
             ps.executeUpdate();
+            conn.commit();
             rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 long id = rs.getLong(1);

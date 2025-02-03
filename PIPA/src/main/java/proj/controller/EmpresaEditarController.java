@@ -80,7 +80,7 @@ public class EmpresaEditarController {
             e.printStackTrace();
         }
 
-        return "redirect:/empresa";  // Redirecionar para a página do perfil da empresa após editar
+        return "redirect:/logout";  // Redirecionar para a página do perfil da empresa após editar
     }
 
 

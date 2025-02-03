@@ -16,10 +16,10 @@
  
      <h1>Enviar Documento</h1>
    <form th:action="@{/uploadprojeto}" method="post" enctype="multipart/form-data">
-   	<input type="text" name="nomeprojeto">
-    <input type="text" name="idAluno"><br>
-    <input type="text" name="idProjeto">
-    <input type="text" name="usuarioId">
+   	<input type="hidden" name="nomeprojeto" th:value ="${nomeprojeto}" >
+    <input type="hidden" name="idAluno"th:value="${alunoId}"><br>
+    <input type="hidden" name="idProjeto" th:value = "${projetoId}">
+    <input type="hidden" name="usuarioId" th:value = "${usuarioId}">
     
     <label for="file">Arquivo:</label>
     <input type="file" id="file" name="file" required><br>
