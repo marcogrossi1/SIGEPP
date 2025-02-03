@@ -29,11 +29,19 @@
             <div th:each="projeto : ${projetos}">
                 <section class="projeto">
                     <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
+                    <p><strong>Tipo:</strong> <span th:text="${projeto.tipoProjeto}"></span></p>
                     <p><strong>Responsável:</strong> <span th:text="${projeto.responsavel}"></span></p>
                     <p><strong>Descrição:</strong> <span th:text="${projeto.descricao}"></span></p>
-                    <p><strong>Vagas:</strong> <span th:text="${projeto.vagas}"></span></p>
-                    <p><strong>Carga Horária:</strong> <span th:text="${projeto.cargaHoraria}"></span></p>
+                    <div th:if="${projeto.vagasRemuneradas > 0}">
+                    <p><strong>Vagas Remuneradas:</strong> <span th:text="${projeto.vagasRemuneradas}"></span></p>
+                    <p><strong>Valor da Bolsa:</strong> R$<span th:text="${projeto.valorBolsa}"></span></p>
+                    </div>
+                    <p th:if="${projeto.vagasVoluntarias > 0}"><strong>Vagas Voluntarias:</strong> <span th:text="${projeto.vagasVoluntarias}"></span></p>
+                    <p><strong>Carga Horária:</strong> <span th:text="${projeto.cargaHoraria}"></span> horas</p>
                     <p><strong>Requisitos:</strong> <span th:text="${projeto.requisito}"></span></p>
+                    <div th:if="${projeto.vagasRemuneradas > 0}" class="tag" >Remunerado</div>
+                    <div th:each="curso : ${projeto.cursos}" class="tag" ><span th:text="${curso.nomeCurso}"></span></div>
+                    <div th:if="${projeto.cursos == null}">Erro ao carregar cursos</div>
                     <div class="opcoes" ><a class="botao-aplicar" th:href="@{/projeto/{id}/aplicacao(id=${projeto.id})}">Aplicar para o projeto</a></div>
                 </section>
             </div>
@@ -42,6 +50,7 @@
         <div th:if="${projetos == null || projetos.isEmpty()}">
             <p>Nenhum projeto encontrado.</p>
         </div>
+        <br><br>
     </main>
 </body>
 </html>
