@@ -75,9 +75,11 @@ public class PerfilController {
 	            } else if (usuario.getRole().equals("Professor")) {
 	                Professor professor = ProfessorDao.getByUsuario_id(conn, a.getUsuarioId());
 	                nomeReal = professor.getNome();
+	            } else if (usuario.getRole().equals("Empresa")) {
+	                Empresa empresa = EmpresaDao.getByUsuario_id(conn, a.getUsuarioId());
+	                nomeReal = empresa.getNome();
 	            } else if (usuario.getRole().equals("Administrador")) {
-	                Administrador admin = AdministradorDao.getByUsuario_id(conn, a.getUsuarioId());
-	                nomeReal = admin.getNome();
+	                nomeReal = "ADMINISTRADOR";
 	            } else {
 	                nomeReal = usuario.getNome(); 
 	            }
