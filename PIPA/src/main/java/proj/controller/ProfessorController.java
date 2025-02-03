@@ -50,6 +50,7 @@ public class ProfessorController {
             model.addAttribute("professor", p);
             return "professor/home";
         } catch (Exception e) {
+            e.printStackTrace();
             return "erro";
         }
     }

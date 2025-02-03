@@ -17,15 +17,16 @@
 		            <p id="nome-no-portal" th:case="'*'"></p>
 		        </div> <!--Clique na logo para retornar à página inicial-->
 	    <h1 id="titulo-plataforma" >PIPA | Pesquisa de alunos</h1>
+		<nav>
+			<p id="nome-no-portal" th:text="${nome}"></p>
+			<a href="/aluno/perfil" class="icone" id="icone-pesquisa-aluno">
+				<img src="/img/icone-perfil.png">
+				<label>Perfil</label>
+			</a>
+		</nav>  
 	</header>
 
-	<nav>
-		<p id="nome-no-portal" th:text="${nome}"></p>
-	    <a href="/aluno/perfil" class="icone" id="icone-pesquisa-aluno">
-	        <img src="/img/icone-perfil.png">
-	        <label>Perfil</label>
-	    </a>
-	</nav>   
+	 
 	
     <main>
 		
