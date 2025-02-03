@@ -74,9 +74,7 @@
 		                   'https://www.cefetmg.br/')}">
 		        ALUNO DO CAMPUS X
 		    </a>
-
 		</div>
-
 		
 		<a th:href="@{/configPerfil/contaConfigPerfil(id=${u.id})}" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}"></a>
 		<button type="submit" class="botoes-perfil" id="botao-edicao" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}"></button>
@@ -234,8 +232,6 @@
 		}
 
 	</style>
-
-
 	
 	<script th:inline="javascript">
 		let u = /*[[${u}]]*/ {};
@@ -305,8 +301,5 @@
 	};
 	</script>
 
-
-		
-	
 </body>
 </html>
