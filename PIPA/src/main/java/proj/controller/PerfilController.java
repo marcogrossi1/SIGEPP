@@ -28,6 +28,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import proj.dao.AdministradorDao;
 import proj.dao.AlunoDao;
+import proj.dao.AvaliacaoDao;
 import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
@@ -39,6 +40,7 @@ import proj.dao.TopicoDao;
 import proj.dao.UsuarioDao;
 import proj.model.Administrador;
 import proj.model.Aluno;
+import proj.model.Avaliacao;
 import proj.model.Empresa;
 import proj.model.Estagio;
 import proj.model.Professor;
@@ -60,6 +62,32 @@ public class PerfilController {
 	    	
 	        Usuario u = UsuarioDao.get(conn, usuarioId);
 	        model.addAttribute("usuario", u);
+	        
+	        List<Avaliacao> avaliacoes = AvaliacaoDao.listarAvaliacoesPorPerfil(conn, usuarioId);
+	        for (Avaliacao a : avaliacoes) {
+	            Usuario usuario = UsuarioDao.get(conn, a.getUsuarioId());
+	            
+	            String nomeReal = "";
+	            
+	            if (usuario.getRole().equals("Aluno")) {
+	                Aluno aluno = AlunoDao.getByUsuario_id(conn, a.getUsuarioId());
+	                nomeReal = aluno.getNome();
+	            } else if (usuario.getRole().equals("Professor")) {
+	                Professor professor = ProfessorDao.getByUsuario_id(conn, a.getUsuarioId());
+	                nomeReal = professor.getNome();
+	            } else if (usuario.getRole().equals("Administrador")) {
+	                Administrador admin = AdministradorDao.getByUsuario_id(conn, a.getUsuarioId());
+	                nomeReal = admin.getNome();
+	            } else {
+	                nomeReal = usuario.getNome(); 
+	            }
+
+	            a.setNomeUsuario(nomeReal); 
+	        }
+	        model.addAttribute("avaliacoes", avaliacoes);
+
+
+
 	        
 	        if(u.getRole().equals("Aluno")) {
 		        Aluno a = AlunoDao.getByUsuario_id(conn, usuarioId);
@@ -628,5 +656,30 @@ public class PerfilController {
 	        return "erro";
 	    }
 	}
+	
+	@PostMapping("/avaliacao")
+	public String adicionarAvaliacao(@RequestParam("perfilId") Long perfilId,
+	                                 @RequestParam("comentario") String comentario,
+	                                 Principal principal,
+	                                 Model model) throws Exception {
+	    try (Connection conn = ds.getConnection()) {
+	        Long usuarioId = UsuarioDao.getIdByNome(conn, principal.getName());
+
+	        Avaliacao avaliacao = new Avaliacao();
+	        avaliacao.setUsuarioId(usuarioId);
+	        avaliacao.setPerfilId(perfilId);
+	        avaliacao.setComentario(comentario);
+
+	        AvaliacaoDao.salvarAvaliacao(conn, avaliacao);
+	        conn.commit();
+
+	        return "redirect:/perfil?id=" + perfilId;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("message", "Erro ao enviar avaliação.");
+	        return "erro";
+	    }
+	}
+
 
 }

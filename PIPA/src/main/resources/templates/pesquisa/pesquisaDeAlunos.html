@@ -90,7 +90,7 @@
         <section class="project-list">
             <div class="project-container">
                 <article class="project-card" th:each="aluno : ${listaAlunos}">
-					<a th:href="@{/perfil-aluno(id=${aluno.id})}">
+					<a th:href="@{/perfil(id=${aluno.id})}">
                     <h2 th:text="${aluno.nome}"></h2>
 					</a>
                     <p th:text="${aluno.email}"></p>

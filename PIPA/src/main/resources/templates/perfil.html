@@ -23,11 +23,13 @@
 	        <h1 id="titulo-plataforma" th:text="'PIPA | ' + ${u.nome}">PIPA | Meu Perfil</h1>
 	</header>
 	
+	
 	<a class="link-topo" href="#">&#9650;</a>
 	
 	<main id="seccao-principal">
 		<img id="banner" th:src="'data:image/jpeg;base64,' + ${banner}" alt="Banner" onerror="this.src='../img/banner.png'">
 		<img id="foto-perfil" th:src="'data:image/jpeg;base64,' + ${fotoPerfil}" alt="Foto de Perfil" onerror="this.src='../img/foto-perfil-padrao.png'">
+		
 		
 		<div id="cropModal" style="display: none;">
 		    <div style="width: 100%; text-align: center;">
@@ -38,7 +40,9 @@
 		        <button id="closeModalButton" style="padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancelar</button>
 		    </div>
 		</div>
-
+	
+		<button id="botao-avaliacao" style="position: absolute; top: 55%; left: 52.5%;">AVALIAÇÕES</button>
+		
 		<form action="/perfil/atualizar" method="POST" enctype="multipart/form-data" id="form-atualizar">
 		    <input type="hidden" name="id" th:value="${u.id}">
 		    <input type="file" name="fotoPerfil" id="input-foto-perfil" style="display: none;" accept="image/*" disabled>
@@ -70,10 +74,9 @@
 		                   'https://www.cefetmg.br/')}">
 		        ALUNO DO CAMPUS X
 		    </a>
-			<!-- Botão para abrir o modal -->
-							<button id="openModalBtn">AVALIAÇÕES</button>
+
 		</div>
-		
+
 		
 		<a th:href="@{/configPerfil/contaConfigPerfil(id=${u.id})}" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}"></a>
 		<button type="submit" class="botoes-perfil" id="botao-edicao" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}"></button>
@@ -122,27 +125,117 @@
 	<div id="container-seccoes">
 				
 	</div>
+
+	<div id="modal-avaliacao" class="modal">
+	    <div class="modal-conteudo">
+	        <span class="fechar">&times;</span>
+	        <h2>Avaliações</h2>
+
+	        <!-- Lista de Avaliações -->
+	        <div class="lista-avaliacoes">
+	            <ul>
+	                <li th:each="avaliacao : ${avaliacoes}">
+	                    <strong th:text="${avaliacao.nomeUsuario}"></strong>:
+	                    <span th:text="${avaliacao.comentario}"></span>
+	                </li>
+	            </ul>
+	        </div>
+
+	        <!-- Formulário de Avaliação - Só aparece se o usuário NÃO for o dono do perfil -->
+	        <form id="form-avaliacao" method="post" action="/perfil/avaliacao" th:if="${idVisitante != usuarioId}">
+	            <input type="hidden" name="perfilId" th:value="${usuarioId}">
+	            <textarea name="comentario" placeholder="Digite sua avaliação..." required></textarea>
+	            <button type="submit">Enviar</button>
+	        </form>
+	    </div>
+	</div>
+
 	
-	<div id="avaliacaoModal" th:switch="${usuario.role}" class="modal">
-		    <div class="modal-content">
-		        <span class="close" id="closeModalBtn">&times;</span>
-				<div th:case="'Professor'">
-				<h2>Escreva sua avaliação</h2>
-		        <textarea id="novaAvaliacao" placeholder="Digite sua avaliação..."></textarea>
-		        <button id="enviarAvaliacao">Enviar</button>
-				</div>
-				<div th:case="'Empresa'">
-				<h2>Escreva sua avaliação</h2>
-				<textarea id="novaAvaliacao" placeholder="Digite sua avaliação..."></textarea>
-				<button id="enviarAvaliacao">Enviar</button>
-				</div>
-				<h2>Avaliações</h2>
-		        <!-- Lista de avaliações -->
-		        <div id="listaAvaliacoes">
-		            <!-- Avaliações serão inseridas aqui via JavaScript -->
-		        </div>
-		    </div>
-		</div>
+	<style>
+		/* Estilização do Modal */
+		.modal {
+		    display: none;
+		    position: fixed;
+		    z-index: 1000;
+		    left: 0;
+		    top: 0;
+		    width: 100%;
+		    height: 100%;
+		    background-color: rgba(0, 0, 0, 0.6);
+		    justify-content: center;
+		    align-items: center;
+		}
+
+		.modal-conteudo {
+		    background: white;
+		    width: 40%;
+		    padding: 20px;
+		    border-radius: 10px;
+		    text-align: center;
+		    position: relative;
+		    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+		}
+
+		.modal-conteudo h2 {
+		    margin-bottom: 10px;
+		}
+
+		.lista-avaliacoes {
+		    max-height: 300px;
+		    overflow-y: auto;
+		    text-align: left;
+		    border-bottom: 1px solid #ddd;
+		    margin-bottom: 10px;
+		    padding: 10px;
+		}
+
+		.lista-avaliacoes ul {
+		    list-style-type: none;
+		    padding: 0;
+		}
+
+		.lista-avaliacoes li {
+		    padding: 8px;
+		    border-bottom: 1px solid #eee;
+		}
+
+		.lista-avaliacoes li:last-child {
+		    border-bottom: none;
+		}
+
+		textarea {
+		    width: 100%;
+		    height: 80px;
+		    padding: 10px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    margin-bottom: 10px;
+		}
+
+		button {
+		    background: #007BFF;
+		    color: white;
+		    border: none;
+		    padding: 10px 15px;
+		    cursor: pointer;
+		    border-radius: 5px;
+		}
+
+		button:hover {
+		    background: #0056b3;
+		}
+
+		.fechar {
+		    position: absolute;
+		    top: 10px;
+		    right: 15px;
+		    font-size: 20px;
+		    cursor: pointer;
+		}
+
+	</style>
+
+
 	
 	<script th:inline="javascript">
 		let u = /*[[${u}]]*/ {};
@@ -196,71 +289,24 @@
 	  }
 	</script>
 	
-	<div id="avaliacaoModal" class="modal">
-		    <div class="modal-content">
-		        <span class="close" id="closeModalBtn">&times;</span>
-				
-				<h2>Escreva sua avaliação</h2>
-		        <textarea id="novaAvaliacao" placeholder="Digite sua avaliação..."></textarea>
-		        <button id="enviarAvaliacao">Enviar</button>
-				>
-				<h2>Avaliações</h2>
-		        <!-- Lista de avaliações -->
-		        <div id="listaAvaliacoes">
-		            <!-- Avaliações serão inseridas aqui via JavaScript -->
-		        </div>
-		    </div>
-		</div>
+	<script>
+	document.getElementById("botao-avaliacao").addEventListener("click", function() {
+	    document.getElementById("modal-avaliacao").style.display = "flex";
+	});
 
-		<script th:inline="javascript" type="text/javascript">
-			let nome = /*[[${nome}]]*/ {};
-			
-			document.getElementById("openModalBtn").addEventListener("click", function () {
-			    document.getElementById("avaliacaoModal").style.display = "block";
-			    carregarAvaliacoes();
-			});
+	document.querySelector(".fechar").addEventListener("click", function() {
+	    document.getElementById("modal-avaliacao").style.display = "none";
+	});
 
-			document.getElementById("closeModalBtn").addEventListener("click", function () {
-			    document.getElementById("avaliacaoModal").style.display = "none";
-			});
+	window.onclick = function(event) {
+	    if (event.target == document.getElementById("modal-avaliacao")) {
+	        document.getElementById("modal-avaliacao").style.display = "none";
+	    }
+	};
+	</script>
 
-			document.getElementById("enviarAvaliacao").addEventListener("click", function () {
-			    let avaliacaoTexto = document.getElementById("novaAvaliacao").value;
-			    let nomeUsuario = nome; // Pegue dinamicamente se necessário
-			    let usuarioId = new URLSearchParams(window.location.search).get("id"); // Obtém o ID do aluno da URL
 
-			    if (avaliacaoTexto.trim() !== "" && usuarioId) {
-			        fetch("/avaliacoes", {
-			            method: "POST",
-			            headers: {
-			                "Content-Type": "application/json"
-			            },
-			            body: JSON.stringify({
-			                nomeUsuario: nomeUsuario,
-			                comentario: avaliacaoTexto,
-			                usuarioId: usuarioId
-			            })
-			        }).then(response => response.json())
-			          .then(data => {
-			              document.getElementById("novaAvaliacao").value = "";
-			              carregarAvaliacoes();
-			          });
-			    }
-			});
-
-			function carregarAvaliacoes() {
-			    fetch(`/avaliacoes/${usuarioId}`)
-			        .then(response => response.json())
-			        .then(data => {
-			            let listaAvaliacoes = document.getElementById("listaAvaliacoes");
-			            listaAvaliacoes.innerHTML = "";
-			            data.forEach(avaliacao => {
-			                let novaEntrada = `<p><strong>${avaliacao.nomeUsuario}</strong>: ${avaliacao.comentario}</p>`;
-			                listaAvaliacoes.innerHTML += novaEntrada;
-			            });
-			        });
-			}
-		</script>
+		
 	
 </body>
 </html>

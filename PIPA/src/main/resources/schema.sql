@@ -357,3 +357,13 @@ CREATE TABLE Projeto_has_Curso (
   FOREIGN KEY (curso_id) REFERENCES Curso(id) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
+CREATE TABLE Avaliacao (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    usuario_id BIGINT NOT NULL,
+    perfil_id BIGINT NOT NULL,
+    comentario TEXT NOT NULL,
+    data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
+    FOREIGN KEY (perfil_id) REFERENCES Usuario(id)
+);
