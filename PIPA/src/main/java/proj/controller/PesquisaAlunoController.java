@@ -60,6 +60,7 @@ public class PesquisaAlunoController {
 			System.out.println("NOME: "+nome);
 			
 			model.addAttribute("nome", nome);
+			model.addAttribute("usuario", u);
 			
 			model.addAttribute("listaCursos", listaCursos);
 			model.addAttribute("listaCampus", listaCampus);
@@ -83,17 +84,19 @@ public class PesquisaAlunoController {
 			
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			String nome = null;
-			if(u.getRole() == "Empresa") {
+			System.out.println(u.getRole());
+			if(u.getRole().equals("Empresa")) {
 				Empresa x = EmpresaDao.getByUsuario_id(conn, u.getId());
 				nome = x.getNome();
 			}
-			else  {
+			else {
 				Professor x = ProfessorDao.getByUsuario_id(conn, u.getId());
 				nome = x.getNome();
 			}
 			System.out.println("NOME: "+nome);
 			
 			model.addAttribute("nome", nome);
+			model.addAttribute("usuario", u);
 			
 			
 			ArrayList<String> listaCursos = AlunoDao.listCursos(conn);
@@ -142,7 +145,7 @@ public class PesquisaAlunoController {
 			
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			String nome = null;
-			if(u.getRole() == "Empresa") {
+			if(u.getRole().equals("Empresa")) {
 				Empresa x = EmpresaDao.getByUsuario_id(conn, u.getId());
 				nome = x.getNome();
 			}
@@ -151,6 +154,8 @@ public class PesquisaAlunoController {
 				nome = x.getNome();
 			}
 			System.out.println("NOME: "+nome);
+			
+			model.addAttribute("usuario", u);
 			
 			model.addAttribute("nome", nome);
 			model.addAttribute("listaCursos", listaCursos);

@@ -115,8 +115,8 @@
 	</header>
 		
     <h1>Editar Perfil da Empresa</h1>
-	<form id="inputs" action="/empresa/perfil-editar" method="post">
-		<input type="hidden" name="id" value="${empresa.id}" />
+	<form id="inputs" action="/empresa/perfil-editar-dados" method="post">
+		<input type="hidden" name="id" th:value="${empresa.id}" />
 	    <label for="nome">Nome:</label>
 	    <input type="text" id="nome" name="nome" value="${empresa.nome}" />
 

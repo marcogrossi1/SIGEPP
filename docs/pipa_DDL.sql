@@ -7,7 +7,8 @@ CREATE TABLE Usuario (
   senha VARCHAR(255) NOT NULL,
   role VARCHAR(45) NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE INDEX nome_UNIQUE (nome ASC) )
+  UNIQUE INDEX nome_UNIQUE (nome ASC) 
+)
 ENGINE = InnoDB default character set = utf8;
   
 -- -----------------------------------------------------
@@ -21,18 +22,22 @@ CREATE TABLE Aluno (
   campus VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   periodo VARCHAR(255) NOT NULL,
-  Usuario_id BIGINT NULL,
   telefone VARCHAR(20) NOT NULL,
+  fotoPerfil LONGBLOB NULL,
+  bannerPerfil LONGBLOB NULL,
+  descricaoPerfil VARCHAR(550) DEFAULT "Sem descrição.",
+  Usuario_id BIGINT NULL,
   PRIMARY KEY (id),
-  UNIQUE INDEX cpf_UNIQUE (cpf ASC) ,
-  INDEX nome_INDEX (nome ASC) ,
-  UNIQUE INDEX email_UNIQUE (email ASC) ,
-  INDEX fk_Aluno_Usuario1_idx (Usuario_id ASC) ,
+  UNIQUE INDEX cpf_UNIQUE (cpf ASC),
+  INDEX nome_INDEX (nome ASC),
+  UNIQUE INDEX email_UNIQUE (email ASC),
+  INDEX fk_Aluno_Usuario1_idx (Usuario_id ASC),
   CONSTRAINT fk_Aluno_Usuario1
     FOREIGN KEY (Usuario_id)
     REFERENCES Usuario (id)
-    )
-ENGINE = InnoDB default character set = utf8;
+)
+ENGINE = InnoDB 
+DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table Administrador
@@ -45,6 +50,9 @@ CREATE TABLE Administrador (
   email VARCHAR(255) NOT NULL,
   Usuario_id BIGINT NOT NULL,
   telefone VARCHAR(20) NOT NULL,
+  fotoPerfil LONGBLOB NULL,
+  bannerPerfil LONGBLOB NULL,
+  descricaoPerfil VARCHAR(550) DEFAULT "Sem descrição.",
   PRIMARY KEY (id),
   UNIQUE INDEX cpf_UNIQUE (cpf ASC),
   UNIQUE INDEX email_UNIQUE (email ASC),
@@ -81,12 +89,36 @@ CREATE TABLE Projeto (
   responsavel VARCHAR(255) NOT NULL,
   descricao VARCHAR(500) NULL,
   carga_horaria INT NULL,
-  vagas INT NULL,
+  vagas_remuneradas INT NULL,
+  valor_bolsa VARCHAR(8) NULL,
+  vagas_voluntarias INT NULL,
   requisito VARCHAR(255) NULL,
+  campus VARCHAR(70) NULL,
+  tipo_projeto VARCHAR(9) NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX nome_UNIQUE (nome ASC) )
 ENGINE = InnoDB default character set = utf8;
 
+-- -----------------------------------------------------
+-- Table Curso
+-- -----------------------------------------------------
+CREATE TABLE Curso (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE INDEX nome_UNIQUE (nome ASC)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
+-- Table Projeto_has_Curso
+-- -----------------------------------------------------
+CREATE TABLE Projeto_has_Curso (
+  projeto_id BIGINT NOT NULL,
+  curso_id BIGINT NOT NULL,
+  PRIMARY KEY (projeto_id, curso_id),
+  FOREIGN KEY (projeto_id) REFERENCES Projeto(id) ON DELETE CASCADE,
+  FOREIGN KEY (curso_id) REFERENCES Curso(id) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table Aluno_has_Projeto
@@ -114,6 +146,7 @@ ENGINE = InnoDB default character set = utf8;
 CREATE TABLE Aluno_has_Estagio (
   aluno_id BIGINT NOT NULL,
   estagio_id BIGINT NOT NULL,
+  progresso VARCHAR(255) NOT NULL,
   PRIMARY KEY (aluno_id, estagio_id),
   INDEX fk_Aluno_has_Estagio_Estagio1_idx (estagio_id ASC) ,
   INDEX fk_Aluno_has_Estagio_Aluno1_idx (aluno_id ASC) ,
@@ -137,6 +170,9 @@ CREATE TABLE Professor (
   telefone VARCHAR(20) NOT NULL,
   email VARCHAR(255) NOT NULL,
   cpf VARCHAR(20) NOT NULL,
+  fotoPerfil LONGBLOB NULL,
+  bannerPerfil LONGBLOB NULL,
+  descricaoPerfil VARCHAR(550) DEFAULT "Sem descrição.",
   PRIMARY KEY (id),
   INDEX fk_Professor_Usuario1_idx (Usuario_id ASC) ,
   CONSTRAINT fk_Professor_Usuario1
@@ -237,3 +273,31 @@ CREATE TABLE Seguidores (
     REFERENCES Usuario (id)
     )
 ENGINE = InnoDB default character set = utf8;
+
+  -- -----------------------------------------------------
+-- Table SEÇÕES COLOCAR conteudoVideo, e outras coisas necesarias
+-- -----------------------------------------------------
+
+CREATE TABLE secoes (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Usuario_id BIGINT NULL,
+    titulo VARCHAR(255) DEFAULT 'Sem título',
+    tipo VARCHAR(255) NOT NULL,
+    conteudoTexto LONGTEXT,
+    comprimentoConteudoTexto INT NULL,
+    alturaConteudoTexto INT NULL,
+    conteudoImagem LONGBLOB NULL,
+    ordem INT,
+  	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE Novidade (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(255) NOT NULL,
+  descricao TEXT NOT NULL,
+  isEstagio BOOLEAN NOT NULL,
+  link VARCHAR(55) NOT NULL,
+  dataPublicacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE INDEX nome_UNIQUE (nome ASC)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;

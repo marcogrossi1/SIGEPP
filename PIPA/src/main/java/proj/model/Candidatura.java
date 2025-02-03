@@ -3,7 +3,7 @@ package proj.model;
 import java.time.LocalDateTime;
 
 public class Candidatura {
-    
+
     private Long id;
     private Aluno candidato;
     private Long IDoportunidade;
@@ -58,4 +58,19 @@ public class Candidatura {
     public void setStatus(StatusCandidatura status) {
         this.status = status;
     }
+
+    public void setStatusFromDescricao(String descricao) {
+        this.status = StatusCandidatura.fromDescricao(descricao); 
+    }
+    
+    private String fotoPerfilBase64;
+
+    public String getFotoPerfilBase64() {
+        return fotoPerfilBase64;
+    }
+
+    public void setFotoPerfilBase64(String fotoPerfilBase64) {
+        this.fotoPerfilBase64 = fotoPerfilBase64;
+    }
+
 }

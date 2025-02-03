@@ -7,20 +7,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import proj.dao.NovidadeDao;
 import proj.model.Projeto;
+import proj.model.Curso;
+import proj.model.Novidade;
 
 public class ProjetoDao {
     private final static String getsql = "SELECT * FROM Projeto  WHERE id = ?";
     private final static String listsql = "SELECT * FROM Projeto";
     private final static String listByNomeSql = "SELECT * FROM Projeto WHERE nome like %?% ";
-    private final static String insertsql = "INSERT INTO Projeto (nome, responsavel, descricao, carga_horaria, vagas, requisito) VALUES( ?, ?, ?, ?, ?, ?) ";
-    private final static String updatesql = "UPDATE Projeto SET nome = ?, responsavel = ?, descricao = ?, carga_horaria = ?, vagas = ?, requisito = ? WHERE id = ? ";
+    private final static String insertsql = "INSERT INTO Projeto (nome, responsavel, descricao, carga_horaria, vagas_remuneradas, valor_bolsa, vagas_voluntarias, requisito, campus, tipo_projeto) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private final static String updatesql = "UPDATE Projeto SET nome = ?, responsavel = ?, descricao = ?, carga_horaria = ?, vagas_remuneradas = ?, valor_bolsa = ?, vagas_voluntarias = ?, requisito = ?, campus = ?, tipo_projeto = ? WHERE id = ?";
     private final static String deletesql = "DELETE FROM Projeto WHERE id = ?";
     private final static String getByNomeSql = "SELECT * FROM Projeto WHERE nome = ?";
+    private final static String getCursosByProjetoIDsql = "SELECT curso_id FROM Projeto_has_Curso WHERE projeto_id = ?";
 
     static Projeto set(ResultSet rs)
             throws SQLException {
@@ -30,8 +35,12 @@ public class ProjetoDao {
         vo.setResponsavel(rs.getString("responsavel"));
         vo.setDescricao(rs.getString("descricao"));
         vo.setCargaHoraria(rs.getInt("carga_horaria"));
-        vo.setVagas(rs.getInt("vagas"));
+        vo.setVagasRemuneradas(rs.getInt("vagas_remuneradas"));
+        vo.setValorBolsa(rs.getString("valor_bolsa"));
+        vo.setVagasVoluntarias(rs.getInt("vagas_voluntarias"));
         vo.setRequisito(rs.getString("requisito"));
+        vo.setCampus(rs.getString("campus"));
+        vo.setTipoProjeto(rs.getString("tipo_projeto"));
         return vo;
     }
 
@@ -43,11 +52,11 @@ public class ProjetoDao {
             ps.setLong(1, id);
             rs = ps.executeQuery();
             if (!rs.next()) {
-                System.out.println("Projeto não encontrado com ID: " + id); // Log de não encontrado
+                System.out.println("Projeto não encontrado com ID: " + id);
                 throw new NotFoundException("Object not found [" + id + "]");
             }
             Projeto b = set(rs);
-            System.out.println("Projeto encontrado: " + b.getNome()); // Log do projeto encontrado
+            System.out.println("Projeto encontrado: " + b.getNome());
             return b;
         } catch (SQLException e) {
             throw e;
@@ -55,6 +64,7 @@ public class ProjetoDao {
             closeResource(ps, rs);
         }
     }
+
     public static Projeto getByNome(Connection conn, String nome)
             throws NotFoundException, SQLException {
         PreparedStatement ps = null;
@@ -137,13 +147,18 @@ public class ProjetoDao {
         try {
             conn.setAutoCommit(false);
 
+            // Prepara a declaração SQL
             ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, vo.getNome());
             ps.setString(2, vo.getResponsavel());
             ps.setString(3, vo.getDescricao());
             ps.setInt(4, vo.getCargaHoraria());
-            ps.setInt(5, vo.getVagas());
-            ps.setString(6, vo.getRequisito());
+            ps.setInt(5, vo.getVagasRemuneradas());
+            ps.setString(6, vo.getValorBolsa());
+            ps.setInt(7, vo.getVagasVoluntarias());
+            ps.setString(8, vo.getRequisito());
+            ps.setString(9, vo.getCampus());
+            ps.setString(10, vo.getTipoProjeto());
             ps.executeUpdate();
 
             rs = ps.getGeneratedKeys();
@@ -155,7 +170,11 @@ public class ProjetoDao {
                         "Não foi possível recuperar a CHAVE gerada na criação do registro no banco de dados");
             }
 
-            ProjetoDao.inserirProfessorProjeto(conn, professorId, vo.getId());
+            inserirCursosProjeto(conn, vo);
+            inserirProfessorProjeto(conn, professorId, vo.getId());
+
+            Novidade n = new Novidade(vo.getNome(), vo.getDescricao(), false, vo.getId());
+            NovidadeDao.adicionarNovidade(conn, n);
 
             conn.commit();
         } catch (SQLException e) {
@@ -172,21 +191,27 @@ public class ProjetoDao {
 
     public static void update(Connection conn, Projeto vo) throws NotFoundException, SQLException {
         PreparedStatement ps = null;
-        boolean autoCommitOriginal = conn.getAutoCommit(); // Salva o estado original do auto-commit
+        boolean autoCommitOriginal = conn.getAutoCommit();
 
         try {
-            // Desativa o auto-commit para gerenciar transações manualmente
             conn.setAutoCommit(false);
 
-            // Prepara a declaração SQL
-            ps = conn.prepareStatement(updatesql);
+            ps = conn.prepareStatement(updatesql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, vo.getNome());
             ps.setString(2, vo.getResponsavel());
             ps.setString(3, vo.getDescricao());
             ps.setInt(4, vo.getCargaHoraria());
-            ps.setInt(5, vo.getVagas());
-            ps.setString(6, vo.getRequisito());
-            ps.setLong(7, vo.getId());
+            ps.setInt(5, vo.getVagasRemuneradas());
+            ps.setString(6, vo.getValorBolsa());
+            ps.setInt(7, vo.getVagasVoluntarias());
+            ps.setString(8, vo.getRequisito());
+            ps.setString(9, vo.getCampus());
+            ps.setString(10, vo.getTipoProjeto());
+            ps.setLong(11, vo.getId());
+            ps.executeUpdate();
+
+            removerCursosdoProjeto(conn, vo.getId());
+            inserirCursosProjeto(conn, vo);
 
             // Executa a atualização
             int count = ps.executeUpdate();
@@ -194,39 +219,41 @@ public class ProjetoDao {
                 throw new NotFoundException("Object not found [" + vo.getId() + "].");
             }
 
-            // Confirma a transação
             conn.commit();
         } catch (SQLException e) {
-            // Reverte a transação em caso de erro
             try {
                 conn.rollback();
             } catch (SQLException e1) {
                 System.err.println("Erro ao fazer rollback: " + e1.getMessage());
             }
-            throw e; // Relança a exceção para ser tratada no nível superior
+            throw e;
         } finally {
-            // Restaura o estado original do auto-commit
             try {
                 conn.setAutoCommit(autoCommitOriginal);
             } catch (SQLException e) {
-                System.err.println("Erro ao restaurar auto-commit: " + e.getMessage());
+                System.err.println(e.getMessage());
             }
             closeResource(ps);
         }
     }
 
     public static void delete(Connection conn, int id) throws NotFoundException, SQLException {
-        boolean autoCommitOriginal = conn.getAutoCommit(); // Salva o estado original do auto-commit
+        boolean autoCommitOriginal = conn.getAutoCommit();
 
         try {
-            // Desativa o auto-commit para gerenciar transações manualmente
             conn.setAutoCommit(false);
 
-            // 1. Remove as relações na tabela professor_has_projeto
-            removerPorProjeto(conn, id);
-
-            // 2. Deleta o projeto
             try (PreparedStatement ps = conn.prepareStatement(deletesql)) {
+                // Removendo as relações do projeto.
+                removerProfessoresdoProjeto(conn, id);
+                removerCandidaturasdoProjeto(conn, id);
+                removerCursosdoProjeto(conn, id);
+                removerAlunodoProjeto(conn, id);
+
+                Projeto p = ProjetoDao.get(conn, id);
+
+                NovidadeDao.removerNovidade(conn, p.getNome());
+
                 ps.setInt(1, id);
                 int count = ps.executeUpdate();
                 if (count == 0) {
@@ -234,14 +261,11 @@ public class ProjetoDao {
                 }
             }
 
-            // Confirma a transação
             conn.commit();
         } catch (SQLException e) {
-            // Reverte a transação em caso de erro
             rollbackConnection(conn);
             throw e;
         } finally {
-            // Restaura o estado original do auto-commit
             try {
                 conn.setAutoCommit(autoCommitOriginal);
             } catch (SQLException e) {
@@ -335,13 +359,13 @@ public class ProjetoDao {
     }
 
     /**
-     * Remove as relações relacionadas a um projeto da tabela professor_has_projeto.
+     * Remove as relações relacionadas a um projeto da tabela Professor_has_Projeto
      *
      * @param conn      A conexão com o banco de dados.
      * @param projetoId O ID do projeto.
      * @throws SQLException Se ocorrer um erro durante a remoção.
      */
-    public static void removerPorProjeto(Connection conn, int projetoId) throws SQLException {
+    public static void removerProfessoresdoProjeto(Connection conn, int projetoId) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("DELETE FROM professor_has_projeto WHERE projeto_id = ?")) {
             ps.setInt(1, projetoId);
             ps.executeUpdate();
@@ -374,20 +398,110 @@ public class ProjetoDao {
         } catch (SQLException e) {
             throw e;
         } finally {
-            if (rs != null)
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    throw e;
-                }
-            if (ps != null)
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    throw e;
-                }
+
+            closeResource(ps, rs);
         }
 
         return projetosIds;
+    }
+
+    /**
+     * Retorna um conjunto de cursos relacioandos a um projeto.
+     *
+     * @param conn      A conexão com o banco de dados.
+     * @param projetoId O ID do projeto.
+     * @return Um conjunto de cursos relacionados ao projeto.
+     * @throws SQLException Se ocorrer um erro durante a consulta.
+     */
+    public static HashSet<Curso> getCursos(Connection conn, Long projetoId) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            // Cria uma lista com os ids dos cursos.
+            ps = conn.prepareStatement(getCursosByProjetoIDsql);
+            ps.setLong(1, projetoId);
+            rs = ps.executeQuery();
+            HashSet<Integer> ids = new HashSet<>();
+            while (rs.next()) {
+                ids.add(rs.getInt("curso_id"));
+            }
+
+            // A partir da lista de IDs, monta a lista de cursos.
+            HashSet<Curso> cursos = new HashSet<>();
+            for (int id : ids) {
+                Curso c = CursoDao.get(conn, id);
+                cursos.add(c);
+            }
+            return cursos;
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResource(ps, rs);
+        }
+    }
+
+    /**
+     * Insere um relação entre um curso e um projeto na tabela Projeto_has_Curso
+     *
+     * @param conn      A conexão com o banco de dados.
+     * @param projetoId O ID do projeto.
+     * @return Um conjunto de cursos relacionados ao projeto.
+     * @throws SQLException Se ocorrer um erro durante a consulta.
+     */
+    public static void inserirCursosProjeto(Connection conn, Projeto vo) throws SQLException {
+        try {
+            long projetoId = vo.getId();
+            for (Curso curso : vo.getCursos()) {
+                PreparedStatement ps = conn
+                        .prepareStatement("INSERT INTO Projeto_has_Curso (projeto_id, curso_id) VALUES (?, ?)");
+                ps.setLong(1, projetoId);
+                ps.setInt(2, curso.getId());
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
+
+    /**
+     * Remove as relações relacionadas a um projeto da tabela Projeto_has_curso
+     *
+     * @param conn      A conexão com o banco de dados.
+     * @param projetoId O ID do projeto.
+     * @throws SQLException Se ocorrer um erro durante a remoção.
+     */
+    public static void removerCursosdoProjeto(Connection conn, long projetoId) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM Projeto_has_Curso WHERE projeto_id = ?")) {
+            ps.setLong(1, projetoId);
+            ps.executeUpdate();
+        }
+    }
+
+    /**
+     * Remove as candidaturas relacionadas a um projeto da tabela Candidaturas
+     *
+     * @param conn      A conexão com o banco de dados.
+     * @param projetoId O ID do projeto.
+     * @throws SQLException Se ocorrer um erro durante a remoção.
+     */
+    public static void removerCandidaturasdoProjeto(Connection conn, int projetoId) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM candidatura WHERE oportunidade_id = ?")) {
+            ps.setInt(1, projetoId);
+            ps.executeUpdate();
+        }
+    }
+
+    /**
+     * Remove os alunos relacionados a um projeto da tabela Aluno_has_Projeto
+     *
+     * @param conn      A conexão com o banco de dados.
+     * @param projetoId O ID do projeto.
+     * @throws SQLException Se ocorrer um erro durante a remoção.
+     */
+    public static void removerAlunodoProjeto(Connection conn, int projetoId) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM Aluno_has_Projeto WHERE projeto_id = ?")) {
+            ps.setInt(1, projetoId);
+            ps.executeUpdate();
+        }
     }
 }
