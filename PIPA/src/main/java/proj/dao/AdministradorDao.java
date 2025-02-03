@@ -187,7 +187,7 @@ public class AdministradorDao {
         finally{closeResource(ps,rs); ps = null;rs = null; }
     }
 
-    public static void insert(Connection conn, Aluno vo)
+    public static void insert(Connection conn, Administrador vo)
         throws SQLException
     {
         PreparedStatement ps = null;

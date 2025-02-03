@@ -1,4 +1,5 @@
 package proj.model;
+
 public class Relatorio {
     private Long id;
     private Long idAluno;

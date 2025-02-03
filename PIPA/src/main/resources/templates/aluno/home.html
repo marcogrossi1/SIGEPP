@@ -15,15 +15,20 @@
     </header>
 
     <nav>
-		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+        <p id="nome-no-portal" th:text="${aluno.nome}"></p>
         <a th:href="@{/perfil-aluno(id=${aluno.id})}" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
+        </a>
         <a href="/notificacoes" class="icone" id="icone-portal">
-    <img th:src="@{${temNotificacaoNaoLida} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
-    <label>Notificações</label>
-</a>
-    </nav>    
+            <img th:src="@{${temNotificacaoNaoLida} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+            <label>Notificações</label>
+        </a>
+        <a th:href="@{/enviarRelatorio}" class="icone" id="icone-portal">
+            <img src="../img/icone-relatorio.png">
+            <label>Enviar Relatório</label>
+        </a>
+    </nav>
     
     <main>
         <h2 id="subtitulo-portal">Navegue pelo site</h2>

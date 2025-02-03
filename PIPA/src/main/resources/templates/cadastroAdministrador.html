@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Administrador</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/config.css}">
+</head>
+<body>
+    <header>
+        <a href="http://localhost:8080"><img id="logo" th:src="@{/img/logo.png}"></a>
+        <h1 id="titulo-plataforma">PIPA | Portal</h1>
+    </header>
+    <main>
+        <form id="administrador-inputs" th:action="@{/criarAdministrador}" method="post" enctype="multipart/form-data">
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" required>
+
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" required>
+
+            <label for="campus">Campus:</label>
+            <select class="conta-config" id="campus" name="campus">
+                <option value="" disabled selected>Selecione um campus</option>
+                <option value="Nova Suíça">Nova Suíça</option>
+                <option value="Nova Gameleira">Nova Gameleira</option>
+                <option value="Gameleira">Gameleira</option>
+                <option value="Contagem">Contagem</option>
+                <option value="Curvelo">Curvelo</option>
+                <option value="Leopoldina">Leopoldina</option>
+                <option value="Nepomuceno">Nepomuceno</option>
+                <option value="Timóteo">Timóteo</option>
+                <option value="Varginha">Varginha</option>
+            </select>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
+
+            <label for="senha">Senha:</label>
+            <input class="conta-config" type="password" id="senha" name="senha" placeholder="••••••••••••">
+
+            <label for="telefone">Telefone:</label>
+            <input type="text" name="telefone" required>
+
+            <input type="submit" value="Cadastrar">
+        </form>
+    </main>
+</body>
+</html>
