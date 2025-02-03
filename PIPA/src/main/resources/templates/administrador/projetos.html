@@ -41,7 +41,7 @@
     
     <main>
         <h2 id="subtitulo-portal">Lista de Projetos</h2>
-        <table class="table">
+        <table class="table" id="projetos-table">
 			<thead>
 				<tr>
 					<th>Id</th>
@@ -62,7 +62,7 @@
 					<td th:text="${projetos.cargaHoraria}"></td>
                     <td th:text="${projetos.requisito}"></td>
                     <td><a th:href="'/administrador/editar-projeto?n=' + ${projetos.id}">
-                        <button id="botao-certificado">Editar projeto</button>
+                        <button class="botao-editar">Editar projeto</button>
                     </a></td>
 				</tr>				
 			</tbody>

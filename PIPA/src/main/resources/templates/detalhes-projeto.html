@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="icon" href="img/icon.png">
+    <link rel="icon" href="../img/icon.png">
     <title>Professor - Home</title>
 </head>
 
@@ -41,8 +41,6 @@
         <div th:each="curso : ${projeto.cursos}" class="tag"><span th:text="${curso.nomeCurso}"></span></div>
         <div th:if="${projeto.cursos == null}">Erro ao carregar cursos</div>
         <div th:each="p : ${projetosDoAluno}" th:text="${p.nome}"></div>
-        <div th:if="${not #lists.contains(idsProjetosDoAluno, projeto.id)}" class="opcoes">
-            <a class="botao-aplicar" th:href="@{/projeto/{id}/aplicacao(id=${projeto.id})}">Aplicar para o projeto</a>
-        </div>
+        <div class="opcoes" ><a class="botao-aplicar" th:href="@{/projeto/{id}/aplicacao(id=${projeto.id})}">Aplicar para o projeto</a></div>
     </section>
 </body>

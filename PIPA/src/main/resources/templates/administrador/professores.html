@@ -60,7 +60,7 @@
 					<td th:text="${professores.email}"></td>	
 					<td>				
 						<a th:href="@{/administrador/listar-professores/editar(id=${professores.id})}">
-						 <button id="botao-certificado">Editar</button>
+						 <button class="botao-editar">Editar</button>
 						</a>
 					</td>
 					<td>						
@@ -70,7 +70,7 @@
 								onsubmit="return confirm('Tem certeza que deseja deletar este professor?');" >
 
 								<input type="hidden"  name="n" th:value=" ${professores.id}" />
-								<input  id="botao-deletar" type="submit" value="Deletar" />  
+								<input class="botao-excluir" id="botao-deletar" type="submit" value="Deletar" />  
 						</form> 
 						
 					</td>

@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Progresso;
@@ -45,7 +43,6 @@ public class AlunoDao {
     private final static String updateForBannerPerfilSql = "UPDATE aluno SET bannerPerfil = ?  WHERE id = ? ";
     private final static String updateForDescricaoPerfilSql = "UPDATE aluno SET descricaoPerfil = ?  WHERE id = ? ";
     private final static String updateForUsuario_idSql = "UPDATE aluno SET usuario_id = ?  WHERE id = ? ";
-    private final static String deletesql = "DELETE FROM aluno WHERE id = ?";
     private final static String getProgressoEstagioSql = "SELECT progresso FROM aluno_has_estagio WHERE aluno_id = ? AND estagio_id = ?";
     private final static String setProgressoEstagioSql = "INSERT INTO aluno_has_estagio (aluno_id, estagio_id, progresso) VALUES (?, ?, ?) AS upd_row ON DUPLICATE KEY UPDATE progresso = upd_row.progresso;";
     private final static String deleteHasEstagioSql = "DELETE FROM aluno_has_estagio WHERE aluno_id = ? AND estagio_id = ?";

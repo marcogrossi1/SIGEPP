@@ -42,9 +42,8 @@ public class AdministradorController {
     
     @GetMapping
 	public String mostraPortal(Model model, Principal principal) throws Exception {		
-		//try(
-            Connection conn = ds.getConnection();//)
-		//{
+		try(Connection conn = ds.getConnection())
+		{
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			if (u.getRole().equals("Administrador") == false)
 			{
@@ -55,11 +54,11 @@ public class AdministradorController {
 			
             model.addAttribute("usuario", u);
             model.addAttribute("administrador", adm);
-		//}
-		//catch(Exception e) {
-		//	e.printStackTrace();
-		//	return mostraPaginaDeErro(model , "Erro interno na aplicação!.");
-		//}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return mostraPaginaDeErro(model , "Erro interno na aplicação!.");
+		}
 
 		return "administrador/home";
 	}	
@@ -151,6 +150,28 @@ public class AdministradorController {
         }
     }
 
+    @RequestMapping("/deletar-projeto")
+    public String deletarProjeto(@RequestParam("n") Integer projetoId, Model model, Principal principal) throws Exception {
+        try(Connection conn = ds.getConnection()) {
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+            Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
+
+            Projeto e = ProjetoDao.get(conn, projetoId);
+
+            ProjetoDao.delete(conn, projetoId);
+
+            model.addAttribute("usuario", u);
+            model.addAttribute("administrador", a);
+            model.addAttribute("estagio", e);
+
+            return "/administrador/estagios";
+        }
+
+        catch(Exception e) {
+            return mostraPaginaDeErro(model, "Este estágio já pertence à uma empresa e, portanto, não pode mais ser deletado.");
+        }
+    }
+
     public String mostraPaginaDeErro(Model model, String message) {
 		model.addAttribute("message",message);
 		return "erro";
@@ -200,7 +221,8 @@ public class AdministradorController {
 
     @GetMapping("/listar-alunos")
     public String listaAlunos(Model model, Principal principal) throws Exception {
-        try(Connection conn = ds.getConnection()) {
+        //try(
+            Connection conn = ds.getConnection();//) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
             Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
 
@@ -211,11 +233,11 @@ public class AdministradorController {
             model.addAttribute("listaAlunos", alunos);
 
             return "administrador/alunos";
-        }
+        //}
 
-        catch(Exception e) {
-            return "erro";
-        }
+        //catch(Exception e) {
+        //    return "erro";
+        //}
     }
     
     @GetMapping("/listar-certificados-licencas")
