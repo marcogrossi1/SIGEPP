@@ -52,11 +52,11 @@ public class ProjetoDao {
             ps.setLong(1, id);
             rs = ps.executeQuery();
             if (!rs.next()) {
-                System.out.println("Projeto não encontrado com ID: " + id); // Log de não encontrado
+                System.out.println("Projeto não encontrado com ID: " + id);
                 throw new NotFoundException("Object not found [" + id + "]");
             }
             Projeto b = set(rs);
-            System.out.println("Projeto encontrado: " + b.getNome()); // Log do projeto encontrado
+            System.out.println("Projeto encontrado: " + b.getNome());
             return b;
         } catch (SQLException e) {
             throw e;

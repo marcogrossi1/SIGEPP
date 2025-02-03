@@ -24,6 +24,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import proj.dao.AlunoDao;
+import proj.dao.CursoDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.NotFoundException;
@@ -121,6 +122,24 @@ public class AlunoController {
 			return mostraPaginaDeErro(model, e.getMessage());
 		}
 	}
+
+	@GetMapping("/detalhes-projeto")
+	public String mostraDetalhesProjeto(Model model, Principal principal, @RequestParam("id") long id) throws Exception {
+		try (Connection conn = ds.getConnection()) {
+			Projeto p = ProjetoDao.get(conn, id);
+			HashSet<Curso> c = ProjetoDao.getCursos(conn, id);
+			p.setCursos(c);
+			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+
+			ArrayList<Long> idsProjetosDoAluno = AlunoDao.listProjetosIdsByAlunoId(conn, a.getId());
+
+			model.addAttribute("idsProjetosDoAluno", idsProjetosDoAluno);
+			model.addAttribute( "projeto", p);
+			model.addAttribute("aluno", a);
+		}
+		return "detalhes-projeto";
+	}
+	
 
 	@GetMapping("/inscrever-estagio")
 	public String inscreverEstagio(Model model, Principal principal, @RequestParam("n") long id) {
