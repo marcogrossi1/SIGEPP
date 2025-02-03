@@ -6,24 +6,31 @@
 }
 
 
+body, html {
+	margin: 0;
+	height: 100%;
+}
+
 body {
-    background-color: #f8f8f8;
-    color: #333;
+	overflow-x: hidden;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	background-color: #f4f2ee;
 }
 
 header {
-    width: 100vw;
-    height: 10vh;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    background-color: #003869;
+	width: 100vw;
+	height: 10vh;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	background-color: #003869;
 }
 
 nav {
     width: 100vw;
-    height: 5vh;
-    padding: 0 1vw 0 0;
+    height: 6vh;
     display: flex;
     flex-direction: row;
     justify-content: end;
@@ -31,41 +38,50 @@ nav {
     background-color: #ffffff;
     border-bottom: 0.00001vh solid #c5c5c5;
 }
+p {
+    color: black;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
 
-nav> :first-child {
-    position: absolute;
-    top: 8.5vh;
-    left: 1vw;
+#nome-no-portal {
+    position: relative;
+    margin-left: 2vw;
+    margin-right: auto; /*Aqui, body tem overflowY. então position absolute não pode ser usado para manter o nome no lugar. Por isso a margem está sendo usada.*/
     font-size: 1.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
 }
 
 .icone {
-    height: 6vh;
+    height: 5.5vh;
     display: grid;
     grid-template-rows: 4vh 2vh;
     color: black;
     text-decoration: none;
+    margin-right: 1vw;
 }
-
-#icone-pesquisa-aluno {
-    margin-left: 100px;
-}
-
 
 .icone img {
-    height: 4vh;
-    grid-row: 1;
-    justify-self: center;
+	height: 4vh;
+	grid-row: 1;
+	justify-self: center;
 }
 
 .icone label {
     justify-self: center;
+    font-size: 0.9em;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .icone:hover {
-    transform: scale(1.1);
+	transform: scale(1.1);
 }
+
 
 #logo {
     padding-left: 1vw;
@@ -131,7 +147,7 @@ nav> :first-child {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 10px;
-    width: 60%;
+    width: 60vw;
 }
 
 .project-card {

@@ -16,19 +16,18 @@
 
     <nav>
 		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
+		  <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
         <a th:href="@{/perfil-aluno(id=${aluno.id})}" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
-        <a href="/notificacoes" class="icone" id="icone-portal">
-    <img th:src="@{${temNotificacaoNaoLida} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
-    <label>Notificações</label>
 </a>
     </nav>    
-    
     <main>
         <h2 id="subtitulo-portal">Navegue pelo site</h2>
         <br>
-        <div id="notificacoes-portal">
+        <!--div id="notificacoes-portal">
             <button id="voltar-notificacao">&lt;</button>
             <p id="not-um">notificação 1</p>
             <p id="not-dois">notificação 2</p>
@@ -37,7 +36,7 @@
             <img src="../img/not-um-select.png" class="select-not-img" id="not-um-select">
             <img src="../img/not-dois-select.png" class="select-not-img" id="not-dois-select">
             <img src="../img/not-tres-select.png" class="select-not-img" id="not-tres-select">
-        </div>
+        </div-->
         <br>
 		<a href="/aluno/explorarProjetos">
         <button class="botoes-portal" id="botao-projeto" type="submit">
@@ -54,8 +53,20 @@
                 <img src="img/botao-certificados.png" class="imgs-botoes-portal">
             </button>
         </a>
-		<br>
-		<br>
+        <div class="carousel-container">
+            <button class="carousel-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+            <div class="carousel-wrapper">
+                <a th:each="novidade : ${novidades}" th:href="${novidade.link}" class="carousel-item">
+                    <img th:if="${!novidade.estagio}" th:src="@{img/novidade-projeto.png}" alt="Imagem de projeto">
+                    <img th:if="${novidade.estagio}" th:src="@{img/novidade-estagio.jpg}" alt="Imagem de estágio">
+                    <h3 th:text="${novidade.nome}"></h3>
+                    <p th:text="${novidade.descricao}"></p>
+                    <span th:if="${!novidade.estagio}" class="new-opportunity-badge">Novo Projeto!</span>
+                    <span th:if="${novidade.estagio}" class="new-opportunity-badge">Novo Estágio!</span>
+                </a>
+            </div>
+            <button class="carousel-btn next" onclick="moveSlide(1)">&#10095;</button>
+        </div>
 		<a href="/logout" class="link-logout">Logout</a>
     </main>
 
@@ -68,13 +79,14 @@
         </ul>
 		<p>Projetos:</p>
 		<ul th:each="projeto : ${projetos}">
-            <li><a th:href="'/encontra-projeto?nome=' + ${projeto.nome}">
+            <li><a th:href="'/aluno/detalhes-projeto?id=' + ${projeto.id}">
                 <button type="submit" th:text="${projeto.nome}"></button>
             </a></li>
 		</ul>
     </section>
 
     <script src="js/portal.js"></script>
+    <script src="js/carrossel.js"></script>
 
 </body>
 </html>

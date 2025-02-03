@@ -84,11 +84,12 @@ public class PesquisaAlunoController {
 			
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			String nome = null;
-			if(u.getRole() == "Empresa") {
+			System.out.println(u.getRole());
+			if(u.getRole().equals("Empresa")) {
 				Empresa x = EmpresaDao.getByUsuario_id(conn, u.getId());
 				nome = x.getNome();
 			}
-			else  {
+			else {
 				Professor x = ProfessorDao.getByUsuario_id(conn, u.getId());
 				nome = x.getNome();
 			}
@@ -144,7 +145,7 @@ public class PesquisaAlunoController {
 			
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			String nome = null;
-			if(u.getRole() == "Empresa") {
+			if(u.getRole().equals("Empresa")) {
 				Empresa x = EmpresaDao.getByUsuario_id(conn, u.getId());
 				nome = x.getNome();
 			}

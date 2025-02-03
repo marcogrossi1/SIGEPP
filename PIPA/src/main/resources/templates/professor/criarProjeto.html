@@ -17,6 +17,10 @@
 
     <nav>
         <p th:text="${professor.nome}"></p>
+         <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
         <a href="link" class="icone">
             <img th:src="@{/img/icone-perfil.png}">
             <label>Perfil</label>
@@ -31,24 +35,48 @@
         <form th:action="@{/professor/projetos/criarProjeto}" th:object="${projeto}" method="post">
             <label for="nome">Nome:</label>
             <input type="text" th:field="*{nome}" id="nome" /><br/><br/>
-    
+        
             <label for="responsavel">Responsável:</label>
             <input type="text" th:value="${professor.nome}" readonly="readonly" id="responsavel" /><br/><br/>
-    
+        
             <label for="descricao">Descrição:</label>
             <textarea th:field="*{descricao}" id="descricao"></textarea><br/><br/>
-    
+        
             <label for="cargaHoraria">Carga Horária:</label>
             <input type="number" th:field="*{cargaHoraria}" id="cargaHoraria" /><br/><br/>
-    
-            <label for="vagas">Vagas:</label>
-            <input type="number" th:field="*{vagas}" id="vagas" /><br/><br/>
-    
+        
+            <label for="vagasRemuneradas">Vagas Remuneradas:</label>
+            <input type="number" th:field="*{vagasRemuneradas}" id="vagasRemuneradas" /><br/><br/>
+        
+            <label for="valorBolsa">Valor da Bolsa:</label>
+            <input type="text" th:field="*{valorBolsa}" id="valorBolsa" /><br/><br/>
+        
+            <label for="vagasVoluntarias">Vagas Voluntárias:</label>
+            <input type="number" th:field="*{vagasVoluntarias}" id="vagasVoluntarias" /><br/><br/>
+        
             <label for="requisito">Requisitos:</label>
             <textarea th:field="*{requisito}" id="requisito"></textarea><br/><br/>
-    
+        
+            <label for="campus">Campus:</label>
+            <input type="text" th:field="*{campus}" id="campus" /><br/><br/>
+        
+            <label for="tipo_projeto">Tipo:</label>
+            <select th:field="*{tipoProjeto}" id="tipoProjeto">
+                <option value="Extensão">Extensão</option>
+                <option value="Pesquisa">Pesquisa</option>
+                <option value="Monitoria">Monitoria</option>
+            </select><br /><br />
+
+            <label>Cursos:</label><br />
+            <div class="checkbox-container" th:each="curso : ${cursos}">
+                <div class="checkbox">
+                    <input class="checkbox" type="checkbox" name="cursoIds" th:value="${curso.id}" />
+                    <label th:text="${curso.nomeCurso}"></label><br />
+                </div>
+            </div><br>
+        
             <button type="submit">Criar Projeto</button>
-        </form>
+        </form><br><br><br><br>        
     </main>
 
 </body>
