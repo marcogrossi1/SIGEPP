@@ -73,12 +73,51 @@ VALUES
 (8,"Embraer","Vagas Setor de Desenvolvimento",80,5,"Cursando Engenharia Aeronáutica, serie 4", "1550", NULL);
 
 
-INSERT INTO projeto (id, nome, responsavel, descricao, carga_horaria, vagas, requisito) 
+INSERT INTO projeto (id, nome, responsavel, descricao, carga_horaria, vagas_remuneradas, valor_bolsa, vagas_voluntarias, requisito, campus, tipo_projeto) 
 VALUES 
-(1,"Pipa","Cristiano Amaral Maffort", "Trabalho em sistema de coordenação de oportunidades acadêmicas.",80,10,"Informática serie 2"),
-(2,"Ficando Rico","Lucia Próspera","Projeto em matemática financeira.",50,2,"Ser aluno do Cefet."),	
-(3, "Plataforma de Ensino Online", "Cristiano Amaral Maffort", "Desenvolvimento de uma plataforma para ensino a distância, focada em acessibilidade e interatividade para alunos de diversos níveis.", 120, 15, "Conhecimento básico em tecnologias web."),
-(4, "Sistema de Monitoramento de Desempenho Acadêmico", "Cristiano Amaral Maffort", "Criação de um sistema de monitoramento para acompanhar o desempenho dos alunos, com relatórios detalhados e alertas para professores.", 100, 12, "Noções de bancos de dados e programação orientada a objetos.");
+(1, "Pipa", "Cristiano Amaral Maffort", "Trabalho em sistema de coordenação de oportunidades acadêmicas.", 80, 5, "3000,00", 5, "Informática série 2", "Nova Gameleira", "Extensão"),
+(2, "Ficando Rico", "Lucia Próspera", "Projeto em matemática financeira.", 50, 2, "9999,99", 0, "Ser aluno do Cefet.", "Nova Suíça", "Extensão"),	
+(3, "Plataforma de Ensino Online", "Cristiano Amaral Maffort", "Desenvolvimento de uma plataforma para ensino a distância, focada em acessibilidade e interatividade para alunos de diversos níveis.", 120, 10, "840,00", 5, "Conhecimento básico em tecnologias web.", "Nova Gameleira", "Extensão"),
+(4, "Sistema de Monitoramento de Desempenho Acadêmico", "Cristiano Amaral Maffort", "Criação de um sistema de monitoramento para acompanhar o desempenho dos alunos, com relatórios detalhados e alertas para professores.", 100, 8, "760,00", 4, "Noções de bancos de dados e programação orientada a objetos.", "Nova Suíça", "Extensão");
+
+INSERT INTO Curso (nome) VALUES
+('Técnico em Informática'),
+('Técnico em Redes de Computadores'),
+('Técnico em Edificações'),
+('Técnico em Eletrônica'),
+('Técnico em Eletrotécnica'),
+('Técnico em Equipamentos Biomédicos'),
+('Técnico em Mecânica'),
+('Técnico em Mecatrônica'),
+('Técnico em Química'),
+('Técnico em Hospedagem'),
+('Técnico em Estradas'),
+('Técnico em Meio Ambiente'),
+('Técnico em Trânsito');
+
+INSERT INTO Projeto_has_Curso (projeto_id, curso_id)
+VALUES
+-- Associação para o Projeto 1
+(1, 1), -- Técnico em Informática
+(1, 2), -- Técnico em Redes de Computadores
+(1, 3), -- Técnico em Edificações
+
+-- Associação para o Projeto 2
+(2, 4), -- Técnico em Eletrônica
+(2, 5), -- Técnico em Eletrotécnica
+(2, 6), -- Técnico em Equipamentos Biomédicos
+
+-- Associação para o Projeto 3
+(3, 1), -- Técnico em Informática
+(3, 7), -- Técnico em Mecânica
+(3, 8), -- Técnico em Mecatrônica
+(3, 9), -- Técnico em Química
+
+-- Associação para o Projeto 4
+(4, 10), -- Técnico em Hospedagem
+(4, 11), -- Técnico em Estradas
+(4, 12), -- Técnico em Meio Ambiente
+(4, 13); -- Técnico em Trânsito
 
 INSERT INTO aluno_has_estagio (aluno_id, estagio_id, progresso) 
 VALUES 
@@ -98,7 +137,6 @@ VALUES
 
 INSERT INTO empresa_has_estagio (empresa_id, estagio_id) 
 VALUES 
-
 (2, 1),
 (6, 2),
 (7, 3),
@@ -129,3 +167,8 @@ VALUES
 (1, 2, "Estou muito interessado nesta oportunidade e acredito que posso contribuir muito.", NOW(), 'EM_ANDAMENTO'), 
 (2, 1, "Gostaria de me candidatar a esta vaga, pois tenho experiência na área.", NOW(), 'VALIDADA'), 
 (3, 3, "Acredito que este projeto é uma ótima oportunidade para aplicar meus conhecimentos.", NOW(), 'INVALIDADA');  
+
+INSERT INTO Novidade (nome, descricao, isEstagio, link)
+VALUES
+('Pipa', 'Trabalho em sistema de coordenação de oportunidades acadêmicas.', FALSE, "aluno/detalhes-projeto?id=1"),
+('Cemig', 'Vagas Setor Manutenção.', TRUE, "aluno/detalhes-estagio?n=1");

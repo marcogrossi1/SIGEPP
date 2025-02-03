@@ -89,12 +89,36 @@ CREATE TABLE Projeto (
   responsavel VARCHAR(255) NOT NULL,
   descricao VARCHAR(500) NULL,
   carga_horaria INT NULL,
-  vagas INT NULL,
+  vagas_remuneradas INT NULL,
+  valor_bolsa VARCHAR(8) NULL,
+  vagas_voluntarias INT NULL,
   requisito VARCHAR(255) NULL,
+  campus VARCHAR(70) NULL,
+  tipo_projeto VARCHAR(9) NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX nome_UNIQUE (nome ASC) )
 ENGINE = InnoDB default character set = utf8;
 
+-- -----------------------------------------------------
+-- Table Curso
+-- -----------------------------------------------------
+CREATE TABLE Curso (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE INDEX nome_UNIQUE (nome ASC)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
+-- Table Projeto_has_Curso
+-- -----------------------------------------------------
+CREATE TABLE Projeto_has_Curso (
+  projeto_id BIGINT NOT NULL,
+  curso_id BIGINT NOT NULL,
+  PRIMARY KEY (projeto_id, curso_id),
+  FOREIGN KEY (projeto_id) REFERENCES Projeto(id) ON DELETE CASCADE,
+  FOREIGN KEY (curso_id) REFERENCES Curso(id) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table Aluno_has_Projeto
@@ -251,13 +275,13 @@ CREATE TABLE Seguidores (
 ENGINE = InnoDB default character set = utf8;
 
   -- -----------------------------------------------------
--- Table SEÇÕES COLOCAR conteudoVideo, e outras coisas necesariasssssssssssssssssssssssssss
+-- Table SEÇÕES COLOCAR conteudoVideo, e outras coisas necesarias
 -- -----------------------------------------------------
 
 CREATE TABLE secoes (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Usuario_id BIGINT NULL,
-    titulo VARCHAR(255) DEFAULT "Sem título",
+    titulo VARCHAR(255) DEFAULT 'Sem título',
     tipo VARCHAR(255) NOT NULL,
     conteudoTexto LONGTEXT,
     comprimentoConteudoTexto INT NULL,
@@ -265,4 +289,15 @@ CREATE TABLE secoes (
     conteudoImagem LONGBLOB NULL,
     ordem INT,
   	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE Novidade (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(255) NOT NULL,
+  descricao TEXT NOT NULL,
+  isEstagio BOOLEAN NOT NULL,
+  link VARCHAR(55) NOT NULL,
+  dataPublicacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE INDEX nome_UNIQUE (nome ASC)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
