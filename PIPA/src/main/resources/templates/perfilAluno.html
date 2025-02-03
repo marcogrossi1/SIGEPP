@@ -196,6 +196,11 @@
 	        <textarea id="novaAvaliacao" placeholder="Digite sua avaliação..."></textarea>
 	        <button id="enviarAvaliacao">Enviar</button>
 			</div>
+			<div th:case="'Empresa'">
+			<h2>Escreva sua avaliação</h2>
+			<textarea id="novaAvaliacao" placeholder="Digite sua avaliação..."></textarea>
+			<button id="enviarAvaliacao">Enviar</button>
+			</div>
 			<h2>Avaliações</h2>
 	        <!-- Lista de avaliações -->
 	        <div id="listaAvaliacoes">
@@ -273,7 +278,7 @@
 
 		document.getElementById("enviarAvaliacao").addEventListener("click", function () {
 		    let avaliacaoTexto = document.getElementById("novaAvaliacao").value;
-		    let nomeUsuario = "[[${nomeProfessor}]]"; // Pegue dinamicamente se necessário
+		    let nomeUsuario = "[[${nome}]]"; // Pegue dinamicamente se necessário
 		    let alunoId = new URLSearchParams(window.location.search).get("id"); // Obtém o ID do aluno da URL
 
 		    if (avaliacaoTexto.trim() !== "" && alunoId) {
