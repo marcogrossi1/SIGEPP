@@ -57,8 +57,10 @@ public class PerfilAlunoController {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
         	model.addAttribute("usuario", u);
         	
+        	if(u.getRole().equals("Professor")) {
         	Professor professor = ProfessorDao.getByUsuario_id(conn, u.getId());
             model.addAttribute("nomeProfessor", professor.getNome());
+        	}
         	
 			Aluno a = AlunoDao.get(conn, alunoId);
 			List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, alunoId);
