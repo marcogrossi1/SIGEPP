@@ -71,8 +71,10 @@
 		        ALUNO DO CAMPUS X
 		    </a>
 			<!-- Botão para abrir o modal -->
-							<button id="openModalBtn">AVALIAÇÕES</button>
+							
 		</div>
+		
+		<button id="openModalBtn">AVALIAÇÕES</button>
 		
 		
 		<a th:href="@{/configPerfil/contaConfigPerfil(id=${u.id})}" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}"></a>
@@ -123,18 +125,13 @@
 				
 	</div>
 	
-	<div id="avaliacaoModal" th:switch="${usuario.role}" class="modal">
+	<div id="avaliacaoModal" class="modal">
 		    <div class="modal-content">
 		        <span class="close" id="closeModalBtn">&times;</span>
-				<div th:case="'Professor'">
+				<div>
 				<h2>Escreva sua avaliação</h2>
 		        <textarea id="novaAvaliacao" placeholder="Digite sua avaliação..."></textarea>
 		        <button id="enviarAvaliacao">Enviar</button>
-				</div>
-				<div th:case="'Empresa'">
-				<h2>Escreva sua avaliação</h2>
-				<textarea id="novaAvaliacao" placeholder="Digite sua avaliação..."></textarea>
-				<button id="enviarAvaliacao">Enviar</button>
 				</div>
 				<h2>Avaliações</h2>
 		        <!-- Lista de avaliações -->
@@ -196,71 +193,67 @@
 	  }
 	</script>
 	
-	<div id="avaliacaoModal" class="modal">
-		    <div class="modal-content">
-		        <span class="close" id="closeModalBtn">&times;</span>
-				
-				<h2>Escreva sua avaliação</h2>
-		        <textarea id="novaAvaliacao" placeholder="Digite sua avaliação..."></textarea>
-		        <button id="enviarAvaliacao">Enviar</button>
-				>
-				<h2>Avaliações</h2>
-		        <!-- Lista de avaliações -->
-		        <div id="listaAvaliacoes">
-		            <!-- Avaliações serão inseridas aqui via JavaScript -->
-		        </div>
-		    </div>
-		</div>
+	<script th:inline="javascript" type="text/javascript">
+		let nome = /*[[${nome}]]*/ {};
+		
+		document.getElementById("openModalBtn").addEventListener("click", function () {
+		    document.getElementById("avaliacaoModal").style.display = "block";
+		    carregarAvaliacoes();
+		});
 
-		<script th:inline="javascript" type="text/javascript">
-			let nome = /*[[${nome}]]*/ {};
+		document.getElementById("closeModalBtn").addEventListener("click", function () {
+		    document.getElementById("avaliacaoModal").style.display = "none";
+		});
+
+		document.getElementById("enviarAvaliacao").addEventListener("click", function () {
+		    let avaliacaoTexto = document.getElementById("novaAvaliacao").value;
+		    let nomeUsuario = nome;
+		    let id = usuarioId;
 			
-			document.getElementById("openModalBtn").addEventListener("click", function () {
-			    document.getElementById("avaliacaoModal").style.display = "block";
-			    carregarAvaliacoes();
-			});
-
-			document.getElementById("closeModalBtn").addEventListener("click", function () {
-			    document.getElementById("avaliacaoModal").style.display = "none";
-			});
-
-			document.getElementById("enviarAvaliacao").addEventListener("click", function () {
-			    let avaliacaoTexto = document.getElementById("novaAvaliacao").value;
-			    let nomeUsuario = nome; // Pegue dinamicamente se necessário
-			    let usuarioId = new URLSearchParams(window.location.search).get("id"); // Obtém o ID do aluno da URL
-
-			    if (avaliacaoTexto.trim() !== "" && usuarioId) {
-			        fetch("/avaliacoes", {
-			            method: "POST",
-			            headers: {
-			                "Content-Type": "application/json"
-			            },
-			            body: JSON.stringify({
-			                nomeUsuario: nomeUsuario,
-			                comentario: avaliacaoTexto,
-			                usuarioId: usuarioId
-			            })
-			        }).then(response => response.json())
-			          .then(data => {
-			              document.getElementById("novaAvaliacao").value = "";
-			              carregarAvaliacoes();
-			          });
-			    }
-			});
-
-			function carregarAvaliacoes() {
-			    fetch(`/avaliacoes/${usuarioId}`)
-			        .then(response => response.json())
-			        .then(data => {
-			            let listaAvaliacoes = document.getElementById("listaAvaliacoes");
-			            listaAvaliacoes.innerHTML = "";
-			            data.forEach(avaliacao => {
-			                let novaEntrada = `<p><strong>${avaliacao.nomeUsuario}</strong>: ${avaliacao.comentario}</p>`;
-			                listaAvaliacoes.innerHTML += novaEntrada;
-			            });
-			        });
-			}
-		</script>
+			let inputIdUsuario = document.createElement('input');
+			inputIdUsuario.type = 'hidden';
+			inputIdUsuario.value = id;
+			inputIdUsuario.name = 'id';
+			
+			let inputNome = document.createElement('input');
+			inputNome.type = 'hidden';
+			inputNome.value = nomeUsuario;
+			inputNome.name = 'nome';
+			
+			let inputAvaliacaoTexto = document.createElement('input');
+			inputAvaliacaoTexto.type = 'hidden';
+			inputAvaliacaoTexto.value = avaliacaoTexto;
+			inputAvaliacaoTexto.name = 'avaliacaoTexto';
+			
+			let form = document.createElement('form');
+			form.type = 'hidden';
+		   	form.id = 'secao-edicao';
+			form.action = "/perfil/atualizar-avaliacoes"; 
+			form.method = "POST"; 
+			form.enctype = "multipart/form-data";
+			document.body.appendChild(form);
+			
+			form.appendChild(inputIdUsuario);
+			form.appendChild(inputNome);
+			form.appendChild(inputAvaliacaoTexto);
+			
+			
+			form.submit();
+		});
+		/*
+		function carregarAvaliacoes() {
+		    fetch(`/avaliacoes/${id}`)
+		        .then(response => response.json())
+		        .then(data => {
+		            let listaAvaliacoes = document.getElementById("listaAvaliacoes");
+		            listaAvaliacoes.innerHTML = "";
+		            data.forEach(avaliacao => {
+		                let novaEntrada = `<p><strong>${avaliacao.nomeUsuario}</strong>: ${avaliacao.comentario}</p>`;
+		                listaAvaliacoes.innerHTML += novaEntrada;
+		            });
+		        });
+		}*/
+	</script>
 	
 </body>
 </html>

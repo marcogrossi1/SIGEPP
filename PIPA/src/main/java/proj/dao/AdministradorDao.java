@@ -34,7 +34,8 @@ public class AdministradorDao {
     private final static String deletesql = "DELETE FROM administrador WHERE id = ?";
     private final static String listEmpresasSql = "SELECT * FROM empresa";
     private final static String listAlunosSql = "SELECT * FROM aluno";
-
+    private final static String listProfessoresSql = "SELECT * FROM professor";
+    
     private final static String listProjetosSql = "SELECT * FROM projeto";
 	private final static String listEstagiosSql = "SELECT * FROM estagio";
 
@@ -429,49 +430,32 @@ public class AdministradorDao {
 			rs = null;
 		}
 	}
-    
-    public static ArrayList<Aluno> listAlunosComSecoes(Connection conn) throws SQLException {
-        String sql = "SELECT DISTINCT a.id, a.nome, a.curso, a.campus " +
-                     "FROM alunos a " +
-                     "JOIN secoes s ON a.id = s.usuario_id " +
-                     "WHERE s.id IN (SELECT DISTINCT secao_id FROM topicos)";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+    public static ArrayList<Professor> listProfessores(Connection conn) 
+	throws SQLException 
+	{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(listProfessoresSql);
+			rs = ps.executeQuery();
+			if (!rs.next()) {
+				return new ArrayList<Professor>();
+			}
+			ArrayList<Professor> list = new ArrayList<Professor>();
+			do {
+				Professor b = ProfessorDao.set(rs);
+				list.add(b);
+			} while (rs.next());
+			return list;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			closeResource(ps, rs);
+			ps = null;
+			rs = null;
+		}
+	}
 
-            ArrayList<Aluno> alunos = new ArrayList<>();
-            while (rs.next()) {
-                Aluno aluno = new Aluno();
-                aluno.setId(rs.getInt("id"));
-                aluno.setNome(rs.getString("nome"));
-                aluno.setCurso(rs.getString("curso"));
-                aluno.setCampus(rs.getString("campus"));
-                alunos.add(aluno);
-            }
-            return alunos;
-        }
-    }
-
-    
-    public static ArrayList<Professor> listProfessoresComSecoes(Connection conn) throws SQLException {
-        String sql = "SELECT DISTINCT p.id, p.nome, p.email " +
-                     "FROM professores p " +
-                     "JOIN secoes s ON p.id = s.usuario_id " +
-                     "WHERE s.id IN (SELECT DISTINCT secao_id FROM topicos)";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            ArrayList<Professor> professores = new ArrayList<>();
-            while (rs.next()) {
-                Professor professor = new Professor();
-                professor.setId(rs.getInt("id"));
-                professor.setNome(rs.getString("nome"));
-                professor.setEmail(rs.getString("email"));
-                professores.add(professor);
-            }
-            return professores;
-        }
-    }
 
 }

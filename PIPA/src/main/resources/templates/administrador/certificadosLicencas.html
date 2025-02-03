@@ -35,70 +35,35 @@
     </nav>       
 
 	<main>
-	    <h2 class="subtitulo-portal">Lista de Usuario</h2>
-	    <table class="table">
-	        <thead>
-	            <tr>
-	                <th>Id</th>
-	                <th>Nome</th>
-	                <th>Curso</th>
-	                <th>Campus</th>
-	                <th>Ver mais</th>
-	                <th>Validação</th>
-	            </tr>
-	        </thead>
-	        <tbody>
-	            <tr th:each="aluno : ${listaAlunos}">
-	                <td th:text="${aluno.id}"></td>
-	                <td th:text="${aluno.nome}"></td>
-	                <td th:text="${aluno.curso}"></td>
-	                <td th:text="${aluno.campus}"></td>
-	                <td>
-	                    <a th:href="'/perfil?id=' + ${aluno.id}">
-	                        <button id="botao-certificado">Ver mais</button>
-	                    </a>
-	                </td>
-	                <td>
-	                    <a th:href="@{/administrador/listar-certificados-licencas/editar(id=${aluno.id})}">
-	                        <button id="botao-certificado">Validar</button>
-	                    </a>
-	                </td>
-	            </tr>
-	        </tbody>
-	    </table>
-		
-		<!--
-	    <h2 class="subtitulo-portal">Lista de Professores</h2>
+	    <h2 class="subtitulo-portal">Lista de Usuarios</h2>
 	    <table class="table">
 	        <thead>
 	            <tr>
 	                <th>Id</th>
 	                <th>Nome</th>
 	                <th>Email</th>
-	                <th>Role</th>
 	                <th>Ver Perfil</th>
 					<th>Validação</th>
 	            </tr>
 	        </thead>
 	        <tbody>
-	            <tr th:each="professor : ${listaProfessores}">
-	                <td th:text="${professor.id}"></td>
-	                <td th:text="${professor.nome}"></td>
-	                <td th:text="${professor.email}"></td>
-	                <td th:text="${professor.role}"></td>
+	            <tr th:each="usuario : ${listaUsuario}">
+	                <td th:text="${usuario.id}"></td>
+	                <td th:text="${usuario.nome}"></td>
+	                <td th:text="${usuario.email}"></td>
 	                <td>
-	                    <a th:href="'/perfil?id=' + ${professor.id}">
+	                    <a th:href="'/perfil?id=' + ${usuario.id}">
 	                        <button id="botao-certificado">Ver Perfil</button>
 	                    </a>
 	                </td>
 					<td>
-	                    <a th:href="@{/administrador/listar-certificados-licencas/editar(id=${professor.id})}">
+	                    <a th:href="@{/administrador/listar-certificados-licencas/editar(id=${usuario.id})}">
 	                        <button id="botao-certificado">Validar</button>
 	                    </a>
 	                </td>
 	            </tr>
 	        </tbody>
-	    </table>-->
+	    </table>
 	</main>
 
 
