@@ -301,6 +301,7 @@ CREATE TABLE topicos (
     conteudoArquivo LONGBLOB NULL,
     comprimentoConteudoTexto INT NULL,
     alturaConteudoTexto INT NULL,
-    estado boolean DEFAULT false,
+    estado BOOLEAN NOT NULL DEFAULT false,
+    data TIMESTAMP NULL DEFAULT NULL,
     FOREIGN KEY (secao_id) REFERENCES secoes(id) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;

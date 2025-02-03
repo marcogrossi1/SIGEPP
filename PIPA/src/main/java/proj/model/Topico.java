@@ -1,5 +1,7 @@
 package proj.model;
 
+import java.time.LocalDateTime;
+
 public class Topico {
     private long id;
     private Long secao_id;
@@ -9,6 +11,7 @@ public class Topico {
     private Integer comprimentoConteudoTexto;
     private Integer alturaConteudoTexto;
     private boolean estado;
+    private LocalDateTime data;
 
     public Long getId() {
         return id;
@@ -16,6 +19,14 @@ public class Topico {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
 
     public Long getSecaoId() {

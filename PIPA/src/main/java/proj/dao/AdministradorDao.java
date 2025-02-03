@@ -8,11 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import proj.model.Aluno;
-import proj.model.Estagio;
-import proj.model.Projeto;
 import proj.model.Administrador;
+import proj.model.Aluno;
 import proj.model.Empresa;
+import proj.model.Estagio;
+import proj.model.Professor;
+import proj.model.Projeto;
 
 public class AdministradorDao {
 
@@ -428,4 +429,49 @@ public class AdministradorDao {
 			rs = null;
 		}
 	}
+    
+    public static ArrayList<Aluno> listAlunosComSecoes(Connection conn) throws SQLException {
+        String sql = "SELECT DISTINCT a.id, a.nome, a.curso, a.campus " +
+                     "FROM alunos a " +
+                     "JOIN secoes s ON a.id = s.usuario_id " +
+                     "WHERE s.id IN (SELECT DISTINCT secao_id FROM topicos)";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            ArrayList<Aluno> alunos = new ArrayList<>();
+            while (rs.next()) {
+                Aluno aluno = new Aluno();
+                aluno.setId(rs.getInt("id"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setCurso(rs.getString("curso"));
+                aluno.setCampus(rs.getString("campus"));
+                alunos.add(aluno);
+            }
+            return alunos;
+        }
+    }
+
+    
+    public static ArrayList<Professor> listProfessoresComSecoes(Connection conn) throws SQLException {
+        String sql = "SELECT DISTINCT p.id, p.nome, p.email " +
+                     "FROM professores p " +
+                     "JOIN secoes s ON p.id = s.usuario_id " +
+                     "WHERE s.id IN (SELECT DISTINCT secao_id FROM topicos)";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            ArrayList<Professor> professores = new ArrayList<>();
+            while (rs.next()) {
+                Professor professor = new Professor();
+                professor.setId(rs.getInt("id"));
+                professor.setNome(rs.getString("nome"));
+                professor.setEmail(rs.getString("email"));
+                professores.add(professor);
+            }
+            return professores;
+        }
+    }
+
 }

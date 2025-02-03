@@ -153,15 +153,24 @@ botaoSeccao.addEventListener('click', function() {
 
         let catalogoSeccao = document.createElement('div');
         catalogoSeccao.id = 'catalogo-seccao';
-        catalogoSeccao.innerHTML = `
+		
+		let conteudoCatalogo = `
             <button id="fecharCatalogo">X</button>
             <button id="adicionar-texto-livre">Texto Livre ${qtdSecoesTextoLivre} / 10</button>
-            <button id="adicionar-projetos-concluidos">Projetos Concluídos ${qtdSecoesProjetosConcluidos} / 1</button>
+        `;
+
+        if (usuario.role === "Aluno") {
+            conteudoCatalogo += `<button id="adicionar-projetos-concluidos">Projetos Concluídos ${qtdSecoesProjetosConcluidos} / 1</button>`;
+        }
+
+        conteudoCatalogo += `
             <button id="adicionar-licencas-certificados">Licenças e Certificados ${qtdSecoesLicencasECertificados} / 1</button>
             <button id="adicionar-desenho">Desenho</button>
             <button id="adicionar-foto">Foto</button>
             <button id="adicionar-video">Vídeo</button>
         `;
+
+        catalogoSeccao.innerHTML = conteudoCatalogo;
         document.body.appendChild(catalogoSeccao);
 
         document.getElementById('fecharCatalogo').addEventListener('click', function() {
@@ -180,16 +189,17 @@ botaoSeccao.addEventListener('click', function() {
 	    });
 	
 	
-	    document.getElementById('adicionar-projetos-concluidos').addEventListener('click', function() {
-	        cont = true;
-			if(qtdSecoesProjetosConcluidos < 1) {
-				criarSecao('Projetos Concluídos');
-				catalogoSeccao.remove();
-			}
-	        	
-			else
-				alert("Quantidade máxima atingida!");
-	    });
+		if (usuario.role === "Aluno") {
+            document.getElementById('adicionar-projetos-concluidos').addEventListener('click', function() {
+                cont = true;
+                if(qtdSecoesProjetosConcluidos < 1) {
+                    criarSecao('Projetos Concluídos');
+                    catalogoSeccao.remove();
+                } else {
+                    alert("Quantidade máxima atingida!");
+                }
+            });
+        }
 		
         document.getElementById('adicionar-licencas-certificados').addEventListener('click', function() {
             cont = true;
@@ -241,18 +251,18 @@ function criarSecao(tipo) {
 	
     let seccao = document.createElement('form');
     seccao.id = 'secao-edicao';
-	seccao.action = "/perfil-aluno/atualizar-secoes"; 
+	seccao.action = "/perfil/atualizar-secoes"; 
 	seccao.method = "POST"; 
 	seccao.enctype = "multipart/form-data";
 
     let tituloPersonalizado = false;
     let criarTopico = false;
 	
-	// Id Aluno input
+	// Id Usuario input
 	let idInput = document.createElement('input');
 	idInput.type = 'hidden';
 	idInput.name = 'id';
-	idInput.value = alunoId;
+	idInput.value = usuarioId;
 	seccao.appendChild(idInput);
 
     // Ordem input
@@ -564,12 +574,15 @@ function criarSecao(tipo) {
 		if (toolbarContainer) toolbarContainer.remove();
 	    if (colorPicker) colorPicker.remove();
 		if (toolbar) toolbar.remove();
+		if (toolbarDesenho) toolbarDesenho.remove();
 	});
-
+	
 	let salvarBotao = document.createElement('button');
 	salvarBotao.innerText = 'Salvar';
 	salvarBotao.type = 'submit';
 	salvarBotao.addEventListener('click', function () {
+		if(tipo == "Desenho")
+			salvarNoInput();
 	    seccao.submit();
 		seccao.remove();
 		overlay.remove();
@@ -583,109 +596,286 @@ function criarSecao(tipo) {
     botoesContainer.appendChild(salvarBotao);
     document.body.appendChild(botoesContainer);
 	
-	//MUDAR ISSO AQUI!
+	//Tipo Desenho
 	if (tipo === "Desenho") {
-		let desenhoContainer = document.createElement('div');
+	    seccao.style.marginTop = '35px';
 
-		// Criação da barra de ferramentas
-		let toolbar = document.createElement('div');
-		toolbar.id = 'toolbar';
+	    let desenhoContainer = document.createElement('div');
+
+	    let toolbarDesenho = document.createElement('div');
+	    toolbarDesenho.id = 'toolbarDesenho';
+	    toolbarDesenho.style.display = 'flex';
+	    toolbarDesenho.style.justifyContent = 'center';
+	    toolbarDesenho.style.position = 'fixed';
+	    toolbarDesenho.style.top = '2%';
+	    toolbarDesenho.style.left = '50%';
+	    toolbarDesenho.style.transform = 'translateX(-50%)';
+	    toolbarDesenho.style.backgroundColor = '#ffffff';
+	    toolbarDesenho.style.zIndex = '1099';
+	    toolbarDesenho.style.width = '67vw';
 		
+		toolbarDesenho.style.display = 'flex';
+		toolbarDesenho.style.justifyContent = 'space-around';
+		toolbarDesenho.style.alignItems = 'center';
+		toolbarDesenho.style.gap = '10px'; 
+
+	    document.body.appendChild(toolbarDesenho);
+
+	    let areaDesenho = document.createElement('canvas');
+	    areaDesenho.id = 'paintCanvas';
+	    areaDesenho.width = 900;
+	    areaDesenho.height = 500;
+
+	    desenhoContainer.appendChild(areaDesenho);
+	    seccao.appendChild(desenhoContainer);
+
+	    let ctx = areaDesenho.getContext('2d');
+	    let painting = false;
+	    let color = 'black';
+	    let lineWidth = 5;
+	    let erasing = false;
+	    let lastColor = color;
+	    let startX = null, startY = null;
+	    let drawingLine = false;
+
+		ctx.lineCap = 'round';
 		
-		//TIRAR BOTÕES DE CORES E BOTAR COLOR PICKER
+	    ctx.fillStyle = 'white';
+	    ctx.fillRect(0, 0, areaDesenho.width, areaDesenho.height);
+
+	    function startPosition(e) {
+	        if (drawingLine) {
+	            if (startX === null) {
+	                const rect = areaDesenho.getBoundingClientRect();
+	                startX = e.clientX - rect.left;
+	                startY = e.clientY - rect.top;
+	            } else {
+	                const rect = areaDesenho.getBoundingClientRect();
+	                let endX = e.clientX - rect.left;
+	                let endY = e.clientY - rect.top;
+	                drawLine(startX, startY, endX, endY);
+	                startX = null;
+	                startY = null;
+	            }
+	            return;
+	        }
+
+	        painting = true;
+	        draw(e);
+	    }
+
+	    function endPosition() {
+	        painting = false;
+	        ctx.beginPath();
+	    }
 		
-		// Função para criar os botões
-		function criarButtonGeral(color, text) {
-		    let button = document.createElement('button');
-		    button.textContent = text;
-			button.type = 'button';
-		    button.onclick = () => changeColor(color);
-		    return button;
+		function draw(e) {
+		    if (!painting) return;
+		    const rect = areaDesenho.getBoundingClientRect();
+		    const x = e.clientX - rect.left;
+		    const y = e.clientY - rect.top;
+
+		    ctx.lineWidth = lineWidth;
+		    ctx.strokeStyle = erasing ? 'white' : color;
+
+		    if (squarePointerMode) {
+		        // Desenha quadrados pequenos em vez de uma linha contínua
+		        ctx.fillStyle = erasing ? 'white' : color;
+		        ctx.fillRect(x, y, lineWidth, lineWidth);
+		    } else {
+		        // Modo normal (linha redonda)
+		        ctx.lineTo(x, y);
+		        ctx.stroke();
+		        ctx.beginPath();
+		        ctx.moveTo(x, y);
+		    }
 		}
-		
-		function criarButtonLimpar(text) {
-		    let button = document.createElement('button');
-		    button.textContent = text;
-			button.type = 'button';
-		    button.onclick = () => clearAreaDesenho();
-		    return button;
+
+	    function drawLine(x1, y1, x2, y2) {
+	        ctx.strokeStyle = color;
+	        ctx.lineWidth = lineWidth;
+	        ctx.beginPath();
+	        ctx.moveTo(x1, y1);
+	        ctx.lineTo(x2, y2);
+	        ctx.stroke();
+	        ctx.closePath();
+	    }
+
+	    function changeColor(newColor) {
+	        color = newColor;
+	        erasing = false;
+	        lastColor = newColor;
+	    }
+
+	    function changeThickness(thickness) {
+	        lineWidth = Math.min(50, Math.max(1, thickness));
+	        espessuraInput.value = lineWidth;
+	        espessuraLabel.textContent = lineWidth;
+	    }
+
+	    function clearAreaDesenho() {
+	        ctx.fillStyle = 'white';
+	        ctx.fillRect(0, 0, areaDesenho.width, areaDesenho.height);
+	    }
+
+	    function fillCanvas() {
+	        ctx.fillStyle = color;
+	        ctx.fillRect(0, 0, areaDesenho.width, areaDesenho.height);
+	    }
+
+	    function saveDrawing() {
+	        let link = document.createElement('a');
+	        link.download = 'desenho.png';
+	        link.href = areaDesenho.toDataURL();
+	        link.click();
+	    }
+
+	    function enableEraser() {
+	        erasing = true;
+	        drawingLine = false;
+	        color = 'white';
+			squarePointerMode = false;
+	    }
+
+		let squarePointerMode = false;
+
+		function setQuadradoPointer() {
+		    erasing = false;
+		    drawingLine = false;
+		    color = lastColor;
+		    squarePointerMode = true; 
 		}
+
+		function setNormalPointer() {
+		    erasing = false;
+		    drawingLine = false;
+		    color = lastColor;
+		    ctx.lineCap = 'round';
+		    squarePointerMode = false;
+		}
+
+	    function enableLineDrawing() {
+	        drawingLine = true;
+	        ctx.lineCap = 'round';
+			squarePointerMode = false;
+	    }
+
+	    function enableSquareLineDrawing() {
+	        drawingLine = true;
+	        ctx.lineCap = 'butt';
+			squarePointerMode = false;
+	    }
+
+	    function criarBotao(imagem, onClick, nome) {
+	        let button = document.createElement('button');
+	        button.type = 'button';
+	        button.onclick = onClick;
+	        button.style.background = 'none';
+	        button.style.border = 'none';
+	        button.style.padding = '0';
+	        button.style.cursor = 'pointer';
+
+	        let img = document.createElement('img');
+	        img.src = imagem;
+	        img.alt = nome;
+	        img.style.width = '30px';
+	        img.style.height = '30px';
+	        button.appendChild(img);
+	        button.title = nome;
+
+	        return button;
+	    }
+
+	    let colorPicker = document.createElement('input');
+	    colorPicker.type = 'color';
+	    colorPicker.style.display = 'none';
+	    colorPicker.oninput = () => changeColor(colorPicker.value);
+	    document.body.appendChild(colorPicker);
+
+	    let botaoColorPicker = criarBotao('../img/icon-color-picker.png', () => colorPicker.click(), 'Selecionar Cor');
+
+	    toolbarDesenho.appendChild(criarBotao('../img/borracha.png', enableEraser, 'Borracha'));
+	    toolbarDesenho.appendChild(criarBotao('../img/limpar.png', clearAreaDesenho, 'Limpar'));
+	    toolbarDesenho.appendChild(criarBotao('../img/balde.png', fillCanvas, 'Preencher'));
+	    toolbarDesenho.appendChild(criarBotao('../img/baixar.png', saveDrawing, 'Salvar'));
+	    toolbarDesenho.appendChild(criarBotao('../img/linha-circular.png', enableLineDrawing, 'Linha circular'));
+	    toolbarDesenho.appendChild(criarBotao('../img/linha-quadrada.png', enableSquareLineDrawing, 'Linha quadrada'));
+	    toolbarDesenho.appendChild(criarBotao('../img/ponteiro-circulo.png', setNormalPointer, 'Ponteiro circular'));
+	    toolbarDesenho.appendChild(criarBotao('../img/ponteiro-quadrado.png', setQuadradoPointer, 'Ponteiro quadrado'));
+	    toolbarDesenho.appendChild(botaoColorPicker);
+
+	    let espessuraInput = document.createElement('input');
+	    espessuraInput.type = 'range';
+	    espessuraInput.min = 1;
+	    espessuraInput.max = 50;
+	    espessuraInput.value = lineWidth;
+	    espessuraInput.oninput = () => changeThickness(espessuraInput.value);
+	    toolbarDesenho.appendChild(espessuraInput);
+
+	    let espessuraLabel = document.createElement('span');
+	    espessuraLabel.textContent = lineWidth;
+	    toolbarDesenho.appendChild(espessuraLabel);
+
+	    areaDesenho.addEventListener('wheel', (e) => {
+	        e.preventDefault();
+	        changeThickness(lineWidth + (e.deltaY > 0 ? -1 : 1));
+	    });
+
+	    areaDesenho.addEventListener('mousedown', startPosition);
+	    areaDesenho.addEventListener('mousemove', draw);
+	    areaDesenho.addEventListener('mouseup', endPosition);
+	    areaDesenho.addEventListener('mouseout', endPosition);
 		
-		// Adicionando os botões à toolbar
-		toolbar.appendChild(criarButtonGeral('black', 'Preto'));
-		toolbar.appendChild(criarButtonGeral('red', 'Vermelho'));
-		toolbar.appendChild(criarButtonGeral('green', 'Verde'));
-		toolbar.appendChild(criarButtonGeral('blue', 'Azul'));
-		toolbar.appendChild(criarButtonLimpar(null, 'Limpar')); // O botão Limpar vai usar uma função diferente
-		
-		// Adicionando a toolbar à div principal
-		desenhoContainer.appendChild(toolbar);
-		
-		// Criação do canvas
-		let areaDesenho = document.createElement('canvas');
-		areaDesenho.id = 'paintCanvas';
-		areaDesenho.width = 500;
-		areaDesenho.height = 500;
-		desenhoContainer.appendChild(areaDesenho);
-		
-		seccao.appendChild(desenhoContainer);
+		let botoesContainerDesenho = document.createElement('div');
+	    botoesContainerDesenho.id = 'botoes-container';
+
+		let fecharBotaoDesenho = document.createElement('button');
+		fecharBotaoDesenho.innerText = 'Fechar';
+		fecharBotaoDesenho.style.marginRight = '10px';
+		fecharBotaoDesenho.addEventListener('click', function () {
+		    seccao.remove();
+			overlay.remove();
+		    botoesContainerDesenho.remove();
+			if (toolbarDesenho) toolbarDesenho.remove();
+		});
 		
 		
+		let inputDesenho = document.createElement('input');
+	    inputDesenho.type = "hidden"; // Mantemos o input oculto
+	    inputDesenho.name = "conteudoDesenho";
+
+	    seccao.appendChild(inputDesenho);
 		
-        let ctx = areaDesenho.getContext('2d');
+		salvarBotao.remove();
+		fecharBotao.remove();
+		
+	    let salvarBotaoDesenho = document.createElement('button');
+	    salvarBotaoDesenho.innerText = 'Salvar';
+	    salvarBotaoDesenho.type = 'submit';
+		
+	    salvarBotaoDesenho.addEventListener('click', function () {
+			let inputDesenho = document.createElement('input');
+		    inputDesenho.type = "hidden";
+		    inputDesenho.name = "conteudoDesenho";
+			
+			inputDesenho.value = areaDesenho.toDataURL();
+			seccao.appendChild(inputDesenho);
 
-        let painting = false;
-        let color = 'black';
+	        seccao.submit();
+	        seccao.remove();
+	        overlay.remove();
+	        botoesContainer.remove();
+	        if (toolbarDesenho) toolbarDesenho.remove();
+	    });
 
-        // Função para começar a desenhar
-        function startPosition(e) {
-            painting = true;
-            draw(e);
-        }
-
-        // Função para parar de desenhar
-        function endPosition() {
-            painting = false;
-            ctx.beginPath();
-        }
-
-        // Função para desenhar
-        function draw(e) {
-            if (!painting) return;
-
-            const rect = areaDesenho.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            ctx.lineWidth = 5;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = color;
-
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        }
-
-        // Mudar cor
-        function changeColor(newColor) {
-            color = newColor;
-        }
-
-        // Limpar o canvas
-        function clearAreaDesenho() {
-            ctx.clearRect(0, 0, canvas.areaDesenho, areaDesenho.height);
-        }
-
-        // Eventos de mouse
-        areaDesenho.addEventListener('mousedown', startPosition);
-        areaDesenho.addEventListener('mouseup', endPosition);
-        areaDesenho.addEventListener('mousemove', draw);
-        areaDesenho.addEventListener('mouseleave', endPosition);
+	    botoesContainerDesenho.appendChild(fecharBotaoDesenho);
+	    botoesContainerDesenho.appendChild(salvarBotaoDesenho);
+	    document.body.appendChild(botoesContainerDesenho);
 	}
-	
+
+
     // Caso Projetos Concluídos
-    if (tipo === 'Projetos Concluídos') {
+    if (tipo === 'Projetos Concluídos' && usuario.role == "Aluno") {
 		let tabela = document.createElement('table');
 	    tabela.className = 'table';
 	    
@@ -730,7 +920,7 @@ function criarSecao(tipo) {
 	        td5.innerText = projeto.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
+	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${u.id}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 			button.type = 'button';
@@ -762,7 +952,7 @@ function criarSecao(tipo) {
 	        td5.innerText = estagio.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
+	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${u.id}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
@@ -919,18 +1109,18 @@ function editarSecao(secao, topicos) {
 	
     let seccao = document.createElement('form');
     seccao.id = 'secao-edicao';
-	seccao.action = "/perfil-aluno/atualizar-secoes-editadas"; 
+	seccao.action = "/perfil/atualizar-secoes-editadas"; 
 	seccao.method = "POST"; 
 	seccao.enctype = "multipart/form-data";
 
     let tituloPersonalizado = false;
     let criarTopico = false;
 	
-	// Id Aluno input
+	// Id Usuario input
 	let idInput = document.createElement('input');
 	idInput.type = 'hidden';
 	idInput.name = 'id';
-	idInput.value = alunoId;
+	idInput.value = usuarioId;
 	seccao.appendChild(idInput);
 	
 	let idSecaoInput = document.createElement('input');
@@ -1007,7 +1197,6 @@ function editarSecao(secao, topicos) {
 		editorContainer.style.maxHeight = '67.9vh';
 		editorContainer.style.maxWidth = '58.9vw';
 		editorContainer.style.backgroundColor = '#fff';
-		editorContainer.style.cursor = 'text';
 		editorContainer.style.border = '1px solid #ccc';
 		editorContainer.style.resize = 'both';
 		editorContainer.style.overflow = 'auto';
@@ -1031,12 +1220,22 @@ function editarSecao(secao, topicos) {
 		    }
 		});
 		
-		if (secao.topConteudoTexto === 0 && secao.leftConteudoTexto === 0 && secao.comprimentoConteudoTexto === 0 && secao.alturaConteudoTexto === 0) {
-	        editorContainer.style.width = '200px';
-	        editorContainer.style.height = '50px';
-	        editorContainer.style.left = '50px';
-	        editorContainer.style.top = '45px';
-	    }
+		
+		if (secao.topConteudoTexto === 0) {
+		    editorContainer.style.top = '45px';
+		}
+
+		if (secao.leftConteudoTexto === 0) {
+		    editorContainer.style.left = '50px';
+		}
+
+		if (secao.comprimentoConteudoTexto === 0) {
+		    editorContainer.style.width = '200px';
+		}
+
+		if (secao.alturaConteudoTexto === 0) {
+		    editorContainer.style.height = '50px';
+		}
 		
 		quill.root.innerHTML = secao.conteudoTexto;
 		
@@ -1258,7 +1457,7 @@ function editarSecao(secao, topicos) {
 	    if (colorPicker) colorPicker.remove();
 		if (toolbar) toolbar.remove();
 	});
-
+	
 	let salvarBotao = document.createElement('button');
 	salvarBotao.innerText = 'Salvar';
 	salvarBotao.type = 'submit';
@@ -1271,6 +1470,8 @@ function editarSecao(secao, topicos) {
 	    if (colorPicker) colorPicker.remove();
 		if (toolbar) toolbar.remove();
 	});
+	
+	
 
     botoesContainer.appendChild(fecharBotao);
     botoesContainer.appendChild(salvarBotao);
@@ -1282,7 +1483,7 @@ function editarSecao(secao, topicos) {
 	}
 	
     // Caso Projetos Concluídos
-    if (tipo === 'Projetos Concluídos') {
+    if (tipo === 'Projetos Concluídos' && usuario.role == "Aluno") {
 		let tabela = document.createElement('table');
 	    tabela.className = 'table';
 	    
@@ -1327,7 +1528,7 @@ function editarSecao(secao, topicos) {
 	        td5.innerText = projeto.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
+	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${u.id}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 			button.type = 'button';
@@ -1359,7 +1560,7 @@ function editarSecao(secao, topicos) {
 	        td5.innerText = estagio.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
+	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${u.id}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
@@ -1515,381 +1716,396 @@ function editarSecao(secao, topicos) {
 
 //USAR ISSO SÓ PRA RENDERIZAR PUBLICAÇÕES NO GRID QUE SERA FEITO. DEPOIS MUDO
 
-let indiceAtual = 0;
-const quantidadePorPagina = 12;
-const botaoCarregarMais = document.createElement('button');
-botaoCarregarMais.id = 'botao-carregar-mais';
-botaoCarregarMais.innerText = 'Carregar Mais';
-botaoCarregarMais.style.display = 'none';
-
 //let limite = Math.min(indiceAtual + quantidadePorPagina, secoes.length);
 
 /*for (let i = indiceAtual; i < limite; i++) {
 	REPETIÇÃO
 }*/
-function carregarSecoes() {
-    let limite = Math.min(indiceAtual + quantidadePorPagina, secoes.length);
 
-    for (let i = indiceAtual; i < limite; i++) {
-		secao = secoes[i];
+secoes.forEach(secao => {
+	let tituloPersonalizado = false;
 
-		let tituloPersonalizado = false;
-
-	    let seccao = document.createElement('section');
-	    seccao.className = 'seccao';
-	    seccao.style.userSelect = 'text';
-		
-		let botaoApagar = document.createElement('button');
-	    botaoApagar.className = 'seccao-botao-apagar';
-		
-		let formApagarSecao = document.createElement('form');
-		formApagarSecao.id = 'form-apagar-secao';
-		formApagarSecao.action = "/perfil-aluno/apagar-secao"; 
-		formApagarSecao.method = "POST"; 
-		formApagarSecao.enctype = "multipart/form-data";
-		formApagarSecao.type = 'hidden';
-		formApagarSecao.style.display = 'none';
-		
-		seccao.appendChild(formApagarSecao);
-		
-		let idSecaoInput = document.createElement('input');
-		idSecaoInput.type = 'hidden';
-		idSecaoInput.name = 'idSecao';
-		idSecaoInput.value = secao.id;
-		
-		let idUsuarioInput = document.createElement('input');
-		idUsuarioInput.type = 'hidden';
-		idUsuarioInput.name = 'idUsuario';
-		idUsuarioInput.value = secao.usuarioId;
-		
-		formApagarSecao.appendChild(idUsuarioInput);
-		formApagarSecao.appendChild(idSecaoInput);
-		
-		botaoApagar.addEventListener('click', function () {
-		    if (confirm('Você tem certeza que deseja excluir esta seção?')) {
-				formApagarSecao.submit();
-		        seccao.remove();
-		    }
-		});
-		
-		seccao.appendChild(botaoApagar);
-		
-		let botaoEditar = document.createElement('button');
-	    botaoEditar.className = 'seccao-botao-editar';
-		
-		botaoEditar.addEventListener('click', function () {
-			editarSecao(secao, topicos);
-		});
-		
-		seccao.appendChild(botaoEditar);
-		
-		if (secao.tipo === "Texto Livre") {
-	        tituloPersonalizado = true;
-			criarTopico = true;
-		}
-		if (secao.tipo === "Licenças e Certificados") {
-		   	tituloPersonalizado = false;
-			criarTopico = true;
-		}
-		if (secao.tipo === "Projetos Concluídos") {
-			tituloPersonalizado = false;
-			criarTopico = false;
-		}
-
-		if (tituloPersonalizado) {
-			let titulo = document.createElement('h3');
-			titulo.innerText = secao.titulo;
-			titulo.className = 'titulo-seccao';
-			seccao.appendChild(titulo);
-		}
-		else {
-			let titulo2 = document.createElement('h3');
-			titulo2.innerText = secao.tipo;
-			titulo2.className = 'titulo-seccao-texto';
-			seccao.appendChild(titulo2);
-		}
-		
-		//criações
-
-		if (secao.tipo === "Projetos Concluídos") {
-			seccao.style.height = '72vh';
-			
-		    let tabela = document.createElement('table');
-		    tabela.className = 'table';
-		    
-		    let thead = document.createElement('thead');
-		    let th1 = document.createElement('th');
-		    th1.innerText = 'Natureza';
-		    let th2 = document.createElement('th');
-		    th2.innerText = 'Empresa/Título';
-		    let th3 = document.createElement('th');
-		    th3.innerText = 'Descrição';
-		    let th4 = document.createElement('th');
-		    th4.innerText = 'Requisitos';
-		    let th5 = document.createElement('th');
-		    th5.innerText = 'Carga Horária';
-		    let th6 = document.createElement('th');
-		    th6.innerText = 'Ver certificado';
-
-		    let trHeader = document.createElement('tr');
-		    trHeader.appendChild(th1);
-		    trHeader.appendChild(th2);
-		    trHeader.appendChild(th3);
-		    trHeader.appendChild(th4);
-		    trHeader.appendChild(th5);
-		    trHeader.appendChild(th6);
-		    thead.appendChild(trHeader);
-		    tabela.appendChild(thead);
-
-		    let tbody = document.createElement('tbody');
-			
-		    projetos.forEach(projeto => {
-		        let tr = document.createElement('tr');
-		        
-		        let td1 = document.createElement('td');
-		        td1.innerText = 'Pesquisa/extensão';
-		        let td2 = document.createElement('td');
-		        td2.innerText = projeto.nome;
-		        let td3 = document.createElement('td');
-		        td3.innerText = projeto.descricao;
-		        let td4 = document.createElement('td');
-		        td4.innerText = projeto.requisito;
-		        let td5 = document.createElement('td');
-		        td5.innerText = projeto.cargaHoraria;
-		        let td6 = document.createElement('td');
-		        let a = document.createElement('a');
-				a.href = `/perfil-aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${aluno.id}`;
-		        let button = document.createElement('button');
-		        button.id = 'botao-certificado';
-		        button.innerText = 'Ver certificado';
-		        a.appendChild(button);
-		        td6.appendChild(a);
-
-		        tr.appendChild(td1);
-		        tr.appendChild(td2);
-		        tr.appendChild(td3);
-		        tr.appendChild(td4);
-		        tr.appendChild(td5);
-		        tr.appendChild(td6);
-		        tbody.appendChild(tr);
-		    });
-
-		    estagios.forEach(estagio => {
-		        let tr = document.createElement('tr');
-		        
-		        let td1 = document.createElement('td');
-		        td1.innerText = 'Pesquisa/extensão';
-		        let td2 = document.createElement('td');
-		        td2.innerText = estagio.empresa;
-		        let td3 = document.createElement('td');
-		        td3.innerText = estagio.descricao;
-		        let td4 = document.createElement('td');
-		        td4.innerText = estagio.requisito;
-		        let td5 = document.createElement('td');
-		        td5.innerText = estagio.cargaHoraria;
-		        let td6 = document.createElement('td');
-		        let a = document.createElement('a');
-				a.href = `/perfil-aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${aluno.id}`;
-		        let button = document.createElement('button');
-		        button.id = 'botao-certificado';
-		        button.innerText = 'Ver certificado';
-		        a.appendChild(button);
-		        td6.appendChild(a);
-
-		        tr.appendChild(td1);
-		        tr.appendChild(td2);
-		        tr.appendChild(td3);
-		        tr.appendChild(td4);
-		        tr.appendChild(td5);
-		        tr.appendChild(td6);
-		        tbody.appendChild(tr);
-		    });
-
-		    tabela.appendChild(tbody);
-		    seccao.appendChild(tabela);
-		}
-			
-		if (secao.tipo === "Texto Livre") {
-		    let editorContainer = document.createElement('div');
-		    editorContainer.className = 'editor-container';
-		    editorContainer.style.resize = 'none';
-		    editorContainer.style.width = secao.comprimentoConteudoTexto + 'px';
-		    editorContainer.style.height = secao.alturaConteudoTexto + 'px';
-		    editorContainer.style.position = 'absolute'; 
-		    editorContainer.style.left = secao.leftConteudoTexto + 'px'; 
-		    editorContainer.style.top = secao.topConteudoTexto + 'px';
-		    editorContainer.style.fontSize = '16px';
-		    editorContainer.style.overflow = 'auto';
-		    editorContainer.style.marginBottom = '20px';
-			editorContainer.style.display = 'block';
-			/*pra teste da posição
-			editorContainer.style.border = '#ff0000 1px solid'*/
-			
-			if (secao.topConteudoTexto === 0 && secao.leftConteudoTexto === 0 && secao.comprimentoConteudoTexto === 0 && secao.alturaConteudoTexto === 0) {
-		        editorContainer.style.width = '200px';
-		        editorContainer.style.height = '50px';
-		        editorContainer.style.left = '50px';
-		        editorContainer.style.top = '45px';
-		    }
-			
-		    seccao.appendChild(editorContainer);
-			
-		    let alturaNecessaria = editorContainer.offsetTop + editorContainer.offsetHeight + 20;
-		    seccao.style.height = Math.max(seccao.scrollHeight, alturaNecessaria) + 'px';
-
-		    const quill = new Quill(editorContainer, {
-		        theme: 'bubble',
-		        readOnly: true,
-		        modules: {
-		            toolbar: false,
-		        },
-		    });
-
-		    quill.root.innerHTML = secao.conteudoTexto;
-		}
-		
-		if (secao.tipo === 'Licenças e Certificados') {
-			let indiceAtualLC = 0;
-			let quantidadePorPaginaLC = 4;
-			let botaoCarregarMaisLC = document.createElement('button');
-			botaoCarregarMaisLC.className = 'botao-carregar-mais-LC';
-			botaoCarregarMaisLC.innerText = 'Carregar Mais';
-			botaoCarregarMaisLC.style.display = 'none';
-			
-			let carregarSecaoLicencaCertificado = () => {
-				seccao.style.height = '72vh';
-
-				let limiteLC = Math.min(indiceAtualLC + quantidadePorPaginaLC, topicos.length);
-				
-			    for (let i = indiceAtualLC; i < limiteLC; i++) {
-					topico = topicos[i];
-					if(topico.secaoId == secao.id) {
-			            let arquivoTopico = topico.conteudoArquivo;
-			        
-				        let caixaTexto = document.createElement('textarea');
-				        caixaTexto.className = 'caixa-texto-topico2';
-						caixaTexto.style.cursor = 'text';
-				        caixaTexto.disabled = true;
-						caixaTexto.style.resize = 'none';
-				        caixaTexto.innerText = topico.conteudoTexto;
-						caixaTexto.style.border = '#ccc 1px solid';
-						caixaTexto.style.width = topico.comprimentoConteudoTexto + 'px';
-						caixaTexto.style.height = '35px';
-						
-						if (topico.comprimentoConteudoTexto === 0) {
-					        caixaTexto.style.width = '100px';
-					    }
-			
-				        let logoPreview = document.createElement('img');
-						if (topico.conteudoImagem)
-						    logoPreview.src = 'data:image/jpeg;base64,' + topico.conteudoImagem;
-						 else 
-						    logoPreview.src = '../img/fundo-branco.png';
-						    
-				        logoPreview.className = 'logo-preview';
-				        logoPreview.style.width = '50px';
-				        logoPreview.style.height = '50px';
-			
-				        let containerLogoTexto = document.createElement('div');
-				        containerLogoTexto.className = 'container-logo-texto';
-			
-				        containerLogoTexto.appendChild(logoPreview);
-				        containerLogoTexto.appendChild(caixaTexto);
-			
-				        let buttonAbrirArquivo = document.createElement('button');
-				        buttonAbrirArquivo.type = 'button';
-				        buttonAbrirArquivo.innerText = 'Ver certificado / licença';
-				        buttonAbrirArquivo.classList.add('upload-label');
-			
-				        containerLogoTexto.appendChild(buttonAbrirArquivo);
-						
-						let verificadoImg = document.createElement('img');
-						let verificadoDiv = document.createElement('div');
-						let verificadoTexto = document.createElement('p');
-						
-						verificadoImg.style.width = '30px';
-						verificadoImg.style.height = '30px';
-						verificadoImg.style.objectFit = 'cover';
-						verificadoDiv.appendChild(verificadoImg);
-						verificadoDiv.appendChild(verificadoTexto);
-						if(topico.estado) {
-							verificadoTexto.innerText = 'Verificado';
-							verificadoImg.src = '../img/verificado.png'
-						}
-						else	{
-							verificadoTexto.innerText = 'Não verificado';
-							verificadoImg.src = '../img/nao-verificado.png'
-						}
-						
-						// Adicionando a data de verificação no hover
-						verificadoDiv.addEventListener('mouseover', function() {
-						    let verificadoData = document.createElement('p');
-						    verificadoData.innerText = topico.dataVerificacao;
-						    verificadoDiv.appendChild(verificadoData);
-						});
-
-						verificadoDiv.addEventListener('mouseout', function() {
-						    let verificadoData = verificadoDiv.querySelector('p[data-verificado]');
-						    if (verificadoData) {
-						        verificadoData.remove();
-						    }
-						});
-
-						containerLogoTexto.appendChild(verificadoDiv);
-			
-						buttonAbrirArquivo.addEventListener('click', function() {
-						    if (arquivoTopico) {
-						        let byteCharacters = atob(arquivoTopico);
-						        let byteNumbers = new Array(byteCharacters.length);
-						        for (let i = 0; i < byteCharacters.length; i++) {
-						            byteNumbers[i] = byteCharacters.charCodeAt(i);
-						        }
-						        let byteArray = new Uint8Array(byteNumbers);
-
-						        let mimeType = "application/pdf";
-						        if (arquivoTopico.startsWith('/9j/')) {
-						            mimeType = "image/jpeg";
-						        } else if (arquivoTopico.startsWith('iVBOR')) {
-						            mimeType = "image/png";
-						        }
-
-						        let blob = new Blob([byteArray], { type: mimeType });
-						        let url = URL.createObjectURL(blob);
-
-						        let novaAba = window.open(url);
-						        if (!novaAba) {
-						            alert("Pop-up bloqueado! Permita pop-ups para visualizar o arquivo.");
-						        }
-						    } else {
-						        alert("Arquivo não disponível!");
-						    }
-						});
-				        seccao.appendChild(containerLogoTexto);
-						seccao.appendChild(botaoCarregarMaisLC);
-					}
-			    };
-				
-				indiceAtualLC = limiteLC;
-				
-				botaoCarregarMaisLC.style.display = indiceAtualLC < topicos.length ? 'block' : 'none';
-				
-				botaoCarregarMaisLC.addEventListener('click', carregarSecaoLicencaCertificado);
-			};
-			
-			carregarSecaoLicencaCertificado();
-		}
-		containerSeccoes.appendChild(seccao);
-		containerSeccoes.appendChild(botaoCarregarMais);
-    }
-
-	indiceAtual = limite;
+    let seccao = document.createElement('section');
+    seccao.className = 'seccao';
+    seccao.style.userSelect = 'text';
 	
-    botaoCarregarMais.style.display = indiceAtual < secoes.length ? 'block' : 'none';
-}
+	let botaoApagar = document.createElement('button');
+    botaoApagar.className = 'seccao-botao-apagar';
+	
+	let formApagarSecao = document.createElement('form');
+	formApagarSecao.id = 'form-apagar-secao';
+	formApagarSecao.action = "/perfil/apagar-secao"; 
+	formApagarSecao.method = "POST"; 
+	formApagarSecao.enctype = "multipart/form-data";
+	formApagarSecao.type = 'hidden';
+	formApagarSecao.style.display = 'none';
+	
+	seccao.appendChild(formApagarSecao);
+	
+	let idSecaoInput = document.createElement('input');
+	idSecaoInput.type = 'hidden';
+	idSecaoInput.name = 'idSecao';
+	idSecaoInput.value = secao.id;
+	
+	let idUsuarioInput = document.createElement('input');
+	idUsuarioInput.type = 'hidden';
+	idUsuarioInput.name = 'idUsuario';
+	idUsuarioInput.value = secao.usuarioId;
+	
+	formApagarSecao.appendChild(idUsuarioInput);
+	formApagarSecao.appendChild(idSecaoInput);
+	
+	botaoApagar.addEventListener('click', function () {
+	    if (confirm('Você tem certeza que deseja excluir esta seção?')) {
+			formApagarSecao.submit();
+	        seccao.remove();
+	    }
+	});
+	
+	seccao.appendChild(botaoApagar);
+	
+	let botaoEditar = document.createElement('button');
+    botaoEditar.className = 'seccao-botao-editar';
+	
+	botaoEditar.addEventListener('click', function () {
+		editarSecao(secao, topicos);
+	});
+	
+	seccao.appendChild(botaoEditar);
+	
+	if (secao.tipo === "Texto Livre") {
+        tituloPersonalizado = true;
+		criarTopico = true;
+	}
+	if (secao.tipo === "Licenças e Certificados") {
+	   	tituloPersonalizado = false;
+		criarTopico = true;
+	}
+	if (secao.tipo === "Projetos Concluídos") {
+		tituloPersonalizado = false;
+		criarTopico = false;
+	}
+	if (secao.tipo === "Desenho") {
+		tituloPersonalizado = true;
+		criarTopico = false;
+	}
 
-botaoCarregarMais.addEventListener('click', carregarSecoes);
+	if (tituloPersonalizado) {
+		let titulo = document.createElement('h3');
+		titulo.innerText = secao.titulo;
+		titulo.className = 'titulo-seccao';
+		seccao.appendChild(titulo);
+	}
+	else {
+		let titulo2 = document.createElement('h3');
+		titulo2.innerText = secao.tipo;
+		titulo2.className = 'titulo-seccao-texto';
+		seccao.appendChild(titulo2);
+	}
+	
+	//criações
 
-carregarSecoes();
+	if (secao.tipo === "Projetos Concluídos") {
+		seccao.style.height = '72vh';
+		
+	    let tabela = document.createElement('table');
+	    tabela.className = 'table';
+	    
+	    let thead = document.createElement('thead');
+	    let th1 = document.createElement('th');
+	    th1.innerText = 'Natureza';
+	    let th2 = document.createElement('th');
+	    th2.innerText = 'Empresa/Título';
+	    let th3 = document.createElement('th');
+	    th3.innerText = 'Descrição';
+	    let th4 = document.createElement('th');
+	    th4.innerText = 'Requisitos';
+	    let th5 = document.createElement('th');
+	    th5.innerText = 'Carga Horária';
+	    let th6 = document.createElement('th');
+	    th6.innerText = 'Ver certificado';
+
+	    let trHeader = document.createElement('tr');
+	    trHeader.appendChild(th1);
+	    trHeader.appendChild(th2);
+	    trHeader.appendChild(th3);
+	    trHeader.appendChild(th4);
+	    trHeader.appendChild(th5);
+	    trHeader.appendChild(th6);
+	    thead.appendChild(trHeader);
+	    tabela.appendChild(thead);
+
+	    let tbody = document.createElement('tbody');
+		
+	    projetos.forEach(projeto => {
+	        let tr = document.createElement('tr');
+	        
+	        let td1 = document.createElement('td');
+	        td1.innerText = 'Pesquisa/extensão';
+	        let td2 = document.createElement('td');
+	        td2.innerText = projeto.nome;
+	        let td3 = document.createElement('td');
+	        td3.innerText = projeto.descricao;
+	        let td4 = document.createElement('td');
+	        td4.innerText = projeto.requisito;
+	        let td5 = document.createElement('td');
+	        td5.innerText = projeto.cargaHoraria;
+	        let td6 = document.createElement('td');
+	        let a = document.createElement('a');
+			a.href = `/perfil-aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${u.id}`;
+	        let button = document.createElement('button');
+	        button.id = 'botao-certificado';
+	        button.innerText = 'Ver certificado';
+	        a.appendChild(button);
+	        td6.appendChild(a);
+
+	        tr.appendChild(td1);
+	        tr.appendChild(td2);
+	        tr.appendChild(td3);
+	        tr.appendChild(td4);
+	        tr.appendChild(td5);
+	        tr.appendChild(td6);
+	        tbody.appendChild(tr);
+	    });
+
+	    estagios.forEach(estagio => {
+	        let tr = document.createElement('tr');
+	        
+	        let td1 = document.createElement('td');
+	        td1.innerText = 'Pesquisa/extensão';
+	        let td2 = document.createElement('td');
+	        td2.innerText = estagio.empresa;
+	        let td3 = document.createElement('td');
+	        td3.innerText = estagio.descricao;
+	        let td4 = document.createElement('td');
+	        td4.innerText = estagio.requisito;
+	        let td5 = document.createElement('td');
+	        td5.innerText = estagio.cargaHoraria;
+	        let td6 = document.createElement('td');
+	        let a = document.createElement('a');
+			a.href = `/perfil-aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${u.id}`;
+	        let button = document.createElement('button');
+	        button.id = 'botao-certificado';
+	        button.innerText = 'Ver certificado';
+	        a.appendChild(button);
+	        td6.appendChild(a);
+
+	        tr.appendChild(td1);
+	        tr.appendChild(td2);
+	        tr.appendChild(td3);
+	        tr.appendChild(td4);
+	        tr.appendChild(td5);
+	        tr.appendChild(td6);
+	        tbody.appendChild(tr);
+	    });
+
+	    tabela.appendChild(tbody);
+	    seccao.appendChild(tabela);
+	}
+		
+	if (secao.tipo === "Texto Livre") {
+	    let editorContainer = document.createElement('div');
+	    editorContainer.className = 'editor-container';
+	    editorContainer.style.resize = 'none';
+	    editorContainer.style.width = secao.comprimentoConteudoTexto + 'px';
+	    editorContainer.style.height = secao.alturaConteudoTexto + 'px';
+	    editorContainer.style.position = 'absolute'; 
+	    editorContainer.style.left = secao.leftConteudoTexto + 'px'; 
+	    editorContainer.style.top = secao.topConteudoTexto + 'px';
+	    editorContainer.style.fontSize = '16px';
+	    editorContainer.style.overflow = 'auto';
+	    editorContainer.style.marginBottom = '20px';
+		editorContainer.style.display = 'block';
+		/*pra teste da posição
+		editorContainer.style.border = '#ff0000 1px solid'*/
+		
+		if (secao.topConteudoTexto === 0) {
+		    editorContainer.style.top = '45px';
+		    setTimeout(() => {
+		        let rectUpdated = editorContainer.getBoundingClientRect();
+		        topConteudoTextoInput.value = rectUpdated.top;
+		    }, 0);
+		}
+
+		if (secao.leftConteudoTexto === 0) {
+		    editorContainer.style.left = '50px';
+		    setTimeout(() => {
+		        let rectUpdated = editorContainer.getBoundingClientRect();
+		        leftConteudoTextoInput.value = rectUpdated.left;
+		    }, 0);
+		}
+
+		if (secao.comprimentoConteudoTexto === 0) {
+		    editorContainer.style.width = '200px';
+		    setTimeout(() => {
+		        let rectUpdated = editorContainer.getBoundingClientRect();
+		        comprimentoConteudoTextoInput.value = rectUpdated.width;
+		    }, 0);
+		}
+
+		if (secao.alturaConteudoTexto === 0) {
+		    editorContainer.style.height = '50px';
+		    setTimeout(() => {
+		        let rectUpdated = editorContainer.getBoundingClientRect();
+		        alturaConteudoTextoInput.value = rectUpdated.height;
+		    }, 0);
+		}
+		
+	    seccao.appendChild(editorContainer);
+		
+	    let alturaNecessaria = editorContainer.offsetTop + editorContainer.offsetHeight + 20;
+	    seccao.style.height = Math.max(seccao.scrollHeight, alturaNecessaria) + 'px';
+
+	    const quill = new Quill(editorContainer, {
+	        theme: 'bubble',
+	        readOnly: true,
+	        modules: {
+	            toolbar: false,
+	        },
+	    });
+
+	    quill.root.innerHTML = secao.conteudoTexto;
+	}
+	
+	if (secao.tipo === "Desenho") {
+		let desenho = document.createElement('img');
+		if (secao.conteudoImagem)
+		    desenho.src = 'data:image/jpeg;base64,' + secao.conteudoImagem;
+		else 
+		    desenho.src = '../img/fundo-branco.png';
+		seccao.appendChild(desenho);
+	}
+	
+	if (secao.tipo === 'Licenças e Certificados') {
+		let indiceAtualLC = 0;
+		let quantidadePorPaginaLC = 4;
+		let botaoCarregarMaisLC = document.createElement('button');
+		botaoCarregarMaisLC.className = 'botao-carregar-mais-LC';
+		botaoCarregarMaisLC.innerText = 'Carregar Mais';
+		botaoCarregarMaisLC.style.display = 'none';
+		
+		let carregarSecaoLicencaCertificado = () => {
+			seccao.style.height = '72vh';
+
+			let limiteLC = Math.min(indiceAtualLC + quantidadePorPaginaLC, topicos.length);
+			
+		    for (let i = indiceAtualLC; i < limiteLC; i++) {
+				topico = topicos[i];
+				if(topico.secaoId == secao.id) {
+		            let arquivoTopico = topico.conteudoArquivo;
+		        
+			        let caixaTexto = document.createElement('textarea');
+			        caixaTexto.className = 'caixa-texto-topico2';
+					caixaTexto.style.cursor = 'text';
+			        caixaTexto.disabled = true;
+					caixaTexto.style.resize = 'none';
+			        caixaTexto.innerText = topico.conteudoTexto;
+					caixaTexto.style.border = '#ccc 1px solid';
+					caixaTexto.style.width = topico.comprimentoConteudoTexto + 'px';
+					caixaTexto.style.height = '35px';
+					
+					if (topico.comprimentoConteudoTexto === 0) {
+				        caixaTexto.style.width = '100px';
+				    }
+		
+			        let logoPreview = document.createElement('img');
+					if (topico.conteudoImagem)
+					    logoPreview.src = 'data:image/jpeg;base64,' + topico.conteudoImagem;
+					 else 
+					    logoPreview.src = '../img/fundo-branco.png';
+					    
+			        logoPreview.className = 'logo-preview';
+			        logoPreview.style.width = '50px';
+			        logoPreview.style.height = '50px';
+		
+			        let containerLogoTexto = document.createElement('div');
+			        containerLogoTexto.className = 'container-logo-texto';
+		
+			        containerLogoTexto.appendChild(logoPreview);
+			        containerLogoTexto.appendChild(caixaTexto);
+		
+			        let buttonAbrirArquivo = document.createElement('button');
+			        buttonAbrirArquivo.type = 'button';
+			        buttonAbrirArquivo.innerText = 'Ver certificado / licença';
+			        buttonAbrirArquivo.classList.add('upload-label');
+		
+			        containerLogoTexto.appendChild(buttonAbrirArquivo);
+					
+					let verificadoDiv = document.createElement('div');
+					verificadoDiv.className = 'verificado-container';
+
+					let verificadoImg = document.createElement('img');
+					let verificadoTexto = document.createElement('p');
+
+					verificadoImg.style.width = '30px';
+					verificadoImg.style.height = '30px';
+					verificadoImg.style.objectFit = 'cover';
+
+					if (topico.estado) {
+					    verificadoTexto.innerText = 'Verificado em ' + topico.data;
+					    verificadoImg.src = '../img/verificado.png';
+					} else {
+					    verificadoTexto.innerText = 'Não verificado';
+					    verificadoImg.src = '../img/nao-verificado.png';
+					}
+
+					verificadoDiv.appendChild(verificadoImg);
+					verificadoDiv.appendChild(verificadoTexto);
+					containerLogoTexto.appendChild(verificadoDiv);
+					
+					verificadoDiv.addEventListener('mouseover', function() {
+					    verificadoTexto.style.display = 'block';
+					});
+
+					verificadoDiv.addEventListener('mouseout', function() {
+						verificadoTexto.style.display = 'none';
+					});
+
+					containerLogoTexto.appendChild(verificadoDiv);
+		
+					buttonAbrirArquivo.addEventListener('click', function() {
+					    if (arquivoTopico) {
+					        let byteCharacters = atob(arquivoTopico);
+					        let byteNumbers = new Array(byteCharacters.length);
+					        for (let i = 0; i < byteCharacters.length; i++) {
+					            byteNumbers[i] = byteCharacters.charCodeAt(i);
+					        }
+					        let byteArray = new Uint8Array(byteNumbers);
+
+					        let mimeType = "application/pdf";
+					        if (arquivoTopico.startsWith('/9j/')) {
+					            mimeType = "image/jpeg";
+					        } else if (arquivoTopico.startsWith('iVBOR')) {
+					            mimeType = "image/png";
+					        }
+
+					        let blob = new Blob([byteArray], { type: mimeType });
+					        let url = URL.createObjectURL(blob);
+
+					        let novaAba = window.open(url);
+					        if (!novaAba) {
+					            alert("Pop-up bloqueado! Permita pop-ups para visualizar o arquivo.");
+					        }
+					    } else {
+					        alert("Arquivo não disponível!");
+					    }
+					});
+			        seccao.appendChild(containerLogoTexto);
+					seccao.appendChild(botaoCarregarMaisLC);
+				}
+		    };
+			
+			indiceAtualLC = limiteLC;
+			
+			botaoCarregarMaisLC.style.display = indiceAtualLC < topicos.length ? 'block' : 'none';
+			
+			botaoCarregarMaisLC.addEventListener('click', carregarSecaoLicencaCertificado);
+		};
+		
+		carregarSecaoLicencaCertificado();
+	}
+	containerSeccoes.appendChild(seccao);
+});
 
 //CROPPEP
 

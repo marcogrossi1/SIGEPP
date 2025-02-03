@@ -31,6 +31,7 @@ import proj.dao.AlunoDao;
 import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
+import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
 import proj.dao.SecaoDao;
 import proj.dao.SeguidoresDao;
@@ -40,87 +41,161 @@ import proj.model.Administrador;
 import proj.model.Aluno;
 import proj.model.Empresa;
 import proj.model.Estagio;
+import proj.model.Professor;
 import proj.model.Projeto;
 import proj.model.Secao;
 import proj.model.Topico;
 import proj.model.Usuario;
 
 @Controller
-@RequestMapping("/perfil-aluno")
-public class PerfilAlunoController {
+@RequestMapping("/perfil")
+public class PerfilController {
 	
 	@Autowired
     private HDataSource ds;
 
 	@GetMapping
-	public String mostraPerfilAluno(@RequestParam("id") Long alunoId, Model model, Principal principal) throws Exception {
+	public String mostraPerfilAluno(@RequestParam("id") Long usuarioId, Model model, Principal principal) throws Exception {
 	    try(Connection conn = ds.getConnection()) {
-	    	//System.out.println("Método chamado! ID: " + alunoId);
 	    	
-	        Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+	        Usuario u = UsuarioDao.get(conn, usuarioId);
 	        model.addAttribute("usuario", u);
-
-	        Aluno a = AlunoDao.getByUsuario_id(conn, alunoId);
-	        model.addAttribute("alunoId", alunoId);
-
-	        boolean isDonoDoPerfil = u.getId() == (a.getUsuario_id()) || u.getRole().equals("Administrador");
-
-	        List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, alunoId);
-	        model.addAttribute("secoes", secoes);
-
-	        Secao secaoLicencas = null;
 	        
-	        for (Secao secao : secoes) {
-	            if (secao.getTipo().equals("Licenças e Certificados")) {
-	                secaoLicencas = secao;
-	                break;
-	            }
+	        if(u.getRole().equals("Aluno")) {
+		        Aluno a = AlunoDao.getByUsuario_id(conn, usuarioId);
+		        
+		        long idVisitante = UsuarioDao.getIdByNome(conn, principal.getName());
+		        model.addAttribute("idVisitante", idVisitante);
+		        //System.out.println(idVisitante);
+	
+		        model.addAttribute("usuarioId", usuarioId);
+	
+		        boolean isDonoDoPerfil = u.getId() == (a.getUsuario_id());
+	
+		        List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, usuarioId);
+		        model.addAttribute("secoes", secoes);
+		        
+	
+		        Secao secaoLicencas = null;
+		        
+		        for (Secao secao : secoes) {
+		            if (secao.getTipo().equals("Licenças e Certificados")) {
+		                secaoLicencas = secao;
+		                break;
+		            }
+		        }
+	
+		        if (secaoLicencas != null) {
+		            List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, secaoLicencas.getId());
+		            model.addAttribute("topicos", topicos);
+		            model.addAttribute("qtdTopicos", TopicoDao.contarTopicosPorSecao(conn, secaoLicencas.getId()));
+		        } else {
+		            model.addAttribute("topicos", new ArrayList<>());
+		            model.addAttribute("qtdTopicos", 0);
+		        }
+		        
+		        long qtdSecoesTextoLivre = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Texto Livre", a.getId());
+		        long qtdSecoesProjetosConcluidos = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Projetos Concluídos", a.getId());
+		        long qtdSecoesLicencasECertificados = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Licenças e Certificados", a.getId());
+	
+		        model.addAttribute("qtdSecoesTextoLivre", qtdSecoesTextoLivre);
+		        model.addAttribute("qtdSecoesProjetosConcluidos", qtdSecoesProjetosConcluidos);
+		        model.addAttribute("qtdSecoesLicencasECertificados", qtdSecoesLicencasECertificados);
+	
+		        if (a.getFotoPerfil() != null) {
+		            String fotoPerfilBase64 = Base64.getEncoder().encodeToString(a.getFotoPerfil());
+		            model.addAttribute("fotoPerfil", fotoPerfilBase64);
+		        }
+	
+		        if (a.getBannerPerfil() != null) {
+		            String bannerBase64 = Base64.getEncoder().encodeToString(a.getBannerPerfil());
+		            model.addAttribute("banner", bannerBase64);
+		        }
+	
+		        ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
+		        ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
+		        int n_seguidores = SeguidoresDao.listSeguidores(conn, a.getUsuario_id()).getNumeroSeguidores();
+		        int n_seguidos = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
+	
+		        long idDoUsuarioVisitante = u.getId();
+	
+		        model.addAttribute("seguidores", n_seguidores);
+		        model.addAttribute("idDoUsuario", idDoUsuarioVisitante);
+		        model.addAttribute("seguidos", n_seguidos);
+		        model.addAttribute("u", a);
+		        model.addAttribute("projetos", projetos);
+		        model.addAttribute("estagios", estagios);
+		        model.addAttribute("isDonoDoPerfil", isDonoDoPerfil);
+		        
+		        return "perfil";
 	        }
-
-	        if (secaoLicencas != null) {
-	            List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, secaoLicencas.getId());
-	            model.addAttribute("topicos", topicos);
-	            model.addAttribute("qtdTopicos", TopicoDao.contarTopicosPorSecao(conn, secaoLicencas.getId()));
-	        } else {
-	            model.addAttribute("topicos", new ArrayList<>());
-	            model.addAttribute("qtdTopicos", 0);
+	        else if(u.getRole().equals("Professor")) {
+	        	Professor p = ProfessorDao.getByUsuario_id(conn, usuarioId);
+		        
+		        long idVisitante = UsuarioDao.getIdByNome(conn, principal.getName());
+		        model.addAttribute("idVisitante", idVisitante);
+		        //System.out.println(idVisitante);
+	
+		        model.addAttribute("usuarioId", usuarioId);
+	
+		        boolean isDonoDoPerfil = u.getId() == (p.getUsuario_id());
+	
+		        List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, usuarioId);
+		        model.addAttribute("secoes", secoes);
+		        
+		        Secao secaoLicencas = null;
+		        
+		        for (Secao secao : secoes) {
+		            if (secao.getTipo().equals("Licenças e Certificados")) {
+		                secaoLicencas = secao;
+		                break;
+		            }
+		        }
+	
+		        if (secaoLicencas != null) {
+		            List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, secaoLicencas.getId());
+		            model.addAttribute("topicos", topicos);
+		            model.addAttribute("qtdTopicos", TopicoDao.contarTopicosPorSecao(conn, secaoLicencas.getId()));
+		        } else {
+		            model.addAttribute("topicos", new ArrayList<>());
+		            model.addAttribute("qtdTopicos", 0);
+		        }
+		        
+		        long qtdSecoesTextoLivre = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Texto Livre", usuarioId);
+		        long qtdSecoesProjetosConcluidos = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Projetos Concluídos", usuarioId);
+		        long qtdSecoesLicencasECertificados = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Licenças e Certificados", usuarioId);
+	
+		        model.addAttribute("qtdSecoesTextoLivre", qtdSecoesTextoLivre);
+		        model.addAttribute("qtdSecoesProjetosConcluidos", qtdSecoesProjetosConcluidos);
+		        model.addAttribute("qtdSecoesLicencasECertificados", qtdSecoesLicencasECertificados);
+	
+		        if (p.getFotoPerfil() != null) {
+		            String fotoPerfilBase64 = Base64.getEncoder().encodeToString(p.getFotoPerfil());
+		            model.addAttribute("fotoPerfil", fotoPerfilBase64);
+		        }
+	
+		        if (p.getBannerPerfil() != null) {
+		            String bannerBase64 = Base64.getEncoder().encodeToString(p.getBannerPerfil());
+		            model.addAttribute("banner", bannerBase64);
+		        }
+	
+		        ArrayList<Projeto> projetos = ProjetoDao.listPorIdProfessor(conn, usuarioId);
+		        int n_seguidores = SeguidoresDao.listSeguidores(conn, p.getUsuario_id()).getNumeroSeguidores();
+		        int n_seguidos = SeguidoresDao.listSeguidos(conn, p.getUsuario_id()).getNumeroSeguidores();
+	
+		        long idDoUsuarioVisitante = u.getId();
+	
+		        model.addAttribute("seguidores", n_seguidores);
+		        model.addAttribute("idDoUsuario", idDoUsuarioVisitante);
+		        model.addAttribute("seguidos", n_seguidos);
+		        model.addAttribute("u", p);
+		        model.addAttribute("projetos", projetos);
+		        model.addAttribute("isDonoDoPerfil", isDonoDoPerfil);
+		        
+		        return "perfil";
 	        }
-	        
-	        long qtdSecoesTextoLivre = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Texto Livre", a.getId());
-	        long qtdSecoesProjetosConcluidos = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Projetos Concluídos", a.getId());
-	        long qtdSecoesLicencasECertificados = SecaoDao.contarSecoesPorTipoEUsuario(conn, "Licenças e Certificados", a.getId());
-
-	        model.addAttribute("qtdSecoesTextoLivre", qtdSecoesTextoLivre);
-	        model.addAttribute("qtdSecoesProjetosConcluidos", qtdSecoesProjetosConcluidos);
-	        model.addAttribute("qtdSecoesLicencasECertificados", qtdSecoesLicencasECertificados);
-
-	        if (a.getFotoPerfil() != null) {
-	            String fotoPerfilBase64 = Base64.getEncoder().encodeToString(a.getFotoPerfil());
-	            model.addAttribute("fotoPerfil", fotoPerfilBase64);
-	        }
-
-	        if (a.getBannerPerfil() != null) {
-	            String bannerBase64 = Base64.getEncoder().encodeToString(a.getBannerPerfil());
-	            model.addAttribute("banner", bannerBase64);
-	        }
-
-	        ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
-	        ArrayList<Estagio> estagios = AlunoDao.listEstagiosByAlunoId(conn, a.getId());
-	        int n_seguidores = SeguidoresDao.listSeguidores(conn, a.getUsuario_id()).getNumeroSeguidores();
-	        int n_seguidos = SeguidoresDao.listSeguidos(conn, a.getUsuario_id()).getNumeroSeguidores();
-
-	        long idDoUsuarioVisitante = u.getId();
-
-	        model.addAttribute("seguidores", n_seguidores);
-	        model.addAttribute("idDoUsuario", idDoUsuarioVisitante);
-	        model.addAttribute("seguidos", n_seguidos);
-	        model.addAttribute("aluno", a);
-	        model.addAttribute("projetos", projetos);
-	        model.addAttribute("estagios", estagios);
-	        model.addAttribute("isDonoDoPerfil", isDonoDoPerfil);
-
-	        if (u.getRole().equals("Aluno") || u.getRole().equals("Professor") || u.getRole().equals("Administrador") || u.getRole().equals("Empresa")) {
-	            return "perfilAluno";
+	        else if (u.getRole().equals("Administrador") || u.getRole().equals("Empresa")) {
+	            return "perfil";
 	        } else {
 	            return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
 	        }
@@ -235,13 +310,15 @@ public class PerfilAlunoController {
 	
 	@PostMapping("/atualizar")
 	public String atualizarDadosPerfil(
-	    @RequestParam("id") Long alunoId, 
+	    @RequestParam("id") Long usuarioId, 
 	    @RequestParam("fotoPerfil") MultipartFile fotoPerfil,
 	    @RequestParam("banner") MultipartFile banner,
 	    @RequestParam("descricao") String descricaoPerfil,
 	    Principal principal, Model model) throws Exception {
 	    try (Connection conn = ds.getConnection()) {
-	    	
+	    	Usuario u = UsuarioDao.get(conn, usuarioId);
+	        model.addAttribute("usuario", u);
+	        
 	    	//pra verificar se tá funcionando
 	    	System.out.println("DESCRIÇÃO:\n\n" + descricaoPerfil);
 	    	
@@ -254,22 +331,55 @@ public class PerfilAlunoController {
 	        //pra verificar se tá funcionando
 	        System.out.println("Bytes fotoPerfil: " + fotoPerfilBytes.length);
 	        System.out.println("Bytes banner: " + bannerBytes.length);
-
-	        Aluno a = AlunoDao.get(conn, alunoId);
 	        
-	        a.setDescricaoPerfil(descricaoPerfil);
-	        
-	        if (fotoPerfil != null && !fotoPerfil.isEmpty())
-	        	a.setFotoPerfil(fotoPerfilBytes);
-	        if (banner != null && !banner.isEmpty())
-	        	a.setBannerPerfil(bannerBytes);
-	        
-	        AlunoDao.updateForDescricaoPerfil(conn, a.getId(), a.getDescricaoPerfil());
-	        AlunoDao.updateForFotoPerfil(conn, a.getId(), a.getFotoPerfil());
-	        AlunoDao.updateForBannerPerfil(conn, a.getId(), a.getBannerPerfil());
-	        conn.commit();
-
-	        return "redirect:/perfil-aluno?id=" + alunoId;
+	        if(u.getRole().equals("Aluno")) {
+		        Aluno a = AlunoDao.get(conn, usuarioId);
+		        
+		        a.setDescricaoPerfil(descricaoPerfil);
+		        
+		        if (fotoPerfil != null && !fotoPerfil.isEmpty())
+		        	a.setFotoPerfil(fotoPerfilBytes);
+		        if (banner != null && !banner.isEmpty())
+		        	a.setBannerPerfil(bannerBytes);
+		        
+		        AlunoDao.updateForDescricaoPerfil(conn, a.getId(), a.getDescricaoPerfil());
+		        AlunoDao.updateForFotoPerfil(conn, a.getId(), a.getFotoPerfil());
+		        AlunoDao.updateForBannerPerfil(conn, a.getId(), a.getBannerPerfil());
+		        conn.commit();
+	
+		        return "redirect:/perfil?id=" + usuarioId;
+	        } else if(u.getRole().equals("Professor")) {
+		        Professor p = ProfessorDao.get(conn, usuarioId);
+		        
+		        p.setDescricaoPerfil(descricaoPerfil);
+		        
+		        if (fotoPerfil != null && !fotoPerfil.isEmpty())
+		        	p.setFotoPerfil(fotoPerfilBytes);
+		        if (banner != null && !banner.isEmpty())
+		        	p.setBannerPerfil(bannerBytes);
+		        
+		        ProfessorDao.update(conn, p);
+		        
+		        conn.commit();
+	
+		        return "redirect:/perfil?id=" + usuarioId;
+	        } if(u.getRole().equals("Administrador")) {
+		        /*Administrador ad = AdministradorDao.get(conn, usuarioId);
+		        
+		        ad.setDescricaoPerfil(descricaoPerfil);
+		        
+		        if (fotoPerfil != null && !fotoPerfil.isEmpty())
+		        	ad.setFotoPerfil(fotoPerfilBytes);
+		        if (banner != null && !banner.isEmpty())
+		        	ad.setBannerPerfil(bannerBytes);
+		        
+		        AdministradorDao.update(conn, ad);
+		        conn.commit();*/
+	
+		        return "redirect:/perfil?id=" + usuarioId;
+	        } else {
+	        	return "redirect:/perfil?id=" + usuarioId;
+	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        model.addAttribute("message", "Erro ao atualizar dados.");
@@ -284,6 +394,7 @@ public class PerfilAlunoController {
         @RequestParam(value = "conteudoTexto", required = false, defaultValue = "Escreva seu texto...") String conteudoTexto,
         @RequestParam(value = "conteudoTextoTopico", required = false) List<String> conteudosTextoTopico,
         @RequestParam(value = "conteudoArquivo", required = false) List<MultipartFile> conteudoArquivos,
+        @RequestParam(value = "conteudoDesenho", required = false) String conteudoDesenho,
         @RequestParam(value = "conteudoImagem", required = false) List<MultipartFile> conteudoImagens,
         @RequestParam(value = "qtdTopicos", required = false) Long qtdTopicos,
         @RequestParam(value = "tipo", required = true) String tipo,
@@ -300,11 +411,18 @@ public class PerfilAlunoController {
 	        if (ordem == null) 
 	        	ordem = 0;
 	        
+	        Secao sec = new Secao();
+	        
+	        if (conteudoDesenho != null && !conteudoDesenho.isEmpty()) {
+	        	conteudoDesenho = conteudoDesenho.replaceFirst("data:image\\/\\w+;base64,", "");
+	        	conteudoDesenho = conteudoDesenho.replaceAll("[^A-Za-z0-9+/=]", "");
+	        	byte[] desenhoBytes = Base64.getDecoder().decode(conteudoDesenho);
+	        	sec.setConteudoImagem(desenhoBytes);
+	        }
+	        
 	        //VERIFICAR SE TÁ DANDO LARGURA E ALTURA MESMO DO CONTEUDO TEXTO E TOP E LEFT
 	        System.out.println("Largura: " + comprimentoConteudoTexto + ", Altura: " + alturaConteudoTexto);
 	        System.out.println("Top: " + comprimentoConteudoTexto + ", Left: " + alturaConteudoTexto);
-	        
-            Secao sec = new Secao();
             
             sec.setUsuarioId(usuarioId);
             sec.setTipo(tipo);
@@ -373,7 +491,7 @@ public class PerfilAlunoController {
             
 	        conn.commit();
 
-	        return "redirect:/perfil-aluno?id=" + usuarioId;
+	        return "redirect:/perfil?id=" + usuarioId;
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        model.addAttribute("message", "Erro ao salvar as seções: " + e.getMessage());
@@ -479,7 +597,7 @@ public class PerfilAlunoController {
             
 	        conn.commit();
 
-	        return "redirect:/perfil-aluno?id=" + usuarioId;
+	        return "redirect:/perfil?id=" + usuarioId;
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        model.addAttribute("message", "Erro ao salvar as seções: " + e.getMessage());
@@ -490,7 +608,7 @@ public class PerfilAlunoController {
 	@PostMapping("/apagar-secao")
 	public String apagarSecao(
 		@RequestParam("idSecao") Long secaoId,
-		@RequestParam("idUsuario") Long alunoId,
+		@RequestParam("idUsuario") Long usuarioId,
 	    Model model) {
 
 	    try (Connection conn = ds.getConnection()) {
@@ -498,7 +616,7 @@ public class PerfilAlunoController {
             SecaoDao.excluirSecao(conn, secaoId);
 	        conn.commit();
 
-	        return "redirect:/perfil-aluno?id=" + alunoId;
+	        return "redirect:/perfil?id=" + usuarioId;
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        model.addAttribute("message", "Erro ao salvar as seções: " + e.getMessage());

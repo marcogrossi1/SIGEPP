@@ -7,6 +7,9 @@ public class Professor {
 	private String email;
 	private String telefone;
 	private String cpf;
+	private byte[] fotoPerfil;
+	private byte[] bannerPerfil;
+	private String descricaoPerfil;
 	private long usuario_id;
 	
 	
@@ -52,6 +55,28 @@ public class Professor {
 				+ ", usuario_id=" + usuario_id + "]";
 	}
 	
-	
+	public byte[] getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(byte[] fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+
+    public byte[] getBannerPerfil() {
+        return bannerPerfil;
+    }
+
+    public void setBannerPerfil(byte[] bannerPerfil) {
+        this.bannerPerfil = bannerPerfil;
+    }
+
+    public String getDescricaoPerfil() {
+        return descricaoPerfil;
+    }
+
+    public void setDescricaoPerfil(String descricaoPerfil) {
+        this.descricaoPerfil = descricaoPerfil;
+    }
 	
 }

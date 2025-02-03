@@ -155,28 +155,6 @@ public class AdministradorController {
 		model.addAttribute("message",message);
 		return "erro";
 	}
-
-    @GetMapping("/perfil")
-    public String mostraPerfilPessoal(Model model, Principal principal) throws Exception {
-        try(Connection conn = ds.getConnection()) {
-            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-            Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
-            
-            ArrayList<Projeto> projetos = AdministradorDao.listProjetos(conn);
-            ArrayList<Estagio> estagios = AdministradorDao.listEstagios(conn);
-            
-            model.addAttribute("usuario", u);
-            model.addAttribute("administrador", a);
-            model.addAttribute("projetos", projetos);
-            model.addAttribute("estagios", estagios);
-
-            return "administrador/perfil";
-        }
-
-        catch(Exception e) {
-            return "erro";
-        }
-    }
     
     @RequestMapping("/estagios")
     public String listaEstagios(Model model, Principal principal) throws Exception {
@@ -240,25 +218,26 @@ public class AdministradorController {
         }
     }
     
-    @GetMapping("/listar-certificados-licencas")
-    public String listaCertificadosLicencas(Model model, Principal principal) throws Exception {
-        try(Connection conn = ds.getConnection()) {
+    @GetMapping("/listar-usuarios-com-secoes")
+    public String listarUsuariosComSecoes(Model model, Principal principal) throws Exception {
+        try (Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
             Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
 
-            ArrayList<Aluno> alunos = AdministradorDao.listAlunos(conn);
+            ArrayList<Aluno> alunos = AdministradorDao.listAlunosComSecoes(conn);
+            ArrayList<Professor> professores = AdministradorDao.listProfessoresComSecoes(conn);
 
             model.addAttribute("usuario", u);
             model.addAttribute("administrador", a);
             model.addAttribute("listaAlunos", alunos);
+            model.addAttribute("listaProfessores", professores);
 
-            return "administrador/certificadosLicencas";
-        }
-
-        catch(Exception e) {
+            return "administrador/listaUsuarios";
+        } catch (Exception e) {
             return "erro";
         }
     }
+
     
     @GetMapping("/listar-certificados-licencas/editar")
     public String mostraTelaDeEdicaoCertificados(@RequestParam("id") Long id, Model model, Principal principal) {
@@ -298,20 +277,19 @@ public class AdministradorController {
     
     @PostMapping("/listar-certificados-licencas/editado")
     public String validarCertificados(
-		@RequestParam(value = "idAluno", required = false) long idAluno,
-		@RequestParam(value = "validacao", required = false, defaultValue = "false") Boolean validacao,
-        @RequestParam(value = "idTopico", required = false) Long idTopico,
-        Model model) {
+            @RequestParam(value = "idAluno", required = false) long idAluno,
+            @RequestParam(value = "validacao", required = false, defaultValue = "false") Boolean validacao,
+            @RequestParam(value = "idTopico", required = false) Long idTopico,
+            Model model) {
 
-        if (idTopico == null || validacao == null) {
-            return mostraPaginaDeErro(model, "Parâmetros inválidos");
+        if (idTopico == null) {
+            return mostraPaginaDeErro(model, "Tópico não encontrado");
         }
 
         try (Connection conn = ds.getConnection()) {
             Topico topico = TopicoDao.getTopicoPorId(conn, idTopico);
             if (topico != null) {
-                topico.setEstado(validacao);
-                TopicoDao.atualizarTopico(conn, topico);
+                TopicoDao.validarTopico(conn, idTopico, validacao);
                 conn.commit();
             } else {
                 return mostraPaginaDeErro(model, "Tópico não encontrado");

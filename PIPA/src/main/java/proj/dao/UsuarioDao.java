@@ -12,15 +12,6 @@ import java.sql.*;
 import proj.model.Usuario;
 
 public class UsuarioDao {
-	/* EM TESTES / DESATIVADO
-	 * 
-	 * 
-	private Connection connection;
-
-    public UsuarioDao(Connection connection) {
-        this.connection = connection;
-    }*/
-
     private final static String getsql = "SELECT * FROM usuario  WHERE id = ?";
     private final static String getByNomeSql = "SELECT * FROM usuario  WHERE nome = ?";
     private final static String listsql = "SELECT * FROM usuario";
@@ -205,35 +196,31 @@ public class UsuarioDao {
         finally{closeResource(ps); ps = null; }
     }
     
-    /* EM TESTES / DESATIVADO
-     *
-    public Usuario buscarPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM usuarios WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setId(rs.getInt("id"));
-                usuario.setNome(rs.getString("nome"));
-                usuario.setDescricao(rs.getString("descricao"));
-                usuario.setBannerUrl(rs.getString("banner_url"));
-                usuario.setFotoPerfilUrl(rs.getString("foto_perfil_url"));
-                return usuario;
-            }
-        }
-        return null;
-    }
-    
-    public void atualizar(Usuario usuario) throws SQLException {
-        String sql = "UPDATE usuarios SET nome = ?, descricao = ?, banner_url = ?, foto_perfil_url = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, usuario.getNome());
-            stmt.setString(2, usuario.getDescricao());
-            stmt.setString(3, usuario.getBannerUrl());
-            stmt.setString(4, usuario.getFotoPerfilUrl());
-            stmt.setLong(5, usuario.getId());
-            stmt.executeUpdate();
-        }
-    }*/
+    public static Long getIdByNome(Connection conn, String nome)
+    	    throws NotFoundException, SQLException
+    	{
+    	    PreparedStatement ps = null;
+    	    ResultSet rs = null;
+    	    try {
+    	        // Executa a consulta para buscar o usuário pelo nome
+    	        ps = conn.prepareStatement(getByNomeSql);
+    	        ps.setString(1, nome);
+    	        rs = ps.executeQuery();
+    	        
+    	        if (!rs.next()) {
+    	            throw new NotFoundException("Object not found By [" + nome + "]");
+    	        }
+    	        
+    	        // Retorna o ID do usuário
+    	        return rs.getLong("id");
+    	    }
+    	    catch (SQLException e) {
+    	        throw e;
+    	    }
+    	    finally {
+    	        closeResource(ps, rs);
+    	        ps = null;
+    	        rs = null;
+    	    }
+    	}
 }
