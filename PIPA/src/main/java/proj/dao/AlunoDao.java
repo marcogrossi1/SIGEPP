@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Progresso;
@@ -32,7 +30,7 @@ public class AlunoDao {
     private final static String listCursosSql = "SELECT DISTINCT curso FROM aluno ORDER BY curso";
     private final static String listCampusSql = "SELECT DISTINCT campus FROM aluno ORDER BY campus";
     private final static String listPeriodosSql = "SELECT DISTINCT periodo FROM aluno ORDER BY periodo";
-    private final static String insertsql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id, telefone, fotoPerfil, bannerPerfil, descricaoPerfil) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+    private final static String insertsql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id, telefone, fotoPerfil, bannerPerfil, descricaoPerfil) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
     private final static String updatesql = "UPDATE aluno SET cpf = ?, nome = ?, curso = ?, campus = ?, email = ?, periodo = ?, usuario_id = ?, telefone = ?, fotoPerfil = ?, bannerPerfil = ?, descricaoPerfil = ? WHERE id = ? ";
     private final static String updateForCpfSql = "UPDATE aluno SET cpf = ?  WHERE id = ? ";
     private final static String updateForNomeSql = "UPDATE aluno SET nome = ?  WHERE id = ? ";
@@ -45,7 +43,6 @@ public class AlunoDao {
     private final static String updateForBannerPerfilSql = "UPDATE aluno SET bannerPerfil = ?  WHERE id = ? ";
     private final static String updateForDescricaoPerfilSql = "UPDATE aluno SET descricaoPerfil = ?  WHERE id = ? ";
     private final static String updateForUsuario_idSql = "UPDATE aluno SET usuario_id = ?  WHERE id = ? ";
-    private final static String deletesql = "DELETE FROM aluno WHERE id = ?";
     private final static String getProgressoEstagioSql = "SELECT progresso FROM aluno_has_estagio WHERE aluno_id = ? AND estagio_id = ?";
     private final static String setProgressoEstagioSql = "INSERT INTO aluno_has_estagio (aluno_id, estagio_id, progresso) VALUES (?, ?, ?) AS upd_row ON DUPLICATE KEY UPDATE progresso = upd_row.progresso;";
     private final static String deleteHasEstagioSql = "DELETE FROM aluno_has_estagio WHERE aluno_id = ? AND estagio_id = ?";

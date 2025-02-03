@@ -289,7 +289,7 @@ CREATE TABLE secoes (
     conteudoImagem LONGBLOB NULL,
     ordem INT,
   	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+)
 
 CREATE TABLE Novidade (
   id BIGINT NOT NULL AUTO_INCREMENT,
@@ -301,3 +301,15 @@ CREATE TABLE Novidade (
   PRIMARY KEY (id),
   UNIQUE INDEX nome_UNIQUE (nome ASC)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE Avaliacao (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    usuario_id BIGINT NOT NULL,
+    perfil_id BIGINT NOT NULL,
+    comentario TEXT NOT NULL,
+    data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
+    FOREIGN KEY (perfil_id) REFERENCES Usuario(id)
+);
+

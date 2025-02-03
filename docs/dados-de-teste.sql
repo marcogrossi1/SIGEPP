@@ -127,6 +127,8 @@ VALUES
 (2,1, "APROVADO"),
 (2,2, "CONCLUIDO");
 
+
+
 INSERT INTO aluno_has_projeto (aluno_id, projeto_id) 
 VALUES 
 (1,1),
@@ -172,3 +174,4 @@ INSERT INTO Novidade (nome, descricao, isEstagio, link)
 VALUES
 ('Pipa', 'Trabalho em sistema de coordenação de oportunidades acadêmicas.', FALSE, "aluno/detalhes-projeto?id=1"),
 ('Cemig', 'Vagas Setor Manutenção.', TRUE, "aluno/detalhes-estagio?n=1");
+

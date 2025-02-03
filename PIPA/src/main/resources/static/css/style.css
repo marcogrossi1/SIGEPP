@@ -18,7 +18,6 @@ body {
 
 header {
 	width: 100vw;
-	height: 10vh;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: center;
@@ -93,6 +92,7 @@ main>:last-child {
 	padding-left: 1vw;
 	height: 8vh;
 	padding-right: 1vw;
+	padding-top: 1vw;
 }
 
 #titulo-plataforma {
@@ -114,7 +114,7 @@ select {
 button,
 input[type='submit'] {
 	min-width: 10vw;
-	height: 3vh;
+	
 	border: 1px solid #c4c0bf;
 	border-radius: 5%;
 	background-color: #2e6890;
@@ -182,8 +182,6 @@ input[type='submit'] {
 	all: unset;
 	cursor: pointer;
 	outline: revert;
-	height: 180px;
-	width: 252px;
 }
 
 .link-logout {
@@ -198,55 +196,117 @@ input[type='submit'] {
 	transform: scale(1.1);
 }
 
-#botao-estagio,
-#botao-certificado {
-	margin-left: 50px;
+#botoes-portal {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	row-gap: 3%;
 }
 
+#botoes-portal a button {
+	display: flex;
+	justify-content: center;
+}
+
+#botoes-portal-aluno {
+	display: flex;
+	flex-direction: row;
+}
+
+#botoes-portal-aluno a button {
+	display: flex;
+	justify-content: center;
+}
+
+#botoes-portal-professor {
+	display: flex;
+	flex-direction: row;
+}
+
+#botoes-portal-professor a button {
+	display: flex;
+	justify-content: center;
+}
+#botoes-portal-empresa {
+	display: flex;
+	flex-direction: row;
+}
+
+#botoes-portal-empresa a button {
+	display: flex;
+	justify-content: center;
+}
+
+#botoes-portal-adm {
+	display: grid;
+	grid-template-columns: auto auto;
+	gap: 3%;
+}
+
+#botoes-portal-adm a button {
+	display: flex;
+	justify-content: center;
+}
+/*
 #botao-professor,
 #botao-empresa {
 	margin-left: 50px;
 }
+*/
 
+/*
 #botao-adm {
 	margin-left: 310px;
 }
+*/
 
+/*
 #botao-projeto-adm {
 	margin-left: 100px;
 }
+*/
 
+/*
 #botao-empresa-adm,
 #botao-professor-adm {
 	margin-left: 105px;
 }
+
 
 #botao-estagio-adm,
 #botao-aluno-adm {
 	margin-left: 170px;
 }
 
+
 #botao-professor,
 #botao-empresa {
 	margin-left: 50px;
 }
-
+*/
+/*
 #botao-buscar-aluno {
 	margin-left: 150px;
 }
+
 
 #botao-projeto-professor,
 #botao-estagios-empresa {
 	margin-left: 105px;
 }
+*/
 
 .imgs-botoes-portal {
-	height: 180px;
-	width: 252px;
+	height: 50%;
+	width: 50%;
 	padding: 0px;
 }
 
-#subtitulo-portal {
+#img-certificados-licencas{
+	height: 360px;
+	width: 504px;
+}
+
+.subtitulo-portal {
 	text-align: center;
 }
 
@@ -296,6 +356,7 @@ input[type='submit'] {
 	margin-left: 100px;
 	padding: 3vh;
 	max-height: calc(100vh - 40vh);
+	width: 18%;
 	border-radius: 1%;
 	background-color: #2e6890;
 	color: white;
@@ -304,6 +365,10 @@ input[type='submit'] {
 
 #section-meus-trabalhos ul {
 	padding-left: 4px;
+}
+
+#section-meus-trabalhos button {
+	width: 95%;
 	font-size: 75%;
 }
 
@@ -311,7 +376,6 @@ input[type='submit'] {
 	position: absolute;
 	top: 11.5vh;
 	left: 2vw;
-	font-size: 1.5em;
 	font-family: Arial, Helvetica, sans-serif;
 	overflow: hidden;
 }
@@ -332,7 +396,7 @@ input[type='submit'] {
 
 .table th,
 .table td {
-	padding: 12px 15px;
+	padding: 6px 8px;
 	border: 1px solid #ddd;
 }
 
@@ -349,6 +413,10 @@ input[type='submit'] {
 	background-color: #f1f1f1;
 }
 
+#projetos-table, #alunos-table {
+	margin: 0;
+	font-size: 0.9em;
+}
 /* Atualização para Candidatura */
 #pagina-candidatura {
 	display: flex;
@@ -580,7 +648,6 @@ label {
 }
 
 .botao-editar {
-	height: 4vh;
 	background-color: #4CAF50;
 	color: white;
 	border: none;
@@ -600,7 +667,6 @@ label {
 }
 
 .botao-excluir {
-	height: 4vh;
 	background-color: #ff5555;
 	color: white;
 	border: none;
@@ -808,6 +874,18 @@ a {
 	border-radius: 10px;
 }
 
+#good{color: green; }
+#bad{color: red;}
+.flexbox-center{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main-certificados-licencas {
+	margin-bottom: 30px;
+	overflow: auto;
+}
 .carousel-wrapper {
 	display: flex;
 	transition: transform 0.5s ease-in-out;
@@ -917,7 +995,7 @@ a {
 	border-radius: 0 0 0 8px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	font-weight: bold;
-
+}
 .notificacao.fade-out {
     opacity: 0;
     transition: opacity 0.5s ease; 

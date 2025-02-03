@@ -29,6 +29,7 @@ import proj.dao.AlunoDao;
 import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
+import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
 import proj.dao.SecaoDao;
 import proj.dao.SeguidoresDao;
@@ -37,6 +38,7 @@ import proj.model.Administrador;
 import proj.model.Aluno;
 import proj.model.Empresa;
 import proj.model.Estagio;
+import proj.model.Professor;
 import proj.model.Projeto;
 import proj.model.Secao;
 import proj.model.Usuario;
@@ -51,10 +53,22 @@ public class PerfilAlunoController {
 	@GetMapping
 	public String mostraPerfilAluno(@RequestParam("id") Long alunoId, Model model, Principal principal) 
 	throws Exception {
-		try(Connection conn = ds.getConnection()) {
+		//try(
+            Connection conn = ds.getConnection();//) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
         	model.addAttribute("usuario", u);
-
+        	
+        	String nome = null;
+        	if(u.getRole().equals("Empresa")) {
+				Empresa x = EmpresaDao.getByUsuario_id(conn, u.getId());
+				nome = x.getNome();
+			}
+			else if (u.getRole().equals("Professor")) {
+				Professor x = ProfessorDao.getByUsuario_id(conn, u.getId());
+				nome = x.getNome();
+			}
+        	model.addAttribute("nome", nome);
+        	
 			Aluno a = AlunoDao.get(conn, alunoId);
 			List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, alunoId);
 			model.addAttribute("secoes", secoes);
@@ -91,14 +105,15 @@ public class PerfilAlunoController {
 			}*/
 		}
 		
-		catch(Exception e) {
-			return "erro";
-		}
-	}
+		//catch(Exception e) {
+		//	return "erro";
+		//}
+	//}
 
 	@GetMapping("/emite")
 	public String emiteCertificado(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo, @RequestParam("aluno") Long alunoId,Model model, Principal principal) throws Exception {
-        try(Connection conn = ds.getConnection()) {
+        try(
+            Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
         	model.addAttribute("usuario", u);
 
@@ -140,7 +155,7 @@ public class PerfilAlunoController {
             Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
             Paragraph title = new Paragraph("Certificado", font);
             Paragraph p;
-            
+
             String imagePath = "PIPA/src/main/resources/static/img/logo-cefet.png";
             Image img = Image.getInstance(imagePath);
             img.scalePercent(10);

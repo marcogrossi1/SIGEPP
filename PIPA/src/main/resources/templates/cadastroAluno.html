@@ -5,38 +5,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/config.css}">
 </head>
 <body>
     <header>
-        <a href="http://localhost:8080"><img id="logo" th:src="@{/img/logo.png}"></a> <!-- Clique na logo para retornar à página inicial -->
+        <a href="http://localhost:8080"><img id="logo" th:src="@{/img/logo.png}"></a>
         <h1 id="titulo-plataforma">PIPA | Portal</h1>
     </header>
     <main>
-        <form id="aluno-inputs" th:action="@{/cadastro/aluno}" th:object="${aluno}" method="post" enctype="multipart/form-data">
-            <input type="hidden" th:field="*{id}">
+        <form id="aluno-inputs" th:action="@{/criarAluno}" method="post" enctype="multipart/form-data">
             <label for="cpf">CPF:</label>
-            <input type="text" name="cpf" th:field="*{cpf}" required>
+            <input type="text" name="cpf" required>
+
             <label for="nome">Nome:</label>
-            <input type="text" name="nome" th:field="*{nome}" required>
+            <input type="text" name="nome" required>	
+
             <label for="curso">Curso:</label>
-            <input type="text" name="curso" th:field="*{curso}" required>
+            <select class="conta-config" id="curso" name="curso">
+                <option value="" disabled selected>Selecione um curso</option>
+                <optgroup label="Graduação">
+                    <option value="Administração">Administração</option>
+                    <option value="Engenharia de Computação">Engenharia de Computação</option>
+                    <option value="Engenharia de Produção Civil – Engenharia Civil">Engenharia de Produção Civil – Engenharia Civil</option>
+                    <option value="Engenharia Elétrica">Engenharia Elétrica</option>
+                    <option value="Engenharia Mecânica">Engenharia Mecânica</option>
+                    <option value="Formação Pedagógica de Docentes – Programa Especial de Formação de Docentes">Formação Pedagógica de Docentes</option>
+                    <option value="Engenharia Ambiental e Sanitária">Engenharia Ambiental e Sanitária</option>
+                    <option value="Engenharia de Materiais">Engenharia de Materiais</option>
+                    <option value="Engenharia de Transportes">Engenharia de Transportes</option>
+                    <option value="Letras">Letras</option>
+                    <option value="Química Tecnológica">Química Tecnológica</option>
+                </optgroup>
+                <optgroup label="Técnico">
+                    <option value="Controle Ambiental">Controle Ambiental</option>
+                    <option value="Eletroeletrônica">Eletroeletrônica</option>
+                    <option value="Eletrotécnica">Eletrotécnica</option>
+                    <option value="Hospedagem">Hospedagem</option>
+                    <option value="Mecânica">Mecânica</option>
+                    <option value="Metalurgia">Metalurgia</option>
+                    <option value="Química">Química</option>
+                    <option value="Desenvolvimento de Sistemas">Desenvolvimento de Sistemas</option>
+                    <option value="Eletromecânica">Eletromecânica</option>
+                    <option value="Equipamentos Biomédicos">Equipamentos Biomédicos</option>
+                    <option value="Informática">Informática</option>
+                    <option value="Mecatrônica">Mecatrônica</option>
+                    <option value="Mineração">Mineração</option>
+                    <option value="Rede de Computadores">Rede de Computadores</option>
+                    <option value="Edificações">Edificações</option>
+                    <option value="Eletrônica">Eletrônica</option>
+                    <option value="Estradas">Estradas</option>
+                    <option value="Informática para Internet">Informática para Internet</option>
+                    <option value="Meio Ambiente">Meio Ambiente</option>
+                    <option value="Produção de Moda">Produção de Moda</option>
+                    <option value="Trânsito">Trânsito</option>
+                </optgroup>
+            </select>
+
             <label for="campus">Campus:</label>
-            <input type="text" name="campus" th:field="*{campus}" required>
+            <select class="conta-config" id="campus" name="campus">
+                <option value="" disabled selected>Selecione um campus</option>
+                <option value="Nova Suíça">Nova Suíça</option>
+                <option value="Nova Gameleira">Nova Gameleira</option>
+                <option value="Gameleira">Gameleira</option>
+                <option value="Contagem">Contagem</option>
+                <option value="Curvelo">Curvelo</option>
+                <option value="Leopoldina">Leopoldina</option>
+                <option value="Nepomuceno">Nepomuceno</option>
+                <option value="Timóteo">Timóteo</option>
+                <option value="Varginha">Varginha</option>
+            </select>
+
             <label for="email">Email:</label>
-            <input type="email" name="email" th:field="*{email}" required>
+            <input type="email" name="email" required>
+
+            <label for="senha">Senha:</label>
+            <input class="conta-config" type="password" id="senha" name="senha" placeholder="••••••••••••">
+
             <label for="periodo">Período:</label>
-            <input type="text" name="periodo" th:field="*{periodo}" required>
+            <input type="text" name="periodo" required>
+
             <label for="telefone">Telefone:</label>
-            <input type="text" name="telefone" th:field="*{telefone}" required>
-            <label for="usuario_id">ID do Usuário:</label>
-            <input type="text" name="usuario_id" th:field="*{usuario_id}">
-            <label for="fotoPerfil">Foto de Perfil:</label>
-            <input type="file" name="fotoPerfil" th:field="*{fotoPerfil}">
-            <label for="bannerPerfil">Banner de Perfil:</label>
-            <input type="file" name="bannerPerfil" th:field="*{bannerPerfil}">
-            <label for="descricaoPerfil">Descrição de Perfil:</label>
-            <textarea name="descricaoPerfil" th:field="*{descricaoPerfil}"></textarea>
-            <input type="submit" th:value="Cadastrar">
+            <input type="text" name="telefone" required>
+
+            <input type="submit" value="Cadastrar">
         </form>
     </main>
 </body>

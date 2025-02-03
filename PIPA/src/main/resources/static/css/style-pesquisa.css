@@ -21,7 +21,7 @@ body {
 
 header {
 	width: 100vw;
-	height: 10vh;
+	height: 16vh;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: center;
@@ -84,9 +84,10 @@ p {
 
 
 #logo {
-    padding-left: 1vw;
-    height: 8vh;
-    padding-right: 5vw;
+	padding-left: 1vw;
+	height: 8vh;
+	padding-right: 1vw;
+	padding-top: 1vw;
 }
 
 #titulo-plataforma {

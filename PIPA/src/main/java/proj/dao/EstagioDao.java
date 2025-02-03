@@ -11,7 +11,6 @@ import proj.model.Aluno;
 import proj.model.Estagio;
 import proj.model.Novidade;
 import proj.model.Progresso;
-import proj.dao.AlunoDao;
 public class EstagioDao extends AbstractDaoBase {
 	private final static String getsql = "SELECT * FROM Estagio WHERE id = ?";
 	private final static String listsql = "SELECT * FROM Estagio";

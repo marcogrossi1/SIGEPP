@@ -261,10 +261,12 @@ public class AlunoController {
 		return "aluno/certificado";
 	}
 
+	//ANALISAR ISSO AQUI!
 	@GetMapping("/emite")
 
 	public String emiteCertificadoProjeto(@RequestParam("id") Long projetoId, @RequestParam("tipo") String projetoTipo,
 			Model model, Principal principal) throws Exception {
+
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			model.addAttribute("usuario", u);
