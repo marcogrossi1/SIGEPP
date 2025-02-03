@@ -11,6 +11,9 @@ import proj.dao.AlunoDao;
 import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
 import proj.service.NotificacaoService;
+import proj.dao.DocumentoPDao;
+import proj.model.DocumentoP;
+import proj.model.DocumentoId;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,6 +42,9 @@ public class CandidaturaController {
 
     @Autowired
     private DataSource dataSource; // Fonte de dados para conexão com o banco
+    
+    @Autowired
+    private DocumentoPDao documentoPDao;
 
     /**
      * Exibe o formulário de candidatura para um projeto específico.
@@ -212,25 +218,24 @@ public class CandidaturaController {
     @GetMapping("/professor/validarCandidatura/{candidaturaId}")
     public String exibirTelaValidacao(@PathVariable Long candidaturaId, Model model) {
         try (Connection conn = ds.getConnection()) {
-
-            // Busca a candidatura pelo ID
-            Candidatura candidatura = candidaturaDao.get(candidaturaId);
-
-            if (candidatura == null) {
-                model.addAttribute("erro", "Candidatura não encontrada.");
-                return "error";
-            }
-
-            // Adiciona a candidatura no modelo
-            model.addAttribute("candidatura", candidatura);
-            return "professor/validarCandidatura";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("erro", "Erro ao carregar dados da candidatura.");
-            return "error";
-        }
-    }
-
+			// Busca a candidatura pelo ID
+			Candidatura candidatura = candidaturaDao.get(candidaturaId);
+			
+			if (candidatura == null) {
+				model.addAttribute("erro", "Candidatura não encontrada.");
+				return "error";
+			}
+			// Adiciona a candidatura no modelo
+			model.addAttribute("idaluno", candidatura.getAlunoId());
+			model.addAttribute("idprojeto",candidatura.getIDoportunidade());
+			model.addAttribute("candidatura", candidatura);
+			return "professor/validarCandidatura";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("erro", "Erro ao carregar dados da candidatura.");
+			return "error";
+		}
+	}
     /**
      * Processa a validação ou invalidação de uma candidatura após a escolha do
      * professor.
@@ -271,6 +276,9 @@ public class CandidaturaController {
                 model.addAttribute("erro", "Ação desconhecida.");
                 return "error";
             }
+            
+                DocumentoId documentoId = new DocumentoId(candidatura.getAlunoId(), candidatura.getIDoportunidade());
+                documentoPDao.deletarPorId(documentoId);
 
             // Atualiza o status da candidatura
             candidaturaDao.atualizarStatus(candidaturaId, status);

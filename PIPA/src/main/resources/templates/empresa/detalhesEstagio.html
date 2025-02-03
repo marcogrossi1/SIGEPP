@@ -12,6 +12,12 @@
 	        <a href="/empresa"><img id="logo" th:src="@{/img/logo.png}"></a> <!--Cpque na logo para retornar à página inicial-->
 	        <h1 id="titulo-plataforma" >PIPA | Estágios</h1>
 	</header>
+	<nav>
+	     <a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
+	</nav>
     <main>
         <section id="detalhes-estagio">
             <h3 th:text="${estagio.empresa}"></h3>

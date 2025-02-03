@@ -33,4 +33,8 @@ public class NotificacaoController {
         notificacaoService.marcarNotificacaoComoLida(idNotificacao);
     }
     
+    @PostMapping("/notificacoes/delete/{idNotificacao}")
+    public void deletarNotificacao(@PathVariable Long idNotificacao) {
+        notificacaoService.deletarNotificacao(idNotificacao);
+    }
 }

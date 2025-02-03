@@ -24,6 +24,10 @@
 
     <nav>
 	<p id="nome-no-portal" th:text="${empresa.nome}"></p>
+	<a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
         <a href="/empresa/perfil" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
@@ -33,13 +37,14 @@
                 <h2>Alunos inscritos:</h2>
                 
                 <p th:if="${#lists.isEmpty(candidatos)}">Nenhum candidato encontrado.</p>
-                <div class="estagio-section" th:unless="${#lists.isEmpty(candidatos)}" th:each="aluno, iterStat : ${candidatos}">
+                <div class="estagio-section" th:unless="${#lists.isEmpty(candidatos)}" th:each="aluno, iterStat : ${candidatos}" >
                     <section th:unless="${progresso[iterStat.index].name() == 'CONCLUIDO'}">
                         <a th:href="'/perfil-aluno?id='+ ${aluno.id}">
                         <h3 th:text="${aluno.nome}"></h3></a>
                         <p th:text="${progresso[iterStat.index]}"></p>
-                        <a th:if="${estagio.documentos != null}" th:href="@{/}"><button>Emitir documentos</button></a>
-                        <!--TODO: implementar a opção de emitir documentos-->
+                        <a th:href="@{/downloade(alunoId=${aluno.id}, projetoId=${estagio.id})}"
+   						class="btn btn-primary"><button>Baixar Documento</button></a>
+
                         <a th:if="${progresso[iterStat.index].name() == 'PENDENTE'}" th:href="'/empresa/aprovar?a_id='+${aluno.id} + '&e_id=' + ${estagio.id}"><button th:text='Aprovar'></button></a>
                         <a th:if="${progresso[iterStat.index].name() == 'APROVADO'}" th:href="'/empresa/concluir?a_id='+${aluno.id} + '&e_id=' + ${estagio.id}"><button th:text='Finalizar'></button></a>
                         <a th:href="'/empresa/remover?a_id='+${aluno.id}+ '&e_id=' + ${estagio.id}"><button th:text='Remover'></a>

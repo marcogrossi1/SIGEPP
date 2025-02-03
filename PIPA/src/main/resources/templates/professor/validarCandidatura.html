@@ -14,7 +14,12 @@
 			alt="Logo"></a>
 		<h1 id="titulo-plataforma">PIPA | Validar Candidatura</h1>
 	</header>
-
+	<nav>
+		<a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
+	</nav>
 	<main>
 		<a id="voltar"
 			th:href="@{/projeto/professor/candidatos/{id}(id=${candidatura.IDoportunidade})}">&larr;
@@ -31,10 +36,9 @@
 					Nome do Aluno </a>
 				<p th:text="${candidatura.candidato.email}"></p>
 			</div>
-			<button th:onclick="'/curriculo/' + ${candidatura.candidato.id}"
-				class="botao">Baixar Documentos</button>
+		<a th:href="@{/download(alunoId=${idaluno}, projetoId=${idprojeto})}"
+   		   class="btn btn-primary">Baixar Documento</a>
 		</div>
-
 		<h2>Detalhes da Candidatura</h2>
 		<p>
 			<strong>Mensagem:</strong> <span th:text="${candidatura.mensagem}"></span>

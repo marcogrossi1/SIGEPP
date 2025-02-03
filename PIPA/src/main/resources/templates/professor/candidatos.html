@@ -20,6 +20,10 @@
 			th:text="'Bem-vindo, ' + ${professor.nome}"></p>
 		<p id="nome-no-portal" th:if="${professor == null}">Usuário não
 			autenticado</p>
+	<a href="/notificacoes" class="icone" id="icone-portal">
+    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+    <label>Notificações</label>
+    </a>
 	</nav>
 
 	<main>

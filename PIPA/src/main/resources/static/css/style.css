@@ -1,5 +1,4 @@
 /* Contêiners */
-body, html {
 	margin: 0;
 	height: 100%;
 	overflow: auto;
@@ -11,6 +10,7 @@ body {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	align-content: start;
 	background-color: #f4f2ee;
 }
 
@@ -25,8 +25,6 @@ header {
 
 nav {
 	width: 100vw;
-	height: 5vh;
-	padding: 0 1vw 0 0;
 	display: flex;
 	flex-direction: row;
 	justify-content: end;
@@ -38,12 +36,8 @@ nav {
 main {
 	margin-top: 5vh;
 	width: 64vw;
-	min-height: calc(100vh - 28vh); /* nav + header + navMargin */
-	padding: 3vh; /*     + mainPadding = 18vh */
-	border-radius: 1%;
 	background-color: #ffffff;
 	font-family: Arial, Helvetica, sans-serif;
-	overflow-y: auto;
 	max-height: 80vh;
 }
 
@@ -56,15 +50,9 @@ main>:first-child {
 	margin-top: 0;
 }
 
-nav>:first-child {
-	position: absolute;
-	top: 8.5vh;
-	left: 1vw;
-	font-size: 1.5em;
 }
 
 .icone {
-	height: 6vh;
 	display: grid;
 	grid-template-rows: 4vh 2vh;
 	color: black;
@@ -89,7 +77,6 @@ nav>:first-child {
 #logo {
 	padding-left: 1vw;
 	height: 8vh;
-	padding-right: 5vw;
 }
 
 #titulo-plataforma {
@@ -99,16 +86,13 @@ nav>:first-child {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-input {
 	margin: 1vh 0 1vh 0;
 	min-width: 10vw;
 	height: 2vh;
 	border: 1px solid #c4c0bf;
-	border-radius: 5%;
 	background-color: #fefafa;
 }
 
-button, input[type='submit'] {
 	min-width: 10vw;
 	height: 3vh;
 	border: 1px solid #c4c0bf;
@@ -118,7 +102,6 @@ button, input[type='submit'] {
 	cursor: pointer;
 }
 
-.botoes-portal, .botoes-inicio {
 	background-color: red;
 	all: unset;
 	cursor: pointer;
@@ -133,15 +116,12 @@ button, input[type='submit'] {
 	color: black;
 }
 
-.botoes-portal:hover, .botoes-inicio:hover, #icone-portal:hover {
 	transform: scale(1.1);
 }
 
-#botao-estagio, #botao-certificado {
 	margin-left: 50px;
 }
 
-#botao-professor, #botao-empresa {
 	margin-left: 50px;
 }
 
@@ -153,15 +133,12 @@ button, input[type='submit'] {
 	margin-left: 100px;
 }
 
-#botao-empresa-adm, #botao-professor-adm {
 	margin-left: 105px;
 }
 
-#botao-estagio-adm, #botao-aluno-adm {
 	margin-left: 170px;
 }
 
-#botao-professor, #botao-empresa {
 	margin-left: 50px;
 }
 
@@ -169,7 +146,6 @@ button, input[type='submit'] {
 	margin-left: 150px;
 }
 
-#botao-projeto-professor, #botao-estagios-empresa {
 	margin-left: 105px;
 }
 
@@ -206,11 +182,9 @@ button, input[type='submit'] {
 	display: inline;
 }
 
-#not-dois, #not-tres, #not-dois-select, #not-tres-select {
 	display: none;
 }
 
-#avancar-notificacao, #voltar-notificacao {
 	font-size: 40px;
 	background-color: #2e6890;
 	border-color: #2e6890;
@@ -243,11 +217,7 @@ button, input[type='submit'] {
 
 #nome-no-portal {
 	font-family: Arial, Helvetica, sans-serif;
-	max-height: 100%;
-	max-width: 100%;
 	overflow: hidden;
-	width: 1000px;
-	margin-left: 100px;
 }
 
 #pdfView {
@@ -264,7 +234,6 @@ button, input[type='submit'] {
 	text-align: left;
 }
 
-.table th, .table td {
 	padding: 12px 15px;
 	border: 1px solid #ddd;
 }
@@ -349,29 +318,22 @@ button, input[type='submit'] {
 	background-color: #0056b3;
 }
 
-@media ( max-width : 768px) {
 	#pagina-candidatura {
-		padding: 5px; /* Reduzi o padding geral */
 	}
 	#detalhes-candidatura {
 		width: 95%;
-		padding: 10px; /* Reduzi o padding interno */
 	}
 	#form-candidatura {
-		padding: 5px; /* Reduzi o padding lateral */
 	}
 	#botao-aplicar {
 		width: 100%;
-		max-width: 100%; /* Ajustei para ocupar todo o espaço disponível */
 	}
 }
 
-#estagio-inputs label, #estagio-inputs textarea, #estagio-inputs input {
 	font-size: 1rem;
 	letter-spacing: 1px;
 }
 
-textarea, input {
 	padding: 10px;
 	width: 95%;
 	line-height: 1.5;
@@ -405,7 +367,6 @@ label {
 	background-color: red;
 }
 
-@media ( max-width : 768px) {
 	body {
 		overflow: visible;
 	}
@@ -419,12 +380,9 @@ label {
 	}
 }
 
-.estagio-section{
 	text-decoration: none;
 	color: black;
 }
-.estagio-section a{
-    color: black;
 }
 
 .estagio-section section {
@@ -432,7 +390,6 @@ label {
 	margin: 20px;
 }
 
-.estagio-section h3, .estagio-section p {
 	margin: 5px;
 	border: 5px;
 }
@@ -464,7 +421,6 @@ label {
 	font-size: 1rem;
 	color: #555;
 	line-height: 1.6;
-	margin-bottom: 10px;
 }
 
 /*para o professor gerenciar os projetos dele*/
@@ -497,48 +453,27 @@ label {
 	background: linear-gradient(90deg, #003869, #2e6890);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
-
 /* Classe comum para todos os botões de projeto */
 .botao-projeto {
-    display: inline-block;
-    text-decoration: none;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 0.9rem; 
-    margin-right: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: none; 
-    line-height: 1.5; 
 }
 
 /* IDs específicos para cada botão */
 #botao-projeto-editar {
-    background-color: #4CAF50; /* Verde */
 }
 
 #botao-projeto-editar:hover {
-    background-color: #45a049; /* Verde mais escuro */
 }
 
 #botao-projeto-excluir {
-    min-width: auto;
-    height: auto;
-    background-color: #ff5555; /* Cor de fundo específica para o botão de deletar */
 }
 
 #botao-projeto-excluir:hover {
-    background-color: #c24c4c; /* Vermelho mais escuro */
 }
 
 #botao-projeto-ver {
-    background-color: #007bff; /* Azul */
 }
 
 #botao-projeto-ver:hover {
-    background-color: #0056b3; /* Azul mais escuro */
 }
 
 #redirect-empresa-perfil {
@@ -550,9 +485,6 @@ label {
 	text-decoration: underline;
 	color: purple;
 }
-#redirect-empresa-perfil:hover{
-    text-decoration: underline;
-    color: purple;
 }
 
 .notificacao {
@@ -562,37 +494,23 @@ label {
     padding: 15px;
     margin-bottom: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .notificacao:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 .notificacao p {
-    margin: 0;
-    font-size: 16px;
-    color: #333;
 }
 
 .notificacao.lida {
-    background-color: #d3d3d3; /* Cor mais escura ou qualquer que você queira */
-    color: gray;
-    text-decoration: line-through; /* Opcional: Para dar um efeito de "leitura" */
-  
-.seguidor {
-	color: black;
-	cursor: pointer;
 	text-decoration: none;
 }
 
-.seguidor:hover {
-	color: rgb(0, 128, 255);
 }
 
 }
 
+<<<<<<< HEAD
 #good{color: green; }
 #bad{color: red;}
 .flexbox-center{
@@ -604,4 +522,5 @@ label {
 .main-certificados-licencas {
 	margin-bottom: 30px;
 	overflow: auto;
-}
+=======
+>>>>>>> dev
