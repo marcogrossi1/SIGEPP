@@ -127,6 +127,9 @@ public class PerfilController {
 		        model.addAttribute("estagios", estagios);
 		        model.addAttribute("isDonoDoPerfil", isDonoDoPerfil);
 		        
+		        //pras avaliações
+		        model.addAttribute("nome", a.getNome());
+		        
 		        return "perfil";
 	        }
 	        else if(u.getRole().equals("Professor")) {
@@ -191,6 +194,8 @@ public class PerfilController {
 		        model.addAttribute("u", p);
 		        model.addAttribute("projetos", projetos);
 		        model.addAttribute("isDonoDoPerfil", isDonoDoPerfil);
+		        
+		        model.addAttribute("nome", p.getNome());
 		        
 		        return "perfil";
 	        }

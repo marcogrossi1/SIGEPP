@@ -172,3 +172,4 @@ INSERT INTO Novidade (nome, descricao, isEstagio, link)
 VALUES
 ('Pipa', 'Trabalho em sistema de coordenação de oportunidades acadêmicas.', FALSE, "aluno/detalhes-projeto?id=1"),
 ('Cemig', 'Vagas Setor Manutenção.', TRUE, "aluno/detalhes-estagio?n=1");
+
