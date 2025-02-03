@@ -874,7 +874,6 @@ a {
 	border-radius: 10px;
 }
 
-<<<<<<< HEAD
 #good{color: green; }
 #bad{color: red;}
 .flexbox-center{
@@ -887,7 +886,6 @@ a {
 	margin-bottom: 30px;
 	overflow: auto;
 }
-=======
 .carousel-wrapper {
 	display: flex;
 	transition: transform 0.5s ease-in-out;
@@ -1002,4 +1000,3 @@ a {
     opacity: 0;
     transition: opacity 0.5s ease; 
 }
->>>>>>> dev
