@@ -9,4 +9,7 @@ import java.util.List;
 public interface NotificacaoRepository extends JpaRepository<Notificacao, Long> {	
 	@Query("SELECT n FROM Notificacao n WHERE n.idUsuario = :idUsuario ORDER BY n.dataCriacao DESC")
     List<Notificacao> findByUsuarioIdOrderByDataCriacaoDesc(Long idUsuario);
+	
+	@Query("SELECT COUNT(n) > 0 FROM Notificacao n WHERE n.idUsuario = :idUsuario AND n.lida = false")
+    boolean existeNotificacaoNaoLida(Long idUsuario);
 }

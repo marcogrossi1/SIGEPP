@@ -92,6 +92,7 @@ public class AlunoDao {
         return vo;
     }
 
+
     public static ArrayList<Aluno> listByCursoCampusPeriodo(Connection conn, String curso, String campus,
             String periodo)
             throws SQLException {
@@ -116,6 +117,23 @@ public class AlunoDao {
                 }
             }
         }
+
+    public static void criar(Connection conn, Aluno aluno) throws SQLException {
+        String sql = "INSERT INTO aluno (cpf, nome, curso, campus, email, periodo, usuario_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, aluno.getCpf());
+            stmt.setString(2, aluno.getNome());
+            stmt.setString(3, aluno.getCurso());
+            stmt.setString(4, aluno.getCampus());
+            stmt.setString(5, aluno.getEmail());
+            stmt.setString(6, aluno.getPeriodo());
+            stmt.setLong(7, aluno.getUsuario_id());
+            stmt.executeUpdate();
+        }
+    } 
+
+
+
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -437,7 +455,7 @@ public class AlunoDao {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement(insertsql);
             ps.setString(1, vo.getCpf());
             ps.setString(2, vo.getNome());
             ps.setString(3, vo.getCurso());
@@ -450,6 +468,7 @@ public class AlunoDao {
             ps.setBytes(10, vo.getBannerPerfil());
             ps.setString(11, vo.getDescricaoPerfil());
             ps.executeUpdate();
+            conn.commit();
             rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 long id = rs.getLong(1);

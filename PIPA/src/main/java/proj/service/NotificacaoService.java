@@ -31,5 +31,10 @@ public class NotificacaoService {
         notificacao.setLida(true); 
         notificacaoRepository.save(notificacao);
     }
-    
+    public boolean temNotificacaoNaoLida(Long idUsuario) {
+        return notificacaoRepository.existeNotificacaoNaoLida(idUsuario);
+    }
+    public void deletarNotificacao(Long idNotificacao) {
+        notificacaoRepository.deleteById(idNotificacao);
+    }
 }

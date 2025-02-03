@@ -1,0 +1,490 @@
+[33mcommit 3f8c41853ca53adca9b7336d683495a9b6f5e77b[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: 626ded9 9fb97c5
+Author: Asafe Rodrigues Garcia <125315478+asafe-garcia@users.noreply.github.com>
+Date:   Tue Jan 21 10:23:30 2025 -0300
+
+    Merge pull request #75 from marcogrossi1/dev
+    
+    Dev
+
+[33mcommit 9fb97c58b1194ac2a9942bf7e4b7b9b936f30239[m[33m ([m[1;32mdev[m[33m)[m
+Merge: 6290bd6 13dd7cf
+Author: Asafe Rodrigues Garcia <125315478+asafe-garcia@users.noreply.github.com>
+Date:   Tue Jan 21 09:43:25 2025 -0300
+
+    Merge pull request #73 from marcogrossi1/gabriel_hctV2
+    
+    Gabriel hct v2
+
+[33mcommit 13dd7cf81519f468a455413ee60fef9e4865c8d0[m
+Author: Gabriel Henrique da Costa Tavares <henriquepokacha@gmail.com>
+Date:   Tue Jan 21 09:38:41 2025 -0300
+
+    Update DatabaseConfig.java
+
+[33mcommit c03fef2ef8bc2240bb4e130dd6972caab07323e5[m
+Author: Gabriel Henrique da Costa Tavares <henriquepokacha@gmail.com>
+Date:   Mon Jan 20 23:41:32 2025 -0300
+
+    Alterações
+
+[33mcommit f60d50bfd7440c02f19636552fc86c02b2a835a7[m
+Author: Gabriel Henrique da Costa Tavares <henriquepokacha@gmail.com>
+Date:   Mon Jan 20 22:26:10 2025 -0300
+
+    Update application.properties
+
+[33mcommit c7795befe1f06ed8e6bfa7ada621fecbfefb8ea3[m
+Author: Gabriel Henrique da Costa Tavares <henriquepokacha@gmail.com>
+Date:   Mon Jan 20 22:15:10 2025 -0300
+
+    Alterações de código
+
+[33mcommit 626ded9d573b1eea499c2882dcdbf16810c69ee7[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Mon Jan 20 16:36:32 2025 -0300
+
+    Update dados-de-teste.sql
+
+[33mcommit 4cbb894cf5bb08c50a2adbb22889c9250efb2798[m
+Merge: 1553ea8 6290bd6
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Mon Jan 20 10:13:52 2025 -0300
+
+    Merge pull request #71 from marcogrossi1/dev
+    
+    Dev
+
+[33mcommit 6290bd636a666bb35de41f633e6d3668221ebfa5[m
+Merge: 587fd2f a1f0b12
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Mon Jan 20 10:06:31 2025 -0300
+
+    Merge pull request #70 from marcogrossi1/Caio
+    
+    ✨ Linkando os perfis com a busca
+
+[33mcommit a1f0b12ac418313d9188f5f060b79ab40c1fe193[m
+Author: CaioSilveiraFigueiredo <caiosilveirafig@gmail.com>
+Date:   Mon Jan 20 10:05:15 2025 -0300
+
+    ✨ Linkando os perfis com a busca
+
+[33mcommit 587fd2fd22f47fa5329b8a084fe5e4e3e65e9407[m
+Merge: bb0b22f c91a874
+Author: Asafe Rodrigues Garcia <125315478+asafe-garcia@users.noreply.github.com>
+Date:   Mon Jan 20 09:35:46 2025 -0300
+
+    Merge pull request #69 from marcogrossi1/Asafe
+    
+    Asafe
+
+[33mcommit 51b3e5f619a6c9cad3fe7809bc5d230fd8391fc5[m
+Merge: aff3f08 bb0b22f
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Mon Jan 20 08:39:01 2025 -0300
+
+    Merge pull request #66 from marcogrossi1/dev
+    
+    Merge pull request #65 from marcogrossi1/Caio
+
+[33mcommit bb0b22f1ee7b1ba5babca06a065fc358b84be333[m
+Merge: c9e2aa4 aff3f08
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Mon Jan 20 08:13:51 2025 -0300
+
+    Merge pull request #65 from marcogrossi1/Caio
+    
+    Caio -> dev
+
+[33mcommit aff3f08fccb97fc2c29940d6570bf047db827ec1[m
+Merge: d6ccb73 c9e2aa4
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Mon Jan 20 08:11:26 2025 -0300
+
+    Merge branch 'dev' into Caio
+
+[33mcommit d6ccb73c6c27467f23764fc274549620cff3ad98[m
+Author: CaioSilveiraFigueiredo <caiosilveirafig@gmail.com>
+Date:   Mon Jan 20 07:40:34 2025 -0300
+
+    ✨ CDU 016 Implementação de buscar e deletar alunos
+
+[33mcommit c91a8745e85c47641b738507025d416cf0d5b134[m[33m ([m[1;31morigin/Asafe[m[33m)[m
+Author: ASAFE RODRIGUES GARCIA <asafeariel1@gmail.com>
+Date:   Sun Jan 19 10:54:21 2025 -0300
+
+    progresso
+
+[33mcommit 344b0249b6242ad1f3dcb2f36722cb2966c40b75[m
+Merge: 15ecd0f 51b3e5f
+Author: ASAFE RODRIGUES GARCIA <asafeariel1@gmail.com>
+Date:   Sun Jan 19 10:48:44 2025 -0300
+
+    Merge remote-tracking branch 'origin/Caio' into Asafe
+
+[33mcommit 15ecd0f585dd92c52eea00a7ba0e9c764a1240cf[m
+Merge: 00aed53 bb0b22f
+Author: ASAFE RODRIGUES GARCIA <asafeariel1@gmail.com>
+Date:   Sun Jan 19 10:38:31 2025 -0300
+
+    Merge remote-tracking branch 'origin/dev' into Asafe
+
+[33mcommit 00aed5363211d2b24417fb596443b2a8cf3a107a[m
+Author: ASAFE RODRIGUES GARCIA <asafeariel1@gmail.com>
+Date:   Sun Jan 19 10:22:00 2025 -0300
+
+    remocão do bin
+
+[33mcommit c9e2aa4eee5d714f7ebcc70252a84178e93c9fd1[m
+Merge: 5c1eee2 e5fc210
+Author: Kauã Magalhães Antunes Campos <125323214+KauaCampos@users.noreply.github.com>
+Date:   Sat Jan 18 19:32:41 2025 -0300
+
+    Merge pull request #63 from marcogrossi1/KauaCampos
+    
+    Kaua campos
+
+[33mcommit e5fc210bed0b3bd72a92232e90f9c85220324064[m
+Author: KauaCampos <kauauwc@gmail.com>
+Date:   Sat Jan 18 14:36:38 2025 -0300
+
+    🔥 Removendo coisas escritas no log
+
+[33mcommit 50046ba94a2306088003155113e4732116705558[m
+Author: KauaCampos <kauauwc@gmail.com>
+Date:   Sat Jan 18 14:34:11 2025 -0300
+
+    🐛 CDU 05 e 08 - Concertando bug de busca no banco de dados
+
+[33mcommit 3c59381d721030f1a488cf19c3bd17554380b9c1[m
+Author: KauaCampos <kauauwc@gmail.com>
+Date:   Sat Jan 18 13:44:24 2025 -0300
+
+    🚧 CDU 08 - Implementando Status da Candidatura e funções do proximo CDU (ainda nao esta funcional devido ao banco de dados
+
+[33mcommit 0b8317539b59745e00245847ce23201df16c38e9[m
+Merge: 5b7d9f1 1553ea8
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Fri Jan 17 21:14:51 2025 -0300
+
+    Merge pull request #62 from marcogrossi1/main
+    
+    main -> Caio
+
+[33mcommit 1553ea824d5ff64024a79645a9d9cf6903803096[m
+Merge: f9946a2 5c1eee2
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Fri Jan 17 21:13:49 2025 -0300
+
+    Merge pull request #61 from marcogrossi1/dev
+    
+    Dev
+
+[33mcommit 6e6d290977116fec224f9e77d7e929bc7078d817[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Fri Jan 17 00:49:55 2025 -0300
+
+    arrumando merge que não foi completo
+
+[33mcommit 19772635242bbaeffb650675a5f1542a8ba8500c[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Fri Jan 17 00:29:58 2025 -0300
+
+    progresso
+
+[33mcommit 8708fbcd55d4a0b8a80a2993493a66315bfb8cbb[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Fri Jan 17 00:26:43 2025 -0300
+
+    progresso
+
+[33mcommit 86449ceca94a158417a3c62f3a7c08bd07230ab0[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Fri Jan 17 00:22:35 2025 -0300
+
+    progresso
+
+[33mcommit ca339047a5e5e512511ee328731be679c76403c0[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Fri Jan 17 00:20:16 2025 -0300
+
+    progresso
+
+[33mcommit 51b973817da48317168d07a4486b06c49d903731[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Fri Jan 17 00:17:43 2025 -0300
+
+    Progresso
+
+[33mcommit f0d5636a311dc75569c57b519c9cc5248c228ccd[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Fri Jan 17 00:13:53 2025 -0300
+
+    a
+
+[33mcommit 8308abeeb0547c689f9436510a1b803b9ecfab55[m
+Merge: c79a16f f9946a2
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Thu Jan 16 23:51:02 2025 -0300
+
+    Merge branch 'main' into Asafe
+
+[33mcommit c79a16fb7884244f2e589ad2b102170c17967264[m
+Merge: dec114e 5c1eee2
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Thu Jan 16 23:36:26 2025 -0300
+
+    Merge branch 'dev' into Asafe
+
+[33mcommit 298d8900fae927035adbf7b8d2ff739ab7b54002[m
+Author: KauaCampos <kauauwc@gmail.com>
+Date:   Tue Jan 14 21:47:28 2025 -0300
+
+    🐛 Concertando professor has project
+
+[33mcommit 5c1eee2d8b4de390e03b6ba985206e20057c7c76[m
+Merge: e38145e 8a80336
+Author: Arthur Miguel <127896032+arthur-kerlan@users.noreply.github.com>
+Date:   Tue Jan 14 14:00:39 2025 -0300
+
+    Merge pull request #53 from marcogrossi1/arthur-kerlan
+    
+    Arthur kerlan
+
+[33mcommit 8a80336ae1a3c1fd0f68130ef98259717d5361eb[m
+Author: arthur-kerlan <arthur.mf.kerlan@gmail.com>
+Date:   Tue Jan 14 13:59:25 2025 -0300
+
+    :fire: Apagando DaoTool.zip
+
+[33mcommit 44308ba69b764fd08889fc73dd34a810457d1d20[m
+Merge: 710ac32 e38145e
+Author: arthur-kerlan <arthur.mf.kerlan@gmail.com>
+Date:   Tue Jan 14 12:49:17 2025 -0300
+
+    Merge branch 'dev' into arthur-kerlan (Versão mais recente)
+
+[33mcommit f9946a296769d4d0bcf3c611c888b0f02e2610b1[m
+Merge: 006ef73 e38145e
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 14 09:41:38 2025 -0300
+
+    Merge pull request #59 from marcogrossi1/dev
+    
+    Dev -> Main
+
+[33mcommit e38145e9c533882e4a8eb6a88612240cf045a60b[m
+Author: KauaCampos <kauauwc@gmail.com>
+Date:   Tue Jan 14 08:47:12 2025 -0300
+
+    🔥
+
+[33mcommit 84deef46ac067395f7e3f1836193859222fb5815[m
+Author: KauaCampos <kauauwc@gmail.com>
+Date:   Tue Jan 14 08:42:30 2025 -0300
+
+    💄 Concertando css
+
+[33mcommit f26dc0e34834f2ca2c4dba6b52fef8328d13e50b[m
+Author: RAFAELLA FERNANDES CORTEZ DO AMARAL <127240010+RafaellaAmaral@users.noreply.github.com>
+Date:   Tue Jan 14 08:22:55 2025 -0300
+
+    💄Update login.html
+
+[33mcommit 5e3320a4a5acf1cd3e209fcd9e39ec1ddbe1e334[m
+Merge: b1cb042 70e8323
+Author: Bernardodeas <bernardodeas0@gmail.com>
+Date:   Tue Jan 14 08:11:33 2025 -0300
+
+    Merge branch 'dev' of https://github.com/marcogrossi1/SIGEPP into dev
+
+[33mcommit b1cb04214fb9b24394a00da27d735eeac6828b6a[m
+Author: Bernardodeas <bernardodeas0@gmail.com>
+Date:   Tue Jan 14 08:07:03 2025 -0300
+
+    :bug::lipstick: bugfix CDUs 11 e 13
+
+[33mcommit 70e83231d0fe0b1c3d88bf509a3b5a158a9766ae[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 14 08:05:30 2025 -0300
+
+    🐛 Update explorarProjetos.html
+
+[33mcommit 1bf9dc531b18a0eb2f9f150205a88554595d4a75[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 14 07:55:18 2025 -0300
+
+    Add files via upload
+
+[33mcommit 75e1fa23cfb511acce171bed18b84f1f7905ca1a[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 14 07:54:38 2025 -0300
+
+    🔥 Delete PIPA/src/main/resources/static/img/icone-perfil.png
+
+[33mcommit 55f2248a0021539e2fc4b1c3a440bfffb29826dc[m
+Author: CaioSilveiraFigueiredo <127897116+CaioSilveiraFigueiredo@users.noreply.github.com>
+Date:   Tue Jan 14 07:50:56 2025 -0300
+
+    👌 Arrumando link para projetos
+
+[33mcommit 006ef73a38a4b7dd39fbcb4aead16de47258b80a[m
+Author: Gabriel Henrique da Costa Tavares <henriquepokacha@gmail.com>
+Date:   Tue Jan 14 04:10:07 2025 -0300
+
+    Alterações
+
+[33mcommit cf37b4590d2d1ed0b1bccfaaf620d5b1ea26461c[m
+Merge: 7ce4685 5f652de
+Author: Gabriel Henrique da Costa Tavares <henriquepokacha@gmail.com>
+Date:   Tue Jan 14 02:02:25 2025 -0300
+
+    Merge remote-tracking branch 'origin/dev' into gabriel_hct
+
+[33mcommit 7ce4685535b9a93a08caf013ed44ae48dd93eeaa[m
+Merge: bc0e787 4841026
+Author: Gabriel Henrique da Costa Tavares <henriquepokacha@gmail.com>
+Date:   Tue Jan 14 01:51:14 2025 -0300
+
+    Merge remote-tracking branch 'origin/dev' into gabriel_hct
+
+[33mcommit 5f652deefcae2e6e221da1900c1ab4e386860bbf[m
+Merge: 4841026 2196445
+Author: Nícolas Francisco Martins Chagas <125323611+Nickfmc07@users.noreply.github.com>
+Date:   Tue Jan 14 01:51:12 2025 -0300
+
+    Merge pull request #57 from marcogrossi1/nicolas
+    
+    ✨ Implementação do CDU 007
+
+[33mcommit 2196445b77694c5aa9647bcdf5d6705b69921d4f[m
+Merge: cd86d1c 4841026
+Author: Nícolas Francisco Martins Chagas <125323611+Nickfmc07@users.noreply.github.com>
+Date:   Tue Jan 14 01:44:45 2025 -0300
+
+    Merge branch 'dev' into nicolas
+
+[33mcommit bc0e78730452b67c8e47a0023bfa546a91cf6ce2[m
+Author: Gabriel Henrique da Costa Tavares <henriquepokacha@gmail.com>
+Date:   Tue Jan 14 01:38:01 2025 -0300
+
+    alteração
+
+[33mcommit 66f51b673336428d529309ac17888f228ebccf04[m
+Author: Gabriel Henrique da Costa Tavares <henriquepokacha@gmail.com>
+Date:   Tue Jan 14 01:36:15 2025 -0300
+
+    Alterações código
+
+[33mcommit dec114e72e8535f24ffd3cad95ad9b7f489a1763[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Tue Jan 14 01:04:40 2025 -0300
+
+    Revert "Reapply "Merge remote-tracking branch 'origin/dev' into Asafe""
+    
+    This reverts commit e88295f5f344c508413d2cef82809e19096553b0.
+
+[33mcommit e88295f5f344c508413d2cef82809e19096553b0[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Tue Jan 14 00:57:50 2025 -0300
+
+    Reapply "Merge remote-tracking branch 'origin/dev' into Asafe"
+    
+    This reverts commit 016f34bfebc0d58172382b64145c9ea684619406.
+
+[33mcommit cd86d1c4501e7171c70e53e752997834c580517c[m
+Author: Nícolas Francisco Martins Chagas <125323611+Nickfmc07@users.noreply.github.com>
+Date:   Tue Jan 14 00:44:56 2025 -0300
+
+    CDU 007 - Funcionalidades de gerenciamento de projetos
+    
+    ✨ Professor pode ver, editar, criar e excluir seus projetos
+    ✨ Aluno pode vizualizar os projetos
+    💄 Estilos de projeto, botões específicos e alguns ajustes
+    🗃️ Imagem para explorar projetos na home do aluno
+
+[33mcommit 016f34bfebc0d58172382b64145c9ea684619406[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Tue Jan 14 00:39:30 2025 -0300
+
+    Revert "Merge remote-tracking branch 'origin/dev' into Asafe"
+    
+    This reverts commit 8da2462a1e3bbf884e39e402221ffe97b02776e2, reversing
+    changes made to 8dad95241da6efeb51e721d633c57826a884d6ca.
+
+[33mcommit 8da2462a1e3bbf884e39e402221ffe97b02776e2[m
+Merge: 8dad952 4841026
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Tue Jan 14 00:37:26 2025 -0300
+
+    Merge remote-tracking branch 'origin/dev' into Asafe
+
+[33mcommit 8dad95241da6efeb51e721d633c57826a884d6ca[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Tue Jan 14 00:22:35 2025 -0300
+
+    Commit
+
+[33mcommit 4841026300afe9435c2b4e7b4b122b69970c25a3[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Tue Jan 14 00:11:50 2025 -0300
+
+    Revert "🚧Merge do caso de uso 011 com a dev"
+    
+    This reverts commit 903141ff7fbbfd43e0cd97354fa15d05410ad3ec, reversing
+    changes made to 7acc3218dc6eb4d8b1973820b902728e8c991c88.
+
+[33mcommit 71a5c1eb3967e537178eee9641ee19626b9116af[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Tue Jan 14 00:11:45 2025 -0300
+
+    Revert "🚧Merge do caso de uso 011 com a dev"
+    
+    This reverts commit 7acc3218dc6eb4d8b1973820b902728e8c991c88, reversing
+    changes made to d8e4f48cb6c2acef906bb5be364e3f456333b002.
+
+[33mcommit 903141ff7fbbfd43e0cd97354fa15d05410ad3ec[m
+Merge: 7acc321 624cfa6
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Mon Jan 13 23:40:09 2025 -0300
+
+    🚧Merge do caso de uso 011 com a dev
+
+[33mcommit 7acc3218dc6eb4d8b1973820b902728e8c991c88[m
+Merge: d8e4f48 82d8bbe
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Mon Jan 13 23:38:30 2025 -0300
+
+    🚧Merge do caso de uso 011 com a dev
+
+[33mcommit 624cfa6533d248b4b920e5ea03cfc0f70fbc9f62[m
+Author: KauaCampos <kauauwc@gmail.com>
+Date:   Mon Jan 13 23:27:08 2025 -0300
+
+    Revert "Merge branch 'dev' into LuizFernando"
+    
+    This reverts commit 2b0f96b05e7cef7e76141f42386a6d99fbf7c4b4, reversing
+    changes made to cccae9d451e7d30e22c4cc2c49805cd1be2f47f2.
+
+[33mcommit 82d8bbe531af125a4b432616039bec7fc3f531f1[m
+Author: Asafe Rodrigues Garcia <asafeariel1@gmail.com>
+Date:   Mon Jan 13 23:13:35 2025 -0300
+
+    ✨Termino da implementação do caso de uso 011 que agora altera o login.
+
+[33mcommit d8e4f48cb6c2acef906bb5be364e3f456333b002[m
+Merge: ffa7596 2b0f96b
+Author: Kauã Magalhães Antunes Campos <125323214+KauaCampos@users.noreply.github.com>
+Date:   Mon Jan 13 22:40:24 2025 -0300
+
+    Merge pull request #51 from marcogrossi1/LuizFernando
+    
+    Luiz fernando
+
+[33mcommit 2b0f96b05e7cef7e76141f42386a6d99fbf7c4b4[m[33m ([m[1;31morigin/LuizFernando[m[33m)[m
+Merge: cccae9d ffa7596
+Author: Kauã Magalhães Antunes Campos <125323214+KauaCampos@users.noreply.github.com>
+Date:   Mon Jan 13 22:40:09 2025 -0300
+
+    Merge branch 'dev' into LuizFernando

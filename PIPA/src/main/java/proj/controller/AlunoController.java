@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -375,9 +377,29 @@ public class AlunoController {
 	}
 
 	@GetMapping("/uploadprojeto")
-	public String mostraUploadDocumentosProjeto(Model model, Principal principal) throws Exception {
-		return "aluno/uploadprojeto";
-	}
+
+
+	public String mostraUploadDocumentosProjeto(@RequestParam("projetoId") Long projetoId, Model model, Principal principal) throws Exception {    
+		  try (Connection conn = ds.getConnection()){
+		        Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+		        if (!u.getRole().equals("Aluno")) {
+		            return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
+		        }
+		        
+		        Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+		        Projeto projeto = ProjetoDao.get(conn, projetoId);
+		        model.addAttribute("usuarioId", a.getUsuario_id());
+		     	 model.addAttribute("alunoId", a.getId());
+		        model.addAttribute("alunoNome", a.getNome());
+		        model.addAttribute("projetoId", projetoId);
+		        model.addAttribute("nomeprojeto", projeto.getNome());
+		        return "aluno/uploadprojeto";
+		        } catch (Exception e){
+		        e.printStackTrace();
+		        return mostraPaginaDeErro(model, "Erro ao carregar informações do estágio.");
+		    }
+	    }
+	
 
 	@GetMapping("/explorarProjetos")
 	public String explorarProjetos(Principal principal, Model model) throws Exception {
@@ -402,7 +424,7 @@ public class AlunoController {
 			e.printStackTrace();
 			return mostraPaginaDeErro(model, "Erro interno na aplicação!.");
 		}
-
+		
 		return "aluno/explorarProjetos";
 	}
 }

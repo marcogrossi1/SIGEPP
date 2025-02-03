@@ -14,7 +14,10 @@ public class Candidatura {
     public Long getIDoportunidade() {
         return IDoportunidade;
     }
-
+    
+    public Long getAlunoId() {
+    	return candidato.getId();
+    }
     public void setIDoportunidade(Long iDoportunidade) {
         IDoportunidade = iDoportunidade;
     }

@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import proj.dao.DocumentoDao;
+import proj.model.Documento;
+import proj.model.DocumentoId;
 import proj.dao.AlunoDao;
 import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
@@ -34,7 +37,9 @@ public class EmpresaController {
         private HDataSource ds;
 	@Autowired
         private NotificacaoService notificacaoService;
-		
+	
+	@Autowired
+	private DocumentoDao documentoDao;
 	
     @GetMapping
     public String mostraHomeEmpresa(Principal principal, Model model) {
@@ -129,6 +134,8 @@ public class EmpresaController {
                 if(AlunoDao.getProgressoEstagio(conn, alunoId, estagioId) != Progresso.PENDENTE)
                     return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
                 AlunoDao.setProgresso(conn, alunoId, estagioId, Progresso.APROVADO);
+                DocumentoId documentoid = new DocumentoId(alunoId, estagioId);
+                documentoDao.deletarPorId(documentoid);
                 conn.commit();
                 notificacaoService.salvarNotificacao(AlunoDao.get(conn, alunoId).getUsuario_id(), "Inscrição aprovada no estágio da empresa " + est.getEmpresa());
                 return "redirect:/empresa/candidatos-estagio?n=" + estagioId;
@@ -160,10 +167,12 @@ public class EmpresaController {
         
         @GetMapping("/remover")
         public String removerAlunoDoEstagio(Model model, Principal principal, @RequestParam("a_id") long alunoId, @RequestParam("e_id") long estagioId){
+        	 
             try(Connection conn = ds.getConnection()){
                 Usuario u = UsuarioDao.getByNome(conn, principal.getName());
                 if (u.getRole().equals("Empresa") == false)
                     return mostraPaginaDeErro(model , "Usuário não é uma Empresa!");
+           
                 Empresa emp = EmpresaDao.getByCnpj(conn, principal.getName());
                 Estagio est = EstagioDao.get(conn, estagioId);
                 if(!emp.getNome().equals(est.getEmpresa()))
@@ -172,6 +181,8 @@ public class EmpresaController {
                     return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
                 AlunoDao.desinscreverEstagio(conn, alunoId, estagioId);
                 conn.commit();
+                DocumentoId documentoId = new DocumentoId(alunoId, estagioId);
+                documentoDao.deletarPorId(documentoId);
                 notificacaoService.salvarNotificacao(AlunoDao.get(conn, alunoId).getUsuario_id(), "Você foi desinscrito de um estágio pela empresa " + est.getEmpresa());
                 return "redirect:/empresa/candidatos-estagio?n=" + estagioId;
             }catch(Exception ex){
@@ -256,6 +267,7 @@ public class EmpresaController {
                 if(!emp.getNome().equals(est.getEmpresa()))
                     return mostraPaginaDeErro(model, "Estágio selecionado não pertence à empresa.");
                 EstagioDao.delete(conn, id);
+                documentoDao.deletarTodosPorProjetoId(id);
                 conn.commit();
             }catch(Exception ex){
                 return mostraPaginaDeErro(model, ex.getMessage());
