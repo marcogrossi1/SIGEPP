@@ -301,7 +301,12 @@ input[type='submit'] {
 	padding: 0px;
 }
 
-#subtitulo-portal {
+#img-certificados-licencas{
+	height: 360px;
+	width: 504px;
+}
+
+.subtitulo-portal {
 	text-align: center;
 }
 
@@ -869,6 +874,18 @@ a {
 	border-radius: 10px;
 }
 
+#good{color: green; }
+#bad{color: red;}
+.flexbox-center{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main-certificados-licencas {
+	margin-bottom: 30px;
+	overflow: auto;
+}
 .carousel-wrapper {
 	display: flex;
 	transition: transform 0.5s ease-in-out;
