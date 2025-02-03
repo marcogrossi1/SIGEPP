@@ -1,3 +1,4 @@
+
 package proj.model;
 
 public class Professor {

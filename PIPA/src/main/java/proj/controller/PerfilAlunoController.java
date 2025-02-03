@@ -29,6 +29,7 @@ import proj.dao.AlunoDao;
 import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
+import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
 import proj.dao.SecaoDao;
 import proj.dao.SeguidoresDao;
@@ -37,6 +38,7 @@ import proj.model.Administrador;
 import proj.model.Aluno;
 import proj.model.Empresa;
 import proj.model.Estagio;
+import proj.model.Professor;
 import proj.model.Projeto;
 import proj.model.Secao;
 import proj.model.Usuario;
@@ -54,7 +56,10 @@ public class PerfilAlunoController {
 		try(Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
         	model.addAttribute("usuario", u);
-
+        	
+        	Professor professor = ProfessorDao.getByUsuario_id(conn, u.getId());
+            model.addAttribute("nomeProfessor", professor.getNome());
+        	
 			Aluno a = AlunoDao.get(conn, alunoId);
 			List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, alunoId);
 			model.addAttribute("secoes", secoes);

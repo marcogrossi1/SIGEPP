@@ -266,3 +266,13 @@ CREATE TABLE secoes (
     ordem INT,
   	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
 )
+
+  -- -----------------------------------------------------
+-- Table Avaliações
+-- -----------------------------------------------------
+CREATE TABLE Avaliacao (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255),
+    texto TEXT,
+    data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
