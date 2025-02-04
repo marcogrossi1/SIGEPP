@@ -14,9 +14,6 @@ drop table IF EXISTS Projeto;
 drop table IF EXISTS secoes;
 drop table IF EXISTS Seguidores;
 drop table IF EXISTS Usuario;
-drop table IF EXISTS Curso;
-drop table IF EXISTS Projeto_has_Curso;
-drop table IF EXISTS Novidade;
 
 set foreign_key_checks = 1;
 
@@ -122,26 +119,6 @@ CREATE TABLE Projeto (
   UNIQUE INDEX nome_UNIQUE (nome ASC) )
 ENGINE = InnoDB default character set = utf8;
 
--- -----------------------------------------------------
--- Table Curso
--- -----------------------------------------------------
-CREATE TABLE Curso (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  nome VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE INDEX nome_UNIQUE (nome ASC)
-) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
-
--- -----------------------------------------------------
--- Table Projeto_has_Curso
--- -----------------------------------------------------
-CREATE TABLE Projeto_has_Curso (
-  projeto_id BIGINT NOT NULL,
-  curso_id BIGINT NOT NULL,
-  PRIMARY KEY (projeto_id, curso_id),
-  FOREIGN KEY (projeto_id) REFERENCES Projeto(id) ON DELETE CASCADE,
-  FOREIGN KEY (curso_id) REFERENCES Curso(id) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table Aluno_has_Projeto
@@ -297,30 +274,91 @@ CREATE TABLE Seguidores (
     )
 ENGINE = InnoDB default character set = utf8;
 
-  -- -----------------------------------------------------
--- Table SEÇÕES COLOCAR conteudoVideo, e outras coisas necesarias
+-- -----------------------------------------------------
+-- Table SEÇÕES COLOCAR conteudoVideo, e outras coisas necesariasssssssssssssssssssssssssss
 -- -----------------------------------------------------
 
 CREATE TABLE secoes (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Usuario_id BIGINT NULL,
-    titulo VARCHAR(255) DEFAULT 'Sem título',
+    titulo VARCHAR(255) DEFAULT "Sem título",
     tipo VARCHAR(255) NOT NULL,
     conteudoTexto LONGTEXT,
     comprimentoConteudoTexto INT NULL,
     alturaConteudoTexto INT NULL,
+    leftConteudoTexto INT NULL,
+    topConteudoTexto INT NULL,
     conteudoImagem LONGBLOB NULL,
     ordem INT,
   	FOREIGN KEY (Usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
+  -- -----------------------------------------------------
+-- Table TOPICOS
+-- -----------------------------------------------------
+
+CREATE TABLE topicos (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    secao_id BIGINT NOT NULL,
+    conteudoTexto LONGTEXT,
+    conteudoImagem LONGBLOB NULL,
+    conteudoArquivo LONGBLOB NULL,
+    comprimentoConteudoTexto INT NULL,
+    alturaConteudoTexto INT NULL,
+    estado BOOLEAN NOT NULL DEFAULT false,
+    data TIMESTAMP NULL DEFAULT NULL,
+    FOREIGN KEY (secao_id) REFERENCES secoes(id) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
+
+-- -----------------------------------------------------
+-- Table Novidade
+-- -----------------------------------------------------
 CREATE TABLE Novidade (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT NOT NULL,
+    isEstagio BOOLEAN NOT NULL,
+    link VARCHAR(55) NOT NULL,
+    dataPublicacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE INDEX nome_UNIQUE (nome ASC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;  -- Corrigido o fechamento
+
+-- -----------------------------------------------------
+-- Table Curso
+-- -----------------------------------------------------
+CREATE TABLE Curso (
   id BIGINT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(255) NOT NULL,
-  descricao TEXT NOT NULL,
-  isEstagio BOOLEAN NOT NULL,
-  link VARCHAR(55) NOT NULL,
-  dataPublicacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE INDEX nome_UNIQUE (nome ASC)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
+-- Table Projeto_has_Curso
+-- -----------------------------------------------------
+CREATE TABLE Projeto_has_Curso (
+  projeto_id BIGINT NOT NULL,
+  curso_id BIGINT NOT NULL,
+  PRIMARY KEY (projeto_id, curso_id),
+  FOREIGN KEY (projeto_id) REFERENCES Projeto(id) ON DELETE CASCADE,
+  FOREIGN KEY (curso_id) REFERENCES Curso(id) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE Avaliacao (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    usuario_id BIGINT NOT NULL,
+    perfil_id BIGINT NOT NULL,
+    comentario TEXT NOT NULL,
+    data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
+    FOREIGN KEY (perfil_id) REFERENCES Usuario(id)
+);
+
+CREATE TABLE likes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    liked_user_id BIGINT NOT NULL,
+    UNIQUE(user_id, liked_user_id)
+);

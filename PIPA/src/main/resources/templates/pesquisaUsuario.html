@@ -40,80 +40,36 @@
             <img src="../img/lupa.png">
             <label>Pesquisa</label>
 		</a>
-    </nav>		
+    </nav>	
 
-	 
-	
     <main>
 		
         <section class="search-bar">
 			
 			<form   th:object="${pesqNome}"
 			        class="f-form" 
-			        th:action="@{/pesquisa/pesquisaNome}" 
+			        th:action="@{/pesquisa-usuario/pesquisaNomeUsuario}" 
 			        method="post" >
 
-					<input type="text" placeholder="Buscar aluno" th:field = "*{nome}" />
-					<p th:if="${#fields.hasErrors('nome')}" th:errorclass="form-error" th:errors="*{nome}" />
+					<input type="text" placeholder="Buscar usuário" th:field = "*{nome}" />
+					<p th:if="${#fields.hasErrors('nome')}" th:errorclass="form-error" th:errors="*{nome}"></p>
 					
 
 					<input type="submit" class="filter-button" value="🔽" />  
 			</form> 			
-			
-			
+
         </section>
 		
 		
-        <section class="filters">
-			
-			
-			<form   th:object="${pesqFiltro}"
-			        class="f-form" 
-			        th:action="@{/pesquisa/pesquisaFiltro}" 
-			        method="post" >
-
-
-					<select  th:field="*{curso}">
-						<option   th:value="''"    th:text="Curso"></option>
-						<option   th:each="curso : ${listaCursos}"   th:value="${curso}"  th:text="${curso}"></option>
-
-						<!--option th:value="Trânsito" th:text="Trânsito"></option -->
-						<!--option th:value="Trânsito">Trânsito</option -->
-					</select>
-
-
-
-					<select th:field="*{campus}">
-					    <option   th:value="''"  th:text="Campus"></option>
-						<option   th:each="campus : ${listaCampus}"   th:value="${campus}"  th:text="${campus}"></option>
-					</select>
-
-
-					<select th:field="*{periodo}">
-					    <option   th:value="''"  th:text="Série"></option>
-						<option th:value="'serie 1'"             th:text="'1ª Série'"></option>
-						<option th:value="'serie 2'"             th:text="'2ª Série'"></option>
-						<option th:value="'serie 3'"             th:text="'3ª Série'"></option>
-					</select>
-					
-					<input type="submit" class="filter-button" value="🔽" />  
-					
-					<p th:if="${#fields.hasErrors('global')}" th:errorclass="form-error" th:errors="*{global}" />
-			</form> 			
-		</section>		
-			
-			
-		
         <section class="project-list">
             <div class="project-container">
-                <article class="project-card" th:each="aluno : ${listaAlunos}">
-					<a th:href="@{/perfil(id=${aluno.id})}">
-                    <h2 th:text="${aluno.nome}"></h2>
+                <article class="project-card" th:each="usua : ${listaUsuarios}">
+					<a th:href="@{/perfil(id=${usua.id})}">
+                    <h2 th:text="${usua.nome}"></h2>
 					</a>
-                    <p th:text="${aluno.email}"></p>
+                    <p th:text="${usua.email}"></p>
                     <div class="tags">
-                        <span th:text="${aluno.curso}"></span>
-                        <span th:text="${aluno.periodo}"></span>
+						
                     </div>
                 </article>
             </div>

@@ -9,7 +9,7 @@
     <title>Lista de Alunos</title>
 </head>
 <body>
-    <header>
+	<header>
         <div th:switch="${usuario.role}">
             <a th:case="'Administrador'" href="/administrador"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
             <a th:case="'Aluno'" href="/aluno"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
@@ -20,7 +20,7 @@
         <h1 id="titulo-plataforma" >PIPA | Portal</h1>
     </header>
 
-    <nav>
+    <nav id="nav-comeco">
         <div th:switch="${usuario.role}">
             <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
             <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
@@ -28,37 +28,39 @@
             <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
             <p id="nome-no-portal" th:case="'*'"></p>
         </div>
-        <a href="perfil" class="icone" id="icone-portal">
-            <img src="/img/icone-perfil.png">
-            <label>Perfil</label>
-        </a>
-    </nav>       
+           <a href="/notificacoes" class="icone" id="icone-portal">
+			    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+			    <label>Notificações</label>
+    		</a>
+		<a th:href="@{/pesquisa-usuario/listaausuarios}" class="icone" id="icone-portal">
+            <img src="../img/lupa.png">
+            <label>Pesquisa</label>
+		</a>
+    </nav>     
 
 	<main>
-	    <h2 class="subtitulo-portal">Lista de Usuario</h2>
+	    <h2 class="subtitulo-portal">Lista de Usuarios</h2>
 	    <table class="table">
 	        <thead>
 	            <tr>
 	                <th>Id</th>
 	                <th>Nome</th>
-	                <th>Curso</th>
-	                <th>Campus</th>
-	                <th>Ver mais</th>
-	                <th>Validação</th>
+	                <th>Email</th>
+	                <th>Ver Perfil</th>
+					<th>Validação</th>
 	            </tr>
 	        </thead>
 	        <tbody>
 	            <tr th:each="aluno : ${listaAlunos}">
 	                <td th:text="${aluno.id}"></td>
 	                <td th:text="${aluno.nome}"></td>
-	                <td th:text="${aluno.curso}"></td>
-	                <td th:text="${aluno.campus}"></td>
+	                <td th:text="${aluno.email}"></td>
 	                <td>
 	                    <a th:href="'/perfil?id=' + ${aluno.id}">
-	                        <button id="botao-certificado">Ver mais</button>
+	                        <button id="botao-certificado">Ver Perfil</button>
 	                    </a>
 	                </td>
-	                <td>
+					<td>
 	                    <a th:href="@{/administrador/listar-certificados-licencas/editar(id=${aluno.id})}">
 	                        <button id="botao-certificado">Validar</button>
 	                    </a>
@@ -66,39 +68,6 @@
 	            </tr>
 	        </tbody>
 	    </table>
-		
-		<!--
-	    <h2 class="subtitulo-portal">Lista de Professores</h2>
-	    <table class="table">
-	        <thead>
-	            <tr>
-	                <th>Id</th>
-	                <th>Nome</th>
-	                <th>Email</th>
-	                <th>Role</th>
-	                <th>Ver Perfil</th>
-					<th>Validação</th>
-	            </tr>
-	        </thead>
-	        <tbody>
-	            <tr th:each="professor : ${listaProfessores}">
-	                <td th:text="${professor.id}"></td>
-	                <td th:text="${professor.nome}"></td>
-	                <td th:text="${professor.email}"></td>
-	                <td th:text="${professor.role}"></td>
-	                <td>
-	                    <a th:href="'/perfil?id=' + ${professor.id}">
-	                        <button id="botao-certificado">Ver Perfil</button>
-	                    </a>
-	                </td>
-					<td>
-	                    <a th:href="@{/administrador/listar-certificados-licencas/editar(id=${professor.id})}">
-	                        <button id="botao-certificado">Validar</button>
-	                    </a>
-	                </td>
-	            </tr>
-	        </tbody>
-	    </table>-->
 	</main>
 
 

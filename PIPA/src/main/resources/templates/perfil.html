@@ -19,12 +19,39 @@
 </head>
 <body>
 	<header>
-	        <a href="javascript:void(0);" onclick="window.history.back();"><img id="logo" src="../img/logo.png" alt="Logo"></a> <!--Clique na logo para retornar à página inicial-->
-	        <h1 id="titulo-plataforma" th:text="'PIPA | ' + ${u.nome}">PIPA | Meu Perfil</h1>
+	    <div th:switch="${usuario.role}">
+	        <a th:case="'Administrador'" href="/administrador"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+	        <a th:case="'Aluno'" href="/aluno"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+	        <a th:case="'Professor'" href="/professor"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+	        <a th:case="'Empresa'" href="/empresa"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+	        <p id="nome-no-portal" th:case="'*'"></p>
+	    </div>
+	    <h1 id="titulo-plataforma" >PIPA | Perfil</h1>
 	</header>
 	
+	<nav id="nav-comeco">
+	    <div th:switch="${usuario.role}">
+	        <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${nome}"></span></p>
+	        <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${nome}"></span></p>
+	        <p id="nome-no-portal" th:case="'Professor'"><span th:text="${nome}"></span></p>
+	        <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${nome}"></span></p>
+	        <p id="nome-no-portal" th:case="'*'"></p>
+	    </div>
+	       <a href="/notificacoes" class="icone" id="icone-portal">
+			    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+			    <label>Notificações</label>
+			</a>
+		<a th:href="@{/perfil(id=${idVisitante})}" class="icone" id="icone-portal">
+	        <img src="../img/icone-perfil.png">
+	        <label>Perfil</label>
+		</a>
+		<a th:href="@{/pesquisa-usuario/listaausuarios}" class="icone" id="icone-portal">
+	        <img src="../img/lupa.png">
+	        <label>Pesquisa</label>
+		</a>
+	</nav>		
 	
-	<a class="link-topo" href="#">&#9650;</a>
+	<a id="link-topo" href="#">&#9650;</a>
 	
 	<main id="seccao-principal">
 		<img id="banner" th:src="'data:image/jpeg;base64,' + ${banner}" alt="Banner" onerror="this.src='../img/banner.png'">
@@ -40,13 +67,11 @@
 		        <button id="closeModalButton" style="padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancelar</button>
 		    </div>
 		</div>
-	
-		<button id="botao-avaliacao" style="position: absolute; top: 55%; left: 52.5%;">AVALIAÇÕES</button>
 		
 		<form action="/perfil/atualizar" method="POST" enctype="multipart/form-data" id="form-atualizar">
 		    <input type="hidden" name="id" th:value="${u.id}">
-		    <input type="file" name="fotoPerfil" id="input-foto-perfil" style="display: none;" accept="image/*" disabled>
-		    <input type="file" name="banner" id="input-banner" style="display: none;" accept="image/*" disabled>
+		    <input type="file" name="fotoPerfil" id="input-foto-perfil" style="display: none; cursor: none;" accept="image/*" disabled>
+		    <input type="file" name="banner" id="input-banner" style="display: none; cursor: none;" accept="image/*" disabled>
 			
 			<div id="parte-descricao">
 				<p id="nome-descricao" th:text="${u.nome}" style="white-space: nowrap;">Sem nome</p>
@@ -56,9 +81,10 @@
 		</form>
 		
 		<div class="seguidores">
-		    <button class="botao-seguidores"><p th:text="${seguidores}"></p><br><a class="botao-seguidores-text" th:href="@{/relacoes/seguidores?id=u.id}">Seguidores</a></button>
-		    <button class="botao-seguindo"><p th:text="${seguidos}"></p><br><a class="botao-seguidores-text" th:href="@{/relacoes/seguidos?id=u.id}">Seguindo</a></button>
+			<button class="botao-seguidores"><p th:text="${seguidores}"></p><br><a class="botao-seguidores-text" th:href="@{/relacoes/seguidores(id=${u.usuario_id})}">Seguidores</a></button>
+		    <button class="botao-seguindo"><p th:text="${seguidos}"></p><br><a class="botao-seguidores-text" th:href="@{relacoes/seguidos(id=${u.usuario_id})}">Seguindo</a></button>
 		</div>
+		
 		<div id="container-campus" th:if="${usuario.role == 'Aluno'}">
 		    <a class="dados-campus" id="campus-aluno" th:utext="${'ALUNO DO CAMPUS' + '<br>' + u.campus}"
 		       th:href="${(u.campus == 'Araxá' ? 'https://www.araxa.cefetmg.br/' : 
@@ -74,13 +100,16 @@
 		                   'https://www.cefetmg.br/')}">
 		        ALUNO DO CAMPUS X
 		    </a>
-
 		</div>
-
 		
 		<a th:href="@{/configPerfil/contaConfigPerfil(id=${u.id})}" alt="Configurações"><img id="icone-config" class="botoes-perfil" src="../img/config.png" alt="Configurações" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}"></a>
+		<button type="submit" class="botoes-perfil" id="botao-seguir" th:attr="style=${(idVisitante == usuarioId) ? 'display:none;' : (isFollowing ? 'height: 30px;' : 'height: 15px;')}" ><a style="text-decoration: none;" th:href="@{relacoes/toggle(id=${u.usuario_id})}"><span id="botao-seguir-span" th:if="${!isFollowing}">SEGUIR</span><span style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;" id="botao-seguir-span2" th:if="${isFollowing}">NÃO<br>SEGUIR</span></a></button>
 		<button type="submit" class="botoes-perfil" id="botao-edicao" th:attr="style=${idVisitante != usuarioId ? 'display:none;' : ''}"></button>
-		<a class="botoes-perfil" id="botao-seguir" th:href="@{/relacoes/toggle?id=u.id}" th:attr="style=${idVisitante == usuarioId ? 'display:none;' : ''}">Seguir</a>
+		
+		<button class="avaliacao-button" id="botao-avaliacao" style="position: absolute; top: 117%; left: 44.5%;">AVALIAÇÕES</button>
+		<button id="botao-like" class="like-button" th:attr="style=${idVisitante == usuarioId ? 'display:none;' : ''}">
+		    ❤️ Curtir
+		</button>
 		
 		<!--PARA VERIFICAR!!!
 		<p>Visitante ID: <span th:text="${idVisitante}"></span></p>
@@ -142,16 +171,21 @@
 	        </div>
 
 	        <!-- Formulário de Avaliação - Só aparece se o usuário NÃO for o dono do perfil -->
-	        <form id="form-avaliacao" method="post" action="/perfil/avaliacao" th:if="${idVisitante != usuarioId}">
+	        <form id="form-avaliacao" method="post" action="/perfil/avaliacao">
 	            <input type="hidden" name="perfilId" th:value="${usuarioId}">
-	            <textarea name="comentario" placeholder="Digite sua avaliação..." required></textarea>
-	            <button type="submit">Enviar</button>
+	            <textarea class="avaliacao-textarea" name="comentario" placeholder="Digite sua avaliação..." required></textarea>
+	            <button class="avaliacao-button" type="submit">Enviar</button>
 	        </form>
 	    </div>
 	</div>
+	
+	<style>
+	    
+	</style>
 
 	
 	<style>
+		/* Estilização do Modal */
 		/* Estilização do Modal */
 		.modal {
 		    display: none;
@@ -164,20 +198,37 @@
 		    background-color: rgba(0, 0, 0, 0.6);
 		    justify-content: center;
 		    align-items: center;
+		    backdrop-filter: blur(5px); /* Efeito de desfoque */
+		    animation: fadeIn 0.3s ease-in-out;
+		}
+
+		@keyframes fadeIn {
+		    from { opacity: 0; }
+		    to { opacity: 1; }
 		}
 
 		.modal-conteudo {
 		    background: white;
 		    width: 40%;
-		    padding: 20px;
-		    border-radius: 10px;
+		    padding: 25px;
+		    border-radius: 12px;
 		    text-align: center;
 		    position: relative;
-		    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+		    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+		    transform: scale(0.9);
+		    animation: popUp 0.3s ease-in-out forwards;
+		}
+
+		@keyframes popUp {
+		    from { transform: scale(0.9); opacity: 0.5; }
+		    to { transform: scale(1); opacity: 1; }
 		}
 
 		.modal-conteudo h2 {
-		    margin-bottom: 10px;
+		    margin-bottom: 15px;
+		    font-size: 22px;
+		    color: #003869;
+		    font-weight: bold;
 		}
 
 		.lista-avaliacoes {
@@ -186,7 +237,9 @@
 		    text-align: left;
 		    border-bottom: 1px solid #ddd;
 		    margin-bottom: 10px;
-		    padding: 10px;
+		    padding: 15px;
+		    border-radius: 8px;
+		    background: #f8f8f8;
 		}
 
 		.lista-avaliacoes ul {
@@ -195,47 +248,79 @@
 		}
 
 		.lista-avaliacoes li {
-		    padding: 8px;
-		    border-bottom: 1px solid #eee;
+		    padding: 10px;
+		    border-bottom: 1px solid rgb(128, 128, 128);
+		    font-size: 16px;
+		    color: #333;
 		}
 
 		.lista-avaliacoes li:last-child {
 		    border-bottom: none;
 		}
 
-		textarea {
+		/* Caixa de texto refinada */
+		.avaliacao-textarea {
 		    width: 100%;
 		    height: 80px;
-		    padding: 10px;
+		    padding: 12px;
 		    border: 1px solid #ccc;
-		    border-radius: 5px;
-		    margin-bottom: 10px;
+		    border-radius: 8px;
+		    margin-bottom: 15px;
+		    font-size: 16px;
+		    transition: border 0.3s ease-in-out;
+			resize: none;
 		}
 
-		button {
-		    background: #007BFF;
+		.avaliacao-textarea:focus {
+		    border: 1px solid #007BFF;
+		    outline: none;
+		    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
+		}
+
+		/* Botão moderno */
+		.avaliacao-button {
+		    background: linear-gradient(135deg, #003869, #0056b3);
 		    color: white;
 		    border: none;
-		    padding: 10px 15px;
+		    padding: 12px 25px;
 		    cursor: pointer;
-		    border-radius: 5px;
+		    border-radius: 8px;
+		    font-weight: bold;
+		    font-size: 20px;
+		    transition: all 0.3s ease-in-out;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    gap: 10px;
+		    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
 		}
 
-		button:hover {
-		    background: #0056b3;
+		.avaliacao-button:hover {
+		    background: linear-gradient(135deg, #007BFF, #003869);
+		    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+		    transform: translateY(-2px);
 		}
 
+		.avaliacao-button:active {
+		    transform: scale(0.98);
+		}
+
+		/* Botão de fechar */
 		.fechar {
 		    position: absolute;
 		    top: 10px;
 		    right: 15px;
-		    font-size: 20px;
+		    font-size: 22px;
 		    cursor: pointer;
+		    color: #555;
+		    transition: color 0.3s;
+		}
+
+		.fechar:hover {
+		    color: #d9534f;
 		}
 
 	</style>
-
-
 	
 	<script th:inline="javascript">
 		let u = /*[[${u}]]*/ {};
@@ -290,23 +375,21 @@
 	</script>
 	
 	<script>
-	document.getElementById("botao-avaliacao").addEventListener("click", function() {
-	    document.getElementById("modal-avaliacao").style.display = "flex";
-	});
-
-	document.querySelector(".fechar").addEventListener("click", function() {
-	    document.getElementById("modal-avaliacao").style.display = "none";
-	});
-
-	window.onclick = function(event) {
-	    if (event.target == document.getElementById("modal-avaliacao")) {
-	        document.getElementById("modal-avaliacao").style.display = "none";
-	    }
-	};
+		document.getElementById("botao-avaliacao").addEventListener("click", function() {
+		    document.getElementById("modal-avaliacao").style.display = "flex";
+		});
+		
+		document.querySelector(".fechar").addEventListener("click", function() {
+		    document.getElementById("modal-avaliacao").style.display = "none";
+		});
+		
+		window.onclick = function(event) {
+		    if (event.target == document.getElementById("modal-avaliacao")) {
+		        document.getElementById("modal-avaliacao").style.display = "none";
+		    }
+		};
 	</script>
 
-
-		
-	
+	<script src="js/portal.js"></script>
 </body>
 </html>

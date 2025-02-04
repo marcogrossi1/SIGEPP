@@ -46,6 +46,7 @@ public class EmpresaController {
     	
         try (Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+            model.addAttribute("usuario", u);
             if (!u.getRole().equals("Empresa")) {
                 return mostraPaginaDeErro(model, "Usuário não é uma Empresa!");
             }

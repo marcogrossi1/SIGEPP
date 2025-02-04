@@ -12,18 +12,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import proj.dao.AdministradorDao;
+import proj.dao.AlunoDao;
+import proj.dao.EmpresaDao;
+import proj.dao.HDataSource;
+import proj.dao.ProfessorDao;
+import proj.dao.SeguidoresDao;
+import proj.dao.UsuarioDao;
+import proj.model.Administrador;
 import proj.model.Aluno;
 import proj.model.Empresa;
 import proj.model.Professor;
 import proj.model.Seguidores;
 import proj.model.Usuario;
-
-import proj.dao.HDataSource;
-import proj.dao.ProfessorDao;
-import proj.dao.SeguidoresDao;
-import proj.dao.UsuarioDao;
-import proj.dao.AlunoDao;
-import proj.dao.EmpresaDao;
 
 
 @Controller
@@ -43,6 +44,7 @@ public class SeguidoresController {
                 ArrayList<Aluno> alunos = new ArrayList<>();
                 ArrayList<Empresa> empresas = new ArrayList<>();
                 ArrayList<Professor> professores = new ArrayList<>();
+                ArrayList<Administrador> administradores = new ArrayList<>();
 
                 for (Usuario seguidor : s.getSeguidores()){
                     
@@ -57,11 +59,15 @@ public class SeguidoresController {
                     else if(seguidor.getRole().equals("Professor")){
                         professores.add( ProfessorDao.getByUsuario_id(conn, seguidor.getId()) );
                     }
+                    
+                    else if(seguidor.getRole().equals("Administrador")){
+                        administradores.add( AdministradorDao.getByUsuario_id(conn, seguidor.getId()) );
+                    }
                 }
                 model.addAttribute("Alunos", alunos);
                 model.addAttribute("Empresas", empresas);
                 model.addAttribute("Professores", professores);
-                
+                model.addAttribute("Administradores", administradores);
             }
         }
         catch(SQLException e) {
@@ -216,6 +222,11 @@ public class SeguidoresController {
 
             else if(uSeguido.getRole().equals("Professor")){
                 nome = ProfessorDao.getByUsuario_id(conn, uSeguido.getId())
+                    .getNome();
+            }
+            
+            else if(uSeguido.getRole().equals("Administrador")){
+                nome = AdministradorDao.getByUsuario_id(conn, uSeguido.getId())
                     .getNome();
             }
 
