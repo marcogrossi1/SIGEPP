@@ -22,8 +22,12 @@
     
         <select id="filtroCurso" onchange="filtrarProjetos()">
             <option value="">Todos os Cursos</option>
-            <option th:each="curso : ${cursosDisponiveis}" th:value="${curso.nomeCurso}" th:text="${curso.nomeCurso}"></option>
+            <option th:each="curso : ${cursosDisponiveis}" 
+                    th:value="${curso.nomeCurso}" 
+                    th:text="${curso.nomeCurso}">
+            </option>
         </select>
+        
     </header>
 
     <nav>
