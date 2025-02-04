@@ -7,6 +7,7 @@ import java.security.Principal;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import proj.dao.AdministradorDao;
 import proj.dao.AlunoDao;
 import proj.dao.AvaliacaoDao;
 import proj.dao.EmpresaDao;
@@ -38,7 +38,6 @@ import proj.dao.SecaoDao;
 import proj.dao.SeguidoresDao;
 import proj.dao.TopicoDao;
 import proj.dao.UsuarioDao;
-import proj.model.Administrador;
 import proj.model.Aluno;
 import proj.model.Avaliacao;
 import proj.model.Empresa;
@@ -75,26 +74,31 @@ public class PerfilController {
 	            } else if (usuario.getRole().equals("Professor")) {
 	                Professor professor = ProfessorDao.getByUsuario_id(conn, a.getUsuarioId());
 	                nomeReal = professor.getNome();
+	            } else if (usuario.getRole().equals("Empresa")) {
+	                Empresa empresa = EmpresaDao.getByUsuario_id(conn, a.getUsuarioId());
+	                nomeReal = empresa.getNome();
 	            } else if (usuario.getRole().equals("Administrador")) {
-	                Administrador admin = AdministradorDao.getByUsuario_id(conn, a.getUsuarioId());
-	                nomeReal = admin.getNome();
+	                nomeReal = "ADMINISTRADOR";
 	            } else {
 	                nomeReal = usuario.getNome(); 
 	            }
 
 	            a.setNomeUsuario(nomeReal); 
 	        }
+	        
+	        Collections.reverse(avaliacoes);
 	        model.addAttribute("avaliacoes", avaliacoes);
-
-
-
 	        
 	        if(u.getRole().equals("Aluno")) {
 		        Aluno a = AlunoDao.getByUsuario_id(conn, usuarioId);
+		        model.addAttribute("aluno", a);
 		        
 		        long idVisitante = UsuarioDao.getIdByNome(conn, principal.getName());
 		        model.addAttribute("idVisitante", idVisitante);
 		        //System.out.println(idVisitante);
+		        
+		        boolean isFollowing = SeguidoresDao.isFollowing(conn, idVisitante, a.getUsuario_id());
+				model.addAttribute("isFollowing", isFollowing);
 	
 		        model.addAttribute("usuarioId", usuarioId);
 	
@@ -166,6 +170,9 @@ public class PerfilController {
 		        long idVisitante = UsuarioDao.getIdByNome(conn, principal.getName());
 		        model.addAttribute("idVisitante", idVisitante);
 		        //System.out.println(idVisitante);
+		        
+		        boolean isFollowing = SeguidoresDao.isFollowing(conn, idVisitante, p.getUsuario_id());
+				model.addAttribute("isFollowing", isFollowing);
 	
 		        model.addAttribute("usuarioId", usuarioId);
 	
@@ -226,13 +233,14 @@ public class PerfilController {
 		        model.addAttribute("nome", p.getNome());
 		        
 		        return "perfil";
-	        }
-	        else if (u.getRole().equals("Administrador") || u.getRole().equals("Empresa")) {
-	            return "perfil";
+		       
+	        } else if(u.getRole().equals("Administrador") || u.getRole().equals("Empresa")) {
+	        	return "perfil";
 	        } else {
 	            return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
 	        }
 	    } catch (Exception e) {
+			e.printStackTrace();
 	        return "erro";
 	    }
 	}
@@ -243,19 +251,6 @@ public class PerfilController {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
         	model.addAttribute("usuario", u);
     
-            if (u.getRole().equals("Administrador")) {
-                Administrador adm = AdministradorDao.getByCpf(conn, principal.getName());
-                ArrayList<Empresa> empresas = AdministradorDao.listEmpresas(conn);
-
-                model.addAttribute("administrador", adm);
-                model.addAttribute("listaEmpresas", empresas);
-            }
-    
-			if (u.getRole().equals("Empresa")) {
-				Empresa e = EmpresaDao.getByNome(conn, principal.getName());
-				model.addAttribute("empresa", e);
-			}
-
 	    	Aluno a = AlunoDao.get(conn, alunoId);
 
 		    ArrayList<Projeto> projetos = AlunoDao.listProjetosByAlunoId(conn, a.getId());
@@ -396,23 +391,8 @@ public class PerfilController {
 		        conn.commit();
 	
 		        return "redirect:/perfil?id=" + usuarioId;
-	        } if(u.getRole().equals("Administrador")) {
-		        /*Administrador ad = AdministradorDao.get(conn, usuarioId);
-		        
-		        ad.setDescricaoPerfil(descricaoPerfil);
-		        
-		        if (fotoPerfil != null && !fotoPerfil.isEmpty())
-		        	ad.setFotoPerfil(fotoPerfilBytes);
-		        if (banner != null && !banner.isEmpty())
-		        	ad.setBannerPerfil(bannerBytes);
-		        
-		        AdministradorDao.update(conn, ad);
-		        conn.commit();*/
-	
-		        return "redirect:/perfil?id=" + usuarioId;
-	        } else {
+	        } else
 	        	return "redirect:/perfil?id=" + usuarioId;
-	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        model.addAttribute("message", "Erro ao atualizar dados.");
@@ -680,6 +660,5 @@ public class PerfilController {
 	        return "erro";
 	    }
 	}
-
 
 }

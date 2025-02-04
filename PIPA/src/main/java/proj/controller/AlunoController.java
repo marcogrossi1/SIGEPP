@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,17 +21,14 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import proj.dao.AlunoDao;
 import proj.dao.CursoDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
-import proj.dao.NotFoundException;
 import proj.dao.NovidadeDao;
 import proj.dao.ProjetoDao;
 import proj.dao.UsuarioDao;
-import proj.dao.NovidadeDao;
 import proj.model.Aluno;
 import proj.model.Curso;
 import proj.model.Estagio;
@@ -41,7 +36,6 @@ import proj.model.Novidade;
 import proj.model.Progresso;
 import proj.model.Projeto;
 import proj.model.Usuario;
-import proj.model.Projeto;
 
 @Controller
 @RequestMapping("/aluno")
@@ -54,6 +48,8 @@ public class AlunoController {
 	public String mostraPortal(Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+			model.addAttribute("usuario", u);
+			
 			if (!u.getRole().equals("Aluno")) {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
@@ -86,6 +82,9 @@ public class AlunoController {
 	public String mostraEstagios(Model model, Principal principal) throws Exception {
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+			model.addAttribute("usuario", u);
+			
+			
 			if (!u.getRole().equals("Aluno")) {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
@@ -96,6 +95,7 @@ public class AlunoController {
 			deslistarEstagioJaInscrito(estagioList, estagioDispList);
 			model.addAttribute("estagioDispList", estagioDispList);
 			model.addAttribute("estagioList", estagioList);
+			model.addAttribute("aluno", a);
 		}
 		return "aluno/estagios";
 	}
@@ -105,6 +105,10 @@ public class AlunoController {
 		try (Connection conn = ds.getConnection()) {
 			Estagio es = EstagioDao.get(conn, id);
 			Aluno a = AlunoDao.getByCpf(conn, principal.getName());
+			
+			Usuario u = UsuarioDao.get(conn, id);
+			model.addAttribute("usuario", u);
+			
 			Progresso pro = AlunoDao.getProgressoEstagio(conn, a.getId(), id);
 			model.addAttribute("estagio", es);
 			model.addAttribute("empresa", es.getEmpresa());
@@ -208,31 +212,6 @@ public class AlunoController {
 
 			return "erro";
 		}
-	}
-	/*
-	 * INATIVO
-	 * 
-	 * @GetMapping("/perfil")
-	 * public String mostraPerfilPessoal(Model model, Principal principal) throws
-	 * Exception {
-	 * try (Connection conn = ds.getConnection()) {
-	 * Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-	 * model.addAttribute("usuario", u);
-	 * return "aluno/perfil";
-	 * } catch (Exception e) {
-	 * return "erro";
-	 * }
-	 * }
-	 */
-
-	@GetMapping("/contaConfigPerfil")
-	public String mostraContaConfigPerfil(Model model, Principal principal) {
-		return "aluno/contaConfigPerfil";
-	}
-
-	@GetMapping("/notificacaoConfigPerfil")
-	public String mostraNotificacaoConfigPerfil(Model model, Principal principal) {
-		return "aluno/notificacaoConfigPerfil";
 	}
 
 	@GetMapping("/certificados")
@@ -408,6 +387,8 @@ public class AlunoController {
 
 		try (Connection conn = ds.getConnection()) {
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+			model.addAttribute("usuario", u);
+			
 			if (u.getRole().equals("Aluno") == false) {
 				return mostraPaginaDeErro(model, "Usuário não é um Aluno!.");
 			}
@@ -420,6 +401,9 @@ public class AlunoController {
 				projeto.setCursos(cursos);
 			}
 
+			HashSet<Curso> c = CursoDao.listCursos(conn);
+
+			model.addAttribute("cursosDisponiveis", c);
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 		} catch (Exception e) {
