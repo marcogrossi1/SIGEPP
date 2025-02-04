@@ -42,7 +42,7 @@
                         <a th:href="'/perfil-aluno?id='+ ${aluno.id}">
                         <h3 th:text="${aluno.nome}"></h3></a>
                         <p th:text="${progresso[iterStat.index]}"></p>
-                        <a th:href="@{/downloade(alunoId=${aluno.id}, projetoId=${estagio.id})}"
+                        <a th:if="${estagio.documentos != null}" th:href="@{/downloade(alunoId=${aluno.id}, projetoId=${estagio.id})}"
    						class="btn btn-primary"><button>Baixar Documento</button></a>
 
                         <a th:if="${progresso[iterStat.index].name() == 'PENDENTE'}" th:href="'/empresa/aprovar?a_id='+${aluno.id} + '&e_id=' + ${estagio.id}"><button th:text='Aprovar'></button></a>
