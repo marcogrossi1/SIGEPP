@@ -64,10 +64,11 @@
         <section class="project-list">
             <div class="project-container">
                 <article class="project-card" th:each="usua : ${listaUsuarios}">
-					<a th:href="@{/perfil(id=${usua.id})}">
+					<a th:href="@{/perfil(id=${usua.usuario_id})}">
                     <h2 th:text="${usua.nome}"></h2>
 					</a>
                     <p th:text="${usua.email}"></p>
+					<p th:text="${usua.usuario_id}"></p>
                     <div class="tags">
 						
                     </div>
