@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Notificações</title>
+</head>
+<body>
+    <header>
+        <!-- Link para a página anterior usando document.referrer -->
+        <a href="#" id="logo-link"><img id="logo" src="/img/logo.png"></a> <!-- Clique na logo para retornar à página anterior -->
+        <h1 id="titulo-plataforma">PIPA | Notificações</h1>
+    </header>
+    <main>
+        <div>
+            <th:block th:each="notificacao : ${notificacoes}">
+                <div class="notificacao" th:data-id="${notificacao.id}" th:classappend="${notificacao.lida} ? 'lida' : ''">
+                    <p th:text="${notificacao.notificacao}"></p>
+                    <button class="delete-btn" th:data-id="${notificacao.id}">X</button>
+                </div>
+            </th:block>
+        </div>
+    </main>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const notificacoes = document.querySelectorAll('.notificacao');
+
+        // Pega o link da logo e define o href para a página anterior
+        const logoLink = document.getElementById('logo-link');
+        const referrer = document.referrer;
+
+        if (referrer) {
+            logoLink.setAttribute('href', referrer); // Define o link da logo para a página anterior
+        } else {
+            // Se não houver referrer, você pode redirecionar para a página inicial (por exemplo)
+            logoLink.setAttribute('href', '/');
+        }
+
+        notificacoes.forEach(notificacao => {
+            // Marcar como lida ao clicar
+            notificacao.addEventListener('click', () => {
+                notificacao.classList.add('lida');
+                const notificacaoId = notificacao.getAttribute('data-id');
+                fetch(`/notificacoes/mark-as-read/${notificacaoId}`, {
+                    method: 'POST'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        console.error("Erro ao marcar a notificação como lida");
+                    }
+                });
+            });
+
+            // Deletar notificação ao clicar no botão X com animação
+            const deleteBtn = notificacao.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', (event) => {
+                event.stopPropagation(); // Evitar marcar como lida ao excluir
+                const notificacaoId = deleteBtn.getAttribute('data-id');
+
+                // Adiciona a classe para a animação de fade-out
+                notificacao.classList.add('fade-out');
+
+                // Força o reflow para garantir que a animação seja aplicada
+                notificacao.offsetHeight; // Isso força o reflow
+
+                // Use setTimeout para garantir que a animação aconteça antes da remoção
+                setTimeout(() => {
+                    notificacao.remove(); // Remove a notificação após a animação
+                }, 500); // Tempo para a animação de fade
+
+                // Faz a requisição para deletar a notificação após a animação
+                fetch(`/notificacoes/delete/${notificacaoId}`, {
+                    method: 'POST'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        console.error("Erro ao excluir a notificação");
+                        // Caso falhe, você pode querer reverter a remoção
+                        // Exemplo: notificacao.classList.remove('fade-out');
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro na requisição de exclusão", error);
+                    // Caso falhe, você pode querer reverter a remoção
+                    // Exemplo: notificacao.classList.remove('fade-out');
+                });
+            });
+        });
+    });
+    </script>
+</body>
+</html>
