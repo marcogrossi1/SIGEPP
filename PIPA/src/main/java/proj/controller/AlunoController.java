@@ -23,6 +23,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import proj.dao.AlunoDao;
+import proj.dao.CursoDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.NovidadeDao;

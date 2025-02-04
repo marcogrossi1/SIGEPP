@@ -332,7 +332,6 @@ CREATE TABLE Curso (
   nome VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX nome_UNIQUE (nome ASC)
-<<<<<<< HEAD
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
@@ -356,6 +355,10 @@ CREATE TABLE Avaliacao (
     FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
     FOREIGN KEY (perfil_id) REFERENCES Usuario(id)
 );
-=======
-) ENGINE = InnoDB DEFAULT CHARSET = utf8;
->>>>>>> dev
+
+CREATE TABLE likes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    liked_user_id BIGINT NOT NULL,
+    UNIQUE(user_id, liked_user_id)
+);
