@@ -25,7 +25,7 @@ public class SecurityConfig {
                     .requestMatchers("/empresa/**").hasRole("Empresa")
                     .requestMatchers("/administrador/**").hasRole("Administrador")
                     .requestMatchers("/pesquisa/**").hasAnyRole("Professor","Empresa")
-                    .requestMatchers("/cadastro", "/cadastroAluno", "/criarAluno", "/cadastroProfessor", "/criarProfessor", "/cadastroEmpresa", "/criarEmpresa", "/cadastroAdministrador", "criarAdministrador").permitAll()
+                    .requestMatchers("/cadastro", "/cadastroAluno", "/criarAluno", "/cadastroProfessor", "/criarProfessor", "/cadastroEmpresa", "/criarEmpresa").permitAll()
                     .anyRequest().authenticated()
             )
             .csrf(csrf -> csrf.disable()) 
