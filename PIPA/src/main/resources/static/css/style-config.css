@@ -62,7 +62,7 @@ main {
 #botao-concluir-config-conta {
     color: white;
     white-space: nowrap;
-    background-color: rgb(128, 128, 128);
+    background-color: #003869;
     border-radius: 10px;
     background-size: cover;
     background-position: center;
@@ -75,7 +75,7 @@ main {
     width: 159px;
     height: 25px;
     padding: 5px;
-    bottom: 30px;
+    top: 29%;
     left: 82%;
     transform: translateX(-50%) scale(1);
     transform-origin: center;
@@ -234,7 +234,7 @@ input:not(.inputLogo, #descricao, .titulo-seccao, .conta-config, #input-banner, 
     background-color: #fefafa;
 }
 
-button:not(#botao-concluir-edicao):not(.seccao-botao-apagar-topico):not(#botao-concluir-config):not(#botao-apagar-conta):not(#adicionar-texto-livre, #adicionar-projetos-concluidos, #adicionar-competencias, #adicionar-licencas-certificados):not(#botao-edicao):not(#botao-add-seccao):not(.seccao-botao-apagar):not(.seccao-botao-editar):not(.seccao-botao-criar-topico), 
+button:not(botao-concluir-config-conta):not(#botao-concluir-edicao):not(.seccao-botao-apagar-topico):not(#botao-concluir-config):not(#botao-apagar-conta):not(#adicionar-texto-livre, #adicionar-projetos-concluidos, #adicionar-competencias, #adicionar-licencas-certificados):not(#botao-edicao):not(#botao-add-seccao):not(.seccao-botao-apagar):not(.seccao-botao-editar):not(.seccao-botao-criar-topico), 
 input:not(.inputLogo, #descricao, .conta-config, #input-banner, #input-foto-perfil, .titulo-seccao)[type='submit'] {
     min-width: 10vw;
     height: 3vh;
@@ -444,11 +444,11 @@ label {
     max-width: 50%;
 }
 
-#criar-button {
+#criar-button:not(botao-concluir-config-conta) {
     width: 3vh;
 }
 
-#apagar-button button {
+#apagar-button button:not(botao-concluir-config-conta) {
     background-color: red;
 }
 

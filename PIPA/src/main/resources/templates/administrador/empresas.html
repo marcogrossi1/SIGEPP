@@ -9,18 +9,18 @@
     <title>Lista de Estagios</title>
 </head>
 <body>
-    <header>
+	<header>
         <div th:switch="${usuario.role}">
-            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <a th:case="'Professor'" href="/professor"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
-            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Professor'" href="/professor"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
             <p id="nome-no-portal" th:case="'*'"></p>
         </div>
         <h1 id="titulo-plataforma" >PIPA | Portal</h1>
     </header>
 
-    <nav>
+    <nav id="nav-comeco">
         <div th:switch="${usuario.role}">
             <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
             <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
@@ -29,15 +29,14 @@
             <p id="nome-no-portal" th:case="'*'"></p>
         </div>
            <a href="/notificacoes" class="icone" id="icone-portal">
-    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
-    <label>Notificações</label>
-    </a>
-        
-        <a href="perfil" class="icone" id="icone-portal">
-            <img src="../img/icone-perfil.png">
-            <label>Perfil</label>
-        </a>
-    </nav>       
+			    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+			    <label>Notificações</label>
+    		</a>
+		<a th:href="@{/pesquisa-usuario/listaausuarios}" class="icone" id="icone-portal">
+            <img src="../img/lupa.png">
+            <label>Pesquisa</label>
+		</a>
+    </nav>     
 
     <main>
         <h2 id="subtitulo-portal">Lista de Empresas</h2>

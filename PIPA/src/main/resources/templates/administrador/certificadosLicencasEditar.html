@@ -63,7 +63,7 @@
                         </td>
                         <td>
                             <form action="/administrador/listar-certificados-licencas/editado" method="post">
-								<input type="hidden" name="idUsuario" th:value="${idUsuario}">
+								<input type="hidden" name="idAluno" th:value="${idAluno}">
                                 <input type="hidden" name="idTopico" th:value="${topico.id}">
                                 <input type="hidden" name="validacao" value="true">
                                 <button type="submit">Validar</button>
@@ -71,7 +71,7 @@
                         </td>
 						<td>
                             <form action="/administrador/listar-certificados-licencas/editado" method="post">
-								<input type="hidden" name="idUsuario" th:value="${idUsuario}">
+								<input type="hidden" name="idAluno" th:value="${idAluno}">
                                 <input type="hidden" name="idTopico" th:value="${topico.id}">
                                 <input type="hidden" name="validacao" value="false">
                                 <button type="submit">Invalidar</button>

@@ -61,7 +61,8 @@
 	        }
 
 	        input[type="text"],
-	        input[type="email"] {
+	        input[type="email"],
+			select {
 	            width: 100%;
 	            padding: 8px;
 	            margin-top: 5px;
@@ -126,10 +127,61 @@
 	    <input type="text" id="cpf" name="cpf" value="${aluno.cpf}" th:placeholder="${aluno.cpf}" minlength="11" maxlength="11" pattern="\d{11}" />
 
 	    <label for="curso">Curso:</label>
-	    <input type="text" id="curso" name="curso" value="${aluno.curso}" th:placeholder="${aluno.curso}"/>
+		<select class="conta-config" id="curso" name="curso">
+							<option value="" disabled selected th:text="${aluno.curso}"></option>
+							<optgroup label="Graduação">
+					            <option value="Administração">Administração</option>
+					            <option value="Engenharia de Computação">Engenharia de Computação</option>
+					            <option value="Engenharia de Produção Civil – Engenharia Civil">Engenharia de Produção Civil – Engenharia Civil</option>
+					            <option value="Engenharia Elétrica">Engenharia Elétrica</option>
+					            <option value="Engenharia Mecânica">Engenharia Mecânica</option>
+					            <option value="Formação Pedagógica de Docentes – Programa Especial de Formação de Docentes">Formação Pedagógica de Docentes</option>
+					            <option value="Engenharia Ambiental e Sanitária">Engenharia Ambiental e Sanitária</option>
+					            <option value="Engenharia de Materiais">Engenharia de Materiais</option>
+					            <option value="Engenharia de Transportes">Engenharia de Transportes</option>
+					            <option value="Letras">Letras</option>
+					            <option value="Química Tecnológica">Química Tecnológica</option>
+					        </optgroup>
+					        <optgroup label="Técnico">
+					            <option value="Controle Ambiental">Controle Ambiental</option>
+					            <option value="Eletroeletrônica">Eletroeletrônica</option>
+					            <option value="Eletrotécnica">Eletrotécnica</option>
+					            <option value="Hospedagem">Hospedagem</option>
+					            <option value="Mecânica">Mecânica</option>
+					            <option value="Metalurgia">Metalurgia</option>
+					            <option value="Química">Química</option>
+					            <option value="Desenvolvimento de Sistemas">Desenvolvimento de Sistemas</option>
+					            <option value="Eletromecânica">Eletromecânica</option>
+					            <option value="Equipamentos Biomédicos">Equipamentos Biomédicos</option>
+					            <option value="Informática">Informática</option>
+					            <option value="Mecatrônica">Mecatrônica</option>
+					            <option value="Mineração">Mineração</option>
+					            <option value="Rede de Computadores">Rede de Computadores</option>
+					            <option value="Edificações">Edificações</option>
+					            <option value="Eletrônica">Eletrônica</option>
+					            <option value="Estradas">Estradas</option>
+					            <option value="Informática para Internet">Informática para Internet</option>
+					            <option value="Meio Ambiente">Meio Ambiente</option>
+					            <option value="Produção de Moda">Produção de Moda</option>
+					            <option value="Trânsito">Trânsito</option>
+					        </optgroup>
+						</select>
 
 	    <label for="campus">Campus:</label>
-	    <input type="text" id="campus" name="campus" value="${aluno.campus}" th:placeholder="${aluno.campus}"/>
+		<select class="conta-config" id="campus" name="campus">
+						    <option value="" disabled selected th:text="${aluno.campus}"></option>
+							<option value="Araxá">Araxá</option>
+							<option value="Curvelo">Curvelo</option>
+							<option value="Contagem">Contagem</option>
+							<option value="Divinópolis">Divinópolis</option>
+						    <option value="Gameleira">Gameleira</option>
+						    <option value="Leopoldina">Leopoldina</option>
+						    <option value="Nepomuceno">Nepomuceno</option>
+							<option value="Nova Gameleira">Nova Gameleira</option>
+							<option value="Nova Suíça">Nova Suíça</option>
+						    <option value="Timóteo">Timóteo</option>
+						    <option value="Varginha">Varginha</option>
+						</select>
 
 	    <label for="periodo">Série:</label>
 	    <input type="text" id="periodo" name="periodo" value="${aluno.periodo}" th:placeholder="${aluno.periodo}"/>

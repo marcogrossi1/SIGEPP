@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIPA | Plataforma</title>
+    <link rel="stylesheet" th:href="@{/css/style-pesquisa.css}">
+	<link rel="icon" href="../img/icon.png">
+</head>
+<body>
+	<header>
+        <div th:switch="${usuario.role}">
+            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Professor'" href="/professor"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav id="nav-comeco">
+        <div th:switch="${usuario.role}">
+            <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Professor'"><span th:text="${professor.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+           <a href="/notificacoes" class="icone" id="icone-portal">
+			    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+			    <label>Notificações</label>
+    		</a>
+		<a th:href="@{/perfil(id=${usuario.id})}" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png">
+            <label>Perfil</label>
+		</a>
+		<a th:href="@{/pesquisa-usuario/listaausuarios}" class="icone" id="icone-portal">
+            <img src="../img/lupa.png">
+            <label>Pesquisa</label>
+		</a>
+    </nav>	
+
+    <main>
+		
+        <section class="search-bar">
+			
+			<form   th:object="${pesqNome}"
+			        class="f-form" 
+			        th:action="@{/pesquisa-usuario/pesquisaNomeUsuario}" 
+			        method="post" >
+
+					<input type="text" placeholder="Buscar usuário" th:field = "*{nome}" />
+					<p th:if="${#fields.hasErrors('nome')}" th:errorclass="form-error" th:errors="*{nome}"></p>
+					
+
+					<input type="submit" class="filter-button" value="🔽" />  
+			</form> 			
+
+        </section>
+		
+		
+        <section class="project-list">
+            <div class="project-container">
+                <article class="project-card" th:each="usua : ${listaUsuarios}">
+					<a th:href="@{/perfil(id=${usua.id})}">
+                    <h2 th:text="${usua.nome}"></h2>
+					</a>
+                    <p th:text="${usua.email}"></p>
+                    <div class="tags">
+						
+                    </div>
+                </article>
+            </div>
+        </section>
+		
+    </main>
+	
+</body>
+</html>

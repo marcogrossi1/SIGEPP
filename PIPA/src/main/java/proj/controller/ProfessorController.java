@@ -40,6 +40,8 @@ public class ProfessorController {
     public String mostraHomeProfessor(Principal principal, Model model) {
         try (Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+            model.addAttribute("usuario", u);
+            
             if (!u.getRole().equals("Professor")) {
                 return mostraPaginaDeErro(model, "Usuário não é um Professor!");
             }

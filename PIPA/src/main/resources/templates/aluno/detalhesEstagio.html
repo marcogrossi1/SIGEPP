@@ -18,6 +18,9 @@
     <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
     <label>Notificações</label>
 	</nav>
+	
+	
+	
     <main>
         <section id="detalhes-estagio">
             <a id='redirect-empresa-perfil' th:href="@{${'/encontra-empresa?nome='+empresa}}"><h3 th:text="${empresa}"></h3></a>

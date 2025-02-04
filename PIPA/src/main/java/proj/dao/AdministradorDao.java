@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import proj.model.Administrador;
 import proj.model.Aluno;
@@ -456,6 +457,25 @@ public class AdministradorDao {
 			rs = null;
 		}
 	}
+    
+    public static List<Administrador> findByName(Connection conn, String nome) throws SQLException {
+        List<Administrador> administradores = new ArrayList<>();
+        String sql = "SELECT * FROM administrador WHERE nome LIKE ?";
+        
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, "%" + nome + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Administrador administrador = new Administrador();
+                    administrador.setId(rs.getInt("id"));
+                    administrador.setNome(rs.getString("nome"));
+                    // Preencha com outros campos necessários
+                    administradores.add(administrador);
+                }
+            }
+        }
+        return administradores;
+    }
 
 
 }

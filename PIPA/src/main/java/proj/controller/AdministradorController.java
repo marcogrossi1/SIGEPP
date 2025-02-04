@@ -345,7 +345,7 @@ public class AdministradorController {
     
     @PostMapping("/listar-certificados-licencas/editado")
     public String validarCertificados(
-            @RequestParam(value = "idUsuario", required = false) long idUsuario,
+            @RequestParam(value = "idUsuario", required = false) Long idUsuario,
             @RequestParam(value = "validacao", required = false, defaultValue = "false") Boolean validacao,
             @RequestParam(value = "idTopico", required = false) Long idTopico,
             Model model) {
@@ -369,6 +369,7 @@ public class AdministradorController {
 
         return "redirect:/administrador/listar-certificados-licencas/editar?id=" + idUsuario;
     }
+
 
     
     @GetMapping("/listar-professores")

@@ -355,3 +355,10 @@ CREATE TABLE Avaliacao (
     FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
     FOREIGN KEY (perfil_id) REFERENCES Usuario(id)
 );
+
+CREATE TABLE likes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    liked_user_id BIGINT NOT NULL,
+    UNIQUE(user_id, liked_user_id)
+);
