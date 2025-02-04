@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Cadastro de Empresa</title>
+    <title>Cadastro de Professor</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/style.css}">
@@ -13,32 +13,24 @@
         <h1 id="titulo-plataforma">PIPA | Portal</h1>
     </header>
     <main>
-        <form id="empresa-inputs" th:action="@{/criarEmpresa}" method="post" enctype="multipart/form-data">
-            <label for="cnpj">CNPJ:</label>
-            <input type="text" name="cnpj" required>
-
+        <form id="professor-inputs" th:action="@{/criarProfessor}" method="post" enctype="multipart/form-data">
             <label for="nome">Nome:</label>
             <input type="text" name="nome" required>
 
-            <label for="area">Área:</label>
-            <input type="text" name="area" required>
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" required>
 
-            <label for="endereco">Endereço:</label>
-            <input type="text" name="endereco" required>
-
-            <label for="website">Website:</label>
-            <input type="text" name="website" required>
+            <label for="departamento">Departamento:</label>
+            <input type="text" name="departamento" required>
 
             <label for="email">Email:</label>
             <input type="email" name="email" required>
-            
+
             <label for="telefone">Telefone:</label>
             <input type="text" name="telefone" required>
 
             <label for="senha">Senha:</label>
             <input class="conta-config" type="password" id="senha" name="senha" placeholder="••••••••••••">
-
-          
 
             <input type="submit" value="Cadastrar">
         </form>
