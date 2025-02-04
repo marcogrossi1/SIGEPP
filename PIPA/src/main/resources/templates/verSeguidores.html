@@ -59,7 +59,7 @@
         <div class="followers-list" th:each="aluno : ${Alunos}">
             <div class="follower">
                 <img src="https://via.placeholder.com/40" alt="Foto Perfil">
-                <span><a class="seguidor" th:text="${aluno.nome}" th:href="@{/perfil-aluno(id=${aluno.id})}"></a></span>
+                <span><a class="seguidor" th:text="${aluno.nome}" th:href="@{/perfil(id=${aluno.id})}"></a></span>
             </div>
         </div>
 

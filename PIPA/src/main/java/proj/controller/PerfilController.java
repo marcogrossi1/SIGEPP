@@ -240,6 +240,7 @@ public class PerfilController {
 	            return mostraPaginaDeErro(model, "Você não tem permissão para acessar esta página.");
 	        }
 	    } catch (Exception e) {
+			e.printStackTrace();
 	        return "erro";
 	    }
 	}
