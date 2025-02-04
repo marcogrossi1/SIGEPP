@@ -14,7 +14,7 @@ public class EventoProjeto {
 
     public EventoProjeto(){}
 
-    public EventoProjeto(long projeto_id, String mensagem, Date datePublicacao, Date dateExpiracao) {
+    public EventoProjeto(long id, long projeto_id, String mensagem, Date datePublicacao, Date dateExpiracao) {
 
         this.projeto_id = projeto_id;
         this.mensagem = mensagem;
@@ -23,7 +23,7 @@ public class EventoProjeto {
         this.datePublicacao = new Date(datePublicacao.getTime());
     }
 
-    public EventoProjeto(long projeto_id, String mensagem, StatusEvento status, Date datePublicacao, Date dateExpiracao) {
+    public EventoProjeto(long id, long projeto_id, String mensagem, StatusEvento status, Date datePublicacao, Date dateExpiracao) {
 
         this.projeto_id = projeto_id;
         this.mensagem = mensagem;
@@ -85,5 +85,5 @@ public class EventoProjeto {
     public void setImagem(byte[] imagem) {
         this.imagem = imagem;
     }
-    
+
 }
