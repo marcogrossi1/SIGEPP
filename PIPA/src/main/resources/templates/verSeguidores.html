@@ -51,7 +51,7 @@
     <header>
         <a href="http://localhost:8080"><img id="logo" th:src="@{/img/logo.png}"></a>
         <!--Clique na logo para retornar à página inicial-->
-        <h1 id="titulo-plataforma">PIPA | Perfil</h1>
+        <h1 id="titulo-plataforma">PIPA | Seguidores</h1>
     </header>
 
     <main>
@@ -74,6 +74,13 @@
             <div class="follower">
                 <img src="https://via.placeholder.com/40" alt="Foto Perfil">
 				<span><a class="seguidor" th:text="${professor.nome}" th:href="https://via.placeholder.com/40"></a></span>
+            </div>
+        </div>
+		
+		<div class="followers-list" th:each="administrador : ${Administradores}">
+            <div class="follower">
+                <img src="https://via.placeholder.com/40" alt="Foto Perfil">
+				<span><a class="seguidor" th:text="${administrador.nome}" th:href="https://via.placeholder.com/40"></a></span>
             </div>
         </div>
     </main>

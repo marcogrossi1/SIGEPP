@@ -9,7 +9,7 @@
     <title>Lista de Professores</title>
 </head>
 <body>
-    <header>
+	<header>
         <div th:switch="${usuario.role}">
             <a th:case="'Administrador'" href="/administrador"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
             <a th:case="'Aluno'" href="/aluno"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
@@ -20,7 +20,7 @@
         <h1 id="titulo-plataforma" >PIPA | Portal</h1>
     </header>
 
-    <nav>
+    <nav id="nav-comeco">
         <div th:switch="${usuario.role}">
             <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
             <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
@@ -28,11 +28,15 @@
             <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
             <p id="nome-no-portal" th:case="'*'"></p>
         </div>
-        <a href="perfil" class="icone" id="icone-portal">
-            <img src="/img/icone-perfil.png">
-            <label>Perfil</label>
-        </a>
-    </nav>       
+           <a href="/notificacoes" class="icone" id="icone-portal">
+			    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+			    <label>Notificações</label>
+    		</a>
+		<a th:href="@{/pesquisa-usuario/listaausuarios}" class="icone" id="icone-portal">
+            <img src="../img/lupa.png">
+            <label>Pesquisa</label>
+		</a>
+    </nav>    
 
     <main>
         <h2 id="subtitulo-portal">Lista de Professores</h2>
@@ -55,7 +59,7 @@
 					<td th:text="${professores.email}"></td>	
 					<td>				
 						<a th:href="@{/administrador/listar-professores/editar(id=${professores.id})}">
-						 <button id="botao-certificado">Editar</button>
+						 <button class="botao-editar">Editar</button>
 						</a>
 					</td>
 					<td>						
@@ -65,7 +69,7 @@
 								onsubmit="return confirm('Tem certeza que deseja deletar este professor?');" >
 
 								<input type="hidden"  name="n" th:value=" ${professores.id}" />
-								<input  id="botao-deletar" type="submit" value="Deletar" />  
+								<input class="botao-excluir" id="botao-deletar" type="submit" value="Deletar" />  
 						</form> 
 						
 					</td>

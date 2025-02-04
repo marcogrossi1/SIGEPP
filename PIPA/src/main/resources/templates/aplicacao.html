@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="icon" href="../img/icon.png">
-<title>Aplicação para Candidatura</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="../img/icon.png">
+    <title>Aplicação para Candidatura</title>
+    <style>
+        header {
+            height: 16vh;
+        }
+        nav {
+            height: 6vh;
+        }
+    </style>
 </head>
 <body id="body-candidatura">
     <header>
-        <a href="/" th:href="@{/}"><img id="logo" src="/img/logo.png" alt="Logo"></a>
+        <a href="/aluno"><img id="logo" src="/img/logo.png" alt="Logo"></a>
         <h1 id="titulo-plataforma">PIPA | Aplicação</h1>
-    </header>
 
-    <nav>
-        <p id="nome-no-portal" th:if="${aluno != null}" th:text="'Bem-vindo, ' + ${aluno.nome}"></p>
-        <p id="nome-no-portal" th:if="${aluno == null}">Usu ário não autenticado</p>
-        <a href="/perfil" th:href="@{/perfil}" class="icone">
-            <img src="/img/icone-perfil.png" alt="Ícone de Perfil">
-            <label>Perfil</label>
-        </a>
-    </nav>
+        <nav>
+            <p id="nome-no-portal" th:if="${aluno != null}" th:text="${aluno.nome}"></p>
+            <p id="nome-no-portal" th:if="${aluno == null}">Usuário não autenticado</p>
+            <a th:href="@{/perfil-aluno(id=${aluno.id})}" class="icone" id="icone-portal">
+                <img src="/img/icone-perfil.png" alt="Ícone de Perfil">
+                <label>Perfil</label>
+            </a>
+        </nav>
+    </header>
 
     <main id="pagina-candidatura">
         <h2 id="subtitulo-portal" th:if="${projeto != null}" th:text="'Aplicação para o projeto: ' + ${projeto.nome}"></h2>
@@ -35,9 +43,16 @@
             <div id="projeto-detalhes">
                 <p><strong>Descrição:</strong> <span th:text="${projeto.descricao}"></span></p>
                 <p><strong>Carga Horária:</strong> <span th:text="${projeto.cargaHoraria}"></span> horas</p>
-                <p><strong>Vagas Disponíveis:</strong> <span th:text="${projeto.vagas}"></span></p>
+                <p><strong>Vagas Remuneradas:</strong> <span th:text="${projeto.vagasRemuneradas}"></span></p>
+<<<<<<< HEAD
+                <p><strong>Vagas Voluntárias:</strong> <span th:text="${projeto.vagasVoluntarias}"></span></p>
+=======
+				<p><strong>Vagas Voluntárias:</strong> <span th:text="${projeto.vagasVoluntarias}"></span></p>
+				<p><strong>Valor da Bolsa:</strong> <span th:text="${projeto.valorBolsa}"></span></p>
+>>>>>>> 12610ca08c32da26913d7e2689c98e116f4efe2e
                 <p><strong>Requisitos:</strong> <span th:text="${projeto.requisito}"></span></p>
                 <p><strong>Responsável:</strong> <span th:text="${projeto.responsavel}"></span></p>
+				
             </div>
         </section>
 

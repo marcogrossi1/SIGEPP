@@ -7,12 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
-import proj.model.Aluno;
-import proj.model.Estagio;
-import proj.model.Projeto;
 import proj.model.Administrador;
+import proj.model.Aluno;
 import proj.model.Empresa;
+import proj.model.Estagio;
+import proj.model.Professor;
+import proj.model.Projeto;
 
 public class AdministradorDao {
 
@@ -33,7 +35,8 @@ public class AdministradorDao {
     private final static String deletesql = "DELETE FROM administrador WHERE id = ?";
     private final static String listEmpresasSql = "SELECT * FROM empresa";
     private final static String listAlunosSql = "SELECT * FROM aluno";
-
+    private final static String listProfessoresSql = "SELECT * FROM professor";
+    
     private final static String listProjetosSql = "SELECT * FROM projeto";
 	private final static String listEstagiosSql = "SELECT * FROM estagio";
 
@@ -428,4 +431,51 @@ public class AdministradorDao {
 			rs = null;
 		}
 	}
+
+    public static ArrayList<Professor> listProfessores(Connection conn) 
+	throws SQLException 
+	{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(listProfessoresSql);
+			rs = ps.executeQuery();
+			if (!rs.next()) {
+				return new ArrayList<Professor>();
+			}
+			ArrayList<Professor> list = new ArrayList<Professor>();
+			do {
+				Professor b = ProfessorDao.set(rs);
+				list.add(b);
+			} while (rs.next());
+			return list;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			closeResource(ps, rs);
+			ps = null;
+			rs = null;
+		}
+	}
+    
+    public static List<Administrador> findByName(Connection conn, String nome) throws SQLException {
+        List<Administrador> administradores = new ArrayList<>();
+        String sql = "SELECT * FROM administrador WHERE nome LIKE ?";
+        
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, "%" + nome + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Administrador administrador = new Administrador();
+                    administrador.setId(rs.getInt("id"));
+                    administrador.setNome(rs.getString("nome"));
+                    // Preencha com outros campos necessários
+                    administradores.add(administrador);
+                }
+            }
+        }
+        return administradores;
+    }
+
+
 }

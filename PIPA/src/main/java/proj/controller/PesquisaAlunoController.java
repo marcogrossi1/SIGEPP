@@ -55,12 +55,14 @@ public class PesquisaAlunoController {
 			}
 			else  {
 				Professor x = ProfessorDao.getByUsuario_id(conn, u.getId());
+				model.addAttribute("professor", x);
 				nome = x.getNome();
 			}
 			System.out.println("NOME: "+nome);
 			
 			model.addAttribute("nome", nome);
 			model.addAttribute("usuario", u);
+			
 			
 			model.addAttribute("listaCursos", listaCursos);
 			model.addAttribute("listaCampus", listaCampus);

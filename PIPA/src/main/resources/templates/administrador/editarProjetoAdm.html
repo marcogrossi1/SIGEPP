@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+	<link rel="icon" href="../img/icon.png">
+    <title>PIPA | Portal</title>
+</head>
+<body>
+	<header>
+        <div th:switch="${usuario.role}">
+            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Professor'" href="/professor"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
+    </header>
+
+    <nav id="nav-comeco">
+        <div th:switch="${usuario.role}">
+            <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Professor'"><span th:text="${professor.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+           <a href="/notificacoes" class="icone" id="icone-portal">
+			    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+			    <label>Notificações</label>
+    		</a>
+		<a th:href="@{/pesquisa-usuario/listaausuarios}" class="icone" id="icone-portal">
+            <img src="../img/lupa.png">
+            <label>Pesquisa</label>
+		</a>
+	    </nav>   
+
+    <main>
+        <h2 id="subtitulo-portal" th:text="${projeto.nome}"></h2>
+        <section id="descricao-projeto">
+            
+        </section>
+
+        <section id="tabela-vagas-disponiveis">
+            <table class="table">
+                <thead>
+                    <th>Vagas Totais</th>
+                    <th>Descrição</th>
+                    <th>Requisitos</th>
+                    <th>Carga Horária</th>
+                    <th>Bolsa</th>
+                    <th>Editar</th>
+                </thead>
+                <tbody>
+                    <tr th:each="vagas : ${projeto}">
+                        <td th:text="${vagas.vagasRemuneradas + vagas.vagasVoluntarias}"></td>
+                        <td th:text="${vagas.descricao}"></td>
+                        <td th:text="${vagas.requisito}"></td>
+                        <td th:text="${vagas.cargaHoraria}"></td>
+                        <td th:text="${vagas.valorBolsa}"></td>
+                        <td><a th:href="'/administrador/deletar-projeto?n=' + ${vagas.id}">
+                            <button class="botao-excluir">Deletar estágio</button>
+                        </a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="../js/portal.js"></script>
+    <script>
+        let botaoDeletarEstagioEl = document.querySelector(".botao-excluir");
+        botaoDeletarEstagioEl.addEventListener("click", function() {
+            alert("Tem certeza que deseja deletar o projeto?");
+        });
+    </script>
+</body>
+</html>

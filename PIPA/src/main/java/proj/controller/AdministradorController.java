@@ -3,6 +3,7 @@ package proj.controller;
 import java.security.Principal;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.ProfessorDao;
 import proj.dao.ProjetoDao;
+import proj.dao.SecaoDao;
+import proj.dao.TopicoDao;
 import proj.dao.UsuarioDao;
 import proj.model.Administrador;
 import proj.model.Aluno;
@@ -26,6 +29,8 @@ import proj.model.Empresa;
 import proj.model.Estagio;
 import proj.model.Professor;
 import proj.model.Projeto;
+import proj.model.Secao;
+import proj.model.Topico;
 import proj.model.Usuario;
 
 @Controller
@@ -37,9 +42,8 @@ public class AdministradorController {
     
     @GetMapping
 	public String mostraPortal(Model model, Principal principal) throws Exception {		
-		//try(
-            Connection conn = ds.getConnection();//)
-		//{
+		try(Connection conn = ds.getConnection())
+		{
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			if (u.getRole().equals("Administrador") == false)
 			{
@@ -50,11 +54,11 @@ public class AdministradorController {
 			
             model.addAttribute("usuario", u);
             model.addAttribute("administrador", adm);
-		//}
-		//catch(Exception e) {
-		//	e.printStackTrace();
-		//	return mostraPaginaDeErro(model , "Erro interno na aplicação!.");
-		//}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return mostraPaginaDeErro(model , "Erro interno na aplicação!.");
+		}
 
 		return "administrador/home";
 	}	
@@ -146,32 +150,32 @@ public class AdministradorController {
         }
     }
 
+    @RequestMapping("/deletar-projeto")
+    public String deletarProjeto(@RequestParam("n") Integer projetoId, Model model, Principal principal) throws Exception {
+        try(Connection conn = ds.getConnection()) {
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+            Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
+
+            Projeto e = ProjetoDao.get(conn, projetoId);
+
+            ProjetoDao.delete(conn, projetoId);
+
+            model.addAttribute("usuario", u);
+            model.addAttribute("administrador", a);
+            model.addAttribute("estagio", e);
+
+            return "/administrador/estagios";
+        }
+
+        catch(Exception e) {
+            return mostraPaginaDeErro(model, "Este estágio já pertence à uma empresa e, portanto, não pode mais ser deletado.");
+        }
+    }
+
     public String mostraPaginaDeErro(Model model, String message) {
 		model.addAttribute("message",message);
 		return "erro";
 	}
-
-    @GetMapping("/perfil")
-    public String mostraPerfilPessoal(Model model, Principal principal) throws Exception {
-        try(Connection conn = ds.getConnection()) {
-            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-            Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
-            
-            ArrayList<Projeto> projetos = AdministradorDao.listProjetos(conn);
-            ArrayList<Estagio> estagios = AdministradorDao.listEstagios(conn);
-            
-            model.addAttribute("usuario", u);
-            model.addAttribute("administrador", a);
-            model.addAttribute("projetos", projetos);
-            model.addAttribute("estagios", estagios);
-
-            return "administrador/perfil";
-        }
-
-        catch(Exception e) {
-            return "erro";
-        }
-    }
     
     @RequestMapping("/estagios")
     public String listaEstagios(Model model, Principal principal) throws Exception {
@@ -217,7 +221,8 @@ public class AdministradorController {
 
     @GetMapping("/listar-alunos")
     public String listaAlunos(Model model, Principal principal) throws Exception {
-        try(Connection conn = ds.getConnection()) {
+        //try(
+            Connection conn = ds.getConnection();//) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
             Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
 
@@ -228,12 +233,144 @@ public class AdministradorController {
             model.addAttribute("listaAlunos", alunos);
 
             return "administrador/alunos";
+        //}
+
+        //catch(Exception e) {
+        //    return "erro";
+        //}
+    }
+    
+    @GetMapping("/listar-certificados-licencas")
+    public String listaCertificadosLicencas(Model model, Principal principal) throws Exception {
+        try(Connection conn = ds.getConnection()) {
+            Usuario u = UsuarioDao.getByNome(conn, principal.getName());
+            Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
+            
+            ArrayList<Aluno> alunos = AdministradorDao.listAlunos(conn);
+            ArrayList<Professor> professores = AdministradorDao.listProfessores(conn);
+            List<Object> usuarios = new ArrayList<>();
+            usuarios.addAll(alunos);
+            usuarios.addAll(professores);
+
+            model.addAttribute("usuario", u);
+            model.addAttribute("administrador", a);
+            model.addAttribute("listaAlunos", alunos);
+            model.addAttribute("listaProfessores", professores);
+            model.addAttribute("listaUsuarios", usuarios);
+
+            return "administrador/certificadosLicencas";
         }
 
         catch(Exception e) {
             return "erro";
         }
     }
+
+    
+    @GetMapping("/listar-certificados-licencas/editar")
+    public String mostraTelaDeEdicaoCertificados(@RequestParam("id") Long id, Model model, Principal principal) {
+    	
+    	 try(Connection conn = ds.getConnection())
+         {
+    		 Usuario u = UsuarioDao.get(conn, id);
+             Administrador a = AdministradorDao.get(conn, id);
+             if (u.getRole().equals("Aluno")) {
+		         Aluno aluno = AlunoDao.getByUsuario_id(conn, id);
+		         List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, id);
+		         
+		         Long idSecao = null;
+		         for (Secao secao : secoes) {
+		        	  if(secao.getTipo().equals("Licenças e Certificados")) {
+			    		    idSecao = secao.getId();
+			    	  		break;
+		        	  }
+		         }
+		         
+		         List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, idSecao);
+		         model.addAttribute("usuario", u);
+		         model.addAttribute("administrador", a);
+		         model.addAttribute("aluno", aluno);
+		         model.addAttribute("listaTopicos", topicos);
+		         model.addAttribute("idAluno", id);
+             }
+             
+             if (u.getRole().equals("Professor")) {
+		         Professor professor = ProfessorDao.getByUsuario_id(conn, id);
+		         List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, id);
+		         
+		         Long idSecao = null;
+		         for (Secao secao : secoes) {
+		        	  if(secao.getTipo().equals("Licenças e Certificados")) {
+			    		    idSecao = secao.getId();
+			    	  		break;
+		        	  }
+		         }
+		         
+		         List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, idSecao);
+		         model.addAttribute("usuario", u);
+		         model.addAttribute("administrador", a);
+		         model.addAttribute("professor", professor);
+		         model.addAttribute("listaTopicos", topicos);
+		         model.addAttribute("idUsuario", id);
+             }
+    	 
+	    	 if (u.getRole().equals("Empresa")) {
+		         Aluno aluno = AlunoDao.getByUsuario_id(conn, id);
+		         List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, id);
+		         
+		         Long idSecao = null;
+		         for (Secao secao : secoes) {
+		        	  if(secao.getTipo().equals("Licenças e Certificados")) {
+			    		    idSecao = secao.getId();
+			    	  		break;
+		        	  }
+		         }
+		         
+		         List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, idSecao);
+		         model.addAttribute("usuario", u);
+		         model.addAttribute("administrador", a);
+		         model.addAttribute("aluno", aluno);
+		         model.addAttribute("listaTopicos", topicos);
+		         model.addAttribute("idUsuario", id);
+             }
+         }
+    	 
+    	 catch(Exception e) {
+             return mostraPaginaDeErro(model, "Erro");
+         }
+    	    	
+    	    	    	
+    	 return "administrador/certificadosLicencasEditar";
+    }
+    
+    @PostMapping("/listar-certificados-licencas/editado")
+    public String validarCertificados(
+            @RequestParam(value = "idUsuario", required = false) Long idUsuario,
+            @RequestParam(value = "validacao", required = false, defaultValue = "false") Boolean validacao,
+            @RequestParam(value = "idTopico", required = false) Long idTopico,
+            Model model) {
+
+        if (idTopico == null) {
+            return mostraPaginaDeErro(model, "Tópico não encontrado");
+        }
+
+        try (Connection conn = ds.getConnection()) {
+            Topico topico = TopicoDao.getTopicoPorId(conn, idTopico);
+            if (topico != null) {
+                TopicoDao.validarTopico(conn, idTopico, validacao);
+                conn.commit();
+            } else {
+                return mostraPaginaDeErro(model, "Tópico não encontrado");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return mostraPaginaDeErro(model, "Erro ao atualizar no banco");
+        }
+
+        return "redirect:/administrador/listar-certificados-licencas/editar?id=" + idUsuario;
+    }
+
+
     
     @GetMapping("/listar-professores")
     public String listaProfessores(Model model, Principal principal) throws Exception {
@@ -530,7 +667,6 @@ public class AdministradorController {
     	 try(Connection conn = ds.getConnection())
          {
     		 
-    		 
     		 long id_conv = Long.parseLong(id);
     		 
     		 Professor p = ProfessorDao.get(conn, id_conv);
@@ -540,7 +676,7 @@ public class AdministradorController {
     		 }
     		 
     		 if (cpf != null && !cpf.isEmpty()) {    		 
-    			 p.setCpf(cpf);    	
+    			 p.getCpf();
     			 UsuarioDao.updateForNome(conn, p.getUsuario_id(), cpf);
     		 }
     		    		 
@@ -574,5 +710,3 @@ public class AdministradorController {
     }
     
 }
-
-
