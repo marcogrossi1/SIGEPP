@@ -45,6 +45,7 @@
                     <p><strong>Cursos: </strong></p>
                     <div th:each="curso : ${projeto.cursos}" class="tag" ><span th:text="${curso.nomeCurso}"></span></div>
                     <div class="opcoes">
+                        <a th:href="@{/projeto/professor/candidatos/{id}(id=${projeto.id})}" class="botao-projeto" id="botao-projeto-ver">Ver Candidatos</a>
                         <a th:href="@{/professor/editarProjeto?id={id}(id=${projeto.id})}" class="botao-editar">Editar projeto</a>
                         <form th:action="@{/professor/projetos/deletarProjeto?id={id}(id=${projeto.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja deletar este projeto?');">
                             <input type="hidden" name="_method" value="delete"/>
