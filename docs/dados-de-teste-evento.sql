@@ -1,0 +1,1 @@
+INSERT INTO EventoProjeto (mensagem, dateExpiracao, status, projeto_id) VALUES ('Evento de Teste', DATE_ADD(NOW(), INTERVAL 30 DAY), 'ATIVO', 1);
