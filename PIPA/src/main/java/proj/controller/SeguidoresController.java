@@ -50,7 +50,7 @@ public class SeguidoresController {
                        alunos.add(AlunoDao.getByUsuario_id(conn, seguidor.getId()));
                     
                     else if(seguidor.getRole().equals("Empresa")){
-                        Empresa e = EmpresaDao.getByCnpj(conn, seguidor.getNome());
+                        Empresa e = EmpresaDao.getByUsuario_id(conn, seguidor.getId());
                         empresas.add(e);
                     }
 
@@ -58,6 +58,7 @@ public class SeguidoresController {
                         professores.add( ProfessorDao.getByUsuario_id(conn, seguidor.getId()) );
                     }
                 }
+                
                 model.addAttribute("Alunos", alunos);
                 model.addAttribute("Empresas", empresas);
                 model.addAttribute("Professores", professores);
@@ -152,7 +153,7 @@ public class SeguidoresController {
             }
         }
         catch(Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             model.addAttribute("message", e.getMessage());
             return "erro";
         }
@@ -163,7 +164,6 @@ public class SeguidoresController {
         Seguidores s;
         
         try (Connection conn = ds.getConnection()) {
-            //retorna o usuário que faz a requisição
             
             s = SeguidoresDao.listSeguidos( conn, usuario_id);
                 
@@ -175,12 +175,12 @@ public class SeguidoresController {
             }
 
             else{
-                model.addAttribute("message", "Nenhum seguidor encontrado");
+                model.addAttribute("message", "Nenhum seguido encontrado");
                 return "followingMessage";
             }
         }
         catch(Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             model.addAttribute("message", e.getMessage());
             return "erro";
         }
