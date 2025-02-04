@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -232,6 +233,7 @@ public class EmpresaDao extends AbstractDaoBase {
 			ps.setString(6, vo.getTelefone());
 			ps.setString(7, vo.getEmail());
 			ps.executeUpdate();
+			conn.commit();
 			rs = ps.getGeneratedKeys();
 			if (rs.next()) {
 				int id = rs.getInt(1);
@@ -332,6 +334,25 @@ public class EmpresaDao extends AbstractDaoBase {
 	        }
 	        catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
 	        finally{closeResource(ps); ps = null; }
+	    }
+	    
+	    public static List<Empresa> findByName(Connection conn, String nome) throws SQLException {
+	        List<Empresa> empresas = new ArrayList<>();
+	        String sql = "SELECT * FROM empresa WHERE nome LIKE ?";
+	        
+	        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+	            stmt.setString(1, "%" + nome + "%");
+	            try (ResultSet rs = stmt.executeQuery()) {
+	                while (rs.next()) {
+	                    Empresa empresa = new Empresa();
+	                    empresa.setId(rs.getInt("id"));
+	                    empresa.setNome(rs.getString("nome"));
+	                    // Preencha com outros campos necessários
+	                    empresas.add(empresa);
+	                }
+	            }
+	        }
+	        return empresas;
 	    }
 	    
 }

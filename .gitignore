@@ -1,0 +1,3 @@
+PIPA/src/main/java/proj/ui/model/PesquisaFiltrosProjeto.java
+PIPA/src/main/java/proj/ui/model/PesquisaNomeProjeto.java
+PIPA/src/main/resources/templates/pesquisa/pesquisaDeProjetos.html

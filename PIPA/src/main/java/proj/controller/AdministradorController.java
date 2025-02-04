@@ -241,21 +241,27 @@ public class AdministradorController {
     }
     
     @GetMapping("/listar-certificados-licencas")
-    public String listarUsuariosComSecoes(Model model, Principal principal) throws Exception {
-        try (Connection conn = ds.getConnection()) {
+    public String listaCertificadosLicencas(Model model, Principal principal) throws Exception {
+        try(Connection conn = ds.getConnection()) {
             Usuario u = UsuarioDao.getByNome(conn, principal.getName());
             Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
-
-            ArrayList<Aluno> alunos = AdministradorDao.listAlunosComSecoes(conn);
-            ArrayList<Professor> professores = AdministradorDao.listProfessoresComSecoes(conn);
+            
+            ArrayList<Aluno> alunos = AdministradorDao.listAlunos(conn);
+            ArrayList<Professor> professores = AdministradorDao.listProfessores(conn);
+            List<Object> usuarios = new ArrayList<>();
+            usuarios.addAll(alunos);
+            usuarios.addAll(professores);
 
             model.addAttribute("usuario", u);
             model.addAttribute("administrador", a);
             model.addAttribute("listaAlunos", alunos);
             model.addAttribute("listaProfessores", professores);
+            model.addAttribute("listaUsuarios", usuarios);
 
             return "administrador/certificadosLicencas";
-        } catch (Exception e) {
+        }
+
+        catch(Exception e) {
             return "erro";
         }
     }
@@ -266,27 +272,67 @@ public class AdministradorController {
     	
     	 try(Connection conn = ds.getConnection())
          {
-    		 Usuario u = UsuarioDao.getByNome(conn, principal.getName());
-             Administrador a = AdministradorDao.getByCpf(conn, principal.getName());
-
-             Aluno aluno = AlunoDao.getByUsuario_id(conn, id);
-             List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, id);
-             
-             Long idSecao = null;
-             for (Secao secao : secoes) {
-            	  if(secao.getTipo().equals("Licenças e Certificados")) {
-		    		    idSecao = secao.getId();
-		    	  		break;
-            	  }
+    		 Usuario u = UsuarioDao.get(conn, id);
+             Administrador a = AdministradorDao.get(conn, id);
+             if (u.getRole().equals("Aluno")) {
+		         Aluno aluno = AlunoDao.getByUsuario_id(conn, id);
+		         List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, id);
+		         
+		         Long idSecao = null;
+		         for (Secao secao : secoes) {
+		        	  if(secao.getTipo().equals("Licenças e Certificados")) {
+			    		    idSecao = secao.getId();
+			    	  		break;
+		        	  }
+		         }
+		         
+		         List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, idSecao);
+		         model.addAttribute("usuario", u);
+		         model.addAttribute("administrador", a);
+		         model.addAttribute("aluno", aluno);
+		         model.addAttribute("listaTopicos", topicos);
+		         model.addAttribute("idAluno", id);
              }
              
-             List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, idSecao);
-             model.addAttribute("usuario", u);
-             model.addAttribute("administrador", a);
-             model.addAttribute("aluno", aluno);
-             model.addAttribute("listaTopicos", topicos);
-             model.addAttribute("idAluno", id);
-
+             if (u.getRole().equals("Professor")) {
+		         Professor professor = ProfessorDao.getByUsuario_id(conn, id);
+		         List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, id);
+		         
+		         Long idSecao = null;
+		         for (Secao secao : secoes) {
+		        	  if(secao.getTipo().equals("Licenças e Certificados")) {
+			    		    idSecao = secao.getId();
+			    	  		break;
+		        	  }
+		         }
+		         
+		         List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, idSecao);
+		         model.addAttribute("usuario", u);
+		         model.addAttribute("administrador", a);
+		         model.addAttribute("professor", professor);
+		         model.addAttribute("listaTopicos", topicos);
+		         model.addAttribute("idUsuario", id);
+             }
+    	 
+	    	 if (u.getRole().equals("Empresa")) {
+		         Aluno aluno = AlunoDao.getByUsuario_id(conn, id);
+		         List<Secao> secoes = SecaoDao.listarSecoesPorUsuarioId(conn, id);
+		         
+		         Long idSecao = null;
+		         for (Secao secao : secoes) {
+		        	  if(secao.getTipo().equals("Licenças e Certificados")) {
+			    		    idSecao = secao.getId();
+			    	  		break;
+		        	  }
+		         }
+		         
+		         List<Topico> topicos = TopicoDao.listarTopicosPorSecaoId(conn, idSecao);
+		         model.addAttribute("usuario", u);
+		         model.addAttribute("administrador", a);
+		         model.addAttribute("aluno", aluno);
+		         model.addAttribute("listaTopicos", topicos);
+		         model.addAttribute("idUsuario", id);
+             }
          }
     	 
     	 catch(Exception e) {
@@ -299,7 +345,7 @@ public class AdministradorController {
     
     @PostMapping("/listar-certificados-licencas/editado")
     public String validarCertificados(
-            @RequestParam(value = "idAluno", required = false) long idAluno,
+            @RequestParam(value = "idUsuario", required = false) Long idUsuario,
             @RequestParam(value = "validacao", required = false, defaultValue = "false") Boolean validacao,
             @RequestParam(value = "idTopico", required = false) Long idTopico,
             Model model) {
@@ -321,8 +367,9 @@ public class AdministradorController {
             return mostraPaginaDeErro(model, "Erro ao atualizar no banco");
         }
 
-        return "redirect:/administrador/listar-certificados-licencas/editar?id=" + idAluno;
+        return "redirect:/administrador/listar-certificados-licencas/editar?id=" + idUsuario;
     }
+
 
     
     @GetMapping("/listar-professores")
