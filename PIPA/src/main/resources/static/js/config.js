@@ -2044,7 +2044,7 @@ secoes.forEach(secao => {
 		
 			        containerLogoTexto.appendChild(buttonAbrirArquivo);
 					
-					/*let verificadoDiv = document.createElement('div');
+					let verificadoDiv = document.createElement('div');
 					verificadoDiv.className = 'verificado-container';
 
 					let verificadoImg = document.createElement('img');
@@ -2074,7 +2074,7 @@ secoes.forEach(secao => {
 						verificadoTexto.style.display = 'none';
 					});
 
-					containerLogoTexto.appendChild(verificadoDiv);*/
+					containerLogoTexto.appendChild(verificadoDiv);
 		
 					buttonAbrirArquivo.addEventListener('click', function() {
 					    if (arquivoTopico) {
