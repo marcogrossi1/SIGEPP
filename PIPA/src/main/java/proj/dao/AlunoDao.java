@@ -115,7 +115,6 @@ public class AlunoDao {
                 }
             }
         }
-   
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
