@@ -117,13 +117,11 @@ public class PesquisaGeralController {
 	        if (pesqNome == null || pesqNome.getNome() == null || pesqNome.getNome().trim().isEmpty()) {
 	            // Se não foi passado nenhum nome, carrega todos os usuários
 	            usuarios.addAll(AlunoDao.list(conn));
-	            usuarios.addAll(ProfessorDao.list(conn));
 	            usuarios.addAll(AdministradorDao.list(conn));
 	        } else {
 	            // Se um nome foi fornecido, filtra os usuários
 	            String nomePesquisa = pesqNome.getNome().trim();
 	            usuarios.addAll(AlunoDao.findByName(conn, nomePesquisa));
-	            usuarios.addAll(ProfessorDao.findByName(conn, nomePesquisa));
 	            usuarios.addAll(AdministradorDao.findByName(conn, nomePesquisa));
 
 	            if (usuarios.isEmpty()) {
