@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" th:href="@{/img/icon.png}">
+    <title>Professor - Home</title>
+</head>
+
+<body>
+    <header>
+        <a href="/professor"><img id="logo" th:src="@{/img/logo.png}"></a>
+        <h1 id="titulo-plataforma">PIPA | Home</h1>
+    </header>
+
+    <!--<nav>
+        <p th:text="${professor.nome}"></p>
+        <a href="link" class="icone">
+            <img th:src="@{/img/icone-perfil.png}">
+            <label>Perfil</label>
+        </a>
+        <a th:href="@{/professor/projetos?id={id}(id=${professor.id})}" class="icone">
+            <img th:src="@{/img/icone-maleta.png}">
+            <label>Projetos</label>
+        </a>
+    </nav>-->
+
+    <main>
+        <form th:action="@{/eventos/criar}" th:object="${eventoProjeto}" method="post">
+            <label for="nomeProjeto">Projeto:</label>
+            <input type="text" id="nomeProjeto" th:value="${projeto.nome}" disabled>
+            
+            <label for="idProjeto">Id:</label>
+            <input type="number" id="idProjeto" th:field="*{projeto_id}"><br/><br/>
+
+            <label for="mensagem">Mensagem:</label>
+            <textarea th:field="*{mensagem}" id="mensagem" required></textarea><br/><br/>
+    
+            <label for="status">Status:</label>
+            <select id="status" th:field="*{status}" required>
+                <option value="" disabled selected>Select Status</option>
+                <option value="ATIVO">Em andamento</option>
+                <option value="RASCUNHO">Rascunho</option>
+            </select><br/><br/>
+
+            <label for="dExpiracao">Data de Término:</label>
+            <input type="date" th:field="*{dateExpiracao}" id="dExpiracao" required>
+                    
+            <label for="imagem">Upload File:</label>
+            <input type="file" id="imagem" th:field="*{imagem}" maxlength="8388608"/>
+                    
+            <button type="submit">Criar Evento</button>
+        </form>
+    </main>
+
+</body>
+
+</html>

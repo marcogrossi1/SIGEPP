@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="icon" href="img/icon.png">
+<title>Professor - Home</title>
+</head>
+
+<body>
+    <style>
+        span > img {
+            max-width: 400px;    
+        }
+        span{
+            margin: auto;
+        }
+    </style>
+
+    <header>
+        <a href="/professor"><img id="logo" th:src="@{/img/logo.png}"></a>
+        <h1 id="titulo-plataforma">PIPA | Home</h1>
+    </header>
+
+
+	<!--<nav>
+		<p th:text="${professor.nome}"></p>
+		<a href="link" class="icone"> <img
+			th:src="@{/img/icone-perfil.png}"> <label>Perfil</label>
+		</a> <a th:href="@{/professor/projetos?id={id}(id=${professor.id})}"
+			class="icone"> <img th:src="@{/img/icone-maleta.png}"> <label>Projetos</label>
+		</a>
+	</nav>-->
+
+<main>
+    <a th:href="@{eventos/criar(id=${projeto.id})}" class="botao-projeto" id="botao-projeto-editar">Novo Evento</a> 
+    <div th:if="${Eventos != null && !Eventos.isEmpty()}">
+        <div th:each="evento : ${Eventos}">
+            <section class="projeto">
+                
+                <h2 id="subtitulo-portal" th:text="${evento.id}"></h2>
+                <p><strong>Status:</strong> <span th:text="${evento.status.toString().toLowerCase()}"></span></p>
+                <p><strong>Mensagem:</strong> <span th:text="${evento.mensagem}"></span></p>
+                <p><strong>Data Criação</strong> <span th:text="${evento.datePublicacao}"></span></p>
+                <p><strong>Data Finalização:</strong> <span th:text="${evento.dateExpiracao}"></span></p>
+                <p><strong>Imagem:</strong> </p> <span th:if="${imagens.get(evento.id) != null}"><img th:src="${'data:image/jpeg;base64,' + imagens.get(evento.id)}"></span>
+                    <div class="opcoes">
+                    <form th:action="@{/eventos/deletar?id={id}(id=${evento.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja deletar este Evento?');">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button class="botao-projeto" id="botao-projeto-excluir" type="submit">Deletar projeto</button>
+                    </form>
+
+                    </div>
+            </section>
+        </div>
+    </div>
+
+    <div th:if="${Eventos == null || Eventos.isEmpty()}">
+        <p style="text-align: center;">Nenhum Evento encontrado.</p>
+    </div>
+</main>
+</body>
+</html>

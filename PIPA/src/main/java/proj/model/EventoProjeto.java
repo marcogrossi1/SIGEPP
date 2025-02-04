@@ -2,54 +2,52 @@ package proj.model;
 
 import java.util.Date;
 
-enum StatusEvento{
-    ATIVO, 
-    ARQUIVADO,
-    RASCUNHO
-}
-
-
 public class EventoProjeto {
     
-    private Projeto projeto;
+    private long id;
+    private long projeto_id;
     private Date dateExpiracao;
     private Date datePublicacao;
     private String mensagem;
     private StatusEvento status;
+    private byte[] imagem;
 
-    public EventoProjeto(Projeto projeto, String mensagem) {
+    public EventoProjeto(){}
 
-        this.projeto = projeto;
+    public EventoProjeto(long id, long projeto_id, String mensagem, Date datePublicacao, Date dateExpiracao) {
+
+        this.projeto_id = projeto_id;
         this.mensagem = mensagem;
         this.status = StatusEvento.RASCUNHO;
-        this.dateExpiracao = null;
-        this.datePublicacao = null;
+        this.dateExpiracao = new Date(dateExpiracao.getTime());
+        this.datePublicacao = new Date(datePublicacao.getTime());
     }
 
-    public EventoProjeto(Projeto projeto, String mensagem, StatusEvento status) {
+    public EventoProjeto(long id, long projeto_id, String mensagem, StatusEvento status, Date datePublicacao, Date dateExpiracao) {
 
-        this.projeto = projeto;
+        this.projeto_id = projeto_id;
         this.mensagem = mensagem;
         this.status = status;
-        this.dateExpiracao = null;
-        this.datePublicacao = null;
+        this.dateExpiracao = new Date(dateExpiracao.getTime());
+        this.datePublicacao = new Date(datePublicacao.getTime());
     }
 
-    public Projeto getProjeto() {
-        return projeto;
+    public long getId() {
+        return id;
     }
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
+
+    public void setId(long id) {
+        this.id = id;
     }
-    public Date getDataExpiracao() {
+
+    public Date getDateExpiracao() {
         return dateExpiracao;
     }
-    public void setDataExpiracao(Date dateExpiracao) {
-        this.dateExpiracao = dateExpiracao;
-    }
+
     public String getMensagem() {
         return mensagem;
     }
+        
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
     }
@@ -59,5 +57,33 @@ public class EventoProjeto {
     public void setStatus(StatusEvento status) {
         this.status = status;
     }
-    
+
+    public Date getDatePublicacao() {
+        return datePublicacao;
+    }
+
+    public long getProjeto_id() {
+        return projeto_id;
+    }
+
+    public void setProjeto_id(long projeto_id) {
+        this.projeto_id = projeto_id;
+    }
+
+    public void setDatePublicacao(Date datePublicacao) {
+        this.datePublicacao = datePublicacao;
+    }
+
+    public void setDateExpiracao(Date dateExpiracao) {
+        this.dateExpiracao = dateExpiracao;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
+    }
+
 }
