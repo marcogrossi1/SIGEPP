@@ -122,25 +122,40 @@ public class ProfessorDao {
         finally{closeResource(ps,rs); ps = null;rs = null; }
     }
 
-    public static void insert(Connection conn, Professor vo)
-        throws SQLException
-    {
+    public static void insert(Connection conn, Professor vo) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             ps = conn.prepareStatement(insertsql, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(1, vo.getNome());
-            ps.setLong(2, vo.getUsuario_id());
+            ps.setString(1, vo.getCpf());
+            ps.setString(2, vo.getNome());
+            ps.setString(3, vo.getEmail());
+            ps.setString(4, vo.getTelefone());
+            ps.setBytes(5, vo.getFotoPerfil());
+            ps.setBytes(6, vo.getBannerPerfil());
+            ps.setString(7, vo.getDescricaoPerfil());
+            ps.setLong(8, vo.getUsuario_id());
             ps.executeUpdate();
+            conn.commit();
             rs = ps.getGeneratedKeys();
             if (rs.next()) {
-            long id = rs.getLong(1);
-            vo.setId(id);
-            }else { throw new SQLException("Nao foi possivel recuperar a CHAVE gerada na criacao do registro no banco de dados");} 
+                long id = rs.getLong(1);
+                vo.setId(id);
+            } else {
+                throw new SQLException("Nao foi possivel recuperar a CHAVE gerada na criacao do registro no banco de dados");
+            }
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            throw e;
+        } finally {
+            closeResource(ps, rs);
         }
-        catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
-        finally{closeResource(ps,rs); ps = null;rs = null; }
     }
+    
 
     public static void update(Connection conn, Professor vo)
         throws NotFoundException, SQLException
