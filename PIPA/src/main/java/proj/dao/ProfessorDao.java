@@ -7,9 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
-import proj.model.Aluno;
-import proj.model.Empresa;
 import proj.model.Professor;
 import proj.model.Usuario;
 
@@ -245,6 +244,25 @@ public class ProfessorDao {
 	        }
 	        catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
 	        finally{closeResource(ps); ps = null; }
+	    }
+	    
+	    public static List<Professor> findByName(Connection conn, String nome) throws SQLException {
+	        List<Professor> professores = new ArrayList<>();
+	        String sql = "SELECT * FROM professor WHERE nome LIKE ?";
+	        
+	        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+	            stmt.setString(1, "%" + nome + "%");
+	            try (ResultSet rs = stmt.executeQuery()) {
+	                while (rs.next()) {
+	                    Professor professor = new Professor();
+	                    professor.setId(rs.getInt("id"));
+	                    professor.setNome(rs.getString("nome"));
+	                    // Preencha com outros campos necessários
+	                    professores.add(professor);
+	                }
+	            }
+	        }
+	        return professores;
 	    }
 
 }

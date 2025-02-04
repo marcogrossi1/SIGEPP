@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import proj.model.Aluno;
 import proj.model.Estagio;
@@ -977,6 +978,25 @@ public class AlunoDao {
             closeResource(ps);
             ps = null;
         }
+    }
+    
+    public static List<Aluno> findByName(Connection conn, String nome) throws SQLException {
+        List<Aluno> alunos = new ArrayList<>();
+        String sql = "SELECT * FROM aluno WHERE nome LIKE ?";
+        
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, "%" + nome + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Aluno aluno = new Aluno();
+                    aluno.setId(rs.getInt("id"));
+                    aluno.setNome(rs.getString("nome"));
+                    // Preencha com outros campos necessários
+                    alunos.add(aluno);
+                }
+            }
+        }
+        return alunos;
     }
 
 }

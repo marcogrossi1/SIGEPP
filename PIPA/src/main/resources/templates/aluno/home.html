@@ -9,21 +9,39 @@
     <title>Portal</title>
 </head>
 <body>
-    <header>
-        <a href="/aluno"><img id="logo" src="../img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+	<header>
+        <div th:switch="${usuario.role}">
+            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Professor'" href="/professor"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
         <h1 id="titulo-plataforma" >PIPA | Portal</h1>
     </header>
 
-    <nav>
-		<p id="nome-no-portal" th:text="${aluno.nome}"></p>
-		  <a href="/notificacoes" class="icone" id="icone-portal">
-    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
-    <label>Notificações</label>
-        <a th:href="@{/perfil(id=${aluno.id})}" class="icone" id="icone-portal">
+    <nav id="nav-comeco">
+        <div th:switch="${usuario.role}">
+            <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Professor'"><span th:text="${professor.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+           <a href="/notificacoes" class="icone" id="icone-portal">
+			    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+			    <label>Notificações</label>
+    		</a>
+		<a th:href="@{/perfil(id=${aluno.id})}" class="icone" id="icone-portal">
             <img src="../img/icone-perfil.png">
             <label>Perfil</label>
-</a>
-    </nav>    
+		</a>
+		<a th:href="@{/pesquisa-usuario/listaausuarios}" class="icone" id="icone-portal">
+            <img src="../img/lupa.png">
+            <label>Pesquisa</label>
+		</a>
+    </nav>
+	    
     <main>
         <h2 id="subtitulo-portal">Navegue pelo site</h2>
         <br>

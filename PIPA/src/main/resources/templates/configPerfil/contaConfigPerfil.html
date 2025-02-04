@@ -12,18 +12,43 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 </head>
 <body>
-    <header>
-        <a th:href="@{/perfil-aluno(id=${aluno.id})}"><img id="logo" src="../img/logo.png" alt="Logo"></a>
-        <h1 id="titulo-plataforma">PIPA | Configurações</h1>
+	<header>
+        <div th:switch="${usuario.role}">
+            <a th:case="'Administrador'" href="/administrador"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Aluno'" href="/aluno"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Professor'" href="/professor"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <a th:case="'Empresa'" href="/empresa"><img id="logo" src="/img/logo.png"></a> <!--Clique na logo para retornar à página inicial-->
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+        <h1 id="titulo-plataforma" >PIPA | Portal</h1>
     </header>
+
+    <nav id="nav-comeco">
+        <div th:switch="${usuario.role}">
+            <p id="nome-no-portal" th:case="'Administrador'"><span th:text="${administrador.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Aluno'"><span th:text="${aluno.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Professor'"><span th:text="${professor.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'Empresa'"><span th:text="${empresa.nome}"></span></p>
+            <p id="nome-no-portal" th:case="'*'"></p>
+        </div>
+           <a href="/notificacoes" class="icone" id="icone-portal">
+			    <img th:src="@{${temNotificacoesNaoLidas} ? '../img/balao-de-fala-vermelho.png' : '../img/balao-de-fala.png'}" />
+			    <label>Notificações</label>
+    		</a>
+		<a th:href="@{/perfil(id=${usuario.id})}" class="icone" id="icone-portal">
+            <img src="../img/icone-perfil.png">
+            <label>Perfil</label>
+		</a>
+		<a th:href="@{/pesquisa-usuario/listaausuarios}" class="icone" id="icone-portal">
+            <img src="../img/lupa.png">
+            <label>Pesquisa</label>
+		</a>
+    </nav>  
 
     <div class="menu-container">
         <div id="menu-config">
             <ul class="menu-list">
-                <li><a th:href="@{/configPerfil/contaConfigPerfil(id=${aluno.id})}">Conta</a></li>
-                <li><a href="http://localhost:8080/aluno/notificacaoConfigPerfil">Notificações</a></li>
-                <li><a href="http://localhost:8080/aluno/privacidadeConfigPerfil">Privacidade</a></li>               
-                <li><a href="http://localhost:8080/aluno/preferenciasConfigPerfil">Preferências</a></li>			
+                <li><a th:href="@{/configPerfil/contaConfigPerfil(id=${usuario.id})}">Conta</a></li>			
             </ul>
         </div>
 
@@ -105,10 +130,36 @@
 			    <label for="periodo-ano-letivo">Período/ano letivo:</label>
 			    <input class="conta-config" type="text" id="periodo-ano-letivo" name="periodo" th:placeholder="${periodo}">
 			</form>
-			<button type="button" class="botoes-perfil" id="botao-apagar-conta">APAGAR CONTA</button>
 			<button type="button" class="botoes-perfil" id="botao-concluir-config-conta">SALVAR ALTERAÇÕES</button>
         </main>
     </div>
+	
+	<script th:inline="javascript">
+		let u = /*[[${u}]]*/ {};
+		let usuarioId = /*[[${usuarioId}]]*/ {};
+		let usuario = /*[[${usuario}]]*/ {};
+		
+		let idVisitante = /*[[${idVisitante}]]*/ {};
+		
+		let qtdSecoesTextoLivre = /*[[${qtdSecoesTextoLivre} ?: 0]]*/ 0;
+		let qtdSecoesProjetosConcluidos = /*[[${qtdSecoesProjetosConcluidos} ?: 0]]*/ 0;
+		let qtdSecoesLicencasECertificados = /*[[${qtdSecoesLicencasECertificados} ?: 0]]*/ 0;
+		
+		let qtdTopicos = /*[[${qtdTopicos} ?: 0]]*/ 0;
+		
+		let secoes = /*[[${secoes}]]*/ '[]';
+		
+		let topicos = /*[[${topicos}]]*/ '[]';
+		
+        let projetos = /*[[${projetos}]]*/ '[]';
+        let estagios = /*[[${estagios}]]*/ '[]';
+
+		secoes = JSON.parse(secoes);
+	    topicos = JSON.parse(topicos);
+        projetos = JSON.parse(projetos);
+        estagios = JSON.parse(estagios);
+	</script>
+	
 	<script src="../js/paginaConfig.js"></script>
 </body>
 </html>

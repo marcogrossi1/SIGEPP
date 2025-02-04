@@ -27,10 +27,13 @@ function submeterFormulariosPerfil() {
 
 function mostrarEditaveis() {
     campoDescricao.disabled = false;
+	campoDescricao.style.border = '2px #000000 solid';
     inputFotoPerfil.disabled = false;
     inputBanner.disabled = false;
 	fotoPerfil.style.cursor = 'pointer';
 	banner.style.cursor = 'pointer';
+	document.getElementById('link-topo').style.display = 'none';
+	document.getElementById('botao-avaliacao').style.display = 'none';
 
     let botaoApagar = document.querySelectorAll('.seccao-botao-apagar');
     let botaoCriarTopico = document.querySelectorAll('.seccao-botao-criar-topico');
@@ -69,14 +72,16 @@ function mostrarEditaveis() {
     }
 }
 
-
 function esconderEditaveis() {
     campoDescricao.disabled = true;
+	campoDescricao.style.border = 'none';
     inputFotoPerfil.disabled = true;
     inputBanner.disabled = true;
     botaoSeccao.style.display = 'none';
 	fotoPerfil.style.cursor = 'none';
 	banner.style.cursor = 'none';
+	document.getElementById('link-topo').style.display = 'block';
+	document.getElementById('botao-avaliacao').style.display = 'block';
 
 	let botaoApagar = document.querySelectorAll('.seccao-botao-apagar');
     let botaoCriarTopico = document.querySelectorAll('.seccao-botao-criar-topico');
@@ -153,21 +158,31 @@ botaoSeccao.addEventListener('click', function() {
 
         let catalogoSeccao = document.createElement('div');
         catalogoSeccao.id = 'catalogo-seccao';
-		
-		let conteudoCatalogo = `
-            <button id="fecharCatalogo">X</button>
-            <button id="adicionar-texto-livre">Texto Livre ${qtdSecoesTextoLivre} / 10</button>
+        
+        let conteudoCatalogo = `
+            <button id="fecharCatalogo" class="botao-catalogo">X</button>
+            <button id="adicionar-texto-livre" class="botao-catalogo">
+                <img src="../img/texto.png" alt="Texto Livre" />
+                Texto Livre ${qtdSecoesTextoLivre} / 10
+            </button>
         `;
 
         if (usuario.role === "Aluno") {
-            conteudoCatalogo += `<button id="adicionar-projetos-concluidos">Projetos Concluídos ${qtdSecoesProjetosConcluidos} / 1</button>`;
+            conteudoCatalogo += `<button id="adicionar-projetos-concluidos" class="botao-catalogo">
+                                    <img src="../img/projeto-icon.png" alt="Projetos Concluídos" />
+                                    Projetos Concluídos ${qtdSecoesProjetosConcluidos} / 1
+                                  </button>`;
         }
 
         conteudoCatalogo += `
-            <button id="adicionar-licencas-certificados">Licenças e Certificados ${qtdSecoesLicencasECertificados} / 1</button>
-            <button id="adicionar-desenho">Desenho</button>
-            <button id="adicionar-foto">Foto</button>
-            <button id="adicionar-video">Vídeo</button>
+            <button id="adicionar-licencas-certificados" class="botao-catalogo">
+                <img src="../img/certificado-icon.png" alt="Licenças e Certificados" />
+                Licenças e Certificados ${qtdSecoesLicencasECertificados} / 1
+            </button>
+            <button id="adicionar-desenho" class="botao-catalogo">
+                <img src="../img/desenho.png" alt="Desenho" />
+                Desenho
+            </button>
         `;
 
         catalogoSeccao.innerHTML = conteudoCatalogo;
@@ -178,18 +193,17 @@ botaoSeccao.addEventListener('click', function() {
             catalogoSeccao.remove();
         });
 
-	    document.getElementById('adicionar-texto-livre').addEventListener('click', function() {
-	        cont = true;
-			if(qtdSecoesTextoLivre < 10) {
-        		criarSecao('Texto Livre');
-				catalogoSeccao.remove();
-			}
-			else
-				alert("Quantidade máxima atingida!");
-	    });
-	
-	
-		if (usuario.role === "Aluno") {
+        document.getElementById('adicionar-texto-livre').addEventListener('click', function() {
+            cont = true;
+            if(qtdSecoesTextoLivre < 10) {
+                criarSecao('Texto Livre');
+                catalogoSeccao.remove();
+            }
+            else
+                alert("Quantidade máxima atingida!");
+        });
+
+        if (usuario.role === "Aluno") {
             document.getElementById('adicionar-projetos-concluidos').addEventListener('click', function() {
                 cont = true;
                 if(qtdSecoesProjetosConcluidos < 1) {
@@ -200,15 +214,15 @@ botaoSeccao.addEventListener('click', function() {
                 }
             });
         }
-		
+
         document.getElementById('adicionar-licencas-certificados').addEventListener('click', function() {
             cont = true;
-			if(qtdSecoesLicencasECertificados < 1) {
-        		criarSecao('Licenças e Certificados');
-				catalogoSeccao.remove();
-			}
-			else
-				alert("Quantidade máxima atingida!");
+            if(qtdSecoesLicencasECertificados < 1) {
+                criarSecao('Licenças e Certificados');
+                catalogoSeccao.remove();
+            }
+            else
+                alert("Quantidade máxima atingida!");
         });
 
         document.getElementById('adicionar-desenho').addEventListener('click', function() {
@@ -216,20 +230,10 @@ botaoSeccao.addEventListener('click', function() {
             cont = true;
             criarSecao('Desenho');
         });
-
-        document.getElementById('adicionar-foto').addEventListener('click', function() {
-            catalogoSeccao.remove();
-            cont = true;
-            criarSecao('Foto');
-        });
-
-        document.getElementById('adicionar-video').addEventListener('click', function() {
-            catalogoSeccao.remove();
-            cont = true;
-            criarSecao('Vídeo');
-        });
     }
 });
+
+
 
 let ordem = 0;
 
@@ -246,6 +250,7 @@ E NÃO ID DA SECAO PRA USAR NA RENDERIZAÇÃO!!! USAR SISTEMA DE DRAG QUE SÓ É
 //FAZER COM QUE BOTÔES DE EDITAR SECAO APARACE APÓS CLICAR EM BOTÃO DE EDITAR
 
 function criarSecao(tipo) {
+	document.getElementById('link-topo').style.display = 'none';
     let overlay = document.createElement('div');
     overlay.id = 'overlay';
 	
@@ -568,6 +573,7 @@ function criarSecao(tipo) {
 	fecharBotao.innerText = 'Fechar';
 	fecharBotao.style.marginRight = '10px';
 	fecharBotao.addEventListener('click', function () {
+		document.getElementById('link-topo').style.display = 'block';
 	    seccao.remove();
 		overlay.remove();
 	    botoesContainer.remove();
@@ -581,6 +587,7 @@ function criarSecao(tipo) {
 	salvarBotao.innerText = 'Salvar';
 	salvarBotao.type = 'submit';
 	salvarBotao.addEventListener('click', function () {
+		document.getElementById('link-topo').style.display = 'block';
 		if(tipo == "Desenho")
 			salvarNoInput();
 	    seccao.submit();
@@ -833,6 +840,7 @@ function criarSecao(tipo) {
 		fecharBotaoDesenho.innerText = 'Fechar';
 		fecharBotaoDesenho.style.marginRight = '10px';
 		fecharBotaoDesenho.addEventListener('click', function () {
+			document.getElementById('link-topo').style.display = 'block';
 		    seccao.remove();
 			overlay.remove();
 		    botoesContainerDesenho.remove();
@@ -854,6 +862,7 @@ function criarSecao(tipo) {
 	    salvarBotaoDesenho.type = 'submit';
 		
 	    salvarBotaoDesenho.addEventListener('click', function () {
+			document.getElementById('link-topo').style.display = 'block';
 			let inputDesenho = document.createElement('input');
 		    inputDesenho.type = "hidden";
 		    inputDesenho.name = "conteudoDesenho";
@@ -920,7 +929,7 @@ function criarSecao(tipo) {
 	        td5.innerText = projeto.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${usuarioId}`;
+			a.href = `/perfil/emite?id=${projeto.id}&tipo=projeto&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 			button.type = 'button';
@@ -952,7 +961,7 @@ function criarSecao(tipo) {
 	        td5.innerText = estagio.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${usuarioId}`;
+	        a.href = `/perfil/emite?id=${estagio.id}&tipo=estagio&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
@@ -1100,6 +1109,7 @@ function criarSecao(tipo) {
 }
 
 function editarSecao(secao, topicos) {
+	document.getElementById('link-topo').style.display = 'none';
 	let tipo = secao.tipo;
 	let titulo = secao.titulo;
 	let idSecao = secao.id;
@@ -1450,6 +1460,7 @@ function editarSecao(secao, topicos) {
 	fecharBotao.innerText = 'Fechar';
 	fecharBotao.style.marginRight = '10px';
 	fecharBotao.addEventListener('click', function () {
+		document.getElementById('link-topo').style.display = 'block';
 	    seccao.remove();
 		overlay.remove();
 	    botoesContainer.remove();
@@ -1462,6 +1473,7 @@ function editarSecao(secao, topicos) {
 	salvarBotao.innerText = 'Salvar';
 	salvarBotao.type = 'submit';
 	salvarBotao.addEventListener('click', function () {
+		document.getElementById('link-topo').style.display = 'block';
 	    seccao.submit();
 		seccao.remove();
 		overlay.remove();
@@ -1479,7 +1491,7 @@ function editarSecao(secao, topicos) {
 	
 	//MUDAR ISSO AQUI!
 	if (tipo === "Desenho") {
-		
+		//deixar titulo centralizado no meio pra salvar ele!
 	}
 	
     // Caso Projetos Concluídos
@@ -1528,7 +1540,7 @@ function editarSecao(secao, topicos) {
 	        td5.innerText = projeto.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${projeto.id}&tipo=projeto&aluno=${usuarioId}`;
+	        a.href = `/perfil/emite?id=${projeto.id}&tipo=projeto&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 			button.type = 'button';
@@ -1560,7 +1572,7 @@ function editarSecao(secao, topicos) {
 	        td5.innerText = estagio.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-	        a.href = `/aluno/emites?id=${estagio.id}&tipo=estagio&aluno=${usuarioId}`;
+	        a.href = `/perfil/emite?id=${estagio.id}&tipo=estagio&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
@@ -1764,15 +1776,16 @@ secoes.forEach(secao => {
 	
 	seccao.appendChild(botaoApagar);
 	
-	let botaoEditar = document.createElement('button');
-    botaoEditar.className = 'seccao-botao-editar';
+	if(secao.tipo != "Licenças e Certificados") {
+		let botaoEditar = document.createElement('button');
+		botaoEditar.className = 'seccao-botao-editar';
+		
+		botaoEditar.addEventListener('click', function () {
+			editarSecao(secao, topicos);
+		});
 	
-	botaoEditar.addEventListener('click', function () {
-		editarSecao(secao, topicos);
-	});
-	
-	seccao.appendChild(botaoEditar);
-	
+		seccao.appendChild(botaoEditar);
+	}
 	if (secao.tipo === "Texto Livre") {
         tituloPersonalizado = true;
 		criarTopico = true;
@@ -1852,7 +1865,7 @@ secoes.forEach(secao => {
 	        td5.innerText = projeto.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-			a.href = `/perfil-aluno/emite?id=${projeto.id}&tipo=projeto&aluno=${usuarioId}`;
+			a.href = `/perfil/emite?id=${projeto.id}&tipo=projeto&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
@@ -1883,7 +1896,7 @@ secoes.forEach(secao => {
 	        td5.innerText = estagio.cargaHoraria;
 	        let td6 = document.createElement('td');
 	        let a = document.createElement('a');
-			a.href = `/perfil-aluno/emite?id=${estagio.id}&tipo=estagio&aluno=${usuarioId}`;
+			a.href = `/perfil/emite?id=${estagio.id}&tipo=estagio&aluno=${usuarioId}`;
 	        let button = document.createElement('button');
 	        button.id = 'botao-certificado';
 	        button.innerText = 'Ver certificado';
