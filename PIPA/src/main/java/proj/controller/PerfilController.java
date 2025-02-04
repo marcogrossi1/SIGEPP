@@ -29,6 +29,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import proj.dao.AlunoDao;
 import proj.dao.AvaliacaoDao;
+import proj.dao.EmpresaDao;
 import proj.dao.EstagioDao;
 import proj.dao.HDataSource;
 import proj.dao.ProfessorDao;
@@ -39,6 +40,7 @@ import proj.dao.TopicoDao;
 import proj.dao.UsuarioDao;
 import proj.model.Aluno;
 import proj.model.Avaliacao;
+import proj.model.Empresa;
 import proj.model.Estagio;
 import proj.model.Professor;
 import proj.model.Projeto;
@@ -72,6 +74,13 @@ public class PerfilController {
 	            } else if (usuario.getRole().equals("Professor")) {
 	                Professor professor = ProfessorDao.getByUsuario_id(conn, a.getUsuarioId());
 	                nomeReal = professor.getNome();
+	            } else if (usuario.getRole().equals("Empresa")) {
+	                Empresa empresa = EmpresaDao.getByUsuario_id(conn, a.getUsuarioId());
+	                nomeReal = empresa.getNome();
+	            } else if (usuario.getRole().equals("Administrador")) {
+	                nomeReal = "ADMINISTRADOR";
+	            } else {
+	                nomeReal = usuario.getNome(); 
 	            }
 
 	            a.setNomeUsuario(nomeReal); 

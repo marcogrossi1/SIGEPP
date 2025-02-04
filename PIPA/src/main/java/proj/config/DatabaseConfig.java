@@ -15,7 +15,7 @@ public class DatabaseConfig {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/pipa?createDatabaseIfNotExist=true&characterEncoding=UTF-8");
         dataSource.setUsername("root");
-        dataSource.setPassword("");
+        dataSource.setPassword("admin");
         return dataSource;
     }
 

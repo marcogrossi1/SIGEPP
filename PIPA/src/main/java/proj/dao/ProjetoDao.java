@@ -251,6 +251,7 @@ public class ProjetoDao {
                 removerCandidaturasdoProjeto(conn, id);
                 removerCursosdoProjeto(conn, id);
                 removerAlunodoProjeto(conn, id);
+                removerDocumentosDoProjeto(conn, id);
 		
                 Projeto p = ProjetoDao.get(conn, id);
 
@@ -502,6 +503,20 @@ public class ProjetoDao {
      */
     public static void removerAlunodoProjeto(Connection conn, int projetoId) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("DELETE FROM Aluno_has_Projeto WHERE projeto_id = ?")) {
+            ps.setInt(1, projetoId);
+            ps.executeUpdate();
+        }
+    }
+
+    /**
+     * Remove os documentos relacionados a um projeto da tabela 
+     *
+     * @param conn      A conexão com o banco de dados.
+     * @param projetoId O ID do projeto.
+     * @throws SQLException Se ocorrer um erro durante a remoção.
+     */
+    public static void removerDocumentosDoProjeto(Connection conn, int projetoId) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM documentoP WHERE id_projeto = ?")) {
             ps.setInt(1, projetoId);
             ps.executeUpdate();
         }

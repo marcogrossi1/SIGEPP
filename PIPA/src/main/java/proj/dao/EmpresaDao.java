@@ -233,6 +233,7 @@ public class EmpresaDao extends AbstractDaoBase {
 			ps.setString(6, vo.getTelefone());
 			ps.setString(7, vo.getEmail());
 			ps.executeUpdate();
+			conn.commit();
 			rs = ps.getGeneratedKeys();
 			if (rs.next()) {
 				int id = rs.getInt(1);

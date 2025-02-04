@@ -135,8 +135,6 @@ public class EmpresaController {
                 if(AlunoDao.getProgressoEstagio(conn, alunoId, estagioId) != Progresso.PENDENTE)
                     return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
                 AlunoDao.setProgresso(conn, alunoId, estagioId, Progresso.APROVADO);
-                DocumentoId documentoid = new DocumentoId(alunoId, estagioId);
-                documentoDao.deletarPorId(documentoid);
                 conn.commit();
                 notificacaoService.salvarNotificacao(AlunoDao.get(conn, alunoId).getUsuario_id(), "Inscrição aprovada no estágio da empresa " + est.getEmpresa());
                 return "redirect:/empresa/candidatos-estagio?n=" + estagioId;
@@ -157,6 +155,14 @@ public class EmpresaController {
                 if(AlunoDao.getProgressoEstagio(conn, alunoId, estagioId) != Progresso.APROVADO)
                     return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
                 AlunoDao.setProgresso(conn, alunoId, estagioId, Progresso.CONCLUIDO);
+                String str = EstagioDao.get(conn, estagioId).getDocumentos();
+                if(str != null && !str.equals("")){
+                    try{
+                        DocumentoId documentoId = new DocumentoId(alunoId, estagioId);
+                        documentoDao.deletarPorId(documentoId);
+                        notificacaoService.salvarNotificacao(AlunoDao.get(conn, alunoId).getUsuario_id(), "Você foi desinscrito de um estágio pela empresa " + est.getEmpresa());
+                    }catch(RuntimeException e){}
+                }
                 conn.commit();
                 notificacaoService.salvarNotificacao(AlunoDao.get(conn, alunoId).getUsuario_id(), "Estágio da empresa " + est.getEmpresa() + " concluído.");
 
@@ -182,9 +188,13 @@ public class EmpresaController {
                     return mostraPaginaDeErro(model, "Você não pode efetuar essa operação.");
                 AlunoDao.desinscreverEstagio(conn, alunoId, estagioId);
                 conn.commit();
-                DocumentoId documentoId = new DocumentoId(alunoId, estagioId);
-                documentoDao.deletarPorId(documentoId);
-                notificacaoService.salvarNotificacao(AlunoDao.get(conn, alunoId).getUsuario_id(), "Você foi desinscrito de um estágio pela empresa " + est.getEmpresa());
+                String str = EstagioDao.get(conn, estagioId).getDocumentos();
+                if(str != null && !str.equals("")){
+                    DocumentoId documentoId = new DocumentoId(alunoId, estagioId);
+                    documentoDao.deletarPorId(documentoId);
+                    notificacaoService.salvarNotificacao(AlunoDao.get(conn, alunoId).getUsuario_id(), "Você foi desinscrito de um estágio pela empresa " + est.getEmpresa());
+                }
+                conn.commit();
                 return "redirect:/empresa/candidatos-estagio?n=" + estagioId;
             }catch(Exception ex){
                 return mostraPaginaDeErro(model, ex.getMessage());

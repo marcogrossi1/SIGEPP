@@ -17,6 +17,7 @@ body {
 }
 
 header {
+	height: 8vh;
 	width: 100vw;
 	display: flex;
 	flex-wrap: wrap;
@@ -92,7 +93,8 @@ main>:last-child {
 	padding-left: 1vw;
 	height: 8vh;
 	padding-right: 1vw;
-	padding-top: 1vw;
+	padding-top: 0.1vw;
+	padding-bottom: 0.1vw;
 }
 
 #titulo-plataforma {
@@ -237,20 +239,9 @@ input[type='submit'] {
 }
 
 #botoes-portal-adm {
-    display: grid;
-    grid-template-columns: auto auto; /* Dois itens por linha */
-    gap: 3%; /* Espaço entre os itens */
-}
-
-#botoes-portal-adm #botao-certificados-lecencas {
-    display: grid;
-    grid-template-columns: auto auto; /* Dois itens por linha dentro do botão */
-    margin-top: 0;  /* Remover qualquer margem extra no topo */
-    padding: 0;     /* Remover qualquer padding extra */
-    width: 100%;    /* Ocupa toda a largura disponível */
-    height: 100%;   /* Ocupa toda a altura disponível */
-    align-items: center;  /* Centraliza os itens dentro do botão verticalmente */
-    justify-items: center; /* Centraliza os itens dentro do botão horizontalmente */
+	display: grid;
+	grid-template-columns: auto auto;
+	gap: 3%;
 }
 
 #botoes-portal-adm a button {
@@ -384,34 +375,13 @@ input[type='submit'] {
 }
 
 #nome-no-portal {
+	color: black;
 	position: absolute;
-	top: 11.5vh;
+	top: 9.5vh;
 	left: 2vw;
+	font-size: 1.5em;
 	font-family: Arial, Helvetica, sans-serif;
 	overflow: hidden;
-	font-weight: bold;
-	font-size: 25px;
-}
-
-#nav-comeco {
-    height: 50px;
-    display: flex;
-    justify-content: flex-end; 
-    align-items: flex-start;     
-    padding-left: 20px;           
-}
-
-#nav-comeco .icone {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    margin-top: 2px;            
-}
-
-#nome-no-portal {
-    text-align: center;
-    margin: 0;
 }
 
 #pdfView {
@@ -1035,7 +1005,50 @@ a {
     transition: opacity 0.5s ease; 
 }
 
-#botao-certificados-lecencas {
-	/*width: 250px;*/
-	/*height: 250px;*/
+#pesquisa {
+    position: absolute;
+    top: 1.5vh;
+    right: 18vw;
+    padding: 10px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+.filtro, #filtroCurso {
+    position: absolute;
+    font-size: 14px;
+    background: white;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.filtro {
+    position: absolute;
+    top: 4.5vh;
+    right: 7.8vw;
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+    font-size: 1em;
+    background: white;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 2vh;
+}
+
+.filtro input[type="checkbox"] {
+    width: 1.5vh;
+    height: 1.5vh;
+    cursor: pointer;
+}
+
+#filtroCurso {
+    width: 4vw;
+	top: 0.75vh;
+	right: 5vw;
 }
