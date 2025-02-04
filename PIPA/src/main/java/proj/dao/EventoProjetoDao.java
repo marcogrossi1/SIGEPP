@@ -15,13 +15,13 @@ public class EventoProjetoDao {
 
     private final static String getsql = "SELECT * FROM EventoProjeto  WHERE id = ?";
     private final static String getByDateExpiracaoSql = "SELECT * FROM EventoProjeto  WHERE dateExpiracao = ?";
-    private final static String getByDatePublicacaoSql = "SELECT * FROM EventoProjeto  WHERE datePublicacao = ?";
+    private final static String getByDatePublicacaoSql = "SELECT * FROM EventoProjeto  WHERE dateCriacao = ?";
     private final static String listsql = "SELECT * FROM EventoProjeto";
     private final static String listByProjeto_idSql = "SELECT * FROM EventoProjeto WHERE projeto_id = ? ";
     private final static String listByMensagemSql = "SELECT * FROM EventoProjeto WHERE mensagem = ? ";
     private final static String listByStatusSql = "SELECT * FROM EventoProjeto WHERE status = ? ";
-    private final static String insertsql = "INSERT INTO EventoProjeto (projeto_id, dateExpiracao, datePublicacao, mensagem, status) VALUES( ?, ?, ?, ?, ?) ";
-    private final static String updatesql = "UPDATE EventoProjeto SET projeto_id = ?, dateExpiracao = ?, datePublicacao = ?, mensagem = ?, status = ? WHERE id = ? ";
+    private final static String insertsql = "INSERT INTO EventoProjeto (projeto_id, dateExpiracao, dateCriacao, mensagem, status, imagem) VALUES( ?, ?, ?, ?, ?, ?) ";
+    private final static String updatesql = "UPDATE EventoProjeto SET projeto_id = ?, dateExpiracao = ?, dateCriacao = ?, mensagem = ?, status = ? WHERE id = ? ";
     private final static String updateForProjeto_idSql = "UPDATE EventoProjeto SET projeto_id = ?  WHERE id = ? ";
     private final static String updateForDateExpiracaoSql = "UPDATE EventoProjeto SET dateExpiracao = ?  WHERE id = ? ";
     private final static String updateForDatePublicacaoSql = "UPDATE EventoProjeto SET datePublicacao = ?  WHERE id = ? ";
@@ -205,8 +205,10 @@ public class EventoProjetoDao {
             ps.setDate(3, sqlDPublicacao);
             ps.setString(4, vo.getMensagem());
             ps.setString(5, vo.getStatus().toString());
+            ps.setBytes(6, vo.getImagem());
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
+            conn.commit();
             if (rs.next()) {
             long id = rs.getLong(1);
             vo.setId(id);
@@ -333,6 +335,7 @@ public class EventoProjetoDao {
             ps = conn.prepareStatement(deletesql);
             ps.setLong(1,id);
             int count = ps.executeUpdate();
+            conn.commit();
             if (count == 0 ){throw new NotFoundException("Object not found ["+id+"] .");}
         }
         catch (SQLException e){try{conn.rollback();} catch (Exception e1){}; throw e;}
