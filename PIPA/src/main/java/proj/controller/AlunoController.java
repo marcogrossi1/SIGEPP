@@ -420,6 +420,9 @@ public class AlunoController {
 				projeto.setCursos(cursos);
 			}
 
+			HashSet<Curso> c = CursoDao.listCursos(conn);
+
+			model.addAttribute("cursosDisponiveis", c);
 			model.addAttribute("aluno", a);
 			model.addAttribute("projetos", projetos);
 		} catch (Exception e) {
