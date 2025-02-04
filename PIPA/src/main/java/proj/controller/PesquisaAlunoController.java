@@ -84,7 +84,6 @@ public class PesquisaAlunoController {
 			
 			Usuario u = UsuarioDao.getByNome(conn, principal.getName());
 			String nome = null;
-			System.out.println(u.getRole());
 			if(u.getRole().equals("Empresa")) {
 				Empresa x = EmpresaDao.getByUsuario_id(conn, u.getId());
 				nome = x.getNome();
